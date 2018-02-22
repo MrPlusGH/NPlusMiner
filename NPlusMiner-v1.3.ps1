@@ -52,6 +52,7 @@ param(
 )
 $CurrentProduct = "NPlusMiner"
 $CurrentVersion = [Version]1.3
+$ScriptStartDate = Get-Date
 Set-Location (Split-Path $script:MyInvocation.MyCommand.Path)
 Get-ChildItem . -Recurse | Unblock-File
 Write-host "INFO: Adding NPlusMiner path to Windows Defender's exclusions.. (may show an error if Windows Defender is disabled)" -foregroundcolor "Yellow"
@@ -102,6 +103,7 @@ if ($TrackEarnings){$PoolName | foreach {
 If ($Donate -lt 1) {$Donate = Get-Random -Maximum 5}
 while($true)
 {
+	$host.UI.RawUI.WindowTitle = $CurrentProduct + " " + $CurrentVersion + " Runtime " + ("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$ScriptStartDate)) + " Path: " + (Split-Path $script:MyInvocation.MyCommand.Path)
 	$DecayExponent = [int](((Get-Date)-$DecayStart).TotalSeconds/$DecayPeriod)
     #Activate or deactivate donation
     if((Get-Date).AddDays(-1).AddMinutes($Donate) -ge $LastDonated -and ($Wallet -eq $WalletBackup -or $UserName -eq $UserNameBackup)){
