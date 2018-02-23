@@ -53,6 +53,8 @@ param(
 $CurrentProduct = "NPlusMiner"
 $CurrentVersion = [Version]1.3
 $ScriptStartDate = Get-Date
+# Fix issues on some SSL invokes with different SSL versions
+[Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
 Set-Location (Split-Path $script:MyInvocation.MyCommand.Path)
 Get-ChildItem . -Recurse | Unblock-File
 Write-host "INFO: Adding NPlusMiner path to Windows Defender's exclusions.. (may show an error if Windows Defender is disabled)" -foregroundcolor "Yellow"
