@@ -53,7 +53,7 @@ param(
 $CurrentProduct = "NPlusMiner"
 $CurrentVersion = [Version]1.3
 $ScriptStartDate = Get-Date
-# Fix issues on some SSL invokes with different SSL versions
+# Fix issues on some SSL invokes following GitHub Supporting only TLSv1.2 on feb 22 2018
 [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
 Set-Location (Split-Path $script:MyInvocation.MyCommand.Path)
 Get-ChildItem . -Recurse | Unblock-File
