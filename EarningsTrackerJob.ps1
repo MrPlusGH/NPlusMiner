@@ -97,6 +97,6 @@ while ($true) {
 	If ($BalanceObjectS.Count -gt 1) {$BalanceObjectS = $BalanceObjectS | ? {$_.Date -ge $CurDate.AddDays(-1).AddHours(-1)}}
 
 	# Sleep until next update based on $Interval. Modulo $Interval.
-	Sleep (60*($Interval-((get-date).minute%$Interval))-(Get-Date).Second)
+	Sleep (60*($Interval-((get-date).minute%$Interval)))
 	
 }
