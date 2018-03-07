@@ -1,41 +1,39 @@
 . .\Include.ps1
 
-$Path = ".\Bin\NVIDIA-TPruvot\ccminer.exe"
-$Uri = "https://github.com/nemosminer/tpruvot-ccminer/releases/download/v2.2-tpruvot/ccminer-x86-2.2.7z"
+$Path = ".\Bin\NVIDIA-CcminerSkunk\ccminer.exe"
+$Uri = "https://github.com/scaras/ccminer-2.2-mod-r1/releases/download/2.2-r1/2.2-mod-r1.zip"
 
 $Commands = [PSCustomObject]@{
-    "bitcore" = " -d $SelGPUCC --api-remote --api-allow=0/0" #Bitcore
-    #"jha" = " -d $SelGPUCC" #Jha
-    #"blake2s" = " -d $SelGPUCC" #Blake2s
-    #"blakecoin" = " -d $SelGPUCC" #Blakecoin
+    #"bitcore" = "" #Bitcore
+    #"blake2s" = "" #Blake2s
+    #"blakecoin" = "" #Blakecoin
     #"vanilla" = "" #BlakeVanilla
-    #"cryptonight" = " -d $SelGPUCC" #Cryptonight
+    #"cryptonight" = "" #Cryptonight
     #"decred" = "" #Decred
     #"equihash" = "" #Equihash
     #"ethash" = "" #Ethash
-    #"groestl" = "" #Groestl
-    #"hmq1725" = " -d $SelGPUCC" #hmq1725
+    #"groestl" = " -d $SelGPUCC" #Groestl
+    #"hmq1725" = "" #hmq1725
     #"keccak" = "" #Keccak
-    #"lbry" = " -d $SelGPUCC --api-remote" #Lbry
-    #"lyra2v2" = "" #Lyra2RE2
-    #"lyra2z" = " -d $SelGPUCC" #Lyra2z
-    #"myr-gr" = "" #MyriadGroestl
-    #"neoscrypt" = " -d $SelGPUCC" #NeoScrypt
-    #"nist5" = "" #Nist5
+    #"lbry" = "" #Lbry
+    #"lyra2v2" = " -d $SelGPUCC" #Lyra2RE2
+    #"lyra2z" = "" #Lyra2z
+    #"myr-gr" = " -d $SelGPUCC" #MyriadGroestl
+    #"neoscrypt" = " -b 4068 -d $SelGPUCC" #NeoScrypt
+    #"nist5" = " -d $SelGPUCC" #Nist5
     #"pascal" = "" #Pascal
     #"qubit" = "" #Qubit
     #"scrypt" = "" #Scrypt
     #"sia" = "" #Sia
     #"sib" = "" #Sib
     #"skein" = "" #Skein
-    #"skunk" = " -d $SelGPUCC --api-remote" #Skunk
-    #"timetravel" = " -d $SelGPUCC" #Timetravel
-    #"tribus" = " -d $SelGPUCC" #Tribus
+    #"timetravel" = "" #Timetravel
     #"x11" = "" #X11
     #"veltor" = "" #Veltor
-    #"x11evo" = " -d $SelGPUCC" #X11evo
-    #"x17" = " -d $SelGPUCC" #X17
+    #"x11evo" = "" #X11evo
+    #"x17" = "" #X17
     #"yescrypt" = "" #Yescrypt
+    "skunk" = " -d $SelGPUCC --api-remote --api-allow=0/0" #Skunk
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName

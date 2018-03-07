@@ -1,3 +1,26 @@
+Function LoadConfig {
+	$Config = Get-Content ".\Config\config.json" | ConvertFrom-json
+	$Config
+}
+
+Function WriteConfig ($Config) {
+	Copy-Item ".\Config\config.json" ".\Config\config-previous.json"
+	$Config | ConvertTo-json | out-file ".\Config\config.json"
+}
+
+Function Update-Status ($Text) {
+	Write-host $Text
+	$MainForm.Variables.StatusText = $Text 
+	$LabelStatus.Lines += $Text
+	$LabelStatus.SelectionStart = $LabelStatus.TextLength;
+    $LabelStatus.ScrollToCaret();
+
+	# $LabelStatus.Text = $Text
+	# $LabelStatus.Invoke
+	$LabelStatus.Refresh
+	# $MainForm.refresh
+}
+
 function Set-Stat {
     param(
         [Parameter(Mandatory = $true)]

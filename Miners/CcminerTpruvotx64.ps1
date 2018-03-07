@@ -19,7 +19,7 @@ $Commands = [PSCustomObject]@{
     #"keccak" = "" #Keccak
     #"lbry" = " -d $SelGPUCC" #Lbry
     #"lyra2v2" = "" #Lyra2RE2
-    "lyra2z" = " -d $SelGPUCC --api-remote --submit-stale" #Lyra2z
+    "lyra2z" = " -d $SelGPUCC --api-remote --api-allow=0/0 --submit-stale" #Lyra2z
     #"myr-gr" = "" #MyriadGroestl
     #"neoscrypt" = " -d $SelGPUCC" #NeoScrypt
     #"nist5" = "" #Nist5
@@ -45,7 +45,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
     [PSCustomObject]@{
         Type = "NVIDIA"
         Path = $Path
-        Arguments = "-a $_ -o stratum+tcp://$($Pools.(Get-Algorithm($_)).Host):$($Pools.(Get-Algorithm($_)).Port) -u $($Pools.(Get-Algorithm($_)).User) -p $($Pools.(Get-Algorithm($_)).Pass)$($Commands.$_)"
+        Arguments = "-b 4068 -a $_ -o stratum+tcp://$($Pools.(Get-Algorithm($_)).Host):$($Pools.(Get-Algorithm($_)).Port) -u $($Pools.(Get-Algorithm($_)).User) -p $($Pools.(Get-Algorithm($_)).Pass)$($Commands.$_)"
         HashRates = [PSCustomObject]@{(Get-Algorithm($_)) = $Stats."$($Name)_$(Get-Algorithm($_))_HashRate".Live}
         API = "Ccminer"
         Port = 4068

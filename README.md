@@ -1,17 +1,25 @@
- # NPlusMiner-v1.3
- Readme Updated 2018 Feb 17
+ # NPlusMiner-v2.0
+ Readme Updated 2018 Mar 07
  
  Instructions at bottom of the page.
 *****
 NPlusMiner Monitors mining pools in real-time in order to find the most profitable Algo /
  Auto Benchmarks Each algo to get optimal speeds / 
  Fully automated / 
- Auto Downloads Miners
+ Auto Downloads Miners /
+ GUI
 
  Forked from the excellent work from Nemo.
 *****
 Additional features list
 
+   GUI
+   
+      Since version 2.0 NPlusMiner has a GUI making it easy to configure and run.
+	  Relies on config files. No need to edit bat files. Simply run NPlusMiner (Not the .ps1) 
+	  Set the config on the config tab, save, close, run
+	  For console lovers. Right click the NPlusMiner file > Properties > change "hidden" to "maximized" in the target field
+ 
    prerun
    
       Ability to run a batch prior switching to a specific algo.
@@ -76,17 +84,20 @@ MrPlus = 134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy
 *****
 instructions:
 
-edit startpoolname.bat
+Run NPLusMiner (Not the .ps1)
 
-1.change BTC address to yours
+1.Hit the Config tab
 
-2.select how many gpu's you have eg: (1gpu dstm 0 cc 0) (2gpu dstm 0 1 cc 0,1) (6gpu dstm 0 1 2 3 4 5 cc 0,1,2,3,4,5)
+2.Set your config carefully
 
-3.remove any algos you do not want to mine
+3.Select your pools and hit load defaults button. (Remove any algos you do not want to mine)
 
-4.there is a 5minute per day fee (0.3%), that can be changed by modifying -Donate 5 to 0.
+4.Close and run NPlusMiner so it loads your changes properly
 
-5.save & run startpoolname.bat
+5.Hit "Start" if Autostart not selected.
+
+6.there is a 5 minutes per day fee (0.3%), that can be changed in the config (Minimum is 1).
+
 
 If you have Windows 7, 8, or 8.1, please update PowerShell:
 https://www.microsoft.com/en-us/download/details.aspx?id=50395
@@ -102,14 +113,16 @@ running multiple cards its recommended to increase Virtual Memory 64gb is optima
 Requires nvidia driver newer than 388
 
 Made For & Tested with 6x10603gb 6x1070 6x1070ti 6x1080ti (users have reported up to 12cards working have not tested myself)
+Some miners do not support more that 9 cards
 
--ActiveMinerGainPct (percent of advantage that active miner has over candidates in term of profit (default 3%)
+ActiveMinerGainPct (percent of advantage that active miner has over candidates in term of profit (default 3%)
 
-24hr.bats.. eg. startahashpool24hr.bat  startzpool24hr.bat.. (uses last 24hour Actual API too request profit)
+Pools variants:
+24hr - uses last 24hour Actual API too request profit
    -Low switching rate
-plus.bats.. eg. startahashpoolplus.bat  startzpoolplus.bat.. (uses advanced calculations to maximize profit)
+plus - uses advanced calculations to maximize profit
    -Best switching rate
-normal .bats uses estimates.. eg. startahashpool.bat   startzpool.bat..   (uses current estimate API too request profit)
+normal - uses current estimate API too request profit
 
 this is a free project feel free to donate be much appreciated:
 

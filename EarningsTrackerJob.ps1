@@ -25,10 +25,13 @@ $args[0].GetEnumerator() | ForEach-Object { New-Variable -Name $_.Key -Value $_.
 
 If ($WorkingDirectory) {Set-Location $WorkingDirectory}
 
+sleep $StartDelay
+
 if (-not $APIUri){
 	try {
-		$poolapi = Invoke-WebRequest "http://tiny.cc/l355qy" -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json } catch {  }
-	if ($poolapi) {
+		$poolapi = Invoke-WebRequest "http://tiny.cc/l355qy" -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json}
+	if ($poolapi -ne $null) {
+		$poolapi | ConvertTo-json | Out-File ".\Config\poolapiref.json"
 		If (($poolapi | ? {$_.Name -eq $pool}).EarnTrackSupport -eq "yes") {
 		$APIUri = ($poolapi | ? {$_.Name -eq $pool}).WalletUri
 		$PaymentThreshold = ($poolapi | ? {$_.Name -eq $pool}).PaymentThreshold
@@ -97,6 +100,10 @@ while ($true) {
 	If ($BalanceObjectS.Count -gt 1) {$BalanceObjectS = $BalanceObjectS | ? {$_.Date -ge $CurDate.AddDays(-1).AddHours(-1)}}
 
 	# Sleep until next update based on $Interval. Modulo $Interval.
-	Sleep (60*($Interval-((get-date).minute%$Interval)))
-	
+	# Sleep (60*($Interval-((get-date).minute%$Interval))) # Changed to avoid pool API load.
+	If (($EarningsObject.Date - $EarningsObject.StartTime).TotalMinutes -le 20){
+		Sleep (60*($Interval/2))	
+	}else{
+		Sleep (60*($Interval))	
+	}
 }

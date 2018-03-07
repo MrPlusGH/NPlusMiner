@@ -9,15 +9,15 @@ if (-not $zergpool_Request) {return}
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
-$Location = "US"
+$Location = "Europe"
 
-$zergpool_Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | foreach {
-    $zergpool_Host = "mine.zergpool.com"
+$zergpool_Request | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | foreach {
+    $zergpool_Host = "europe.mine.zergpool.com"
     $zergpool_Port = $zergpool_Request.$_.port
     $zergpool_Algorithm = Get-Algorithm $zergpool_Request.$_.name
     $zergpool_Coin = ""
 
-    $Divisor = 1000000000
+    $Divisor = 1000000
 	
     switch ($zergpool_Algorithm) {
         "equihash" {$Divisor /= 1000}
@@ -28,8 +28,8 @@ $zergpool_Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandP
 	"keccakc" {$Divisor *= 1000}
     }
 
-    if ((Get-Stat -Name "$($Name)_$($zergpool_Algorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($zergpool_Algorithm)_Profit" -Value ([Double]$zergpool_Request.$_.actual_last24h / $Divisor)}
-    else {$Stat = Set-Stat -Name "$($Name)_$($zergpool_Algorithm)_Profit" -Value ([Double]$zergpool_Request.$_.actual_last24h / $Divisor)}
+    if ((Get-Stat -Name "$($Name)_$($zergpool_Algorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($zergpool_Algorithm)_Profit" -Value ([Double]$zergpool_Request.$_.estimate_last24h / $Divisor)}
+    else {$Stat = Set-Stat -Name "$($Name)_$($zergpool_Algorithm)_Profit" -Value ([Double]$zergpool_Request.$_.estimate_current / $Divisor)}
 	
     if ($Wallet) {
         [PSCustomObject]@{

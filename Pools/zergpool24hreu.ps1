@@ -9,10 +9,10 @@ if (-not $zergpool_Request) {return}
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
-$Location = "US"
+$Location = "Europe"
 
 $zergpool_Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | foreach {
-    $zergpool_Host = "mine.zergpool.com"
+    $zergpool_Host = "europe.mine.zergpool.com"
     $zergpool_Port = $zergpool_Request.$_.port
     $zergpool_Algorithm = Get-Algorithm $zergpool_Request.$_.name
     $zergpool_Coin = ""
