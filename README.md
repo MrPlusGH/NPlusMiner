@@ -118,11 +118,12 @@ Some miners do not support more that 9 cards
 ActiveMinerGainPct (percent of advantage that active miner has over candidates in term of profit (default 3%)
 
 Pools variants:
-24hr - uses last 24hour Actual API too request profit
+
+- 24hr - uses last 24hour Actual API too request profit
    -Low switching rate
-plus - uses advanced calculations to maximize profit
+- plus - uses advanced calculations to maximize profit
    -Best switching rate
-normal - uses current estimate API too request profit
+- normal - uses current estimate API too request profit
 
 this is a free project feel free to donate be much appreciated:
 
