@@ -124,6 +124,7 @@ Pools variants:
 - plus - uses advanced calculations to maximize profit
    -Best switching rate
 - normal - uses current estimate API too request profit
+   -High switching rate
 
 this is a free project feel free to donate be much appreciated:
 
