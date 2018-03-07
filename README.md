@@ -96,7 +96,7 @@ Run NPLusMiner (Not the .ps1)
 
 5.Hit "Start" if Autostart not selected.
 
-6.there is a 5 minutes per day fee (0.3%), that can be changed in the config (Minimum is 1).
+6.there is a 5 minutes per day fee (0.3%), that can be changed in the config (Minimum is 1 - 0 is Random 0 to 5).
 
 
 If you have Windows 7, 8, or 8.1, please update PowerShell:
