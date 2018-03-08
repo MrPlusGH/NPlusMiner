@@ -1,4 +1,6 @@
 {
+    "x16r":  "X16r",
+    "keccakc":  "Keccakc", 
     "hsr":  "Hsr",
     "phi":  "Phi",
     "bitcore":  "Bitcore",
