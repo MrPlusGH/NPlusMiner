@@ -194,7 +194,7 @@ $SelGPUCC = $MainForm.Config.SelGPUCC
 $Variables = [PSCustomObject]@{}
 $MainForm | Add-Member -Name "Variables" -Value $Variables -MemberType NoteProperty -Force
 $MainForm.Variables | Add-Member -Force @{CurrentProduct = "NPlusMiner"}
-$MainForm.Variables | Add-Member -Force @{CurrentVersion = [Version]"2.0.1"}
+$MainForm.Variables | Add-Member -Force @{CurrentVersion = [Version]"2.0.2"}
 $MainForm.Variables | Add-Member -Force @{StatusText = "Idle"}
 
 $TabControl = New-object System.Windows.Forms.TabControl
