@@ -115,7 +115,7 @@ Function NPMCycle {
 			Where SSL -EQ $MainForm.Config.SSL | 
 			Where {$MainForm.Config.PoolName.Count -eq 0 -or (Compare $MainForm.Config.PoolName $_.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0}}
 		# Use location as preference and not the only one
-		$AllPools = ($AllPools | ?{$_.location -eq $Location}) + ($AllPools | ?{$_.name -notin ($AllPools | ?{$_.location -eq $Location}).Name})
+		$AllPools = ($AllPools | ?{$_.location -eq $MainForm.Config.Location}) + ($AllPools | ?{$_.name -notin ($AllPools | ?{$_.location -eq $MainForm.Config.Location}).Name})
 		#if($AllPools.Count -eq 0){Update-Status("Error contacting pool, retrying.."); sleep 15; continue}
 		if($AllPools.Count -eq 0){Update-Status("Error contacting pool, retrying.."); $timerCycle.Interval = 15000 ; $timerCycle.Start() ; return}
 		$Pools = [PSCustomObject]@{}
