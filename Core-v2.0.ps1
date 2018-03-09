@@ -59,6 +59,7 @@ Function InitApplication {
 		$StartDelay = $StartDelay + 10
 	}
 	}
+	$Location = $MainForm.Config.Location
 }
 
 Function NPMCycle {
@@ -109,10 +110,14 @@ Function NPMCycle {
 		$PoolFilter = @()
 		$MainForm.Config.PoolName | foreach {$PoolFilter+=($_+=".*")}
 		$AllPools = if(Test-Path "Pools"){Get-ChildItemContent "Pools" -Include $PoolFilter | ForEach {$_.Content | Add-Member @{Name = $_.Name} -PassThru} | 
-			Where Location -EQ $MainForm.Config.Location | 
+			# Use location as preference and not the only one
+			# Where Location -EQ $MainForm.Config.Location | 
 			Where SSL -EQ $MainForm.Config.SSL | 
 			Where {$MainForm.Config.PoolName.Count -eq 0 -or (Compare $MainForm.Config.PoolName $_.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0}}
-		if($AllPools.Count -eq 0){Update-Status("Error contacting pool, retrying.."); sleep 15; continue}
+		# Use location as preference and not the only one
+		$AllPools = ($AllPools | ?{$_.location -eq $Location}) + ($AllPools | ?{$_.name -notin ($AllPools | ?{$_.location -eq $Location}).Name})
+		#if($AllPools.Count -eq 0){Update-Status("Error contacting pool, retrying.."); sleep 15; continue}
+		if($AllPools.Count -eq 0){Update-Status("Error contacting pool, retrying.."); $timerCycle.Interval = 15000 ; $timerCycle.Start() ; return}
 		$Pools = [PSCustomObject]@{}
 		$Pools_Comparison = [PSCustomObject]@{}
 		$AllPools.Algorithm | Select -Unique | ForEach {$Pools | Add-Member $_ ($AllPools | Where Algorithm -EQ $_ | Sort Price -Descending | Select -First 1)}
