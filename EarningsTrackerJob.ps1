@@ -99,6 +99,11 @@ while ($true) {
 	
 	If ($BalanceObjectS.Count -gt 1) {$BalanceObjectS = $BalanceObjectS | ? {$_.Date -ge $CurDate.AddDays(-1).AddHours(-1)}}
 
+	# Some pools do reset "Total" after payment (zpool)
+	# Results in showing bad negative earnings
+	# Detecting if current is more than 50% less than previous and reset history if so
+	If ($BalanceObject.total_earned -lt ($BalanceObjectS[$BalanceObjectS.Count-2].total_earned/2)){$BalanceObjectS=@();$BalanceObjectS += $BalanceObject}
+
 	# Sleep until next update based on $Interval. Modulo $Interval.
 	# Sleep (60*($Interval-((get-date).minute%$Interval))) # Changed to avoid pool API load.
 	If (($EarningsObject.Date - $EarningsObject.StartTime).TotalMinutes -le 20){
