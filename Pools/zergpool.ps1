@@ -15,7 +15,7 @@ $Locations | ForEach {
     $Location = $_
 
 	$zergpool_Request | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | foreach {
-	    $zergpool_Host = If ($Location -eq "Europe"){$Location + "mine.zergpool.com"}else{"mine.zergpool.com"}
+	    $zergpool_Host = If ($Location -eq "Europe"){$Location + ".mine.zergpool.com"}else{"mine.zergpool.com"}
 	    $zergpool_Port = $zergpool_Request.$_.port
 	    $zergpool_Algorithm = Get-Algorithm $zergpool_Request.$_.name
 	    $zergpool_Coin = ""
