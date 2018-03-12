@@ -7,7 +7,7 @@ Function Update-Status ($Text) {
 
 	# $LabelStatus.Text = $Text
 	# $LabelStatus.Invoke
-	$LabelStatus.Refresh
+	$LabelStatus.Refresh | out-null
 	# $MainForm.refresh
 }
 
