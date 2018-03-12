@@ -50,7 +50,9 @@ param(
     [Parameter(Mandatory=$false)]
     [String]$UIStyle = "Light", # Light or Full. Defines level of info displayed
     [Parameter(Mandatory=$false)]
-    [Bool]$TrackEarnings = $True # Display earnings information
+    [Bool]$TrackEarnings = $True, # Display earnings information
+    [Parameter(Mandatory=$false)]
+    [String]$ConfigFile = ".\Config\config.json"
 )
 
 
@@ -61,15 +63,15 @@ Function TimerCycle_Tick()
 {
 	$LabelStatus.Text = ""
 	$MainForm.Number+=1
-	$timerCycle.Interval = $MainForm.Config.Interval
-	$MainForm.Text = $MainForm.Variables.CurrentProduct + " " + $MainForm.Variables.CurrentVersion + " Runtime " + ("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$MainForm.Variables.ScriptStartDate)) + " Path: " + (Split-Path $script:MyInvocation.MyCommand.Path)
+	$timerCycle.Interval = $Config.Interval
+	$MainForm.Text = $Variables.CurrentProduct + " " + $Variables.CurrentVersion + " Runtime " + ("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate)) + " Path: " + (Split-Path $script:MyInvocation.MyCommand.Path)
 	NPMCycle
 	If (Test-Path ".\Logs\switching.log"){$log=Import-Csv ".\Logs\switching.log" | Select -Last 8}
 	$SwitchingArray = [System.Collections.ArrayList]@($Log)
 	$SwitchingDGV.DataSource		= $SwitchingArray
 
-	If ($MainForm.Variables.Earnings -and $MainForm.Config.TrackEarnings) {
-		$DisplayEarnings = [System.Collections.ArrayList]@($MainForm.Variables.Earnings.Values | select @(
+	If ($Variables.Earnings -and $Config.TrackEarnings) {
+		$DisplayEarnings = [System.Collections.ArrayList]@($Variables.Earnings.Values | select @(
 			@{Name="Pool";Expression={$_.Pool}},
 			@{Name="Trust Level";Expression={"{0:P0}" -f $_.TrustLevel}},
 			@{Name="Wallet";Expression={$_.Wallet}},
@@ -83,7 +85,7 @@ Function TimerCycle_Tick()
 		$EarningsDGV.ClearSelection()
 	}
 
-	$DisplayEstimations = [System.Collections.ArrayList]@($MainForm.Variables.Miners | Select @(
+	$DisplayEstimations = [System.Collections.ArrayList]@($Variables.Miners | Select @(
 		@{Name = "Miner";Expression={$_.Name}},
 		@{Name = "Algorithm";Expression={$_.HashRates.PSObject.Properties.Name}},
 		@{Name = "Speed"; Expression={$_.HashRates.PSObject.Properties.Value | ForEach {if($_ -ne $null){"$($_ | ConvertTo-Hash)/s"}else{"Benchmarking"}}}},
@@ -97,13 +99,13 @@ Function TimerCycle_Tick()
 
 	$SwitchingDGV.ClearSelection()
 	
-	If ($MainForm.Variables.Earnings.Values -ne $Null){
-		$LabelBTCD.Text = ("{0:N8}" -f ($MainForm.Variables.Earnings.Values | measure -Property AvgDailyGrowth -Sum).sum) + " BTC/D   |   " + ("{0:N3}" -f (($MainForm.Variables.Earnings.Values | measure -Property AvgDailyGrowth -Sum).sum*1000)) + " mBTC/D"
+	If ($Variables.Earnings.Values -ne $Null){
+		$LabelBTCD.Text = ("{0:N8}" -f ($Variables.Earnings.Values | measure -Property AvgDailyGrowth -Sum).sum) + " BTC/D   |   " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property AvgDailyGrowth -Sum).sum*1000)) + " mBTC/D"
 	} else {
 		$LabelBTCD.Text = "Waiting data from pools."
 	}
 	
-	[Array] $processRunning = $MainForm.Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" }
+	[Array] $processRunning = $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" }
 	If ($ProcessRunning -ne $null){
 		$LabelRunning.ForeColor = "Green"
 		$processRunning = $processRunning | Sort {if($_.Process -eq $null){[DateTime]0}else{$_.Process.StartTime}} | Select -First (1)
@@ -113,20 +115,22 @@ Function TimerCycle_Tick()
 		$LabelRunning.Text = "No miner running"
 	}
 	
+	$LabelBTCPrice.text = If($Variables.Rates.$Currency -gt 0){"BTC/$($Config.Currency) $($Variables.Rates.$Currency)"}
+	
 	$MainForm.Refresh
 }
 Function Form_Load
 {
-    $MainForm.Text = "$($MainForm.Variables.CurrentProduct) $($MainForm.Variables.CurrentVersion)"
-    $LabelBTCD.Text = "$($MainForm.Variables.CurrentProduct) $($MainForm.Variables.CurrentVersion)"
+    $MainForm.Text = "$($Variables.CurrentProduct) $($Variables.CurrentVersion)"
+    $LabelBTCD.Text = "$($Variables.CurrentProduct) $($Variables.CurrentVersion)"
 	$timerCycle.Interval = 1000
 	$MainForm.Number = 0
 	$timerCycle.Stop()
 }
 
 Function CheckBox_Click ($Control) {
-	If($Control.Checked){[Array]$MainForm.Config.($Control.Tag.Name) += $Control.Tag.Value} else {$MainForm.Config.($Control.Tag.Name) = $MainForm.Config.($Control.Tag.Name) | ? {$_ -ne $Control.Tag.Value}}
-	$MainForm.Config.($Control.Tag.Name) = $MainForm.Config.($Control.Tag.Name) | select -Unique
+	If($Control.Checked){[Array]$Config.($Control.Tag.Name) += $Control.Tag.Value} else {$Config.($Control.Tag.Name) = $Config.($Control.Tag.Name) | ? {$_ -ne $Control.Tag.Value}}
+	$Config.($Control.Tag.Name) = $Config.($Control.Tag.Name) | select -Unique
 }
 
 Add-Type -AssemblyName System.Windows.Forms
@@ -150,17 +154,42 @@ $MainForm.add_Shown({
 	try {
 		$Version = Invoke-WebRequest "http://tiny.cc/m155qy" -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$Version = Get-content ".\Config\version.json" | Convertfrom-json}
 	If ($Version -ne $null){$Version | ConvertTo-json | Out-File ".\Config\version.json"}
-	If ($Version.Product -eq $MainForm.Variables.CurrentProduct -and [Version]$version.Version -gt $MainForm.Variables.CurrentVersion -and $Version.Update) {
-		Update-Status("Version $($version.Version) available. (You are running $MainForm.Variables.CurrentVersion)")
+	If ($Version.Product -eq $Variables.CurrentProduct -and [Version]$version.Version -gt $Variables.CurrentVersion -and $Version.Update) {
+		Update-Status("Version $($version.Version) available. (You are running $Variables.CurrentVersion)")
+		$LabelNewVersion.ForeColor = "Green"
 		$LabelNewVersion.Text = "Version $([Version]$version.Version) available"
 	}
-	If ($MainForm.Config.Autostart){$ButtonStart.PerformClick()}
+	
+	# TimerCheckVersion
+	$TimerCheckVersion = New-Object System.Windows.Forms.Timer
+	$TimerCheckVersion.Enabled = $true
+	$TimerCheckVersion.Interval = 1440*60*1000
+	$TimerCheckVersion.Add_Tick({
+		Update-Status("Checking version")
+		try {
+			$Version = Invoke-WebRequest "http://tiny.cc/rrxqry" -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$Version = Get-content ".\Config\version.json" | Convertfrom-json}
+		If ($Version -ne $null){$Version | ConvertTo-json | Out-File ".\Config\version.json"}
+		If ($Version.Product -eq $Variables.CurrentProduct -and [Version]$version.Version -gt $Variables.CurrentVersion -and $Version.Update) {
+			Update-Status("Version $($version.Version) available. (You are running $Variables.CurrentVersion)")
+			$LabelNewVersion.ForeColor = "Green"
+			$LabelNewVersion.Text = "Version $([Version]$version.Version) available"
+		}
+	})
+	# Detects GPU count if 0 or Null in config
+	If ($Config.GPUCount -eq $null -or $Config.GPUCount -lt 1){
+		If ($Config -eq $null){$Config = [PSCustomObject]@{}}
+		$Config | Add-Member -Force @{GPUCount = DetectGPUCount}
+		$TBGPUCount.Text = $Config.GPUCount
+		Write-Config -ConfigFile $ConfigFile -Config $Config
+	}
+	# Start on load if Autostart
+	If ($Config.Autostart){$ButtonStart.PerformClick()}
 })
 
 $MainForm.Add_FormClosing({
 	Get-Job | Stop-Job | Remove-Job
-	If ($MainForm.Variables.ActiveMinerPrograms) {
-		$MainForm.Variables.ActiveMinerPrograms | ForEach {
+	If ($Variables.ActiveMinerPrograms) {
+		$Variables.ActiveMinerPrograms | ForEach {
 			[Array]$filtered = ($BestMiners_Combo | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments)
 			if($filtered.Count -eq 0)
 			{
@@ -184,18 +213,18 @@ $MainForm.Add_FormClosing({
 	}
 })
 
-$Config = LoadConfig
+$Config = Load-Config -ConfigFile $ConfigFile
 $MainForm | Add-Member -Name "Config" -Value $Config -MemberType NoteProperty -Force
-$wallet = $MainForm.Config.wallet
-$UserName = $MainForm.Config.UserName
-$WorkerName = $MainForm.Config.WorkerName
-$SelGPUDSTM = $MainForm.Config.SelGPUDSTM
-$SelGPUCC = $MainForm.Config.SelGPUCC
+$wallet = $Config.wallet
+$UserName = $Config.UserName
+$WorkerName = $Config.WorkerName
+$SelGPUDSTM = $Config.SelGPUDSTM
+$SelGPUCC = $Config.SelGPUCC
 $Variables = [PSCustomObject]@{}
 $MainForm | Add-Member -Name "Variables" -Value $Variables -MemberType NoteProperty -Force
-$MainForm.Variables | Add-Member -Force @{CurrentProduct = "NPlusMiner"}
-$MainForm.Variables | Add-Member -Force @{CurrentVersion = [Version]"2.0.2"}
-$MainForm.Variables | Add-Member -Force @{StatusText = "Idle"}
+$Variables | Add-Member -Force @{CurrentProduct = "NPlusMiner"}
+$Variables | Add-Member -Force @{CurrentVersion = [Version]"2.0.3"}
+$Variables | Add-Member -Force @{StatusText = "Idle"}
 
 $TabControl = New-object System.Windows.Forms.TabControl
 $RunPage = New-Object System.Windows.Forms.TabPage
@@ -214,6 +243,8 @@ $MainForm.Controls.Add($tabControl)
 $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 
 # Form Controls
+	$MainFormControls = @()
+
 	$LabelStatus                          = New-Object system.Windows.Forms.TextBox
 	$LabelStatus.MultiLine				= $true
 	$LabelStatus.Scrollbars				= "Vertical" 
@@ -223,6 +254,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$LabelStatus.height                   = 50
 	$LabelStatus.location                 = New-Object System.Drawing.Point(10,39)
 	$LabelStatus.Font                     = 'Microsoft Sans Serif,10'
+	$MainFormControls += $LabelStatus
 
 	$LabelRunning                          = New-Object system.Windows.Forms.Label
 	$LabelRunning.text                     = ""
@@ -233,6 +265,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$LabelRunning.Font                     = 'Microsoft Sans Serif,10'
 	$LabelRunning.TextAlign = "MiddleLeft"
 	$LabelRunning.ForeColor = "Green"
+	$MainFormControls += $LabelRunning
 
 	$LabelBTCD                          = New-Object system.Windows.Forms.Label
 	$LabelBTCD.text                     = "BTC/D"
@@ -243,23 +276,36 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$LabelBTCD.Font                     = 'Microsoft Sans Serif,14'
 	$LabelBTCD.TextAlign = "MiddleRight"
 	$LabelBTCD.ForeColor = "Green"
+	$MainFormControls += $LabelBTCD
+
+	$LabelBTCPrice                          = New-Object system.Windows.Forms.Label
+	$LabelBTCPrice.text                     = If($Variables.Rates.$Currency -gt 0){"BTC/$($Config.Currency) $($Variables.Rates.$Currency)"}
+	$LabelBTCPrice.AutoSize                 = $false
+	$LabelBTCPrice.width                    = 400
+	$LabelBTCPrice.height                   = 20
+	$LabelBTCPrice.location                 = New-Object System.Drawing.Point(630,39)
+	$LabelBTCPrice.Font                     = 'Microsoft Sans Serif,8'
+	# $LabelBTCPrice.ForeColor				= "Gray"
+	$MainFormControls += $LabelBTCPrice
 
 	$ButtonStart                         = New-Object system.Windows.Forms.Button
 	$ButtonStart.text                    = "Start"
 	$ButtonStart.width                   = 60
 	$ButtonStart.height                  = 30
-	$ButtonStart.location                = New-Object System.Drawing.Point(670,39)
+	$ButtonStart.location                = New-Object System.Drawing.Point(670,62)
 	$ButtonStart.Font                    = 'Microsoft Sans Serif,10'
+	$MainFormControls += $ButtonStart
 
 	$LabelNewVersion                          = New-Object system.Windows.Forms.Label
-	$LabelNewVersion.text                     = ""
+	$LabelNewVersion.text                     = If ($ConfigFile -ne ".\Config\config.json"){"Using: $($ConfigFile | Split-Path -Leaf)"}
 	$LabelNewVersion.AutoSize                 = $false
-	$LabelNewVersion.width                    = 400
+	$LabelNewVersion.width                    = 200
 	$LabelNewVersion.height                   = 20
 	# $LabelNewVersion.location                 = New-Object System.Drawing.Point(200,91)
 	$LabelNewVersion.location                 = New-Object System.Drawing.Point(415,39)
 	$LabelNewVersion.Font                     = 'Microsoft Sans Serif,10'
-	$LabelNewVersion.ForeColor				= "Green"
+	$LabelNewVersion.ForeColor				= "Gray"
+	$MainFormControls += $LabelNewVersion
 
 	$LabelGitHub = New-Object System.Windows.Forms.LinkLabel
 	$LabelGitHub.Location = New-Object System.Drawing.Size(415,62)
@@ -268,6 +314,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$LabelGitHub.ActiveLinkColor = "RED"
 	$LabelGitHub.Text = "NPlusMiner on GitHub"
 	$LabelGitHub.add_Click({[system.Diagnostics.Process]::start("https://github.com/MrPlusGH/NPlusMiner/releases")})
+	$MainFormControls += $LabelGitHub
 
 # Run Page Controls
 	$EarningsDGV                   = New-Object system.Windows.Forms.DataGridView
@@ -313,7 +360,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$TBAddress.Tag						= "Wallet"
 	$TBAddress.MultiLine				= $False
 	# $TBAddress.Scrollbars				= "Vertical" 
-	$TBAddress.text                     = $MainForm.Config.Wallet
+	$TBAddress.text                     = $Config.Wallet
 	$TBAddress.AutoSize                 = $false
 	$TBAddress.width                    = 300
 	$TBAddress.height                   = 20
@@ -335,7 +382,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$TBUserName.Tag						= "UserName"
 	$TBUserName.MultiLine				= $False
 	# $TBUserName.Scrollbars				= "Vertical" 
-	$TBUserName.text                     = $MainForm.Config.UserName
+	$TBUserName.text                     = $Config.UserName
 	$TBUserName.AutoSize                 = $false
 	$TBUserName.width                    = 300
 	$TBUserName.height                   = 20
@@ -356,7 +403,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$TBWorkerName.Tag						= "WorkerName"
 	$TBWorkerName.MultiLine				= $False
 	# $TBWorkerName.Scrollbars				= "Vertical" 
-	$TBWorkerName.text                     = $MainForm.Config.WorkerName
+	$TBWorkerName.text                     = $Config.WorkerName
 	$TBWorkerName.AutoSize                 = $false
 	$TBWorkerName.width                    = 300
 	$TBWorkerName.height                   = 20
@@ -377,7 +424,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$TBInterval.Tag						= "Interval"
 	$TBInterval.MultiLine				= $False
 	# $TBWorkerName.Scrollbars				= "Vertical" 
-	$TBInterval.text                     = $MainForm.Config.Interval
+	$TBInterval.text                     = $Config.Interval
 	$TBInterval.AutoSize                 = $false
 	$TBInterval.width                    = 300
 	$TBInterval.height                   = 20
@@ -398,7 +445,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$TBLocation.Tag						= "Location"
 	$TBLocation.MultiLine				= $False
 	# $TBLocation.Scrollbars				= "Vertical" 
-	$TBLocation.text                     = $MainForm.Config.Location
+	$TBLocation.text                     = $Config.Location
 	$TBLocation.AutoSize                 = $false
 	$TBLocation.width                    = 300
 	$TBLocation.height                   = 20
@@ -419,13 +466,34 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$TBGPUCount.Tag						= "GPUCount"
 	$TBGPUCount.MultiLine				= $False
 	# $TBGPUCount.Scrollbars				= "Vertical" 
-	$TBGPUCount.text                     = $MainForm.Config.GPUCount
+	$TBGPUCount.text                     = $Config.GPUCount
 	$TBGPUCount.AutoSize                 = $false
-	$TBGPUCount.width                    = 300
+	$TBGPUCount.width                    = 50
 	$TBGPUCount.height                   = 20
 	$TBGPUCount.location                 = New-Object System.Drawing.Point(122,112)
 	$TBGPUCount.Font                     = 'Microsoft Sans Serif,10'
 	$ConfigPageControls += $TBGPUCount
+
+	$CheckBoxDisableGPU0                       = New-Object system.Windows.Forms.CheckBox
+	$CheckBoxDisableGPU0.Tag					= "DisableGPU0"
+	$CheckBoxDisableGPU0.text                  = "Disable GPU0"
+	$CheckBoxDisableGPU0.AutoSize              = $false
+	$CheckBoxDisableGPU0.width                 = 140
+	$CheckBoxDisableGPU0.height                = 20
+	$CheckBoxDisableGPU0.location              = New-Object System.Drawing.Point(177,112)
+	$CheckBoxDisableGPU0.Font                  = 'Microsoft Sans Serif,10'
+	$CheckBoxDisableGPU0.Checked				=	$Config.DisableGPU0
+	$ConfigPageControls += $CheckBoxDisableGPU0
+	
+	$ButtonDetectGPU                         = New-Object system.Windows.Forms.Button
+	$ButtonDetectGPU.text                    = "Detect GPU"
+	$ButtonDetectGPU.width                   = 100
+	$ButtonDetectGPU.height                  = 20
+	$ButtonDetectGPU.location                = New-Object System.Drawing.Point(320,112)
+	$ButtonDetectGPU.Font                    = 'Microsoft Sans Serif,10'
+	$ConfigPageControls += $ButtonDetectGPU
+
+	$ButtonDetectGPU.Add_Click({$TBGPUCount.text = DetectGPUCount})
 
 	$LabelAlgos                          = New-Object system.Windows.Forms.Label
 	$LabelAlgos.text                     = "Algorithm"
@@ -440,7 +508,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$TBAlgos.Tag						= "Algorithm"
 	$TBAlgos.MultiLine				= $False
 	# $TBAlgos.Scrollbars				= "Vertical" 
-	$TBAlgos.text                     = $MainForm.Config.Algorithm -Join ","
+	$TBAlgos.text                     = $Config.Algorithm -Join ","
 	$TBAlgos.AutoSize                 = $false
 	$TBAlgos.width                    = 300
 	$TBAlgos.height                   = 20
@@ -461,7 +529,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$TBCurrency.Tag						= "Currency"
 	$TBCurrency.MultiLine				= $False
 	# $TBCurrency.Scrollbars				= "Vertical" 
-	$TBCurrency.text                     = $MainForm.Config.Currency
+	$TBCurrency.text                     = $Config.Currency
 	$TBCurrency.AutoSize                 = $false
 	$TBCurrency.width                    = 300
 	$TBCurrency.height                   = 20
@@ -482,7 +550,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$TBPwdCurrency.Tag						= "Passwordcurrency"
 	$TBPwdCurrency.MultiLine				= $False
 	# $TBPwdCurrency.Scrollbars				= "Vertical" 
-	$TBPwdCurrency.text                     = $MainForm.Config.Passwordcurrency
+	$TBPwdCurrency.text                     = $Config.Passwordcurrency
 	$TBPwdCurrency.AutoSize                 = $false
 	$TBPwdCurrency.width                    = 300
 	$TBPwdCurrency.height                   = 20
@@ -503,7 +571,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$TBDonate.Tag						= "Donate"
 	$TBDonate.MultiLine				= $False
 	# $TBDonate.Scrollbars				= "Vertical" 
-	$TBDonate.text                     = $MainForm.Config.Donate
+	$TBDonate.text                     = $Config.Donate
 	$TBDonate.AutoSize                 = $false
 	$TBDonate.width                    = 300
 	$TBDonate.height                   = 20
@@ -524,7 +592,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$TBProxy.Tag						= "Proxy"
 	$TBProxy.MultiLine				= $False
 	# $TBProxy.Scrollbars				= "Vertical" 
-	$TBProxy.text                     = $MainForm.Config.Proxy
+	$TBProxy.text                     = $Config.Proxy
 	$TBProxy.AutoSize                 = $false
 	$TBProxy.width                    = 300
 	$TBProxy.height                   = 20
@@ -545,7 +613,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$TBActiveMinerGainPct.Tag						= "ActiveMinerGainPct"
 	$TBActiveMinerGainPct.MultiLine				= $False
 	# $TBActiveMinerGainPct.Scrollbars				= "Vertical" 
-	$TBActiveMinerGainPct.text                     = $MainForm.Config.ActiveMinerGainPct
+	$TBActiveMinerGainPct.text                     = $Config.ActiveMinerGainPct
 	$TBActiveMinerGainPct.AutoSize                 = $false
 	$TBActiveMinerGainPct.width                    = 300
 	$TBActiveMinerGainPct.height                   = 20
@@ -561,7 +629,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$CheckBoxAutostart.height                = 20
 	$CheckBoxAutostart.location              = New-Object System.Drawing.Point(432,202)
 	$CheckBoxAutostart.Font                  = 'Microsoft Sans Serif,10'
-	$CheckBoxAutostart.Checked				=	$MainForm.Config.Autostart
+	$CheckBoxAutostart.Checked				=	$Config.Autostart
 	$ConfigPageControls += $CheckBoxAutostart
 	
 	$ButtonLoadDefaultPoolsAlgos                         = New-Object system.Windows.Forms.Button
@@ -576,7 +644,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 		try {
 			$PoolsAlgos = Invoke-WebRequest "http://tiny.cc/dc7lry" -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json;$PoolsAlgos | ConvertTo-json | Out-File ".\Config\PoolsAlgos.json" } catch { $PoolsAlgos = Get-content ".\Config\PoolsAlgos.json" | Convertfrom-json}
 		If ($PoolsAlgos) {
-			$PoolsAlgos = $PoolsAlgos.PSObject.Properties | ? {$_.Name -in $MainForm.Config.PoolName}
+			$PoolsAlgos = $PoolsAlgos.PSObject.Properties | ? {$_.Name -in $Config.PoolName}
 			$PoolsAlgos = $PoolsAlgos.Value | sort -Unique
 			$TBAlgos.text = $PoolsAlgos -Join ","
 		}
@@ -591,20 +659,22 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$ConfigPageControls += $ButtonWriteConfig
 
 	$ButtonWriteConfig.Add_Click({
-		$ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox") -and !($_.Tag -in @("GPUCount","Algorithms"))} | foreach {$MainForm.Config.($_.Tag) = $_.Text}
+		If ($Config -eq $null){$Config = [PSCustomObject]@{}}
+		$ConfigPageControls | ? {(($_.gettype()).Name -eq "CheckBox")} | foreach {$Config | Add-Member -Force @{$_.Tag = $_.Checked}}
+		$ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox")} | foreach {$Config | Add-Member -Force @{$_.Tag = $_.Text}}
 		$ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox") -and ($_.Tag -eq "GPUCount")} | foreach {
-			$MainForm.Config.($_.Tag) = [Int]$_.Text
-			$MainForm.Config.SelGPUCC = (0..($_.Text-1)) -join ","
-			$MainForm.Config.SelGPUDSTM = (0..($_.Text-1)) -join " "
+			$Config | Add-Member -Force @{$_.Tag = [Int]$_.Text}
+			If ($CheckBoxDisableGPU0.checked -and [Int]$_.Text -gt 1){$FirstGPU = 1}else{$FirstGPU = 0}
+			$Config | Add-Member -Force @{SelGPUCC = (($FirstGPU..($_.Text-1)) -join ",")}
+			$Config | Add-Member -Force @{SelGPUDSTM = (($FirstGPU..($_.Text-1)) -join " ")}
 		}
 		$ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox") -and ($_.Tag -eq "Algorithm")} | foreach {
-			$MainForm.Config.($_.Tag) = $_.Text -split ","
+			$Config | Add-Member -Force @{$_.Tag = @($_.Text -split ",")}
 		}
-		$ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox") -and ($_.Tag -eq "Interval")} | foreach {
-			$MainForm.Config.($_.Tag) = [Int]$_.Text 
+		$ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox") -and ($_.Tag -in @("Donate","Interval","ActiveMinerGainPct"))} | foreach {
+			$Config | Add-Member -Force @{$_.Tag = [Int]$_.Text}
 		}
-		$MainForm.Config.Autostart = $CheckBoxAutostart.Checked
-		WriteConfig($MainForm.Config)
+		Write-Config -ConfigFile $ConfigFile -Config $Config
 		$MainForm.Refresh
 		[windows.forms.messagebox]::show("Please restart NPlusMiner",'Config saved','ok','Information') | out-null
 		}
@@ -809,8 +879,8 @@ $ButtonStart.Add_Click({
 		$timerCycle.Stop()
 		Update-Status("Stopping jobs and miner")
 		Get-Job | Stop-Job | Remove-Job
-		If ($MainForm.Variables.ActiveMinerPrograms) {
-			$MainForm.Variables.ActiveMinerPrograms | ForEach {
+		If ($Variables.ActiveMinerPrograms) {
+			$Variables.ActiveMinerPrograms | ForEach {
 				[Array]$filtered = ($BestMiners_Combo | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments)
 				if($filtered.Count -eq 0)
 				{
@@ -832,7 +902,7 @@ $ButtonStart.Add_Click({
 				}
 			}
 		}
-		$LabelBTCD.Text = "$($MainForm.Variables.CurrentProduct) $($MainForm.Variables.CurrentVersion)"
+		$LabelBTCD.Text = "$($Variables.CurrentProduct) $($Variables.CurrentVersion)"
 		$LabelRunning.Text = "Idle"
 		$ButtonStart.Text = "Start"
 		$timerCycle.Interval = 1000
@@ -843,7 +913,7 @@ $ButtonStart.Add_Click({
 	}
 })
 
-$MainForm.controls.AddRange(@($LabelStatus,$ButtonStart,$LabelBTCD,$LabelNewVersion,$LabelGitHub,$LabelRunning))
+$MainForm.controls.AddRange($MainFormControls)
 $RunPage.controls.AddRange(@($EarningsDGV,$SwitchingDGV))
 $EstimationsPage.Controls.AddRange(@($EstimationsDGV))
 $ConfigPage.controls.AddRange($ConfigPageControls)
