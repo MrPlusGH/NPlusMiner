@@ -12,14 +12,14 @@ Function Update-Status ($Text) {
 }
 
 Function DetectGPUCount {
-	Update-Status("Fetching GPU Count") | out-null
+	Update-Status("Fetching GPU Count")
 	try {
 		$DetectedGPU = @(Get-WmiObject Win32_PnPSignedDriver | Select DeviceName,DriverVersion,Manufacturer,DeviceClass | Where { $_.Manufacturer -like "*NVIDIA*" -and $_.DeviceClass -like "*display*"}) } catch { $DetectedGPU = @()}
 		$DetectedGPUCount = $DetectedGPU.Count
 		# $DetectedGPUCount = @(Get-WmiObject Win32_PnPSignedDriver | Select DeviceName,DriverVersion,Manufacturer,DeviceClass | Where { $_.Manufacturer -like "*NVIDIA*" -and $_.DeviceClass -like "*display*"}).count } catch { $DetectedGPUCount = 0}
 	$i=0
 	$DetectedGPU | foreach {Update-Status("$($i): $($_.DeviceName)") | Out-Null;$i++}
-	Update-Status("Found $($DetectedGPUCount) GPU(s)") | out-null
+	Update-Status("Found $($DetectedGPUCount) GPU(s)")
 	$DetectedGPUCount
 }
 
