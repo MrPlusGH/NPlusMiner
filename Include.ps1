@@ -1,24 +1,51 @@
-Function LoadConfig {
-	$Config = Get-Content ".\Config\config.json" | ConvertFrom-json
-	$Config
-}
-
-Function WriteConfig ($Config) {
-	Copy-Item ".\Config\config.json" ".\Config\config-previous.json"
-	$Config | ConvertTo-json | out-file ".\Config\config.json"
-}
-
 Function Update-Status ($Text) {
 	Write-host $Text
-	$MainForm.Variables.StatusText = $Text 
+	$Variables.StatusText = $Text 
 	$LabelStatus.Lines += $Text
 	$LabelStatus.SelectionStart = $LabelStatus.TextLength;
     $LabelStatus.ScrollToCaret();
 
 	# $LabelStatus.Text = $Text
 	# $LabelStatus.Invoke
-	$LabelStatus.Refresh
+	$LabelStatus.Refresh | out-null
 	# $MainForm.refresh
+}
+
+Function DetectGPUCount {
+	Update-Status("Fetching GPU Count")
+	try {
+		$DetectedGPU = @(Get-WmiObject Win32_PnPSignedDriver | Select DeviceName,DriverVersion,Manufacturer,DeviceClass | Where { $_.Manufacturer -like "*NVIDIA*" -and $_.DeviceClass -like "*display*"}) } catch { $DetectedGPU = @()}
+		$DetectedGPUCount = $DetectedGPU.Count
+		# $DetectedGPUCount = @(Get-WmiObject Win32_PnPSignedDriver | Select DeviceName,DriverVersion,Manufacturer,DeviceClass | Where { $_.Manufacturer -like "*NVIDIA*" -and $_.DeviceClass -like "*display*"}).count } catch { $DetectedGPUCount = 0}
+	$i=0
+	$DetectedGPU | foreach {Update-Status("$($i): $($_.DeviceName)") | Out-Null;$i++}
+	Update-Status("Found $($DetectedGPUCount) GPU(s)")
+	$DetectedGPUCount
+}
+
+Function Load-Config {
+	param(
+		[Parameter(Mandatory=$true)]
+		[String]$ConfigFile
+	)
+	If (Test-Path $ConfigFile){
+		$Config = Get-Content $ConfigFile | ConvertFrom-json
+		$Config
+	}
+}
+
+Function Write-Config {
+	param(
+		[Parameter(Mandatory=$true)]
+		[PSCustomObject]$Config,
+		[Parameter(Mandatory=$true)]
+		[String]$ConfigFile
+	)
+	If ($Config -ne $null){
+		if (Test-Path $ConfigFile){Copy-Item $ConfigFile "$($ConfigFile).backup"}
+		$OrderedConfig = [PSCustomObject]@{};$Config | %{$_.psobject.properties | sort Name | %{$OrderedConfig | Add-Member -Force @{$_.Name = $_.Value}}}
+		$OrderedConfig | ConvertTo-json | out-file $ConfigFile
+	}
 }
 
 function Set-Stat {
