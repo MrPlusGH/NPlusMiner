@@ -36,7 +36,7 @@ $Commands = [PSCustomObject]@{
     #"veltor" = "" #Veltor
     #"x11evo" = " -d $SelGPUCC" #X11evo
     #"x17" = " -d $SelGPUCC" #X17
-    "x16r" = " -d $SelGPUCC --api-remote --api-allow=0/0" #X16r
+    # "x16r" = " -d $SelGPUCC --api-remote --api-allow=0/0" #X16r
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
@@ -51,5 +51,6 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
         Port = 4068
         Wrap = $false
         URI = $Uri
+		User = $Pools.(Get-Algorithm($_)).User
     }
 }

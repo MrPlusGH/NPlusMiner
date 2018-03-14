@@ -1,5 +1,5 @@
-REM This file will run for any algo if algo.bat does not exist
-REM Place your code below
+REM This file will run for any algo if AlgoName.bat does not exist
+REM Place your code below and rename this file to default.bat
 
 echo prerun default file
 

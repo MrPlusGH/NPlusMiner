@@ -35,18 +35,20 @@ $Locations | ForEach {
 	    if ((Get-Stat -Name "$($Name)_$($zergpool_Algorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($zergpool_Algorithm)_Profit" -Value ([Double]$zergpool_Request.$_.actual_last24h / $Divisor)}
 	    else {$Stat = Set-Stat -Name "$($Name)_$($zergpool_Algorithm)_Profit" -Value ([Double]$zergpool_Request.$_.actual_last24h / $Divisor)}
 
-	    if ($Wallet) {
+		$ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
+	
+	    if ($Config.PoolsConfig.default.Wallet) {
 		[PSCustomObject]@{
 		    Algorithm     = $zergpool_Algorithm
 		    Info          = $zergpool
-		    Price         = $Stat.Live
+            Price         = $Stat.Live*$Config.PoolsConfig.$ConfName.PricePenaltyFactor
 		    StablePrice   = $Stat.Week
 		    MarginOfError = $Stat.Fluctuation
 		    Protocol      = "stratum+tcp"
 		    Host          = $zergpool_Host
 		    Port          = $zergpool_Port
-		    User          = $Wallet
-		    Pass          = "$WorkerName,c=$Passwordcurrency"
+            User          = $Config.PoolsConfig.$ConfName.Wallet
+		    Pass          = "$($Config.PoolsConfig.$ConfName.WorkerName),c=$Passwordcurrency"
 		    Location      = $Location
 		    SSL           = $false
 		}

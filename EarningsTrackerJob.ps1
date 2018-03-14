@@ -21,6 +21,9 @@
 # To start the job one could use the following
 # $job = Start-Job -FilePath .\EarningTrackerJob.ps1 -ArgumentList $params
 
+# Set Process Priority
+(Get-Process -Id $PID).PriorityClass = "BelowNormal"
+
 $args[0].GetEnumerator() | ForEach-Object { New-Variable -Name $_.Key -Value $_.Value }
 
 If ($WorkingDirectory) {Set-Location $WorkingDirectory}
@@ -96,6 +99,7 @@ while ($true) {
 	}
 	
 	$EarningsObject
+	
 	
 	If ($BalanceObjectS.Count -gt 1) {$BalanceObjectS = $BalanceObjectS | ? {$_.Date -ge $CurDate.AddDays(-1).AddHours(-1)}}
 

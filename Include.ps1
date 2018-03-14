@@ -43,8 +43,14 @@ Function Write-Config {
 	)
 	If ($Config -ne $null){
 		if (Test-Path $ConfigFile){Copy-Item $ConfigFile "$($ConfigFile).backup"}
-		$OrderedConfig = [PSCustomObject]@{};$Config | %{$_.psobject.properties | sort Name | %{$OrderedConfig | Add-Member -Force @{$_.Name = $_.Value}}}
+		$OrderedConfig = [PSCustomObject]@{};($config | select -Property * -ExcludeProperty PoolsConfig) | %{$_.psobject.properties | sort Name | %{$OrderedConfig | Add-Member -Force @{$_.Name = $_.Value}}}
 		$OrderedConfig | ConvertTo-json | out-file $ConfigFile
+		$PoolsConfig = Get-Content ".\Config\PoolsConfig.json" | ConvertFrom-Json
+		$OrderedPoolsConfig = [PSCustomObject]@{};$PoolsConfig | %{$_.psobject.properties | sort Name | %{$OrderedPoolsConfig | Add-Member -Force @{$_.Name = $_.Value}}}
+		$OrderedPoolsConfig.default.Wallet = $Config.Wallet
+		$OrderedPoolsConfig.default.UserName = $Config.UserName
+		$OrderedPoolsConfig.default.WorkerName = $Config.WorkerName
+		$OrderedPoolsConfig | ConvertTo-json | out-file ".\Config\PoolsConfig.json"
 	}
 }
 

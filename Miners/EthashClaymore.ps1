@@ -1,7 +1,7 @@
 . .\Include.ps1
 
 $Path = ".\\Bin\\Ethash-Claymore\\EthDcrMiner64.exe"
-$Uri = "https://github.com/nemosminer/Claymores-Dual-Ethereum/releases/download/v11.4/Claymore.s.EthereumNVIDIA.GPU.Miner.v11.4.zip"
+$Uri = "https://github.com/nemosminer/Claymores-Dual-Ethereum/releases/download/v11.2/Claymore.s.EthereumNVIDIA.GPU.Miner.v11.2.zip"
 $Commands = [PSCustomObject]@{
     "ethash" = "" #Ethash
 }
@@ -18,5 +18,6 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         Port = 3333
         Wrap = $false
         URI = $Uri
+		User = $Pools.(Get-Algorithm($_)).User
     }
 }
