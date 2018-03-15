@@ -6,7 +6,7 @@ $Uri = "https://github.com/nemosminer/DSTM-equihash-miner/releases/download/DSTM
 $Commands = [PSCustomObject]@{
     "equihash" = " -d $SelGPUDSTM" #Equihash
 }
-$Port = 2222
+$Port = $Variables.MinerAPITCPPort #2222
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
