@@ -1,15 +1,33 @@
+ ![alt text](https://github.com/MrPlusGH/NPlusMiner/blob/2.1/NPM.png)
  # NPlusMiner-v2.1
  Readme Updated 2018 Mar 15
  
- Instructions at bottom of the page.
 *****
-NPlusMiner Monitors mining pools in real-time in order to find the most profitable Algo /
- Auto Benchmarks Each algo to get optimal speeds / 
- Fully automated / 
- Auto Downloads Miners /
- GUI
+
+NPlusMiner Monitors mining pools in real-time in order to find the most profitable Algo
+
+	 GUI and easy configuration
+	 Auto Benchmarks Each algo to get optimal speeds 
+	 Fully automated 
+	 Auto Downloads Miners
 
 *****
+
+Easy configuration, easy start:
+
+      Run NPLusMiner
+
+      1. Hit the Config tab
+      2.Set your Wallet address and Username
+      3.Select your pools and hit load defaults button. (Remove any algos you do not want to mine)
+      4.Hit "Save Config"
+      5.Hit "Start"
+Fee:
+
+      There is a 5 minutes per day fee (0.3%), that can be changed in the config (Minimum is 1 - 0 is Random 0 to 5).
+
+*****
+
 Additional features list
 
    GUI
@@ -77,7 +95,16 @@ Additional features list
    
       Simple algo switching log in csv switching.log file found in Logs folder.
       You can easily track switching rate.
-      
+
+   Pools variants
+
+      24hr - uses last 24hour Actual API too request profit
+         -Low switching rate
+      plus - uses advanced calculations to maximize profit
+         -Best switching rate
+      normal - uses current estimate API too request profit
+         -High switching rate
+
    Console Display Options
    
       Use -UIStyle Light or -UIStyle Full in config.json
@@ -138,15 +165,6 @@ Made For & Tested with 6x10603gb 6x1070 6x1070ti 6x1080ti (users have reported u
 Some miners do not support more that 9 cards
 
 ActiveMinerGainPct (percent of advantage that active miner has over candidates in term of profit (default 3%)
-
-Pools variants:
-
-- 24hr - uses last 24hour Actual API too request profit
-   -Low switching rate
-- plus - uses advanced calculations to maximize profit
-   -Best switching rate
-- normal - uses current estimate API too request profit
-   -High switching rate
 
 this is a free project feel free to donate be much appreciated:
 
