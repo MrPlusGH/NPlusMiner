@@ -123,17 +123,6 @@ Additional features list
       NPlusMiner will notify new version availability
 *****
  
- This is a free project feel free to donate be much appreciated:
-
-aaronsace = 1MsrCoAt8qM53HUMsUxvy9gMj3QVbHLazH
-
-nemo = 1QGADhdMRpp9Pk5u5zG1TrHKRrdK5R81TE
-
-MrPlus = 134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy
-
-
-*****
-
 
 If you have Windows 7, 8, or 8.1, please update PowerShell:
 https://www.microsoft.com/en-us/download/details.aspx?id=50395
@@ -151,7 +140,7 @@ Requires nvidia driver newer than 388
 Made For & Tested with 6x10603gb 6x1070 6x1070ti 6x1080ti (users have reported up to 12cards working have not tested myself)
 Some miners do not support more that 9 cards
 
-ActiveMinerGainPct (percent of advantage that active miner has over candidates in term of profit (default 3%)
+*****
 
 this is a free project feel free to donate be much appreciated:
 
