@@ -1,5 +1,5 @@
- # NPlusMiner-v2.0
- Readme Updated 2018 Mar 07
+ # NPlusMiner-v2.1
+ Readme Updated 2018 Mar 15
  
  Instructions at bottom of the page.
 *****
@@ -9,7 +9,6 @@ NPlusMiner Monitors mining pools in real-time in order to find the most profitab
  Auto Downloads Miners /
  GUI
 
- Forked from the excellent work from Nemo.
 *****
 Additional features list
 
@@ -27,10 +26,36 @@ Additional features list
       Simply create a file named <AlgoName>.bat in prerun folder
       If <AlgoName>.bat does not exist, will try to launch prerun/default.bat
       Use overclock with caution
- 
+
+   Per pools config (Advanced)
+   
+        - **This is for advanced users. Do not use if you do not know what you are doing.**
+        - You can now set specific options per pool. For example, you can mine NiceHash on the internal wallet and other pools on a valid wallet. This configuration is provided as an example in Config\PoolsConfig-NHInternal.json
+          - Available options
+            - Wallet = your wallet address
+            - UserName = your MPH user name
+            - WorkerName = your worker name
+            - PricePenaltyFactor = See explanation below
+          - Usage
+            - The file Config\PoolsConfig.json contains per pool configuration details. If a pool is listed in this file,
+	    the specific settings will be taken into account. If not, the setting for the entry name default will be used.
+	    **Do not delete the default entry.**
+            - Edit Config\PoolsConfig.json
+            - Add an entry for the pool you want to customize
+              - The name must be the NPlusMiner name for the pool. ie. for ahashpool, if you use Plus. The name is ahashpoolplus.
+              - (**careful with json formating ;)**)
+              - Best way is to duplicate the default entry
+        - Note that the GUI only updates the default entry. Any other changes need to be done manualy
+
+   PricePenaltyFactor
+
+        - When using advanced per pool configuration, it is possible to add a penalty factor for a specific pool. This simply adds as a multiplicator on estimations presented by the pool.
+        - Example scenario
+          - NiceHash as a 4% fee - Set PricePenaltyFactor to 0.96 (1-0.04)
+          - You feel like a pool is exaggerating his estimations by 10% - Set PricePenaltyFactor to 0.9
+
    ahashpoolplus / zergpoolplus / zpoolplus / blazepoolplus
    
-      Simply use -PoolName ahashpoolplus or other <pool>plus in start.bat
       Uses calculations based on 24hractual and currentestimate ahashpool prices to get more realistic estimate.
       Includes some trust index based on past 1hr currentestimate variation from 24hr.
       AND is NOT sensible to spikes.
@@ -46,22 +71,21 @@ Additional features list
             zpool
             nicehash
       If mining more that one pools, shows stats for any supported pool
-      Enabled by default. use "-TrackEarnings $false" in start<pool>.bat to fully disable.
-      Press key e in the window to show/hide earnings
+      Press key e in the console window to show/hide earnings
 
    Algo switching log
    
       Simple algo switching log in csv switching.log file found in Logs folder.
       You can easily track switching rate.
       
-   Display Options
+   Console Display Options
    
-      Use -UIStyle Light or -UIStyle Full in start.bat
+      Use -UIStyle Light or -UIStyle Full in config.json
             Full = Usual display
             Light = Show only currently mining info (Default)
       UIStyle automaticaly swtiches to Full during benchmarking.
 
-   In session display toggle
+   In session console display toggle
    
       Press key s in the window to switch between light and full display
       Press key e in the window to show/hide earnings 
