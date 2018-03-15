@@ -108,19 +108,17 @@ MrPlus = 134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy
 *****
 instructions:
 
-Run NPLusMiner (Not the .ps1)
+      Run NPLusMiner
 
-1.Hit the Config tab
+      1. Hit the Config tab
+      2.Set your Wallet address and Username
+      3.Select your pools and hit load defaults button. (Remove any algos you do not want to mine)
+      4.Hit "Save Config"
+      5.Hit "Start"
+Fee:
 
-2.Set your config carefully
-
-3.Select your pools and hit load defaults button. (Remove any algos you do not want to mine)
-
-4.Close and run NPlusMiner so it loads your changes properly
-
-5.Hit "Start" if Autostart not selected.
-
-6.there is a 5 minutes per day fee (0.3%), that can be changed in the config (Minimum is 1 - 0 is Random 0 to 5).
+      There is a 5 minutes per day fee (0.3%), that can be changed in the config (Minimum is 1 - 0 is Random 0 to 5).
+      
 
 
 If you have Windows 7, 8, or 8.1, please update PowerShell:
