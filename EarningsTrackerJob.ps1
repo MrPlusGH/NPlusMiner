@@ -93,7 +93,7 @@ while ($true) {
 		AvgHourlyGrowth				= $AvgBTCHour
 		AvgDailyGrowth				= $AvgBTCHour*24
 		EstimatedEndDayGrowth		= If ((($CurDate - ($BalanceObjectS[0].Date)).TotalHours) -ge 1) {($AvgBTCHour * ((Get-Date -Hour 0 -Minute 00 -Second 00).AddDays(1).AddSeconds(-1) - $CurDate).Hours)} else {$Growth1 * ((Get-Date -Hour 0 -Minute 00 -Second 00).AddDays(1).AddSeconds(-1) - $CurDate).Hours}
-		EstimatedPayDate			= IF ($BalanceObject.balance -lt $PaymentThreshold) {If ($AvgBTCHour -gt 0) {$CurDate.AddHours(($PaymentThreshold - $BalanceObject.balance) / $AvgBTCHour)} Else {"Unknown"}} else {$CurDate}
+		EstimatedPayDate			= IF ($BalanceObject.balance -lt $PaymentThreshold) {If ($AvgBTCHour -gt 0) {$CurDate.AddHours(($PaymentThreshold - $BalanceObject.balance) / $AvgBTCHour)} Else {"Unknown"}} else {"Next Payout !"}
 		TrustLevel 					= if(($CurDate - ($BalanceObjectS[0].Date)).TotalMinutes -le 360){($CurDate - ($BalanceObjectS[0].Date)).TotalMinutes/360}else{1}
 		PaymentThreshold			= $PaymentThreshold
 	}
