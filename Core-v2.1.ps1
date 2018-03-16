@@ -30,7 +30,9 @@ Function InitApplication {
 	$Variables | Add-Member -Force @{UserNameBackup = $Config.UserName}
 	$Variables | Add-Member -Force @{WorkerNameBackup = $Config.WorkerName}
 	$Variables | Add-Member -Force @{EarningsPool = ""}
+	Update-Status("Finding available TCP Port")
 	$Variables | Add-Member -Force @{MinerAPITCPPort = Get-FreeTcpPort}
+	Update-Status("Miners API Port: $($Variables.MinerAPITCPPort)")
 	# Starts Brains if necessary
 	Update-Status("Starting Brains for Plus...")
 	$Variables | Add-Member -Force @{BrainJobs = @()}
