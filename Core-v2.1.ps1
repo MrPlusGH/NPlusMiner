@@ -364,7 +364,7 @@ Function NPMCycle {
 				) | Out-Host
 			}
 		}
-		Write-Host "      1BTC = " $Variables.Rates.$Currency "$Currency"
+		Write-Host "      1BTC = " $Variables.Rates.$Currency "$($Variables.Rates.($Config.Currency))"
 		# Get and display earnings stats
 		$Variables.EarningsTrackerJobs | ? {$_.state -eq "Running"} | foreach {
 			$EarnTrack = $_ | Receive-Job
