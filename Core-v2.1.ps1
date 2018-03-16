@@ -77,7 +77,7 @@ Function NPMCycle {
 			# Get donation addresses randomly from agreed list
 			# This will fairly distribute donations to Devs
 			# Devs list and wallets is publicly available at: http://tiny.cc/r355qy 
-			try {$Donation = Invoke-WebRequest "http://tiny.cc/r355qy" -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$Donation = @([PSCustomObject]@{Name = "mrplus";Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy";UserName = "mrplus"})}
+			try {$Donation = Invoke-WebRequest "http://tiny.cc/r355qy" -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$Donation = @([PSCustomObject]@{Name = "mrplus";Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy";UserName = "mrplus"},[PSCustomObject]@{Name = "nemo";Wallet = "1QGADhdMRpp9Pk5u5zG1TrHKRrdK5R81TE";UserName = "nemo"})}
 			if ($Donation -ne $null) {
 				$Variables.DonateRandom = $Donation | Get-Random
 				$Config | Add-Member -Force @{PoolsConfig = [PSCustomObject]@{default=[PSCustomObject]@{Wallet = $Variables.DonateRandom.Wallet;UserName = $Variables.DonateRandom.UserName;WorkerName = "NPlusMiner";PricePenaltyFactor=1}}}
