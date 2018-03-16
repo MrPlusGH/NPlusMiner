@@ -56,7 +56,8 @@ Function Write-Config {
 
 Function Get-FreeTcpPort {
 	$ProgressPreferenceBackup = $Global:ProgressPreference;$Global:ProgressPreference = "SilentlyContinue"
-	(4068..4078) | % {if (!(Test-NetConnection -ComputerName localhost -port $_ -WA SilentlyContinue -EA SilentlyContinue).TcpTestSucceeded){$_;break}}	$Global:ProgressPreference = $ProgressPreferenceBackup;ProgressPreferenceBackup | rv
+	(4068..4078) | % {if (!(Test-NetConnection -ComputerName localhost -port $_ -WA SilentlyContinue -EA SilentlyContinue).TcpTestSucceeded){$_;break}}
+	$Global:ProgressPreference = $ProgressPreferenceBackup;ProgressPreferenceBackup | rv
 }
 
 function Set-Stat {
