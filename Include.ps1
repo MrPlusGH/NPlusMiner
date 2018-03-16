@@ -56,8 +56,7 @@ Function Write-Config {
 
 Function Get-FreeTcpPort {
 	$ProgressPreferenceBackup = $Global:ProgressPreference;$Global:ProgressPreference = "SilentlyContinue"
-	 (4068..4078) | % {$Port=$_;try{$Null = New-Object System.Net.Sockets.TCPClient -ArgumentList 127.0.0.1,$Port} catch {$Port;$PortFound}}
-	$Global:ProgressPreference = $ProgressPreferenceBackup;ProgressPreferenceBackup | rv
+	(4068..4078) | % {if (!(Test-NetConnection -ComputerName localhost -port $_ -WA SilentlyContinue -EA SilentlyContinue).TcpTestSucceeded){$_;break}}	$Global:ProgressPreference = $ProgressPreferenceBackup;ProgressPreferenceBackup | rv
 }
 
 function Set-Stat {
