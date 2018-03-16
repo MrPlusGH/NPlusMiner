@@ -228,7 +228,7 @@ Function NPMCycle {
 		$Variables.Miners = $Variables.Miners | ? {$_.Pools.PSObject.Properties.Value.Price -ne $null}
 
 		#Don't penalize active miners. Miner could switch a little bit later and we will restore his bias in this case
-		$Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" } | ForEach {$Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit * (1 + $Config.ActiveMinerGainPct / 100)}}
+		$Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" } | ForEach {$Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit * (1 + $Config.ActiveMinerGainPct / 100)}}
 		#Get most profitable miner combination i.e. AMD+NVIDIA+CPU
 		$BestMiners = $Variables.Miners | Select Type,Index -Unique | ForEach {$Miner_GPU = $_; ($Variables.Miners | Where {(Compare $Miner_GPU.Type $_.Type | Measure).Count -eq 0 -and (Compare $Miner_GPU.Index $_.Index | Measure).Count -eq 0} | Sort -Descending {($_ | Where Profit -EQ $null | Measure).Count},{($_ | Measure Profit_Bias -Sum).Sum},{($_ | Where Profit -NE 0 | Measure).Count} | Select -First 1)}
 		$BestDeviceMiners = $Variables.Miners | Select Device -Unique | ForEach {$Miner_GPU = $_; ($Variables.Miners | Where {(Compare $Miner_GPU.Device $_.Device | Measure).Count -eq 0} | Sort -Descending {($_ | Where Profit -EQ $null | Measure).Count},{($_ | Measure Profit_Bias -Sum).Sum},{($_ | Where Profit -NE 0 | Measure).Count} | Select -First 1)}
