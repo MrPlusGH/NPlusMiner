@@ -55,10 +55,10 @@ Function Write-Config {
 }
 
 Function Get-FreeTcpPort {
-	#IVRoaXMgd2lsbCBicmVhayE=
-	$ProgressPreferenceBackup = $Global:ProgressPreference;$Global:ProgressPreference = "SilentlyContinue"
-	(4068..4078) | % {if (!(Test-NetConnection -ComputerName localhost -port $_ -WA SilentlyContinue -EA SilentlyContinue).TcpTestSucceeded){$_;break}}
-	$Global:ProgressPreference = $ProgressPreferenceBackup;ProgressPreferenceBackup | rv
+	$StartPort = 4068
+	$PortFound = $false
+	$Port = $StartPort
+	While ($Port -le ($StartPort + 10) -and !$PortFound) {try{$Null = New-Object System.Net.Sockets.TCPClient -ArgumentList 127.0.0.1,$Port;$Port++} catch {$Port;$PortFound=$True}}
 }
 
 function Set-Stat {
