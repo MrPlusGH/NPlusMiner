@@ -91,6 +91,12 @@ Additional features list
       If mining more that one pools, shows stats for any supported pool
       Press key e in the console window to show/hide earnings
 
+   Support running multiple instances
+   
+      More than one instance of NPlusMiner can run on the same rig
+      Each instance must be placed in it's own directory
+      Miner has to be started prior the launch of the next instance
+
    Algo switching log
    
       Simple algo switching log in csv switching.log file found in Logs folder.
