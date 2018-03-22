@@ -1,6 +1,6 @@
  ![alt text](https://github.com/MrPlusGH/NPlusMiner/blob/2.1/NPM.png)
- # NPlusMiner-v2.1
- Readme Updated 2018 Mar 15
+ # NPlusMiner-v2.1.2
+ Readme Updated 2018 Mar 22
  
 *****
 
@@ -19,12 +19,12 @@ Easy configuration, easy start:
 
       1. Hit the Config tab
       2. Set your Wallet address and Username
-      3. Select your pools and hit load defaults button. (Remove any algos you do not want to mine)
-      4. Hit "Save Config"
-      5. Hit "Start"
+      3. Hit "Save Config"
+      4. Hit "Start"
 Fee:
 
-      There is a 5 minutes per day fee (0.3%), that can be changed in the config (Minimum is 1 - 0 is Random 0 to 5).
+      There is a 8 minutes per day fee (0.5%), that can be changed in the config (Minimum is ")
+      When less than 3 minutes is set lottery is 0 or any walue between 3 and 8
 
 *****
 
@@ -33,10 +33,17 @@ Additional features list
    GUI
    
       Since version 2.0 NPlusMiner has a GUI making it easy to configure and run.
-	  Relies on config files. No need to edit bat files. Simply run NPlusMiner (Not the .ps1) 
+	  Relies on config files. No need to edit bat files. Simply run NPlusMiner
 	  Set the config on the config tab, save, close, run
-	  For console lovers. Right click the NPlusMiner file > Properties > change "hidden" to "maximized" in the target field
+	  For console lovers. Run NPlusMiner-ConsoleUp.
  
+   Pause mining
+   
+      Ability to pause miners while keeping other jobs running (pause button)
+      This will stop mining activity
+      BrainPlus will still run in the background avoiding the learning phase on resume
+      EarningTracker will still run in the background avoiding the learning phase on resume  
+      
    prerun
    
       Ability to run a batch prior switching to a specific algo.
@@ -88,9 +95,23 @@ Additional features list
             zergpool
             zpool
             nicehash
+            miningpoolhub (partial)
       If mining more that one pools, shows stats for any supported pool
       Press key e in the console window to show/hide earnings
 
+   Support running multiple instances
+   
+      **Experimental**
+      More than one instance of NPlusMiner can run on the same rig
+      Each instance must be placed in it's own directory
+      Miner has to be started prior the launch of the next instance
+
+   Optional miners (Advanced)
+   
+      Some miners are not enabled by default in NPlusMiner for a variety of reasons
+      A new folder can be found called "OptionalMiners" containing .ps1 files for some miners
+      For advanced users, refer to OptionalMiners\Readme.txt on how to use
+      
    Algo switching log
    
       Simple algo switching log in csv switching.log file found in Logs folder.
@@ -108,8 +129,8 @@ Additional features list
    Console Display Options
    
       Use -UIStyle Light or -UIStyle Full in config.json
-            Full = Usual display
-            Light = Show only currently mining info (Default)
+            Full = Usual display (Default)
+            Light = Show only currently mining info
       UIStyle automaticaly swtiches to Full during benchmarking.
 
    In session console display toggle
@@ -142,7 +163,7 @@ Some miners do not support more that 9 cards
 
 *****
 
-this is a free project feel free to donate be much appreciated:
+Any donations will be much appreciated:
 
 aaronsace = 1MsrCoAt8qM53HUMsUxvy9gMj3QVbHLazH
 
