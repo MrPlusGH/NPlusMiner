@@ -32,7 +32,7 @@ $Locations | ForEach-Object {
             Protocol    = 'stratum+tcp'
             Host        = $_.all_host_list.split(";") | Sort-Object -Descending {$_ -ilike "$Location*"} | Select-Object -First 1
             Port        = $_.algo_switch_port
-            User        = "$($Config.PoolsConfig.$ConfName.UserName).$($Config.PoolsConfig.$ConfName.WorkerName)"
+            User        = "$($Config.PoolsConfig.$ConfName.UserName).$($Config.PoolsConfig.$ConfName.WorkerName.replace('ID=',''))"
             Pass        = 'x'
             Location    = $Location
             SSL         = $false
