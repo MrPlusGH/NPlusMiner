@@ -25,7 +25,9 @@ $Zpool_Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProp
         "blakecoin" {$Divisor *= 1000}
         "decred" {$Divisor *= 1000}
         "keccak" {$Divisor *= 1000}
-	"keccakc" {$Divisor *= 1000}
+		"keccakc" {$Divisor *= 1000}
+		"sha256t"{$Divisor *= 1000}
+        # "sha256t" {$Divisor *= 1000000}
     }
 
     if ((Get-Stat -Name "$($Name)_$($Zpool_Algorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($Zpool_Algorithm)_Profit" -Value ([Double]$Zpool_Request.$_.actual_last24h / $Divisor * (1 - ($Zpool_Request.$_.fees / 100)))}
@@ -44,7 +46,7 @@ $Zpool_Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProp
             Host          = $Zpool_Host
             Port          = $Zpool_Port
             User          = $Config.PoolsConfig.$ConfName.Wallet
-		    Pass          = "$($Config.PoolsConfig.$ConfName.WorkerName),c=$Passwordcurrency"
+		    Pass          = "$($Config.PoolsConfig.$ConfName.WorkerName),c=$($Config.Passwordcurrency)"
             Location      = $Location
             SSL           = $false
         }

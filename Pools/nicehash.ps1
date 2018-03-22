@@ -43,7 +43,7 @@ $Locations | ForEach-Object {
                 Protocol      = "stratum+tcp"
                 Host          = $NiceHash_Host
                 Port          = $NiceHash_Port
-                User          = "$($Config.PoolsConfig.$ConfName.Wallet).$($Config.PoolsConfig.$ConfName.WorkerName)"
+                User          = "$($Config.PoolsConfig.$ConfName.Wallet).$($Config.PoolsConfig.$ConfName.WorkerName.Replace('ID=',''))"
                 Pass          = "x"
                 Location      = $Location
                 SSL           = $false
@@ -58,7 +58,7 @@ $Locations | ForEach-Object {
                 Protocol      = "stratum+ssl"
                 Host          = $NiceHash_Host
                 Port          = $NiceHash_Port
-                User          = "$($Config.PoolsConfig.$ConfName.Wallet).$($Config.PoolsConfig.$ConfName.WorkerName)"
+                User          = "$($Config.PoolsConfig.$ConfName.Wallet).$($Config.PoolsConfig.$ConfName.WorkerName.Replace('ID=',''))"
                 Pass          = "x"
                 Location      = $Location
                 SSL           = $true

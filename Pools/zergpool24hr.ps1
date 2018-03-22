@@ -15,7 +15,8 @@ $Locations | ForEach {
     $Location = $_
 
 	$zergpool_Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | foreach {
-	    $zergpool_Host = If ($Location -eq "Europe"){$Location + ".mine.zergpool.com"}else{"mine.zergpool.com"}
+	    # $zergpool_Host = If ($Location -eq "Europe"){$Location + ".mine.zergpool.com"}else{"$_.mine.zergpool.com"}
+	    $zergpool_Host = "$_.mine.zergpool.com"
 	    $zergpool_Port = $zergpool_Request.$_.port
 	    $zergpool_Algorithm = Get-Algorithm $zergpool_Request.$_.name
 	    $zergpool_Coin = ""
@@ -47,7 +48,7 @@ $Locations | ForEach {
 		    Host          = $zergpool_Host
 		    Port          = $zergpool_Port
             User          = $Config.PoolsConfig.$ConfName.Wallet
-		    Pass          = "$($Config.PoolsConfig.$ConfName.WorkerName),c=$Passwordcurrency"
+		    Pass          = "$($Config.PoolsConfig.$ConfName.WorkerName),c=$($Config.Passwordcurrency)"
 		    Location      = $Location
 		    SSL           = $false
 		}

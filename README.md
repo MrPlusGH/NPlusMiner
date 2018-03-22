@@ -23,8 +23,8 @@ Easy configuration, easy start:
       4. Hit "Start"
 Fee:
 
-      There is a 8 minutes per day fee (0.5%), that can be changed in the config (Minimum is 3)
-      When less than 3 minutes is set lottery is 0 or any walue between 3 and 8 
+      There is a 8 minutes per day fee (0.5%), that can be changed in the config (Minimum is ")
+      When less than 3 minutes is set lottery is 0 or any walue between 3 and 8
 
 *****
 
@@ -33,17 +33,17 @@ Additional features list
    GUI
    
       Since version 2.0 NPlusMiner has a GUI making it easy to configure and run.
-	  Relies on config files. No need to edit bat files. Simply run NPlusMiner 
+	  Relies on config files. No need to edit bat files. Simply run NPlusMiner
 	  Set the config on the config tab, save, close, run
 	  For console lovers. Run NPlusMiner-ConsoleUp.
-
+ 
    Pause mining
    
       Ability to pause miners while keeping other jobs running (pause button)
       This will stop mining activity
       BrainPlus will still run in the background avoiding the learning phase on resume
-      EarningTracker will still run in the background avoiding the learning phase on resume
-
+      EarningTracker will still run in the background avoiding the learning phase on resume  
+      
    prerun
    
       Ability to run a batch prior switching to a specific algo.
@@ -111,7 +111,7 @@ Additional features list
       Some miners are not enabled by default in NPlusMiner for a variety of reasons
       A new folder can be found called "OptionalMiners" containing .ps1 files for some miners
       For advanced users, refer to OptionalMiners\Readme.txt on how to use
-
+      
    Algo switching log
    
       Simple algo switching log in csv switching.log file found in Logs folder.
