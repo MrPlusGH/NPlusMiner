@@ -163,7 +163,7 @@ Some miners do not support more that 9 cards
 
 *****
 
-this is a free project feel free to donate be much appreciated:
+Any donations will be much appreciated:
 
 aaronsace = 1MsrCoAt8qM53HUMsUxvy9gMj3QVbHLazH
 
