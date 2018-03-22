@@ -77,6 +77,19 @@ param(
 . .\Include.ps1
 . .\Core-v2.1.ps1
 
+@"
+NPlusMiner
+Copyright (c) 2018 MrPlus and Nemo
+
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions.
+https://github.com/MrPlusGH/NPlusMiner/blob/master/LICENSE
+
++
+
+"@
+
 Function TimerCycle_Tick()
 {
 	$LabelStatus.Text = ""
@@ -344,6 +357,15 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 	$LabelGitHub.Text = "NPlusMiner on GitHub"
 	$LabelGitHub.add_Click({[system.Diagnostics.Process]::start("https://github.com/MrPlusGH/NPlusMiner/releases")})
 	$MainFormControls += $LabelGitHub
+
+	$LabelCopyright = New-Object System.Windows.Forms.LinkLabel
+	$LabelCopyright.Location = New-Object System.Drawing.Size(415,80)
+	$LabelCopyright.Size = New-Object System.Drawing.Size(200,20)
+	$LabelCopyright.LinkColor = "BLUE"
+	$LabelCopyright.ActiveLinkColor = "RED"
+	$LabelCopyright.Text = "Copyright (c) 2018 MrPlus and Nemo"
+	$LabelCopyright.add_Click({[system.Diagnostics.Process]::start("https://github.com/MrPlusGH/NPlusMiner/blob/master/LICENSE")})
+	$MainFormControls += $LabelCopyright
 
 # Run Page Controls
 	$EarningsDGV                   = New-Object system.Windows.Forms.DataGridView
