@@ -24,7 +24,7 @@ Easy configuration, easy start:
 Fee:
 
       There is a 8 minutes per day fee (0.5%), that can be changed in the config (Minimum is ")
-      When less than 3 minutes is set lottery is 0 or any walue between 3 and 8
+      When less than 3 minutes is set lottery is 0 or any value between 3 and 8
 
 *****
 
