@@ -1,7 +1,11 @@
- ![alt text](https://github.com/MrPlusGH/NPlusMiner/blob/2.1/NPM.png)
+Copyright (c) 2018 MrPlus	(https://github.com/MrPlusGH/NPlusMiner)
+
+Copyright (c) 2018 Nemo		(https://github.com/nemosminer/NemosMiner)
+
+![alt text](https://github.com/MrPlusGH/NPlusMiner/blob/2.1/NPM.png)
  # NPlusMiner-v2.1.2
  Readme Updated 2018 Mar 22
- 
+
 *****
 
 NPlusMiner Monitors mining pools in real-time in order to find the most profitable Algo
