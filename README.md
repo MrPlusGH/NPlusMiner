@@ -23,7 +23,7 @@ Easy configuration, easy start:
       4. Hit "Start"
 Fee:
 
-      There is a 8 minutes per day fee (0.5%), that can be changed in the config (Minimum is ")
+      There is a 8 minute per day fee (0.5%), that can be changed in the config (Minimum is 3)0.2%
       When less than 3 minutes is set lottery is 0 or any value between 3 and 8
 
 *****
