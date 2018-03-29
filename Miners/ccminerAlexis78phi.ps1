@@ -1,42 +1,42 @@
 . .\Include.ps1
 
-$Path = ".\Bin\NVIDIA-ccminerAlexis78poly\ccminer.exe"
-$Uri = "https://github.com/nemosminer/ccminerpolytimos/releases/download/Alexis78-1.0/ccminer-polytimos.7z"
+$Path = ".\Bin\NVIDIA-Alexis78phi\ccminer.exe"
+$Uri = "https://github.com/nemosminer/ccminer-phi-anxmod/releases/download/ccminer%2Fphi-1.0/ccminer-phi-1.0.zip"
 
 $Commands = [PSCustomObject]@{
-    #"hsr" = " -d $SelGPUCC" #Hsr
-    #"bitcore" = "" #Bitcore
+    "phi" = " -d $SelGPUCC --api-remote -N 1" #Phi
+    #"bitcore" = " -d $SelGPUCC" #Bitcore
+    #"jha" = " -d $SelGPUCC --api-remote" #Jha
     #"blake2s" = " -d $SelGPUCC" #Blake2s
     #"blakecoin" = " -d $SelGPUCC" #Blakecoin
     #"vanilla" = "" #BlakeVanilla
-    #"cryptonight" = "" #Cryptonight
-    #"veltor" = " -i 23 -d $SelGPUCC" #Veltor
+    #"cryptonight" = " -i 10 -d $SelGPUCC" #Cryptonight
     #"decred" = "" #Decred
     #"equihash" = "" #Equihash
-    "poly" = " -d $SelGPUCC" #polytimos
     #"ethash" = "" #Ethash
-    #"groestl" = "" #Groestl
-    #"hmq1725" = "" #hmq1725
-    #"keccak" = " -m 2 -i 29 -d $SelGPUCC" #Keccak
+    #"groestl" = " -d $SelGPUCC --api-remote" #Groestl
+    #"hmq1725" = " -d $SelGPUCC --api-remote" #hmq1725
+    #"keccak" = "" #Keccak
     #"lbry" = " -d $SelGPUCC" #Lbry
-    #"lyra2v2" = " -d $SelGPUCC" #Lyra2RE2
-    #"lyra2z" = "" #Lyra2z
-    #"myr-gr" = " -d $SelGPUCC" #MyriadGroestl
-    #"neoscrypt" = " -i 15 -d $SelGPUCC" #NeoScrypt
-    #"nist5" = " -d $SelGPUCC" #Nist5
+    #"lyra2v2" = "" #Lyra2RE2
+    #"lyra2z" = " -d $SelGPUCC" #Lyra2z
+    #"myr-gr" = "" #MyriadGroestl
+    #"neoscrypt" = " -d $SelGPUCC" #NeoScrypt
+    #"nist5" = "" #Nist5
     #"pascal" = "" #Pascal
     #"qubit" = "" #Qubit
     #"scrypt" = "" #Scrypt
     #"sia" = "" #Sia
-    #"sib" = " -i 21 -d $SelGPUCC" #Sib
-    #"X11Gost" = " -i 21 -d $SelGPUCC" #X11Gost
-    #"skein" = " -d $SelGPUCC" #Skein
-    #"timetravel" = "" #Timetravel
-    #"c11" = " -i 21 -d $SelGPUCC" #C11
-    #"x11evo" = "" #X11evo
-    #"x17" = " -i 20  -d $SelGPUCC" #X17 # Changed to -i 20. seen some rig crash
-    
-
+    #"sib" = "" #Sib
+    #"skein" = "" #Skein
+    #"skunk" = " -d $SelGPUCC" #Skunk
+    #"timetravel" = " -d $SelGPUCC --api-remote" #Timetravel
+    #"tribus" = " -d $SelGPUCC --api-remote" #Tribus
+    #"x11" = "" #X11
+    #"veltor" = "" #Veltor
+    #"x11evo" = " -d $SelGPUCC --api-remote" #X11evo
+    #"x17" = " -d $SelGPUCC" #X17
+    #"yescrypt" = "" #Yescrypt
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
