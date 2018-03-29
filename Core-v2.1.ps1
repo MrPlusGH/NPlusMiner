@@ -43,8 +43,7 @@ Function InitApplication {
     #Set donation parameters
     #Randomly sets donation minutes per day between (0,(3..8)) minutes if set to less than 3
     $Variables | Add-Member -Force @{DonateRandom = [PSCustomObject]@{}}
-    # $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
-    $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddMinutes(3)}
+    $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
     If ($Config.Donate -lt 3) {$Config.Donate = (0,(3..8)) | Get-Random}
     $Variables | Add-Member -Force @{WalletBackup = $Config.Wallet}
     $Variables | Add-Member -Force @{UserNameBackup = $Config.UserName}
