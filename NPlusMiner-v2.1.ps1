@@ -22,7 +22,7 @@ param(
     [Parameter(Mandatory=$false)]
     [String]$UserName = "MrPlus", 
     [Parameter(Mandatory=$false)]
-    [String]$WorkerName = "ID=NPlusMiner2.1.2", 
+    [String]$WorkerName = "ID=NPlusMiner2.2", 
     [Parameter(Mandatory=$false)]
     [Int]$API_ID = 0, 
     [Parameter(Mandatory=$false)]
@@ -97,7 +97,7 @@ Function TimerCycle_Tick()
     $timerCycle.Interval = $Config.Interval
     $MainForm.Text = $Variables.CurrentProduct + " " + $Variables.CurrentVersion + " Runtime " + ("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate)) + " Path: " + (Split-Path $script:MyInvocation.MyCommand.Path)
     NPMCycle
-    If (Test-Path ".\Logs\switching.log"){$log=Import-Csv ".\Logs\switching.log" | Select -Last 8}
+    If (Test-Path ".\Logs\switching.log"){$log=Import-Csv ".\Logs\switching.log" | Select -Last 14}
     $SwitchingArray = [System.Collections.ArrayList]@($Log)
     $SwitchingDGV.DataSource        = $SwitchingArray
 
@@ -107,8 +107,8 @@ Function TimerCycle_Tick()
             @{Name="Trust";Expression={"{0:P0}" -f $_.TrustLevel}},
             @{Name="Balance";Expression={$_.Balance}},
             # @{Name="Unpaid";Expression={$_.total_unpaid}},
-            @{Name="BTC/D";Expression={"{0:N8}" -f ($_.AvgDailyGrowth)}},
-            @{Name="mBTC/D";Expression={"{0:N3}" -f ($_.AvgDailyGrowth*1000)}},
+            @{Name="BTC/D";Expression={"{0:N8}" -f ($_.BTCD)}},
+            @{Name="mBTC/D";Expression={"{0:N3}" -f ($_.BTCD*1000)}},
             @{Name="Est. Pay Date";Expression={$_.EstimatedPayDate}},
             @{Name="PaymentThreshold";Expression={"$($_.PaymentThreshold) ($('{0:P0}' -f $($_.Balance / $_.PaymentThreshold)))"}},
             @{Name="Wallet";Expression={$_.Wallet}}
@@ -132,7 +132,7 @@ Function TimerCycle_Tick()
     $SwitchingDGV.ClearSelection()
     
     If ($Variables.Earnings.Values -ne $Null){
-        $LabelBTCD.Text = ("{0:N8}" -f ($Variables.Earnings.Values | measure -Property AvgDailyGrowth -Sum).sum) + " BTC/D   |   " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property AvgDailyGrowth -Sum).sum*1000)) + " mBTC/D"
+        $LabelBTCD.Text = ("{0:N8}" -f ($Variables.Earnings.Values | measure -Property BTCD -Sum).sum) + " BTC/D   |   " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property BTCD -Sum).sum*1000)) + " mBTC/D"
     } else {
         $LabelBTCD.Text = "Waiting data from pools."
     }
@@ -164,10 +164,33 @@ Function CheckBox_Click ($Control) {
     $Config.($Control.Tag.Name) = $Config.($Control.Tag.Name) | select -Unique
 }
 
+Function PrepareWriteConfig{
+    If ($Config -eq $null){$Config = [PSCustomObject]@{}}
+    $Config | Add-Member -Force @{$TBAddress.Tag = $TBAddress.Text}
+    $Config | Add-Member -Force @{$TBWorkerName.Tag = $TBWorkerName.Text}
+    $ConfigPageControls | ? {(($_.gettype()).Name -eq "CheckBox")} | foreach {$Config | Add-Member -Force @{$_.Tag = $_.Checked}}
+    $ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox")} | foreach {$Config | Add-Member -Force @{$_.Tag = $_.Text}}
+    $ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox") -and ($_.Tag -eq "GPUCount")} | foreach {
+        $Config | Add-Member -Force @{$_.Tag = [Int]$_.Text}
+        If ($CheckBoxDisableGPU0.checked -and [Int]$_.Text -gt 1){$FirstGPU = 1}else{$FirstGPU = 0}
+        $Config | Add-Member -Force @{SelGPUCC = (($FirstGPU..($_.Text-1)) -join ",")}
+        $Config | Add-Member -Force @{SelGPUDSTM = (($FirstGPU..($_.Text-1)) -join " ")}
+    }
+    $ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox") -and ($_.Tag -eq "Algorithm")} | foreach {
+        $Config | Add-Member -Force @{$_.Tag = @($_.Text -split ",")}
+    }
+    $ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox") -and ($_.Tag -in @("Donate","Interval","ActiveMinerGainPct"))} | foreach {
+        $Config | Add-Member -Force @{$_.Tag = [Int]$_.Text}
+    }
+    Write-Config -ConfigFile $ConfigFile -Config $Config
+    $MainForm.Refresh
+    # [windows.forms.messagebox]::show("Please restart NPlusMiner",'Config saved','ok','Information') | out-null
+}
+
 Add-Type -AssemblyName System.Windows.Forms
 [System.Windows.Forms.Application]::EnableVisualStyles()
 
-If (Test-Path ".\Logs\switching.log"){$log=Import-Csv ".\Logs\switching.log" | Select -Last 8}
+If (Test-Path ".\Logs\switching.log"){$log=Import-Csv ".\Logs\switching.log" | Select -Last 14}
 $SwitchingArray = [System.Collections.ArrayList]@($Log)
 
 $MainForm = New-Object system.Windows.Forms.Form
@@ -186,7 +209,7 @@ $MainForm.add_Shown({
         $Version = Invoke-WebRequest "http://tiny.cc/m155qy" -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$Version = Get-content ".\Config\version.json" | Convertfrom-json}
     If ($Version -ne $null){$Version | ConvertTo-json | Out-File ".\Config\version.json"}
     If ($Version.Product -eq $Variables.CurrentProduct -and [Version]$version.Version -gt $Variables.CurrentVersion -and $Version.Update) {
-        Update-Status("Version $($version.Version) available. (You are running $Variables.CurrentVersion)")
+        Update-Status("Version $($version.Version) available. (You are running $($Variables.CurrentVersion))")
         $LabelNewVersion.ForeColor = "Green"
         $LabelNewVersion.Text = "Version $([Version]$version.Version) available"
     }
@@ -215,6 +238,7 @@ $MainForm.add_Shown({
     }
     # Start on load if Autostart
     If ($Config.Autostart){$ButtonStart.PerformClick()}
+    If ($Config.StartGUIMinimized){$MainForm.WindowState = [System.Windows.Forms.FormWindowState]::Minimized}
 })
 
 $MainForm.Add_FormClosing({
@@ -266,12 +290,14 @@ $SelGPUCC = $Config.SelGPUCC
 $Variables = [PSCustomObject]@{}
 $MainForm | Add-Member -Name "Variables" -Value $Variables -MemberType NoteProperty -Force
 $Variables | Add-Member -Force @{CurrentProduct = "NPlusMiner"}
-$Variables | Add-Member -Force @{CurrentVersion = [Version]"2.1.3"}
+$Variables | Add-Member -Force @{CurrentVersion = [Version]"2.2"}
 $Variables | Add-Member -Force @{StatusText = "Idle"}
 
 $TabControl = New-object System.Windows.Forms.TabControl
 $RunPage = New-Object System.Windows.Forms.TabPage
 $RunPage.Text = "Run"
+$SwitchingPage = New-Object System.Windows.Forms.TabPage
+$SwitchingPage.Text = "Switching"
 $ConfigPage = New-Object System.Windows.Forms.TabPage
 $ConfigPage.Text = "Config"
 $EstimationsPage = New-Object System.Windows.Forms.TabPage
@@ -283,21 +309,10 @@ $tabControl.Name = "tabControl"
 $tabControl.width = 720
 $tabControl.height = 359
 $MainForm.Controls.Add($tabControl)
-$TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
+$TabControl.Controls.AddRange(@($RunPage,$SwitchingPage,$ConfigPage,$EstimationsPage))
 
 # Form Controls
     $MainFormControls = @()
-
-    $LabelStatus                          = New-Object system.Windows.Forms.TextBox
-    $LabelStatus.MultiLine                = $true
-    $LabelStatus.Scrollbars               = "Vertical" 
-    $LabelStatus.text                     = ""
-    $LabelStatus.AutoSize                 = $true
-    $LabelStatus.width                    = 400
-    $LabelStatus.height                   = 50
-    $LabelStatus.location                 = New-Object System.Drawing.Point(10,39)
-    $LabelStatus.Font                     = 'Microsoft Sans Serif,10'
-    $MainFormControls += $LabelStatus
 
     $LabelRunning                          = New-Object system.Windows.Forms.Label
     $LabelRunning.text                     = ""
@@ -377,26 +392,65 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $LabelCopyright.add_Click({[system.Diagnostics.Process]::start("https://github.com/MrPlusGH/NPlusMiner/blob/master/LICENSE")})
     $MainFormControls += $LabelCopyright
 
+    $LabelAddress                          = New-Object system.Windows.Forms.Label
+    $LabelAddress.text                     = "Wallet address"
+    $LabelAddress.AutoSize                 = $false
+    $LabelAddress.width                    = 100
+    $LabelAddress.height                   = 20
+    $LabelAddress.location                 = New-Object System.Drawing.Point(10,39)
+    $LabelAddress.Font                     = 'Microsoft Sans Serif,10'
+    $MainFormControls += $LabelAddress
+
+    $TBAddress                          = New-Object system.Windows.Forms.TextBox
+    $TBAddress.Tag                      = "Wallet"
+    $TBAddress.MultiLine                = $False
+    # $TBAddress.Scrollbars             = "Vertical" 
+    $TBAddress.text                     = $Config.Wallet
+    $TBAddress.AutoSize                 = $false
+    $TBAddress.width                    = 280
+    $TBAddress.height                   = 20
+    $TBAddress.location                 = New-Object System.Drawing.Point(120,39)
+    $TBAddress.Font                     = 'Microsoft Sans Serif,10'
+    # $TBAddress.TextAlign                = "Right"
+    $MainFormControls += $TBAddress
+
 # Run Page Controls
+    $RunPageControls = @()
+
+    $LabelStatus                          = New-Object system.Windows.Forms.TextBox
+    $LabelStatus.MultiLine                = $true
+    $LabelStatus.Scrollbars               = "Vertical" 
+    $LabelStatus.text                     = ""
+    $LabelStatus.AutoSize                 = $true
+    $LabelStatus.width                    = 712
+    $LabelStatus.height                   = 50
+    $LabelStatus.location                 = New-Object System.Drawing.Point(2,2)
+    $LabelStatus.Font                     = 'Microsoft Sans Serif,10'
+    $RunPageControls += $LabelStatus
+ 
     $EarningsDGV                                            = New-Object system.Windows.Forms.DataGridView
     $EarningsDGV.width                                      = 712
-    $EarningsDGV.height                                     = 120
-    $EarningsDGV.location                                   = New-Object System.Drawing.Point(2,2)
+    $EarningsDGV.height                                     = 305
+    $EarningsDGV.location                                   = New-Object System.Drawing.Point(2,54)
     $EarningsDGV.DataBindings.DefaultDataSourceUpdateMode   = 0
     $EarningsDGV.AutoSizeColumnsMode                        = "Fill"
     $EarningsDGV.RowHeadersVisible                          = $False
+    $RunPageControls += $EarningsDGV
 
+# Switching Page Controls
+    $SwitchingPageControls = @()
 
     $SwitchingDGV                                           = New-Object system.Windows.Forms.DataGridView
     $SwitchingDGV.width                                     = 712
-    $SwitchingDGV.height                                    = 250
-    $SwitchingDGV.location                                  = New-Object System.Drawing.Point(2,124)
+    $SwitchingDGV.height                                    = 355
+    $SwitchingDGV.location                                  = New-Object System.Drawing.Point(2,2)
     $SwitchingDGV.DataBindings.DefaultDataSourceUpdateMode  = 0
     $SwitchingDGV.AutoSizeColumnsMode                       = "Fill"
     $SwitchingDGV.RowHeadersVisible                         = $False
     $SwitchingDGV.DataSource                                = $SwitchingArray
+    $SwitchingPageControls += $SwitchingDGV
 
-# Estimations Page Controls
+    # Estimations Page Controls
     $EstimationsDGV                                             = New-Object system.Windows.Forms.DataGridView
     $EstimationsDGV.width                                       = 712
     $EstimationsDGV.height                                      = 350
@@ -407,29 +461,29 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
 
 # Config Page Controls
     $ConfigPageControls = @()
-    
-    $LabelAddress                          = New-Object system.Windows.Forms.Label
-    $LabelAddress.text                     = "Wallet address"
-    $LabelAddress.AutoSize                 = $false
-    $LabelAddress.width                    = 120
-    $LabelAddress.height                   = 20
-    $LabelAddress.location                 = New-Object System.Drawing.Point(2,2)
-    $LabelAddress.Font                     = 'Microsoft Sans Serif,10'
-    $ConfigPageControls += $LabelAddress
 
-    $TBAddress                          = New-Object system.Windows.Forms.TextBox
-    $TBAddress.Tag                      = "Wallet"
-    $TBAddress.MultiLine                = $False
-    # $TBAddress.Scrollbars             = "Vertical" 
-    $TBAddress.text                     = $Config.Wallet
-    $TBAddress.AutoSize                 = $false
-    $TBAddress.width                    = 300
-    $TBAddress.height                   = 20
-    $TBAddress.location                 = New-Object System.Drawing.Point(122,2)
-    $TBAddress.Font                     = 'Microsoft Sans Serif,10'
-    # $TBAddress.TextAlign                = "Right"
-    $ConfigPageControls += $TBAddress
+    $LabelWorkerName                          = New-Object system.Windows.Forms.Label
+    $LabelWorkerName.text                     = "Worker Name"
+    $LabelWorkerName.AutoSize                 = $false
+    $LabelWorkerName.width                    = 120
+    $LabelWorkerName.height                   = 20
+    $LabelWorkerName.location                 = New-Object System.Drawing.Point(2,2)
+    $LabelWorkerName.Font                     = 'Microsoft Sans Serif,10'
+    $ConfigPageControls += $LabelWorkerName
 
+    $TBWorkerName                          = New-Object system.Windows.Forms.TextBox
+    $TBWorkerName.Tag                      = "WorkerName"
+    $TBWorkerName.MultiLine                = $False
+    # $TBWorkerName.Scrollbars              = "Vertical" 
+    $TBWorkerName.text                     = $Config.WorkerName
+    $TBWorkerName.AutoSize                 = $false
+    $TBWorkerName.width                    = 300
+    $TBWorkerName.height                   = 20
+    $TBWorkerName.location                 = New-Object System.Drawing.Point(122,2)
+    $TBWorkerName.Font                     = 'Microsoft Sans Serif,10'
+    $ConfigPageControls += $TBWorkerName
+
+     
     $LabelUserName                          = New-Object system.Windows.Forms.Label
     $LabelUserName.text                     = "MPH UserName"
     $LabelUserName.AutoSize                 = $false
@@ -451,33 +505,12 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $TBUserName.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $TBUserName
 
-    $LabelWorkerName                          = New-Object system.Windows.Forms.Label
-    $LabelWorkerName.text                     = "Worker Name"
-    $LabelWorkerName.AutoSize                 = $false
-    $LabelWorkerName.width                    = 120
-    $LabelWorkerName.height                   = 20
-    $LabelWorkerName.location                 = New-Object System.Drawing.Point(2,46)
-    $LabelWorkerName.Font                     = 'Microsoft Sans Serif,10'
-    $ConfigPageControls += $LabelWorkerName
-
-    $TBWorkerName                          = New-Object system.Windows.Forms.TextBox
-    $TBWorkerName.Tag                      = "WorkerName"
-    $TBWorkerName.MultiLine                = $False
-    # $TBWorkerName.Scrollbars              = "Vertical" 
-    $TBWorkerName.text                     = $Config.WorkerName
-    $TBWorkerName.AutoSize                 = $false
-    $TBWorkerName.width                    = 300
-    $TBWorkerName.height                   = 20
-    $TBWorkerName.location                 = New-Object System.Drawing.Point(122,46)
-    $TBWorkerName.Font                     = 'Microsoft Sans Serif,10'
-    $ConfigPageControls += $TBWorkerName
-
     $LabelInterval                          = New-Object system.Windows.Forms.Label
     $LabelInterval.text                     = "Interval"
     $LabelInterval.AutoSize                 = $false
     $LabelInterval.width                    = 120
     $LabelInterval.height                   = 20
-    $LabelInterval.location                 = New-Object System.Drawing.Point(2,68)
+    $LabelInterval.location                 = New-Object System.Drawing.Point(2,46)
     $LabelInterval.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $LabelInterval
 
@@ -489,7 +522,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $TBInterval.AutoSize                 = $false
     $TBInterval.width                    = 300
     $TBInterval.height                   = 20
-    $TBInterval.location                 = New-Object System.Drawing.Point(122,68)
+    $TBInterval.location                 = New-Object System.Drawing.Point(122,46)
     $TBInterval.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $TBInterval
 
@@ -498,7 +531,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $LabelLocation.AutoSize                 = $false
     $LabelLocation.width                    = 120
     $LabelLocation.height                   = 20
-    $LabelLocation.location                 = New-Object System.Drawing.Point(2,90)
+    $LabelLocation.location                 = New-Object System.Drawing.Point(2,68)
     $LabelLocation.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $LabelLocation
 
@@ -510,7 +543,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $TBLocation.AutoSize                 = $false
     $TBLocation.width                    = 300
     $TBLocation.height                   = 20
-    $TBLocation.location                 = New-Object System.Drawing.Point(122,90)
+    $TBLocation.location                 = New-Object System.Drawing.Point(122,68)
     $TBLocation.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $TBLocation
 
@@ -519,7 +552,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $LabelGPUCount.AutoSize                 = $false
     $LabelGPUCount.width                    = 120
     $LabelGPUCount.height                   = 20
-    $LabelGPUCount.location                 = New-Object System.Drawing.Point(2,112)
+    $LabelGPUCount.location                 = New-Object System.Drawing.Point(2,90)
     $LabelGPUCount.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $LabelGPUCount
 
@@ -531,7 +564,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $TBGPUCount.AutoSize                 = $false
     $TBGPUCount.width                    = 50
     $TBGPUCount.height                   = 20
-    $TBGPUCount.location                 = New-Object System.Drawing.Point(122,112)
+    $TBGPUCount.location                 = New-Object System.Drawing.Point(122,90)
     $TBGPUCount.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $TBGPUCount
 
@@ -541,7 +574,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $CheckBoxDisableGPU0.AutoSize              = $false
     $CheckBoxDisableGPU0.width                 = 140
     $CheckBoxDisableGPU0.height                = 20
-    $CheckBoxDisableGPU0.location              = New-Object System.Drawing.Point(177,112)
+    $CheckBoxDisableGPU0.location              = New-Object System.Drawing.Point(177,90)
     $CheckBoxDisableGPU0.Font                  = 'Microsoft Sans Serif,10'
     $CheckBoxDisableGPU0.Checked               =   $Config.DisableGPU0
     $ConfigPageControls += $CheckBoxDisableGPU0
@@ -550,7 +583,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $ButtonDetectGPU.text                    = "Detect GPU"
     $ButtonDetectGPU.width                   = 100
     $ButtonDetectGPU.height                  = 20
-    $ButtonDetectGPU.location                = New-Object System.Drawing.Point(320,112)
+    $ButtonDetectGPU.location                = New-Object System.Drawing.Point(320,90)
     $ButtonDetectGPU.Font                    = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $ButtonDetectGPU
 
@@ -561,7 +594,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $LabelAlgos.AutoSize                 = $false
     $LabelAlgos.width                    = 120
     $LabelAlgos.height                   = 20
-    $LabelAlgos.location                 = New-Object System.Drawing.Point(2,134)
+    $LabelAlgos.location                 = New-Object System.Drawing.Point(2,112)
     $LabelAlgos.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $LabelAlgos
 
@@ -573,7 +606,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $TBAlgos.AutoSize                 = $false
     $TBAlgos.width                    = 300
     $TBAlgos.height                   = 20
-    $TBAlgos.location                 = New-Object System.Drawing.Point(122,134)
+    $TBAlgos.location                 = New-Object System.Drawing.Point(122,112)
     $TBAlgos.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $TBAlgos
 
@@ -582,7 +615,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $LabelCurrency.AutoSize                 = $false
     $LabelCurrency.width                    = 120
     $LabelCurrency.height                   = 20
-    $LabelCurrency.location                 = New-Object System.Drawing.Point(2,156)
+    $LabelCurrency.location                 = New-Object System.Drawing.Point(2,134)
     $LabelCurrency.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $LabelCurrency
 
@@ -594,7 +627,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $TBCurrency.AutoSize                 = $false
     $TBCurrency.width                    = 300
     $TBCurrency.height                   = 20
-    $TBCurrency.location                 = New-Object System.Drawing.Point(122,156)
+    $TBCurrency.location                 = New-Object System.Drawing.Point(122,134)
     $TBCurrency.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $TBCurrency
 
@@ -603,7 +636,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $LabelPwdCurrency.AutoSize                 = $false
     $LabelPwdCurrency.width                    = 120
     $LabelPwdCurrency.height                   = 20
-    $LabelPwdCurrency.location                 = New-Object System.Drawing.Point(2,178)
+    $LabelPwdCurrency.location                 = New-Object System.Drawing.Point(2,156)
     $LabelPwdCurrency.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $LabelPwdCurrency
 
@@ -615,7 +648,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $TBPwdCurrency.AutoSize                 = $false
     $TBPwdCurrency.width                    = 300
     $TBPwdCurrency.height                   = 20
-    $TBPwdCurrency.location                 = New-Object System.Drawing.Point(122,178)
+    $TBPwdCurrency.location                 = New-Object System.Drawing.Point(122,156)
     $TBPwdCurrency.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $TBPwdCurrency
 
@@ -624,7 +657,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $LabelDonate.AutoSize                 = $false
     $LabelDonate.width                    = 120
     $LabelDonate.height                   = 20
-    $LabelDonate.location                 = New-Object System.Drawing.Point(2,200)
+    $LabelDonate.location                 = New-Object System.Drawing.Point(2,178)
     $LabelDonate.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $LabelDonate
 
@@ -636,7 +669,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $TBDonate.AutoSize                 = $false
     $TBDonate.width                    = 300
     $TBDonate.height                   = 20
-    $TBDonate.location                 = New-Object System.Drawing.Point(122,200)
+    $TBDonate.location                 = New-Object System.Drawing.Point(122,178)
     $TBDonate.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $TBDonate
 
@@ -645,7 +678,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $LabelProxy.AutoSize                 = $false
     $LabelProxy.width                    = 120
     $LabelProxy.height                   = 20
-    $LabelProxy.location                 = New-Object System.Drawing.Point(2,222)
+    $LabelProxy.location                 = New-Object System.Drawing.Point(2,202)
     $LabelProxy.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $LabelProxy
 
@@ -657,7 +690,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $TBProxy.AutoSize                 = $false
     $TBProxy.width                    = 300
     $TBProxy.height                   = 20
-    $TBProxy.location                 = New-Object System.Drawing.Point(122,222)
+    $TBProxy.location                 = New-Object System.Drawing.Point(122,202)    
     $TBProxy.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $TBProxy
 
@@ -666,7 +699,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $LabelActiveMinerGainPct.AutoSize                 = $false
     $LabelActiveMinerGainPct.width                    = 120
     $LabelActiveMinerGainPct.height                   = 20
-    $LabelActiveMinerGainPct.location                 = New-Object System.Drawing.Point(2,244)
+    $LabelActiveMinerGainPct.location                 = New-Object System.Drawing.Point(2,224)
     $LabelActiveMinerGainPct.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $LabelActiveMinerGainPct
 
@@ -678,7 +711,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $TBActiveMinerGainPct.AutoSize                 = $false
     $TBActiveMinerGainPct.width                    = 300
     $TBActiveMinerGainPct.height                   = 20
-    $TBActiveMinerGainPct.location                 = New-Object System.Drawing.Point(122,244)
+    $TBActiveMinerGainPct.location                 = New-Object System.Drawing.Point(122,224)
     $TBActiveMinerGainPct.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $TBActiveMinerGainPct
 
@@ -687,7 +720,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $LabelMPHAPIKey.AutoSize                 = $false
     $LabelMPHAPIKey.width                    = 120
     $LabelMPHAPIKey.height                   = 20
-    $LabelMPHAPIKey.location                 = New-Object System.Drawing.Point(2,268)
+    $LabelMPHAPIKey.location                 = New-Object System.Drawing.Point(2,246)
     $LabelMPHAPIKey.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $LabelMPHAPIKey
 
@@ -699,7 +732,7 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $TBMPHAPIKey.AutoSize                 = $false
     $TBMPHAPIKey.width                    = 300
     $TBMPHAPIKey.height                   = 20
-    $TBMPHAPIKey.location                 = New-Object System.Drawing.Point(122,268)
+    $TBMPHAPIKey.location                 = New-Object System.Drawing.Point(122,246)
     $TBMPHAPIKey.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $TBMPHAPIKey
 
@@ -714,11 +747,33 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $CheckBoxAutostart.Checked               =   $Config.Autostart
     $ConfigPageControls += $CheckBoxAutostart
     
+    $CheckBoxEarningTrackerLogs                       = New-Object system.Windows.Forms.CheckBox
+    $CheckBoxEarningTrackerLogs.Tag                   = "EnableEarningsTrackerLogs"
+    $CheckBoxEarningTrackerLogs.text                  = "Earnings Tracker Logs"
+    $CheckBoxEarningTrackerLogs.AutoSize              = $false
+    $CheckBoxEarningTrackerLogs.width                 = 160
+    $CheckBoxEarningTrackerLogs.height                = 20
+    $CheckBoxEarningTrackerLogs.location              = New-Object System.Drawing.Point(432,224)
+    $CheckBoxEarningTrackerLogs.Font                  = 'Microsoft Sans Serif,10'
+    $CheckBoxEarningTrackerLogs.Checked               =   $Config.EnableEarningsTrackerLogs
+    $ConfigPageControls += $CheckBoxEarningTrackerLogs
+    
+    $CheckBoxGUIMinimized                       = New-Object system.Windows.Forms.CheckBox
+    $CheckBoxGUIMinimized.Tag                   = "StartGUIMinimized"
+    $CheckBoxGUIMinimized.text                  = "Start UI minimized"
+    $CheckBoxGUIMinimized.AutoSize              = $false
+    $CheckBoxGUIMinimized.width                 = 160
+    $CheckBoxGUIMinimized.height                = 20
+    $CheckBoxGUIMinimized.location              = New-Object System.Drawing.Point(432,246)
+    $CheckBoxGUIMinimized.Font                  = 'Microsoft Sans Serif,10'
+    $CheckBoxGUIMinimized.Checked               =   $Config.StartGUIMinimized
+    $ConfigPageControls += $CheckBoxGUIMinimized
+    
     $ButtonLoadDefaultPoolsAlgos                         = New-Object system.Windows.Forms.Button
     $ButtonLoadDefaultPoolsAlgos.text                    = "Load default algos for selected pools"
     $ButtonLoadDefaultPoolsAlgos.width                   = 100
     $ButtonLoadDefaultPoolsAlgos.height                  = 50
-    $ButtonLoadDefaultPoolsAlgos.location                = New-Object System.Drawing.Point(577,237)
+    $ButtonLoadDefaultPoolsAlgos.location                = New-Object System.Drawing.Point(600,237)
     $ButtonLoadDefaultPoolsAlgos.Font                    = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $ButtonLoadDefaultPoolsAlgos
     
@@ -736,31 +791,11 @@ $TabControl.Controls.AddRange(@($RunPage,$ConfigPage,$EstimationsPage))
     $ButtonWriteConfig.text                    = "Save Config"
     $ButtonWriteConfig.width                   = 100
     $ButtonWriteConfig.height                  = 30
-    $ButtonWriteConfig.location                = New-Object System.Drawing.Point(577,202)
+    $ButtonWriteConfig.location                = New-Object System.Drawing.Point(600,202)
     $ButtonWriteConfig.Font                    = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $ButtonWriteConfig
 
-    $ButtonWriteConfig.Add_Click({
-        If ($Config -eq $null){$Config = [PSCustomObject]@{}}
-        $ConfigPageControls | ? {(($_.gettype()).Name -eq "CheckBox")} | foreach {$Config | Add-Member -Force @{$_.Tag = $_.Checked}}
-        $ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox")} | foreach {$Config | Add-Member -Force @{$_.Tag = $_.Text}}
-        $ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox") -and ($_.Tag -eq "GPUCount")} | foreach {
-            $Config | Add-Member -Force @{$_.Tag = [Int]$_.Text}
-            If ($CheckBoxDisableGPU0.checked -and [Int]$_.Text -gt 1){$FirstGPU = 1}else{$FirstGPU = 0}
-            $Config | Add-Member -Force @{SelGPUCC = (($FirstGPU..($_.Text-1)) -join ",")}
-            $Config | Add-Member -Force @{SelGPUDSTM = (($FirstGPU..($_.Text-1)) -join " ")}
-        }
-        $ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox") -and ($_.Tag -eq "Algorithm")} | foreach {
-            $Config | Add-Member -Force @{$_.Tag = @($_.Text -split ",")}
-        }
-        $ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox") -and ($_.Tag -in @("Donate","Interval","ActiveMinerGainPct"))} | foreach {
-            $Config | Add-Member -Force @{$_.Tag = [Int]$_.Text}
-        }
-        Write-Config -ConfigFile $ConfigFile -Config $Config
-        $MainForm.Refresh
-        # [windows.forms.messagebox]::show("Please restart NPlusMiner",'Config saved','ok','Information') | out-null
-        }
-    )
+    $ButtonWriteConfig.Add_Click({PrepareWriteConfig})
     
 # ***
     $GroupboxPools                       = New-Object system.Windows.Forms.Groupbox
@@ -985,11 +1020,13 @@ $ButtonPause.Add_Click({
             }
         }
         $LabelBTCD.Text = "$($Variables.CurrentProduct) $($Variables.CurrentVersion)"
+        $LabelBTCD.Background = "Transparent"
         $LabelRunning.Text = "Idle - BrainPlus and Earning Trackers running in background. UI won't refresh"
         $ButtonPause.Text = "Mine"
         $timerCycle.Interval = 1000
         Update-Status("Miners paused. BrainPlus and Earning tracker running in background. UI won't refresh")
     }else{
+        PrepareWriteConfig
         $ButtonPause.Text = "Pause"
         # No need to init if paused
         # InitApplication
@@ -1033,6 +1070,7 @@ $ButtonStart.Add_Click({
         $ButtonStart.Text = "Start"
         $timerCycle.Interval = 1000
     }else{
+        PrepareWriteConfig
         $ButtonStart.Text = "Stop"
         InitApplication
         $timerCycle.Start()
@@ -1041,7 +1079,8 @@ $ButtonStart.Add_Click({
 })
 
 $MainForm.controls.AddRange($MainFormControls)
-$RunPage.controls.AddRange(@($EarningsDGV,$SwitchingDGV))
+$RunPage.controls.AddRange(@($RunPageControls))
+$SwitchingPage.controls.AddRange(@($SwitchingPageControls))
 $EstimationsPage.Controls.AddRange(@($EstimationsDGV))
 $ConfigPage.controls.AddRange($ConfigPageControls)
 
