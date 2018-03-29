@@ -43,7 +43,8 @@ Function InitApplication {
     #Set donation parameters
     #Randomly sets donation minutes per day between (0,(3..8)) minutes if set to less than 3
     $Variables | Add-Member -Force @{DonateRandom = [PSCustomObject]@{}}
-    $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
+    # $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
+    $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddMinutes(3)}
     If ($Config.Donate -lt 3) {$Config.Donate = (0,(3..8)) | Get-Random}
     $Variables | Add-Member -Force @{WalletBackup = $Config.Wallet}
     $Variables | Add-Member -Force @{UserNameBackup = $Config.UserName}
@@ -81,6 +82,7 @@ Function InitApplication {
             Interval = 10
             WorkingDirectory = (Split-Path $script:MyInvocation.MyCommand.Path)
             StartDelay = $StartDelay
+            EnableLog = $Config.EnableEarningsTrackerLogs
         }
         $Variables.EarningsTrackerJobs += Start-Job -FilePath .\EarningsTrackerJob.ps1 -ArgumentList $Params
         # Delay Start when several instances to avoid conflicts.
@@ -137,7 +139,7 @@ Function NPMCycle {
             try {$Donation = Invoke-WebRequest "http://tiny.cc/r355qy" -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$Donation = @([PSCustomObject]@{Name = "mrplus";Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy";UserName = "mrplus"},[PSCustomObject]@{Name = "nemo";Wallet = "1QGADhdMRpp9Pk5u5zG1TrHKRrdK5R81TE";UserName = "nemo"})}
             if ($Donation -ne $null) {
                 $Variables.DonateRandom = $Donation | Get-Random
-                $Config | Add-Member -Force @{PoolsConfig = [PSCustomObject]@{default=[PSCustomObject]@{Wallet = $Variables.DonateRandom.Wallet;UserName = $Variables.DonateRandom.UserName;WorkerName = "NPlusMiner";PricePenaltyFactor=1}}}
+                $Config | Add-Member -Force @{PoolsConfig = [PSCustomObject]@{default=[PSCustomObject]@{Wallet = $Variables.DonateRandom.Wallet;UserName = $Variables.DonateRandom.UserName;WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion)";PricePenaltyFactor=1}}}
             }
         }
         if((Get-Date).AddDays(-1) -ge $Variables.LastDonated -and $Variables.DonateRandom.Wallet -ne $Null)

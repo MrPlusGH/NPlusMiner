@@ -10,7 +10,7 @@
     # [Parameter(Mandatory=$false)]
     # [Int]$Interval = 10,
     # [Parameter(Mandatory=$false)]
-    # [String]$OutputFile = ".\Logs\"+$Pool+"balancetracking.csv",
+    # [Bool]$EnableLog = $false,
     # [Parameter(Mandatory=$false)]
     # [Bool]$ShowText = $true,
     # [Parameter(Mandatory=$false)]
@@ -93,7 +93,7 @@ while ($true) {
         Growth6                     = $Growth6
         Growth24                    = $Growth24
         AvgHourlyGrowth             = $AvgBTCHour
-        AvgDailyGrowth              = $AvgBTCHour*24
+        BTCD                        = $AvgBTCHour*24
         EstimatedEndDayGrowth       = If ((($CurDate - ($BalanceObjectS[0].Date)).TotalHours) -ge 1) {($AvgBTCHour * ((Get-Date -Hour 0 -Minute 00 -Second 00).AddDays(1).AddSeconds(-1) - $CurDate).Hours)} else {$Growth1 * ((Get-Date -Hour 0 -Minute 00 -Second 00).AddDays(1).AddSeconds(-1) - $CurDate).Hours}
         EstimatedPayDate            = if ($PaymentThreshold){IF ($BalanceObject.balance -lt $PaymentThreshold) {If ($AvgBTCHour -gt 0) {$CurDate.AddHours(($PaymentThreshold - $BalanceObject.balance) / $AvgBTCHour)} Else {"Unknown"}} else {"Next Payout !"}}else{"Unknown"}
         TrustLevel                  = if(($CurDate - ($BalanceObjectS[0].Date)).TotalMinutes -le 360){($CurDate - ($BalanceObjectS[0].Date)).TotalMinutes/360}else{1}
@@ -101,6 +101,7 @@ while ($true) {
     }
     
     $EarningsObject
+    if ($EnableLog){$EarningsObject | Export-Csv -NoTypeInformation -Append ".\Logs\EarningTracker-$($Pool).csv"}
     
     
     If ($BalanceObjectS.Count -gt 1) {$BalanceObjectS = $BalanceObjectS | ? {$_.Date -ge $CurDate.AddDays(-1).AddHours(-1)}}

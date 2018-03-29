@@ -9,11 +9,9 @@ These might not have been fully tested. Use at your own risk.
 
 Optional miners details:
 
-- Miners-2.1.1.zip
-   - 2.1.2 switched most algo to CcminerTpruvotcuda9 to support bigger rigs (more than 8 cards)
-   - Users with smaller rigs might want to go back to CcminerAlexis as in 2.1.1 if they experience better hashrates
-   - Simply unzip the file in .\Miners folder
-
+- Miners 12gpu 750ti-1080ti
+   - Some miners used in NPlusMiner do not support more than 8 cards. For rigs up to 12 cards,
+   - You can use the miners files in that folder. Just delete files in .\miners and replace with these.
 - ccminerenemy
          Note that ccminerenemy is closed source and therefore is NOT enabled in NPlusMiner by default
          It is not recommended to use ccminerenemy on any machine which hosts wallets or other information.
