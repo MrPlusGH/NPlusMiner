@@ -1,4 +1,8 @@
- ![alt text](https://github.com/MrPlusGH/NPlusMiner/blob/2.1/NPM.png)
+Copyright (c) 2018 MrPlus	(https://github.com/MrPlusGH/NPlusMiner)
+
+Copyright (c) 2018 Nemo		(https://github.com/nemosminer/NemosMiner)
+
+![alt text](https://github.com/MrPlusGH/NPlusMiner/blob/2.1/NPM.png)
  # NPlusMiner-v2.2
  Readme Updated 2018 Mar 29
  
