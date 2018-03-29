@@ -1,6 +1,6 @@
  ![alt text](https://github.com/MrPlusGH/NPlusMiner/blob/2.1/NPM.png)
- # NPlusMiner-v2.1
- Readme Updated 2018 Mar 15
+ # NPlusMiner-v2.2
+ Readme Updated 2018 Mar 29
  
 *****
 
