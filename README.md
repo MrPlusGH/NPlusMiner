@@ -21,7 +21,7 @@ Easy configuration, easy start in two steps:
 
       Run NPLusMiner
 
-      1. Enter your BTC address and the worker name of your choice
+      1. Enter your BTC address
       2. Hit "Start"
 Fee:
 
