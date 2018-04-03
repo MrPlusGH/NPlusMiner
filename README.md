@@ -25,7 +25,7 @@ Easy configuration, easy start in two steps:
       2. Hit "Start"
 Fee:
 
-      There is a 5 minutes per day fee (0.3%), that can be changed in the config (Minimum is 1 - 0 is Random 0 to 5).
+      There is a 8 minutes per day fee (0.5%), that can be changed in the config (Minimum is 3 - Less than 3 is 0 or Random 3 to 8).
 
 *****
 
