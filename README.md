@@ -7,7 +7,8 @@ Copyright (c) 2018 Nemo		(https://github.com/nemosminer/NemosMiner)
  Readme Updated 2018 Mar 29
  
 *****
-
+**For more help and HowTos please check our wiki here** : https://github.com/MrPlusGH/NPlusMiner-Documentation/wiki
+*****
 NPlusMiner Monitors mining pools in real-time in order to find the most profitable Algo
 
 	 GUI and easy configuration
