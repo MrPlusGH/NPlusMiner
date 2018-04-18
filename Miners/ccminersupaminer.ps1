@@ -1,7 +1,7 @@
 . .\Include.ps1
 
 $Path = ".\Bin\NVIDIA-ccminersupaminer\ccminer.exe"
-$Uri = "https://github.com/ocminer/suprminer/releases/download/1.2/suprminer-1.2.7z"
+$Uri = "https://github.com/ocminer/suprminer/releases/download/1.6/suprminer-1.6.7z"
 
 $Commands = [PSCustomObject]@{
     #"hsr" = " -d $SelGPUCC --api-remote" #Hsr
