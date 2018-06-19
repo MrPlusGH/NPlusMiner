@@ -20,17 +20,8 @@ $Locations | ForEach {
 	    $zergpool_Port = $zergpool_Request.$_.port
 	    $zergpool_Algorithm = Get-Algorithm $zergpool_Request.$_.name
 	    $zergpool_Coin = ""
-
-	    $Divisor = 1000000000
-
-	    switch ($zergpool_Algorithm) {
-		"equihash" {$Divisor /= 1000}
-		"blake2s" {$Divisor *= 1000}
-		"blakecoin" {$Divisor *= 1000}
-		"decred" {$Divisor *= 1000}
-		"keccak" {$Divisor *= 1000}
-		"keccakc" {$Divisor *= 1000}
-	    }
+	    
+	$Divisor = 1000000000 * [Double]$ZergPool_Request.$_.mbtc_mh_factor
 
 	    if ((Get-Stat -Name "$($Name)_$($zergpool_Algorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($zergpool_Algorithm)_Profit" -Value ([Double]$zergpool_Request.$_.actual_last24h / $Divisor)}
 	    else {$Stat = Set-Stat -Name "$($Name)_$($zergpool_Algorithm)_Profit" -Value ([Double]$zergpool_Request.$_.actual_last24h / $Divisor)}
