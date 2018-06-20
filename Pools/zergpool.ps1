@@ -21,7 +21,7 @@ $Locations | ForEach {
         $zergpool_Algorithm = Get-Algorithm $zergpool_Request.$_.name
         $zergpool_Coin = ""
 
-    $Divisor = 1000000000 * [Double]$ZergPool_Request.$_.mbtc_mh_factor
+    $Divisor = 1000000 * [Double]$ZergPool_Request.$_.mbtc_mh_factor
 
         if ((Get-Stat -Name "$($Name)_$($zergpool_Algorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($zergpool_Algorithm)_Profit" -Value ([Double]$zergpool_Request.$_.estimate_last24h / $Divisor)}
         else {$Stat = Set-Stat -Name "$($Name)_$($zergpool_Algorithm)_Profit" -Value ([Double]$zergpool_Request.$_.estimate_current / $Divisor)}
