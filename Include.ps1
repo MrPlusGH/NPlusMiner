@@ -507,10 +507,9 @@ function Get-HashRate {
                 } while ($HashRates.Count -lt 6)
             }
             "wrapper" {
-                do {
-                    Start-Sleep 480 #plus 10mins to HSRNeo Benchmark 
+                do { 
 
-                    $HashRate = Get-Content ".\PalginNeoHashrate.txt"
+                    $HashRate = Get-Content ".\Bminer.txt"
                 
                     if ($HashRate -eq $null) {Start-Sleep $Interval; $HashRate = [PSCustomObject]@{(Get-Algorithm($_)) = $Stats."$($Name)_$(Get-Algorithm($_))_HashRate".Week}}
 
