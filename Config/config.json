@@ -45,6 +45,7 @@
     "FirstInterval":  30,
     "Interval":  120,
     "Location":  "US",
+    "ManualConfig":  false,
     "MarginOfError":  0.4,
     "MinerName":  null,
     "Passwordcurrency":  "BTC",
