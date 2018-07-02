@@ -60,6 +60,7 @@ Function Write-Config {
         [Parameter(Mandatory=$true)]
         [String]$ConfigFile
     )
+    If ($Config.ManualConfig){Update-Status("Manual config mode - Not saving config");return}
     If ($Config -ne $null){
         if (Test-Path $ConfigFile){Copy-Item $ConfigFile "$($ConfigFile).backup"}
         $OrderedConfig = [PSCustomObject]@{};($config | select -Property * -ExcludeProperty PoolsConfig) | %{$_.psobject.properties | sort Name | %{$OrderedConfig | Add-Member -Force @{$_.Name = $_.Value}}}
