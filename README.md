@@ -27,7 +27,7 @@ Easy configuration, easy start in two steps:
 Fee:
 
       There is a 8 minutes per day fee (0.5%), that can be changed in the config (Minimum is 3)
-      When less than 3 minutes is set lottery is 0 or any walue between 3 and 8
+      When less than 3 minutes is set, lottery is 0 or any walue between 3 and 8
 
 *****
 
@@ -40,6 +40,10 @@ Additional features list
       Set your wallet address and hit start
       For console lovers. Run NPlusMiner-ConsoleUp.
  
+   AutoUpdate
+   
+      Since version 4.0 NPlusMiner integrates an AutoUpdate feature.
+      
    Pause Mining
    
         Ability to pause miners while keeping other jobs running (pause button)
@@ -54,10 +58,6 @@ Additional features list
       Simply create a file named <AlgoName>.bat in prerun folder
       If <AlgoName>.bat does not exist, will try to launch prerun/default.bat
       Use overclock with caution
-
-   AutoUpdate
-   
-      Since version 4.0 NPlusMiner integrates an AutoUpdate feature.
 
    Per pools config (Advanced)
    
@@ -86,13 +86,22 @@ Additional features list
           - NiceHash as a 4% fee - Set PricePenaltyFactor to 0.96 (1-0.04)
           - You feel like a pool is exaggerating his estimations by 10% - Set PricePenaltyFactor to 0.9
 
-   ahashpoolplus / zergpoolplus / zpoolplus / blazepoolplus
+   BrainPlus - ahashpoolplus / zergpoolplus / zpoolplus / blazepoolplus / BlockMastersPlus / PhiPhiPoolPlus / StarPoolPlus / HashRefineryPlus
    
       Uses calculations based on 24hractual and currentestimate ahashpool prices to get more realistic estimate.
       Includes some trust index based on past 1hr currentestimate variation from 24hr.
       AND is NOT sensible to spikes.
       This shows less switching than following Current Estimate and more switching that following the 24hr Actual.
       Better profitability.
+
+   Pools variants
+
+      24hr - uses last 24hour Actual API too request profit
+         -Low switching rate
+      plus - uses advanced calculations to maximize profit
+         -**Best switching rate**
+      normal - uses current estimate API too request profit
+         -High switching rate
 
    Earnings Tracking
    
@@ -103,6 +112,11 @@ Additional features list
             zpool
             nicehash
 	    miningpoolhub (partial)
+	    Blazepool
+	    BlockMasters
+	    PhiPhipool
+	    Starpool
+	    HashRefinery
       If mining more that one pools, shows stats for any supported pool
       Press key e in the console window to show/hide earnings
 
@@ -124,15 +138,6 @@ Additional features list
       Simple algo switching log in csv switching.log file found in Logs folder.
       You can easily track switching rate.
 
-   Pools variants
-
-      24hr - uses last 24hour Actual API too request profit
-         -Low switching rate
-      plus - uses advanced calculations to maximize profit
-         -Best switching rate
-      normal - uses current estimate API too request profit
-         -High switching rate
-
    Console Display Options
    
       Use -UIStyle Light or -UIStyle Full in config.json
@@ -146,9 +151,6 @@ Additional features list
       Press key e in the window to show/hide earnings 
       Will toggle display at next refresh
 
-   New version notification
-   
-      NPlusMiner will notify new version availability
 *****
  
 
