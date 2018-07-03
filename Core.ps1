@@ -214,7 +214,7 @@ Function NPMCycle {
         #Load information about the Miners
         #Messy...?
         
-        $Variables.StatusText = "Looking for Miners file changes.."
+        # $Variables.StatusText = "Looking for Miners file changes.."
         if (!($Variables.MinersHash)){
             If (Test-Path ".\Config\MinersHash.json") 
                 {$Variables.MinersHash = Get-Content ".\Config\MinersHash.json" | ConvertFrom-Json
