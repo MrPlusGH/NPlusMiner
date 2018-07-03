@@ -31,7 +31,7 @@ Fee:
 
 *****
 
-Additional features list
+Features list
 
    GUI
    
@@ -111,12 +111,12 @@ Additional features list
             zergpool
             zpool
             nicehash
-	    miningpoolhub (partial)
-	    Blazepool
-	    BlockMasters
-	    PhiPhipool
-	    Starpool
-	    HashRefinery
+            miningpoolhub (partial)
+            Blazepool
+            BlockMasters
+            PhiPhipool
+            Starpool
+            HashRefinery
       If mining more that one pools, shows stats for any supported pool
       Press key e in the console window to show/hide earnings
 
