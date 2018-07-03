@@ -1,4 +1,4 @@
-. .\Include.ps1
+if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
 
 try {
     $Zpool_Request = Invoke-WebRequest "http://www.zpool.ca/api/status" -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
@@ -17,7 +17,20 @@ $Zpool_Request | Get-Member -MemberType NoteProperty | Select -ExpandProperty Na
     $Zpool_Algorithm = Get-Algorithm $Zpool_Request.$_.name
     $Zpool_Coin = ""
 
-    $Divisor = 1000000 * [Double]$Zpool_Request.$_.mbtc_mh_factor
+        $Divisor = 1000000 * [Double]$Zpool_Request.$_.mbtc_mh_factor
+
+    # $Divisor = 1000000
+	
+    # switch ($Zpool_Algorithm) {
+        # "equihash" {$Divisor /= 1000}
+        # "blake2s" {$Divisor *= 1000}
+        # "blakecoin" {$Divisor *= 1000}
+        # "decred" {$Divisor *= 1000}
+        # "keccak" {$Divisor *= 1000}
+		# "keccakc" {$Divisor *= 1000}
+		# "sha256t"{$Divisor *= 1000}
+        "sha256t" {$Divisor *= 1000000}
+    # }
 
     if ((Get-Stat -Name "$($Name)_$($Zpool_Algorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($Zpool_Algorithm)_Profit" -Value ([Double]$Zpool_Request.$_.estimate_last24h / $Divisor * (1 - ($Zpool_Request.$_.fees / 100)))}
     else {$Stat = Set-Stat -Name "$($Name)_$($Zpool_Algorithm)_Profit" -Value ([Double]$Zpool_Request.$_.estimate_current / $Divisor * (1 - ($Zpool_Request.$_.fees / 100)))}
