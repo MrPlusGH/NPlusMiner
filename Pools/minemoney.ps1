@@ -1,4 +1,4 @@
-. .\Include.ps1
+if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
 
 try {
     $MineMoney_Request = Invoke-WebRequest "https://www.minemoney.co/api/status" -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
@@ -42,7 +42,7 @@ $MineMoney_Request | Get-Member -MemberType NoteProperty | Select -ExpandPropert
             Host          = $MineMoney_Host
             Port          = $MineMoney_Port
             User          = $Config.PoolsConfig.$ConfName.Wallet
-		    Pass          = "$($Config.PoolsConfig.$ConfName.WorkerName),c=$Passwordcurrency"
+		    Pass          = "$($Config.PoolsConfig.$ConfName.WorkerName),c=$($Config.Passwordcurrency)"
             Location      = $Location
             SSL           = $false
         }

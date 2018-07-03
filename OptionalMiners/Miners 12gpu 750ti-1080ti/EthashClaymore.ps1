@@ -1,4 +1,4 @@
-. .\Include.ps1
+if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
 
 $Path = ".\\Bin\\Ethash-Claymore\\EthDcrMiner64.exe"
 $Uri = "https://github.com/nemosminer/Claymores-Dual-Ethereum/releases/download/V11.5/Claymore.s.Dual.Ethereum.NVIDIA.GPU.Miner.v11.5.zip"
@@ -12,10 +12,10 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
     [PSCustomObject]@{
         Type = "NVIDIA"
         Path = $Path
-        Arguments = " -esm 3 -allpools 1 -allcoins 1 -platform 3 -mport -$($Variables.MinerAPITCPPort) -epool $($Pools.Ethash.Host):$($Pools.Ethash.Port) -ewal $($Pools.Ethash.User) -epsw $($Pools.Ethash.Pass)$($Commands.$_)"
+        Arguments = " -esm 3 -allpools 1 -allcoins 1 -platform 3 -mport -$($Variables.NVIDIAMinerAPITCPPort) -epool $($Pools.Ethash.Host):$($Pools.Ethash.Port) -ewal $($Pools.Ethash.User) -epsw $($Pools.Ethash.Pass)$($Commands.$_)"
         HashRates = [PSCustomObject]@{(Get-Algorithm($_)) = $Stats."$($Name)_$(Get-Algorithm($_))_HashRate".Hour * .99} # substract 1% devfee
         API = "Claymore"
-        Port = $Variables.MinerAPITCPPort #3333
+        Port = $Variables.NVIDIAMinerAPITCPPort #3333
         Wrap = $false
         URI = $Uri
 		User = $Pools.(Get-Algorithm($_)).User
