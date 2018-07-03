@@ -1,4 +1,8 @@
 {
+    "sha256t":  "Sha256t",
+    "allium":  "Allium",
+    "vit":  "Vitalium",
+    "vitalium":  "Vitalium",
     "x16r":  "X16r",
     "x16s":  "X16s",
     "keccakc":  "Keccakc", 
@@ -13,6 +17,9 @@
     "blakevanilla":  "BlakeVanilla",
     "c11":  "C11",
     "cryptonight":  "CryptoNight",
+    "cryptonightV7":  "CryptoNightV7",
+    "cryptonightheavy":  "cryptonight-heavy",
+    "cryptonight-heavy":  "cryptonight-heavy",
     "daggerhashimoto":  "Ethash",
     "darkcoinmod":  "X11",
     "decred":  "Decred",
@@ -22,6 +29,7 @@
     "groestl":  "Groestl",
     "groestlcoin":  "Groestl",
     "hmq1725":  "HMQ1725",
+    "hodl":  "hodl",
     "jha":  "JHA",
     "keccak":  "Keccak",
     "lbry":  "Lbry",
@@ -59,5 +67,8 @@
     "x17":  "X17",
     "xmr":  "CryptoNight",
     "yescrypt":  "Yescrypt",
+    "yescryptr16":  "YescryptR16",
+    "yescryptr32":  "YescryptR32",
+    "yescryptr8":  "YescryptR8",
     "zuikkis":  "Scrypt"
 }
