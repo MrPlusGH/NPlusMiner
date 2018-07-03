@@ -1,4 +1,4 @@
-. .\Include.ps1
+if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
 
 $Path = ".\Bin\NVIDIA-DSTM\zm.exe"
 $Uri = "https://github.com/nemosminer/DSTM-equihash-miner/releases/download/DSTM-0.6/zm_0.6_win.zip"
@@ -6,7 +6,7 @@ $Uri = "https://github.com/nemosminer/DSTM-equihash-miner/releases/download/DSTM
 $Commands = [PSCustomObject]@{
     "equihash" = " -d $SelGPUDSTM" #Equihash
 }
-$Port = $Variables.MinerAPITCPPort #2222
+$Port = $Variables.NVIDIAMinerAPITCPPort #2222
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {

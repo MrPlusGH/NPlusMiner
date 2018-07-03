@@ -1,4 +1,4 @@
-. .\Include.ps1
+if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
 
 $Path = ".\Bin\NVIDIA-EWBF\\Zminer.exe"
 $Uri = "https://github.com/nemosminer/EWBF-Zec-Miner/releases/download/0.3.4b/0.3.4b.7z"
@@ -40,10 +40,10 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
     [PSCustomObject]@{
         Type = "NVIDIA"
         Path = $Path
-        Arguments = "--api 127.0.0.1:$($Variables.MinerAPITCPPort) --server $($Pools.(Get-Algorithm($_)).Host) --port $($Pools.(Get-Algorithm($_)).Port) --fee 0 --solver 0 --eexit 1 --user $($Pools.(Get-Algorithm($_)).User) --pass $($Pools.(Get-Algorithm($_)).Pass)$($Commands.$_)"
+        Arguments = "--api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) --server $($Pools.(Get-Algorithm($_)).Host) --port $($Pools.(Get-Algorithm($_)).Port) --fee 0 --solver 0 --eexit 1 --user $($Pools.(Get-Algorithm($_)).User) --pass $($Pools.(Get-Algorithm($_)).Pass)$($Commands.$_)"
         HashRates = [PSCustomObject]@{(Get-Algorithm($_)) = $Stats."$($Name)_$(Get-Algorithm($_))_HashRate".Hour}
         API = "EWBF"
-        Port =  $Variables.MinerAPITCPPort
+        Port =  $Variables.NVIDIAMinerAPITCPPort
         Wrap = $false
         URI = $Uri
     
