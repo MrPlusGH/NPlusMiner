@@ -3,8 +3,8 @@ Copyright (c) 2018 MrPlus	(https://github.com/MrPlusGH/NPlusMiner)
 Copyright (c) 2018 Nemo		(https://github.com/nemosminer/NemosMiner)
 
 ![alt text](https://github.com/MrPlusGH/NPlusMiner/blob/2.1/NPM.png)
- # NPlusMiner-v2.2.2
- Readme Updated 2018 July 2
+ # NPlusMiner-v4.0
+ Readme Updated 2018 July 3
  
 *****
 **For more help and HowTos please check our wiki here** : https://github.com/MrPlusGH/NPlusMiner-Documentation/wiki
@@ -54,6 +54,10 @@ Additional features list
       Simply create a file named <AlgoName>.bat in prerun folder
       If <AlgoName>.bat does not exist, will try to launch prerun/default.bat
       Use overclock with caution
+
+   AutoUpdate
+   
+      Since version 4.0 NPlusMiner integrates an AutoUpdate feature.
 
    Per pools config (Advanced)
    
