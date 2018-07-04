@@ -1,6 +1,7 @@
 ﻿{
     "ActiveMinerGainPct":  3,
     "Algorithm":  [
+                      "hodl",
                       "phi2",
                       "cryptonight-heavy",
                       "allium",
