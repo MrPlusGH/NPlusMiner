@@ -46,6 +46,12 @@ $ThreadCount = (Get-WmiObject -class win32_processor).NumberOfLogicalProcessors 
 $Name = Get-Item $MyInvocation.MyCommand.Path | Select-Object -ExpandProperty BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
+
+    switch ($_) {
+        "hodl" {$ThreadCount = (Get-WmiObject -class win32_processor).NumberOfLogicalProcessors}
+        default {$ThreadCount = (Get-WmiObject -class win32_processor).NumberOfLogicalProcessors - 2}
+    }
+
     [PSCustomObject]@{
         Type = "CPU"
         Path = $Path
