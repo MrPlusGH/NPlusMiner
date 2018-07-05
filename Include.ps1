@@ -37,7 +37,8 @@ Function Global:IsLoaded ($File) {
     $Hash = (Get-FileHash (Resolve-Path $File).Path).hash
     If (Test-Path function::$Hash) {
         $True
-    } else {
+    }
+    else {
         ls function: | ? {$_.File -eq (Resolve-Path $File).Path} | Remove-Item
         $false
     }
@@ -64,41 +65,43 @@ Function Update-Notifications ($Text) {
 Function DetectGPUCount {
     Update-Status("Fetching GPU Count")
     try {
-        $DetectedGPU = @(Get-WmiObject Win32_PnPSignedDriver | Select DeviceName,DriverVersion,Manufacturer,DeviceClass | Where { $_.Manufacturer -like "*NVIDIA*" -and $_.DeviceClass -like "*display*"}) } catch { $DetectedGPU = @()}
-        $DetectedGPUCount = $DetectedGPU.Count
-        # $DetectedGPUCount = @(Get-WmiObject Win32_PnPSignedDriver | Select DeviceName,DriverVersion,Manufacturer,DeviceClass | Where { $_.Manufacturer -like "*NVIDIA*" -and $_.DeviceClass -like "*display*"}).count } catch { $DetectedGPUCount = 0}
-    $i=0
-    $DetectedGPU | foreach {Update-Status("$($i): $($_.DeviceName)") | Out-Null;$i++}
+        $DetectedGPU = @(Get-WmiObject Win32_PnPSignedDriver | Select DeviceName, DriverVersion, Manufacturer, DeviceClass | Where { $_.Manufacturer -like "*NVIDIA*" -and $_.DeviceClass -like "*display*"}) 
+    }
+    catch { $DetectedGPU = @()}
+    $DetectedGPUCount = $DetectedGPU.Count
+    # $DetectedGPUCount = @(Get-WmiObject Win32_PnPSignedDriver | Select DeviceName,DriverVersion,Manufacturer,DeviceClass | Where { $_.Manufacturer -like "*NVIDIA*" -and $_.DeviceClass -like "*display*"}).count } catch { $DetectedGPUCount = 0}
+    $i = 0
+    $DetectedGPU | foreach {Update-Status("$($i): $($_.DeviceName)") | Out-Null; $i++}
     Update-Status("Found $($DetectedGPUCount) GPU(s)")
     $DetectedGPUCount
 }
 
 Function Load-Config {
     param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [String]$ConfigFile
     )
-    If (Test-Path $ConfigFile){
+    If (Test-Path $ConfigFile) {
         $ConfigLoad = Get-Content $ConfigFile | ConvertFrom-json
-        $Config = [hashtable]::Synchronized(@{});$configLoad | %{$_.psobject.properties | sort Name | %{$Config | Add-Member -Force @{$_.Name = $_.Value}}}
+        $Config = [hashtable]::Synchronized(@{}); $configLoad | % {$_.psobject.properties | sort Name | % {$Config | Add-Member -Force @{$_.Name = $_.Value}}}
         $Config
     }
 }
 
 Function Write-Config {
     param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [PSCustomObject]$Config,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [String]$ConfigFile
     )
-    If ($Config.ManualConfig){Update-Status("Manual config mode - Not saving config");return}
-    If ($Config -ne $null){
-        if (Test-Path $ConfigFile){Copy-Item $ConfigFile "$($ConfigFile).backup"}
-        $OrderedConfig = [PSCustomObject]@{};($config | select -Property * -ExcludeProperty PoolsConfig) | %{$_.psobject.properties | sort Name | %{$OrderedConfig | Add-Member -Force @{$_.Name = $_.Value}}}
+    If ($Config.ManualConfig) {Update-Status("Manual config mode - Not saving config"); return}
+    If ($Config -ne $null) {
+        if (Test-Path $ConfigFile) {Copy-Item $ConfigFile "$($ConfigFile).backup"}
+        $OrderedConfig = [PSCustomObject]@{}; ($config | select -Property * -ExcludeProperty PoolsConfig) | % {$_.psobject.properties | sort Name | % {$OrderedConfig | Add-Member -Force @{$_.Name = $_.Value}}}
         $OrderedConfig | ConvertTo-json | out-file $ConfigFile
         $PoolsConfig = Get-Content ".\Config\PoolsConfig.json" | ConvertFrom-Json
-        $OrderedPoolsConfig = [PSCustomObject]@{};$PoolsConfig | %{$_.psobject.properties | sort Name | %{$OrderedPoolsConfig | Add-Member -Force @{$_.Name = $_.Value}}}
+        $OrderedPoolsConfig = [PSCustomObject]@{}; $PoolsConfig | % {$_.psobject.properties | sort Name | % {$OrderedPoolsConfig | Add-Member -Force @{$_.Name = $_.Value}}}
         $OrderedPoolsConfig.default | Add-member -Force @{Wallet = $Config.Wallet}
         $OrderedPoolsConfig.default | Add-member -Force @{UserName = $Config.UserName}
         $OrderedPoolsConfig.default | Add-member -Force @{WorkerName = $Config.WorkerName}
@@ -377,26 +380,51 @@ function Get-HashRate {
                     Start-Sleep $Interval
                 } while ($HashRates.Count -lt 6)
             }
-        "XMRig" {
+            "cryptodredge" {
+                $Message = "summary"
+
+                do {
+                    $Client = New-Object System.Net.Sockets.TcpClient $server, 4444
+                    $Writer = New-Object System.IO.StreamWriter $Client.GetStream()
+                    $Reader = New-Object System.IO.StreamReader $Client.GetStream()
+                    $Writer.AutoFlush = $true
+
+                    $Writer.Write($Message)
+                    $Request = $Reader.ReadLine()
+
+                    $Data = $Request -split ";" | ConvertFrom-StringData
+
+                    $HashRate = if ([Double]$Data.KHS -ne 0 -or [Double]$Data.ACC -ne 0) {$Data.KHS}
+
+                    if ($HashRate -eq $null) {$HashRates = @(); break}
+
+                    $HashRates += [Double]$HashRate * $Multiplier
+
+                    if (-not $Safe) {break}
+
+                    Start-Sleep $Interval
+                } while ($HashRates.Count -lt 6)
+            }
+            "XMRig" {
                 $Message = "summary"
 
                 do {
                   
-            $Request = Invoke-WebRequest "http://$($Server):$Port/h" -UseBasicParsing
+                    $Request = Invoke-WebRequest "http://$($Server):$Port/h" -UseBasicParsing
                     
-            $Data = $Request | ConvertFrom-Json
+                    $Data = $Request | ConvertFrom-Json
 
-            $HashRate = [Double]$Data.hashrate.total[0]
-            if ($HashRate -eq "") {$HashRate = [Double]$Data.hashrate.total[1]}
+                    $HashRate = [Double]$Data.hashrate.total[0]
+                    if ($HashRate -eq "") {$HashRate = [Double]$Data.hashrate.total[1]}
                     if ($HashRate -eq "") {$HashRate = [Double]$Data.hashrate.total[2]}
                     
-            if ($HashRate -eq $null) {$HashRates = @(); break}
+                    if ($HashRate -eq $null) {$HashRates = @(); break}
 
-                        $HashRates += [Double]$HashRate
+                    $HashRates += [Double]$HashRate
 
                     if (-not $Safe) {break}
                     
-            Start-Sleep $Interval
+                    Start-Sleep $Interval
                 }while ($HashRates.count -lt 6)
             }
             "dstm" {
@@ -545,7 +573,8 @@ function Get-HashRate {
 
                     $HashRate = Get-Content ".\Bminer.txt"
                 
-                    if ($HashRate -eq $null) {Start-Sleep $Interval; $HashRate = [PSCustomObject]@{(Get-Algorithm($_)) = $Stats."$($Name)_$(Get-Algorithm($_))_HashRate".Week}}
+                    if ($HashRate -eq $null) {Start-Sleep $Interval; $HashRate = [PSCustomObject]@{(Get-Algorithm($_)) = $Stats."$($Name)_$(Get-Algorithm($_))_HashRate".Week}
+                    }
 
                     if ($HashRate -eq $null) {$HashRates = @(); break}
 
@@ -712,7 +741,7 @@ function Get-Location {
     else {$Location}
 }
 
-Function Autoupdate{
+Function Autoupdate {
     # GitHub Supporting only TLSv1.2 on feb 22 2018
     [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
     Set-Location (Split-Path $script:MyInvocation.MyCommand.Path)
@@ -721,8 +750,10 @@ Function Autoupdate{
     Update-Notifications("Checking AutoUpdate")
     # write-host "Checking autoupdate"
     try {
-        $AutoUpdateVersion = Invoke-WebRequest "http://tiny.cc/rd3ssy" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$AutoUpdateVersion = Get-content ".\Config\AutoUpdateVersion.json" | Convertfrom-json}
-    If ($AutoUpdateVersion -ne $null){$AutoUpdateVersion | ConvertTo-json | Out-File ".\Config\AutoUpdateVersion.json"}
+        $AutoUpdateVersion = Invoke-WebRequest "http://tiny.cc/rd3ssy" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json
+    }
+    catch {$AutoUpdateVersion = Get-content ".\Config\AutoUpdateVersion.json" | Convertfrom-json}
+    If ($AutoUpdateVersion -ne $null) {$AutoUpdateVersion | ConvertTo-json | Out-File ".\Config\AutoUpdateVersion.json"}
     If ($AutoUpdateVersion.Product -eq $Variables.CurrentProduct -and [Version]$AutoUpdateVersion.Version -gt $Variables.CurrentVersion -and $AutoUpdateVersion.AutoUpdate) {
         Update-Status("Version $($AutoUpdateVersion.Version) available. (You are running $($Variables.CurrentVersion))")
         # Write-host "Version $($AutoUpdateVersion.Version) available. (You are running $($Variables.CurrentVersion))"
@@ -739,15 +770,16 @@ Function Autoupdate{
             # Abort if failed
             Update-Status("Retrieving update CRC")
             try {
-                $UpdateCRC = Invoke-WebRequest "http://tiny.cc/NPlusMinerUpdateCRC" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json
-                $UpdateCRC = $UpdateCRC | ? {$_.Product -eq $AutoUpdateVersion.Product -and  $_.Version -eq $AutoUpdateVersion.Version}
-            } catch {Update-Status("Cannot get update CRC from server");return}
+                $UpdateCRC = Invoke-WebRequest "http://tiny.cc/NPlusMinerUpdateCRC" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json
+                $UpdateCRC = $UpdateCRC | ? {$_.Product -eq $AutoUpdateVersion.Product -and $_.Version -eq $AutoUpdateVersion.Version}
+            }
+            catch {Update-Status("Cannot get update CRC from server"); return}
             If (! $UpdateCRC) {
                 Update-Status("Cannot find CRC for version $($AutoUpdateVersion.Version)")
                 Update-Notifications("Cannot find CRC for version $($AutoUpdateVersion.Version)")
                 $LabelNotifications.ForeColor = "Red"
                 return
-                }
+            }
             
             # Download update file
             $UpdateFileName = ".\$($AutoUpdateVersion.Product)-$($AutoUpdateVersion.Version)"
@@ -755,20 +787,22 @@ Function Autoupdate{
             Update-Notifications("Downloading version $($AutoUpdateVersion.Version)")
             try {
                 Invoke-WebRequest $AutoUpdateVersion.Uri -OutFile "$($UpdateFileName).zip" -TimeoutSec 15 -UseBasicParsing
-            } catch {Update-Status("Update download failed");Update-Notifications("Update download failed");$LabelNotifications.ForeColor = "Red";return}
+            }
+            catch {Update-Status("Update download failed"); Update-Notifications("Update download failed"); $LabelNotifications.ForeColor = "Red"; return}
             If (!(test-path ".\$($UpdateFileName).zip")) {
                 Update-Status("Cannot find update file")
                 Update-Notifications("Cannot find update file")
                 $LabelNotifications.ForeColor = "Red"
                 return
-                }
+            }
             
             # Calculate and validate update file CRC
             # Abort if any issue
             Update-Status("Validating update file")
             If ((Get-FileHash ".\$($UpdateFileName).zip").Hash -ne $UpdateCRC.CRC) {
-                Update-Status("Update file CRC not valid!");return
-            } else {
+                Update-Status("Update file CRC not valid!"); return
+            }
+            else {
                 Update-Status("Update file validated. Updating NPlusMiner")
             }
             
@@ -777,7 +811,7 @@ Function Autoupdate{
             Update-Notifications("Backing up current version...")
             $BackupFileName = ("AutoupdateBackup-$(Get-Date -Format u).zip").replace(" ", "_").replace(":", "")
             Start-Process "7z" "a $($BackupFileName) .\* -x!*.zip" -Wait -WindowStyle hidden
-            If (!(test-path .\$BackupFileName)) {Update-Status("Backup failed");return}
+            If (!(test-path .\$BackupFileName)) {Update-Status("Backup failed"); return}
             
             # unzip in child folder excluding config
             Update-Status("Unzipping update...")
@@ -789,7 +823,7 @@ Function Autoupdate{
 
             # update specific actions if any
             # Use UpdateActions.ps1 in new release to place code
-            If (Test-Path ".\$UpdateFileName\UpdateActions.ps1"){
+            If (Test-Path ".\$UpdateFileName\UpdateActions.ps1") {
                 Invoke-Expression (get-content ".\$UpdateFileName\UpdateActions.ps1" -Raw)
             }
             
@@ -797,7 +831,7 @@ Function Autoupdate{
             Update-Status("Removing temporary files...")
             Remove-Item .\$UpdateFileName -Force -Recurse
             Remove-Item ".\$($UpdateFileName).zip" -Force
-            If (Test-Path ".\UpdateActions.ps1"){Remove-Item ".\UpdateActions.ps1" -Force}
+            If (Test-Path ".\UpdateActions.ps1") {Remove-Item ".\UpdateActions.ps1" -Force}
             
             # Start new instance (Wait and confirm start)
             # Kill old instance
@@ -808,7 +842,7 @@ Function Autoupdate{
                 # Giving 10 seconds for process to start
                 $Waited = 0
                 sleep 10
-                While (!(Get-Process -id $NewKid.ProcessId -EA silentlycontinue) -and ($waited -le 10)) {sleep 1;$waited++}
+                While (!(Get-Process -id $NewKid.ProcessId -EA silentlycontinue) -and ($waited -le 10)) {sleep 1; $waited++}
                 If (!(Get-Process -id $NewKid.ProcessId -EA silentlycontinue)) {
                     Update-Status("Failed to start new instance of NPlusMiner")
                     Update-Notifications("NPlusMiner auto updated to version $($AutoUpdateVersion.Version) but failed to restart.")
@@ -825,7 +859,8 @@ Function Autoupdate{
 
                 Update-Status("Killing myself")
                 If (Get-Process -id $NewKid.ProcessId) {Stop-process -id $PID}
-            } else {
+            }
+            else {
                 $TempVerObject = (Get-Content .\Version.json | ConvertFrom-Json)
                 $TempVerObject | Add-Member -Force @{AutoUpdated = (Get-Date)}
                 $TempVerObject | ConvertTo-Json | Out-File .\Version.json
@@ -834,16 +869,19 @@ Function Autoupdate{
                 Update-Notifications("NPlusMiner successfully updated to version $($AutoUpdateVersion.Version)")
                 $LabelNotifications.ForeColor = "Green"
             }
-        } elseif (!($Config.Autostart)){
+        }
+        elseif (!($Config.Autostart)) {
             UpdateStatus("Cannot autoupdate as autostart not selected")
             Update-Notifications("Cannot autoupdate as autostart not selected")
             $LabelNotifications.ForeColor = "Red"
-        } else {
+        }
+        else {
             UpdateStatus("New version available $($AutoUpdateVersion.Product)-$($AutoUpdateVersion.Version). No candidate for Autoupdate")
             Update-Notifications("New version available $($AutoUpdateVersion.Product)-$($AutoUpdateVersion.Version). No candidate for Autoupdate")
             $LabelNotifications.ForeColor = "Red"
         }
-    } else {
+    }
+    else {
         Update-Status("Not candidate for Autoupdate")
         Update-Notifications("Not candidate for Autoupdate")
         $LabelNotifications.ForeColor = "Green"
