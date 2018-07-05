@@ -23,13 +23,12 @@ File:           include.ps1
 version:        4.0
 version date:   20180703
 #>
-
+ 
 # New-Item -Path function: -Name ((Get-FileHash $MyInvocation.MyCommand.path).Hash) -Value {$true} -EA SilentlyContinue | out-null
 # Get-Item function::"$((Get-FileHash $MyInvocation.MyCommand.path).Hash)" | Add-Member @{"File" = $MyInvocation.MyCommand.path} -EA SilentlyContinue
  
 Function Global:RegisterLoaded ($File) {
-    New-Item -Path function: -Name Script:"$((Get-FileHash (Resolve-Path $File)).Hash)" -Value {$true} -EA SilentlyContinue | out-null
-    Get-Item function::"$((Get-FileHash (Resolve-Path $File)).Hash)" | Add-Member @{"File" = (Resolve-Path $File).Path} -EA SilentlyContinue
+    New-Item -Path function: -Name script:"$((Get-FileHash (Resolve-Path $File)).Hash)" -Value {$true} -EA SilentlyContinue | Add-Member @{"File" = (Resolve-Path $File).Path} -EA SilentlyContinue
     $Variables.StatusText = "File loaded - $($file) - $((Get-PSCallStack).Command[1])"
 }
     
@@ -292,7 +291,7 @@ function Set-Algorithm {
         }
     }
 }
-#>
+#> 
 function Get-HashRate {
     param(
         [Parameter(Mandatory = $true)]
@@ -384,7 +383,7 @@ function Get-HashRate {
                 $Message = "summary"
 
                 do {
-                    $Client = New-Object System.Net.Sockets.TcpClient $server, 4444
+                    $Client = New-Object System.Net.Sockets.TcpClient $server, $Port
                     $Writer = New-Object System.IO.StreamWriter $Client.GetStream()
                     $Reader = New-Object System.IO.StreamReader $Client.GetStream()
                     $Writer.AutoFlush = $true
@@ -823,8 +822,6 @@ Function Autoupdate {
 
             # update specific actions if any
             # Use UpdateActions.ps1 in new release to place code
-            # For example, miners files are not deleted so might add code in there
-            # to delete obsolete miner files
             If (Test-Path ".\$UpdateFileName\UpdateActions.ps1") {
                 Invoke-Expression (get-content ".\$UpdateFileName\UpdateActions.ps1" -Raw)
             }
@@ -837,9 +834,6 @@ Function Autoupdate {
             
             # Start new instance (Wait and confirm start)
             # Kill old instance
-            
-            # Change to NPlusMiner.ps1 change detection instead of parameter in update ???
-            # Then NpluMiner will decide on it's own if a restart is necessary even if file changed locally.
             If ($AutoUpdateVersion.RequireRestart) {
                 Update-Status("Starting my brother")
                 $StartCommand = ((gwmi win32_process -filter "ProcessID=$PID" | select commandline).CommandLine)
