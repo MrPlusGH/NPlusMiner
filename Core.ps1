@@ -335,8 +335,8 @@ Function NPMCycle {
             if($Miner_Devices -eq $null){$Miner_Devices = $Miner.Type}
             $Miner | Add-Member Device $Miner_Devices -Force
         }
-        # Remove miners when no estimation info from pools. Avoids mining when algo down at pool or benchmarking for ever
-        If (($Variables.Miners | ? {($_.Pools.PSObject.Properties.Value.Price -ne $null) -or ($_.Pools.PSObject.Properties.Value.Price -gt 0)}).Count -gt 0) {$Variables.Miners = $Variables.Miners | ? {($_.Pools.PSObject.Properties.Value.Price -ne $null) -or ($_.Pools.PSObject.Properties.Value.Price -gt 0)}}
+        # Remove miners when no estimation info from pools or 0BTC. Avoids mining when algo down at pool or benchmarking for ever
+        If (($Variables.Miners | ? {($_.Pools.PSObject.Properties.Value.Price -ne $null) -and ($_.Pools.PSObject.Properties.Value.Price -gt 0)}).Count -gt 0) {$Variables.Miners = $Variables.Miners | ? {($_.Pools.PSObject.Properties.Value.Price -ne $null) -and ($_.Pools.PSObject.Properties.Value.Price -gt 0)}}
 
         #Don't penalize active miners. Miner could switch a little bit later and we will restore his bias in this case
         $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" } | ForEach {$Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit * (1 + $Config.ActiveMinerGainPct / 100)}}
