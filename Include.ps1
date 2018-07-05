@@ -823,6 +823,8 @@ Function Autoupdate {
 
             # update specific actions if any
             # Use UpdateActions.ps1 in new release to place code
+            # For example, miners files are not deleted so might add code in there
+            # to delete obsolete miner files
             If (Test-Path ".\$UpdateFileName\UpdateActions.ps1") {
                 Invoke-Expression (get-content ".\$UpdateFileName\UpdateActions.ps1" -Raw)
             }
@@ -835,6 +837,9 @@ Function Autoupdate {
             
             # Start new instance (Wait and confirm start)
             # Kill old instance
+            
+            # Change to NPlusMiner.ps1 change detection instead of parameter in update ???
+            # Then NpluMiner will decide on it's own if a restart is necessary even if file changed locally.
             If ($AutoUpdateVersion.RequireRestart) {
                 Update-Status("Starting my brother")
                 $StartCommand = ((gwmi win32_process -filter "ProcessID=$PID" | select commandline).CommandLine)
