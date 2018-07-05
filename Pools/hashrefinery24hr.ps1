@@ -17,15 +17,7 @@ $hashrefinery_Request | Get-Member -MemberType NoteProperty | Select -ExpandProp
 	$hashrefinery_Algorithm = Get-Algorithm $hashrefinery_Request.$_.name
 	$hashrefinery_Coin = "Unknown"
 
-    $Divisor = 1000000000
-	
-    switch ($hashrefinery_Algorithm) {
-        "equihash" {$Divisor /= 1000}
-        "blake2s" {$Divisor *= 1000}
-        "blakecoin" {$Divisor *= 1000}
-        "decred" {$Divisor *= 1000}
-        "x11" {$Divisor *= 100}
-    }
+    $Divisor = 1000000000 * [Double]$HashRefinery_Request.$HashRefinery_Algorithm.mbtc_mh_factor
 
 	if ((Get-Stat -Name "$($Name)_$($hashrefinery_Algorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($hashrefinery_Algorithm)_Profit" -Value ([Double]$hashrefinery_Request.$_.actual_last24h / $Divisor)}
 	else {$Stat = Set-Stat -Name "$($Name)_$($hashrefinery_Algorithm)_Profit" -Value ([Double]$hashrefinery_Request.$_.actual_last24h / $Divisor * (1 - ($hashrefinery_Request.$_.fees / 100)))}
