@@ -1,11 +1,11 @@
-if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
+if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
 
 $Path = ".\Bin\NVIDIA-TPruvotphi\ccminer-x64.exe"
 $Uri = "https://github.com/tpruvot/ccminer/releases/download/2.3-tpruvot/ccminer-2.3-cuda9.7z"
 
 $Commands = [PSCustomObject]@{
     #"polytimos" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Polytimos
-    #"hsr" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Hsr
+    "hsr" = " -d $($Config.SelGPUCC)" #Hsr
     #"phi" = " -N 1 -d $($Config.SelGPUCC)" #Phi (testing)
     "phi2" = " -N 1 -d $($Config.SelGPUCC)" #Phi2 (testing)
     "allium" = " -N 1 -i 22.125 -d $($Config.SelGPUCC)" #Allium
@@ -20,8 +20,8 @@ $Commands = [PSCustomObject]@{
     #"ethash" = "" #Ethash
     #"groestl" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Groestl
     #"hmq1725" = " -r 0 -d $($Config.SelGPUCC)" #hmq1725
-    #"keccakc" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Keccakc
-    #"lbry" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Lbry
+    "keccakc" = " -d $($Config.SelGPUCC) -i 29" #Keccakc
+    "keccak" = " -d $($Config.SelGPUCC) -i 29" #Keccak
     #"lyra2v2" = " -N 1 -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Lyra2RE2
     #"lyra2z" = "  -r 0 -d $($Config.SelGPUCC) --submit-stale" #Lyra2z
     #"myr-gr" = "" #MyriadGroestl
@@ -30,7 +30,7 @@ $Commands = [PSCustomObject]@{
     #"pascal" = "" #Pascal
     #"qubit" = "" #Qubit
     #"scrypt" = "" #Scrypt
-    #"sha256t" = " -r 0 -d $($Config.SelGPUCC)" #Sha256t
+    "sha256t" = " -d $($Config.SelGPUCC) -i 29" #Sha256t
     #"sia" = "" #Sia
     #"sib" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Sib
     #"skein" = "" #Skein

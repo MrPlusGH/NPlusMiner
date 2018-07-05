@@ -1,4 +1,4 @@
-﻿if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
+if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
 
 $Path = ".\Bin\NVIDIA-spmodbitcorev2\ccminer.exe"
 $Uri = "http://nemos.dx.am/opt/nemos/ccminer-bitcore_sp-mod_v2.7z"
