@@ -10,6 +10,7 @@ Copyright (c) 2018 Nemo		(https://github.com/nemosminer/NemosMiner)
  
 *****
 **For more help and HowTos please check our wiki here** : https://github.com/MrPlusGH/NPlusMiner-Documentation/wiki
+BitcoinTalk : https://bitcointalk.org/index.php?topic=2965976.0
 *****
 NPlusMiner Monitors mining pools in real-time in order to find the most profitable Algo
 
