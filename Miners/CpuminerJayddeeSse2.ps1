@@ -38,7 +38,7 @@ $Commands = [PSCustomObject]@{
     #"x17" = "" #X17
     # "x16r" = "" #X16r
     "yescrypt" = "" #Yescrypt
-    "yescryptr16" = "" #Yescrypt
+    "yescryptr16" = "" #YescryptR16
 }
 
 $ThreadCount = (Get-WmiObject -class win32_processor).NumberOfLogicalProcessors - 2
