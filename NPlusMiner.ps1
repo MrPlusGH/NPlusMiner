@@ -427,8 +427,8 @@ $MainForm.Add_FormClosing({
         $TimerUI.Stop()
         Update-Status("Stopping jobs and miner")
 
-        $Variables.EarningsTrackerJobs | %{$_ | Stop-Job | Remove-Job}
-        $Variables.BrainJobs | %{$_ | Stop-Job | Remove-Job}
+        if ($Variables.EarningsTrackerJobs) {$Variables.EarningsTrackerJobs | %{$_ | Stop-Job | Remove-Job}}
+        if ($Variables.BrainJobs) {$Variables.BrainJobs | %{$_ | Stop-Job | Remove-Job}}
 
         If ($Variables.ActiveMinerPrograms) {
             $Variables.ActiveMinerPrograms | ForEach {
@@ -455,8 +455,8 @@ $MainForm.Add_FormClosing({
         }
 
         # $Result = $powershell.EndInvoke($Variables.CycleRunspaceHandle)
-        $CycleRunspace.Close()
-        $powershell.Dispose()
+        if ($CycleRunspace) {$CycleRunspace.Close()}
+        if ($powershell) {$powershell.Dispose()}
 })
 
 $Config = Load-Config -ConfigFile $ConfigFile
@@ -510,13 +510,13 @@ $TabControl.Controls.AddRange(@($RunPage,$SwitchingPage,$ConfigPage,$Estimations
     # $TBNotifications.Scrollbars             = "Vertical" 
     $LabelNotifications.text                     = ""
     $LabelNotifications.AutoSize                 = $false
-    $LabelNotifications.width                    = 382
-    $LabelNotifications.height                   = 62
-    $LabelNotifications.location                 = New-Object System.Drawing.Point(10,2)
+    $LabelNotifications.width                    = 280
+    $LabelNotifications.height                   = 18
+    $LabelNotifications.location                 = New-Object System.Drawing.Point(345,49)
     $LabelNotifications.Font                     = 'Microsoft Sans Serif,10'
-    $LabelNotifications.BorderStyle              = 'FixedSingle'
+    $LabelNotifications.BorderStyle              = 'None'
     $LabelNotifications.BackColor                = [System.Drawing.SystemColors]::Control
-    $LabelNotifications.Visible                  = $False
+    $LabelNotifications.Visible                  = $True
     # $TBNotifications.TextAlign                = "Right"
     $MainFormControls += $LabelNotifications
 

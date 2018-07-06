@@ -748,6 +748,7 @@ Function Autoupdate {
     Update-Status("Checking AutoUpdate")
     Update-Notifications("Checking AutoUpdate")
     # write-host "Checking autoupdate"
+    $NPlusMinerFileHash = (Get-FileHash ".\NPlusMiner.ps1").Hash
     try {
         $AutoUpdateVersion = Invoke-WebRequest "http://tiny.cc/rd3ssy" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json
     }
@@ -834,7 +835,7 @@ Function Autoupdate {
             
             # Start new instance (Wait and confirm start)
             # Kill old instance
-            If ($AutoUpdateVersion.RequireRestart) {
+            If ($AutoUpdateVersion.RequireRestart -or ($NPlusMinerFileHash -ne (Get-FileHash ".\NPlusMiner.ps1").Hash)) {
                 Update-Status("Starting my brother")
                 $StartCommand = ((gwmi win32_process -filter "ProcessID=$PID" | select commandline).CommandLine)
                 $NewKid = Invoke-WmiMethod -Class Win32_Process -Name Create -ArgumentList @($StartCommand, (Split-Path $script:MyInvocation.MyCommand.Path))
@@ -875,14 +876,14 @@ Function Autoupdate {
             $LabelNotifications.ForeColor = "Red"
         }
         else {
-            UpdateStatus("New version available $($AutoUpdateVersion.Product)-$($AutoUpdateVersion.Version). No candidate for Autoupdate")
-            Update-Notifications("New version available $($AutoUpdateVersion.Product)-$($AutoUpdateVersion.Version). No candidate for Autoupdate")
+            UpdateStatus("$($AutoUpdateVersion.Product)-$($AutoUpdateVersion.Version). Not candidate for Autoupdate")
+            Update-Notifications("$($AutoUpdateVersion.Product)-$($AutoUpdateVersion.Version). Not candidate for Autoupdate")
             $LabelNotifications.ForeColor = "Red"
         }
     }
     else {
-        Update-Status("Not candidate for Autoupdate")
-        Update-Notifications("Not candidate for Autoupdate")
+        Update-Status("$($AutoUpdateVersion.Product)-$($AutoUpdateVersion.Version). Not candidate for Autoupdate")
+        Update-Notifications("$($AutoUpdateVersion.Product)-$($AutoUpdateVersion.Version). Not candidate for Autoupdate")
         $LabelNotifications.ForeColor = "Green"
     }
 }
