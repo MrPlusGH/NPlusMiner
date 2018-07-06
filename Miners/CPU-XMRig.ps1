@@ -4,10 +4,10 @@ $Path = ".\Bin\CPU-XMRig\xmrig.exe"
 $Uri = "https://github.com/xmrig/xmrig/releases/download/v2.6.2/xmrig-2.6.2-msvc-win64.zip"
 
 $Commands = [PSCustomObject]@{
-    "cryptonight" = "" #Cryptonight
+    #"cryptonight" = "" #Cryptonight
     #"cryptonight-lite" = "" #Cryptonight-lite
-    "cryptonight-heavy" = "" #Cryptonight-Heavy
-    "cryptonightV7" = "" #CryptonightV7
+    #"cryptonight-heavy" = "" #Cryptonight-Heavy
+    #"cryptonightV7" = "" #CryptonightV7
 }
 
 $ThreadCount = (Get-WmiObject -class win32_processor).NumberOfLogicalProcessors - 2
