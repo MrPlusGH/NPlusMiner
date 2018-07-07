@@ -3,10 +3,9 @@ Copyright (c) 2018 MrPlus	(https://github.com/MrPlusGH/NPlusMiner)
 Copyright (c) 2018 Nemo		(https://github.com/nemosminer/NemosMiner)
 
 ![alt text](https://github.com/MrPlusGH/NPlusMiner/blob/2.1/NPM.png)
- # NPlusMiner-v4.0
- **4.0 is currently on Master for tests. Please use releases if you do not want to test.**
- 
- Readme Updated 2018 July 6
+ # NPlusMiner-v4.0.1
+  
+ Readme Updated 2018 July 7
  
 *****
 **For more help and HowTos please check our wiki here** : https://github.com/MrPlusGH/NPlusMiner-Documentation/wiki
