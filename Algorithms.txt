@@ -24,6 +24,7 @@
     "darkcoinmod":  "X11",
     "decred":  "Decred",
     "equihash":  "Equihash",
+    "equihash192":  "Equihash192",
     "eth":  "Ethash",
     "ethash":  "Ethash",
     "groestl":  "Groestl",
