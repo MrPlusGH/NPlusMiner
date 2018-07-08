@@ -27,4 +27,4 @@ version date:   20180703
 # $Config | Add-Member @{ManualConfig = $false} -force
 # Write-Config -ConfigFile $ConfigFile -Config $Config
 
-Remove-item .\Miners\EWBF.ps1
+if (Test-Path) {Remove-item .\Miners\EWBF.ps1}
