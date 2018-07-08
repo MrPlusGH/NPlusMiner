@@ -538,7 +538,7 @@ Function NPMCycle {
         $Variables.BrainJobs | % {$_.ChildJobs | % {$_.Progress.Clear()}}
         $Variables.BrainJobs.ChildJobs | % {$_.Output.Clear()}
     }
-    if ($Variables.EarningsTrackerJobs.count -gt 0) }
+    if ($Variables.EarningsTrackerJobs.count -gt 0) {
         $Variables.EarningsTrackerJobs | % {$_.ChildJobs | % {$_.Error.Clear()}}
         $Variables.EarningsTrackerJobs | % {$_.ChildJobs | % {$_.Progress.Clear()}}
         $Variables.EarningsTrackerJobs.ChildJobs | % {$_.Output.Clear()}
