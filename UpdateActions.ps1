@@ -27,5 +27,9 @@ version date:   20180703
 # $Config | Add-Member @{ManualConfig = $false} -force
 # Write-Config -ConfigFile $ConfigFile -Config $Config
 
+if (Test-Path ".\Miners\UpdateActions.ps1") {Remove-item .\Miners\UpdateActions.ps1}
+if (Test-Path ".\Miners\PostUpdateActions.ps1") {Remove-item .\Miners\PostUpdateActions.ps1}
+if (Test-Path ".\Miners\PreUpdateActions.ps1") {Remove-item .\Miners\PreUpdateActions.ps1}
+
 if (Test-Path ".\Miners\EWBF.ps1") {Remove-item .\Miners\EWBF.ps1}
 if (Test-Path ".\Miners\wrapper.ps1") {Remove-item .\Miners\Wrapper.ps1}
