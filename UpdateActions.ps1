@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           UpdateActions.ps1
-version:        4.0.1
+version:        4.0.2
 version date:   20180703
 #>
 
