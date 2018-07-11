@@ -196,10 +196,7 @@ Function NPMCycle {
         $PoolFilter = @()
         $Config.PoolName | foreach {$PoolFilter+=($_+=".*")}
         $AllPools = if(Test-Path "Pools"){Get-ChildItemContent "Pools" -Include $PoolFilter | ForEach {$_.Content | Add-Member @{Name = $_.Name} -PassThru} | 
-            # Use location as preference and not the only one
-            # Where Location -EQ $Config.Location | 
-            Where SSL -EQ $Config.SSL | 
-            Where {$Config.PoolName.Count -eq 0 -or (Compare $Config.PoolName $_.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0}}
+            Where {$_.SSL -EQ $Config.SSL -and ($Config.PoolName.Count -eq 0 -or ($_.Name -in $Config.PoolName)) -and ($_.Algorithm -in $Config.Algorithm)}}
         $Variables.StatusText = "Computing pool stats.."
         # Use location as preference and not the only one
         $AllPools = ($AllPools | ?{$_.location -eq $Config.Location}) + ($AllPools | ?{$_.name -notin ($AllPools | ?{$_.location -eq $Config.Location}).Name})
