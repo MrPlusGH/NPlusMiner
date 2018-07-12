@@ -361,6 +361,7 @@ Function PrepareWriteConfig{
     }
     $Config | Add-Member -Force @{$CheckedListBoxPools.Tag = $CheckedListBoxPools.CheckedItems}
     Write-Config -ConfigFile $ConfigFile -Config $Config
+    $Config = Load-Config -ConfigFile $ConfigFile
     $MainForm.Refresh
     # [windows.forms.messagebox]::show("Please restart NPlusMiner",'Config saved','ok','Information') | out-null
 }
