@@ -6,21 +6,21 @@
                    "fees":  0.1,
                    "hashrate":  0,
                    "workers":  0,
-                   "estimate_current":  "0.00003222",
-                   "estimate_last24h":  "0.00002793",
-                   "actual_last24h":  0.02955,
-                   "hashrate_last24h":  0
+                   "estimate_current":  "0.00002410",
+                   "estimate_last24h":  "0.00002553",
+                   "actual_last24h":  0,
+                   "hashrate_last24h":  486762.9583
                },
     "blake2s":  {
                     "name":  "blake2s",
                     "port":  5766,
-                    "coins":  5,
+                    "coins":  3,
                     "fees":  0.1,
                     "hashrate":  0,
                     "workers":  0,
-                    "estimate_current":  "0.00000704",
-                    "estimate_last24h":  "0.00000658",
-                    "actual_last24h":  0.0070999999999999995,
+                    "estimate_current":  "0.00000417",
+                    "estimate_last24h":  "0.00000722",
+                    "actual_last24h":  4.17E-06,
                     "hashrate_last24h":  0
                 },
     "c11":  {
@@ -30,10 +30,10 @@
                 "fees":  0.1,
                 "hashrate":  0,
                 "workers":  0,
-                "estimate_current":  "0.00000510",
-                "estimate_last24h":  "0.00000342",
-                "actual_last24h":  0.00193,
-                "hashrate_last24h":  0
+                "estimate_current":  "0.00000428",
+                "estimate_last24h":  "0.00000404",
+                "actual_last24h":  4.38E-06,
+                "hashrate_last24h":  244335.9167
             },
     "groestl":  {
                     "name":  "groestl",
@@ -43,21 +43,21 @@
                     "hashrate":  0,
                     "workers":  0,
                     "estimate_current":  "0.00000013",
-                    "estimate_last24h":  "0.00000016",
-                    "actual_last24h":  0.00013,
+                    "estimate_last24h":  "0.00000015",
+                    "actual_last24h":  1.3E-07,
                     "hashrate_last24h":  0
                 },
     "hmq1725":  {
                     "name":  "hmq1725",
                     "port":  3747,
-                    "coins":  2,
+                    "coins":  3,
                     "fees":  0.1,
-                    "hashrate":  0,
-                    "workers":  0,
-                    "estimate_current":  "0.00001351",
-                    "estimate_last24h":  "0.00001377",
-                    "actual_last24h":  0.01121,
-                    "hashrate_last24h":  0
+                    "hashrate":  17707767,
+                    "workers":  2,
+                    "estimate_current":  "0.00004613",
+                    "estimate_last24h":  "0.00004538",
+                    "actual_last24h":  4.6155040000000004E-05,
+                    "hashrate_last24h":  27228592.6354
                 },
     "hsr":  {
                 "name":  "hsr",
@@ -66,10 +66,10 @@
                 "fees":  0.1,
                 "hashrate":  0,
                 "workers":  0,
-                "estimate_current":  "0.00000873",
-                "estimate_last24h":  "0.00001192",
+                "estimate_current":  "0.00001611",
+                "estimate_last24h":  "0.00001272",
                 "actual_last24h":  0,
-                "hashrate_last24h":  480120.0729
+                "hashrate_last24h":  23822.75
             },
     "keccak":  {
                    "name":  "keccak",
@@ -78,22 +78,22 @@
                    "fees":  0.1,
                    "hashrate":  0,
                    "workers":  0,
-                   "estimate_current":  "0.00009028",
-                   "estimate_last24h":  "0.00008264",
-                   "actual_last24h":  -0.0078652023999999966,
-                   "hashrate_last24h":  661287166.8229
+                   "estimate_current":  "0.00007748",
+                   "estimate_last24h":  "0.00007603",
+                   "actual_last24h":  0,
+                   "hashrate_last24h":  90807538.7917
                },
     "keccakc":  {
                     "name":  "keccakc",
                     "port":  5134,
                     "coins":  1,
                     "fees":  0.1,
-                    "hashrate":  0,
+                    "hashrate":  65970698,
                     "workers":  0,
-                    "estimate_current":  "0.00015221",
-                    "estimate_last24h":  "0.00010200",
+                    "estimate_current":  "0.00010101",
+                    "estimate_last24h":  "0.00006769",
                     "actual_last24h":  0,
-                    "hashrate_last24h":  488958165.6771
+                    "hashrate_last24h":  346632493.9063
                 },
     "lbry":  {
                  "name":  "lbry",
@@ -102,22 +102,22 @@
                  "fees":  0.1,
                  "hashrate":  0,
                  "workers":  0,
-                 "estimate_current":  "0.00000810",
-                 "estimate_last24h":  "0.00000873",
-                 "actual_last24h":  0.00704,
-                 "hashrate_last24h":  0
+                 "estimate_current":  "0.00000992",
+                 "estimate_last24h":  "0.00000932",
+                 "actual_last24h":  0,
+                 "hashrate_last24h":  9773436.6875
              },
     "lyra2v2":  {
                     "name":  "lyra2v2",
                     "port":  4533,
-                    "coins":  13,
+                    "coins":  12,
                     "fees":  0.1,
-                    "hashrate":  307405126,
-                    "workers":  3,
-                    "estimate_current":  "0.00000217",
-                    "estimate_last24h":  "0.00000280",
-                    "actual_last24h":  0.002748785,
-                    "hashrate_last24h":  271798355.8229
+                    "hashrate":  454522098,
+                    "workers":  9,
+                    "estimate_current":  "0.00000356",
+                    "estimate_last24h":  "0.00000238",
+                    "actual_last24h":  3.0104233333333331E-06,
+                    "hashrate_last24h":  583015524.0313
                 },
     "lyra2z":  {
                    "name":  "lyra2z",
@@ -126,10 +126,10 @@
                    "fees":  0.1,
                    "hashrate":  0,
                    "workers":  0,
-                   "estimate_current":  "0.00005393",
-                   "estimate_last24h":  "0.00006566",
-                   "actual_last24h":  0,
-                   "hashrate_last24h":  2386.0938
+                   "estimate_current":  "0.00006047",
+                   "estimate_last24h":  "0.00005454",
+                   "actual_last24h":  6.282E-05,
+                   "hashrate_last24h":  300647.7083
                },
     "m7m":  {
                 "name":  "m7m",
@@ -138,46 +138,46 @@
                 "fees":  0.1,
                 "hashrate":  0,
                 "workers":  0,
-                "estimate_current":  "0.00004154",
-                "estimate_last24h":  "0.00010198",
-                "actual_last24h":  0.0445,
+                "estimate_current":  "0.00003537",
+                "estimate_last24h":  "0.00022099",
+                "actual_last24h":  3.537E-05,
                 "hashrate_last24h":  0
             },
     "myr-gr":  {
                    "name":  "myr-gr",
                    "port":  5433,
-                   "coins":  6,
+                   "coins":  4,
                    "fees":  0.1,
-                   "hashrate":  12900936433,
-                   "workers":  1,
-                   "estimate_current":  "0.00000005",
-                   "estimate_last24h":  "0.00000006",
-                   "actual_last24h":  3.993E-05,
-                   "hashrate_last24h":  8593752340.7292
+                   "hashrate":  0,
+                   "workers":  3,
+                   "estimate_current":  "0.00000012",
+                   "estimate_last24h":  "0.00000009",
+                   "actual_last24h":  8.058E-08,
+                   "hashrate_last24h":  10055644675.812
                },
     "neoscrypt":  {
                       "name":  "neoscrypt",
                       "port":  4233,
-                      "coins":  39,
+                      "coins":  36,
                       "fees":  0.1,
-                      "hashrate":  860303564,
-                      "workers":  269,
-                      "estimate_current":  "0.00011282",
-                      "estimate_last24h":  "0.00012446",
-                      "actual_last24h":  0.097839929999999992,
-                      "hashrate_last24h":  1158025862.5521
+                      "hashrate":  617273656,
+                      "workers":  287,
+                      "estimate_current":  "0.00011555",
+                      "estimate_last24h":  "0.00009673",
+                      "actual_last24h":  9.7129720000000021E-05,
+                      "hashrate_last24h":  836134236.1667
                   },
     "nist5":  {
                   "name":  "nist5",
                   "port":  3833,
-                  "coins":  6,
+                  "coins":  4,
                   "fees":  0.1,
                   "hashrate":  0,
                   "workers":  0,
                   "estimate_current":  "0.00000001",
-                  "estimate_last24h":  "0.00000001",
-                  "actual_last24h":  1E-05,
-                  "hashrate_last24h":  0
+                  "estimate_last24h":  "0.00000002",
+                  "actual_last24h":  0,
+                  "hashrate_last24h":  60900727.3854
               },
     "phi":  {
                 "name":  "phi",
@@ -186,94 +186,94 @@
                 "fees":  0.1,
                 "hashrate":  0,
                 "workers":  0,
-                "estimate_current":  "0.00000297",
-                "estimate_last24h":  "0.00000387",
-                "actual_last24h":  0.00432,
-                "hashrate_last24h":  0
+                "estimate_current":  "0.00000219",
+                "estimate_last24h":  "0.00000225",
+                "actual_last24h":  1.9100000000000003E-06,
+                "hashrate_last24h":  1307197.1667
             },
     "quark":  {
                   "name":  "quark",
                   "port":  4033,
-                  "coins":  7,
+                  "coins":  5,
                   "fees":  0.1,
-                  "hashrate":  277487414541,
-                  "workers":  23,
-                  "estimate_current":  "0.00000011",
-                  "estimate_last24h":  "0.00000007",
-                  "actual_last24h":  0.00010111400000000001,
-                  "hashrate_last24h":  131567866799.54
+                  "hashrate":  28616622632,
+                  "workers":  2,
+                  "estimate_current":  "0.00000007",
+                  "estimate_last24h":  "0.00000010",
+                  "actual_last24h":  6.9590000000000016E-08,
+                  "hashrate_last24h":  17583328867.406
               },
     "qubit":  {
                   "name":  "qubit",
                   "port":  4733,
-                  "coins":  3,
+                  "coins":  2,
                   "fees":  0.1,
-                  "hashrate":  57907612396,
-                  "workers":  21,
-                  "estimate_current":  "0.00000013",
-                  "estimate_last24h":  "0.00000009",
-                  "actual_last24h":  7.7654E-05,
-                  "hashrate_last24h":  142923073135.43
+                  "hashrate":  79370079370,
+                  "workers":  43,
+                  "estimate_current":  "0.00000012",
+                  "estimate_last24h":  "0.00000010",
+                  "actual_last24h":  1.1649E-07,
+                  "hashrate_last24h":  29022831094.781
               },
     "scrypt":  {
                    "name":  "scrypt",
                    "port":  3433,
-                   "coins":  62,
+                   "coins":  56,
                    "fees":  0.1,
-                   "hashrate":  291634464151,
-                   "workers":  573,
-                   "estimate_current":  "0.00000074",
-                   "estimate_last24h":  "0.00000076",
-                   "actual_last24h":  0.0006496568,
-                   "hashrate_last24h":  286046730660.61
+                   "hashrate":  199290147573,
+                   "workers":  403,
+                   "estimate_current":  "0.00000070",
+                   "estimate_last24h":  "0.00000073",
+                   "actual_last24h":  6.9987999999999994E-07,
+                   "hashrate_last24h":  194620637637.18
                },
     "sha256":  {
                    "name":  "sha256",
                    "port":  3333,
-                   "coins":  38,
+                   "coins":  37,
                    "fees":  0.1,
-                   "hashrate":  734026691266360,
-                   "workers":  61,
+                   "hashrate":  949238705459640,
+                   "workers":  115,
                    "estimate_current":  "0.00000004",
                    "estimate_last24h":  "0.00000005",
-                   "actual_last24h":  4.77944E-05,
-                   "hashrate_last24h":  736108355094120
+                   "actual_last24h":  3.996E-08,
+                   "hashrate_last24h":  847797625852910
                },
     "sib":  {
                 "name":  "sib",
                 "port":  5033,
                 "coins":  1,
                 "fees":  0.1,
-                "hashrate":  1313549891,
+                "hashrate":  1337006139,
                 "workers":  1,
-                "estimate_current":  "0.00000032",
-                "estimate_last24h":  "0.00000038",
-                "actual_last24h":  0,
-                "hashrate_last24h":  289476978
+                "estimate_current":  "0.00000037",
+                "estimate_last24h":  "0.00000050",
+                "actual_last24h":  3.6757E-07,
+                "hashrate_last24h":  1157052736.25
             },
     "skein":  {
                   "name":  "skein",
                   "port":  4933,
-                  "coins":  14,
+                  "coins":  13,
                   "fees":  0.1,
-                  "hashrate":  85527344486,
-                  "workers":  16,
-                  "estimate_current":  "0.00000021",
-                  "estimate_last24h":  "0.00000016",
-                  "actual_last24h":  0.00014277160000000002,
-                  "hashrate_last24h":  163568694596.14
+                  "hashrate":  4398046511,
+                  "workers":  1,
+                  "estimate_current":  "0.00000013",
+                  "estimate_last24h":  "0.00000022",
+                  "actual_last24h":  1.2972E-07,
+                  "hashrate_last24h":  16875518257.01
               },
     "skunk":  {
                   "name":  "skunk",
                   "port":  8433,
-                  "coins":  2,
+                  "coins":  1,
                   "fees":  0.1,
                   "hashrate":  0,
                   "workers":  0,
-                  "estimate_current":  "0.00000007",
-                  "estimate_last24h":  "0.00000005",
-                  "actual_last24h":  7.0000000000000184E-05,
-                  "hashrate_last24h":  56251014.9063
+                  "estimate_current":  "0.00000253",
+                  "estimate_last24h":  "0.00000182",
+                  "actual_last24h":  2.53E-06,
+                  "hashrate_last24h":  6100762.4479
               },
     "tribus":  {
                    "name":  "tribus",
@@ -282,46 +282,46 @@
                    "fees":  0.1,
                    "hashrate":  0,
                    "workers":  1,
-                   "estimate_current":  "0.00000147",
-                   "estimate_last24h":  "0.00000162",
-                   "actual_last24h":  0.0017,
-                   "hashrate_last24h":  0
+                   "estimate_current":  "0.00000100",
+                   "estimate_last24h":  "0.00000136",
+                   "actual_last24h":  1E-06,
+                   "hashrate_last24h":  116326803.1354
                },
     "x11":  {
                 "name":  "x11",
                 "port":  3533,
-                "coins":  54,
+                "coins":  50,
                 "fees":  0.1,
-                "hashrate":  14757645068009,
-                "workers":  712,
-                "estimate_current":  "0.00000002",
+                "hashrate":  9244019399209,
+                "workers":  709,
+                "estimate_current":  "0.00000001",
                 "estimate_last24h":  "0.00000002",
-                "actual_last24h":  2.06968E-05,
-                "hashrate_last24h":  11063319900291
+                "actual_last24h":  2.007E-08,
+                "hashrate_last24h":  10045593917847
             },
     "x13":  {
                 "name":  "x13",
                 "port":  3633,
-                "coins":  3,
+                "coins":  2,
                 "fees":  0.1,
-                "hashrate":  16096850231,
-                "workers":  12,
-                "estimate_current":  "0.00000026",
-                "estimate_last24h":  "0.00000017",
-                "actual_last24h":  0.00019362,
-                "hashrate_last24h":  13655628997.104
+                "hashrate":  27121286818,
+                "workers":  21,
+                "estimate_current":  "0.00000015",
+                "estimate_last24h":  "0.00000014",
+                "actual_last24h":  1.3975333333333334E-07,
+                "hashrate_last24h":  22810284977.906
             },
     "x16r":  {
                  "name":  "x16r",
                  "port":  3636,
                  "coins":  2,
                  "fees":  0.1,
-                 "hashrate":  0,
-                 "workers":  0,
-                 "estimate_current":  "0.00002608",
-                 "estimate_last24h":  "0.00002357",
-                 "actual_last24h":  0.023620000000000002,
-                 "hashrate_last24h":  0
+                 "hashrate":  12598571,
+                 "workers":  2,
+                 "estimate_current":  "0.00001156",
+                 "estimate_last24h":  "0.00000862",
+                 "actual_last24h":  1.1361640000000001E-05,
+                 "hashrate_last24h":  212174959.0417
              },
     "x16s":  {
                  "name":  "x16s",
@@ -330,34 +330,34 @@
                  "fees":  0.1,
                  "hashrate":  0,
                  "workers":  0,
-                 "estimate_current":  "0.00000680",
-                 "estimate_last24h":  "0.00000719",
-                 "actual_last24h":  0.0068000000000000005,
-                 "hashrate_last24h":  0
+                 "estimate_current":  "0.00000718",
+                 "estimate_last24h":  "0.00000649",
+                 "actual_last24h":  0,
+                 "hashrate_last24h":  238609.2917
              },
     "x17":  {
                 "name":  "x17",
                 "port":  3737,
-                "coins":  3,
+                "coins":  1,
                 "fees":  0.1,
-                "hashrate":  0,
-                "workers":  0,
-                "estimate_current":  "0.00001308",
-                "estimate_last24h":  "0.00001205",
-                "actual_last24h":  0,
-                "hashrate_last24h":  644435.9792
+                "hashrate":  99395851,
+                "workers":  1,
+                "estimate_current":  "0.00000884",
+                "estimate_last24h":  "0.00000812",
+                "actual_last24h":  9.65763E-06,
+                "hashrate_last24h":  62764094.2188
             },
     "xevan":  {
                   "name":  "xevan",
                   "port":  3739,
-                  "coins":  6,
+                  "coins":  5,
                   "fees":  0.1,
-                  "hashrate":  4695853,
-                  "workers":  2,
-                  "estimate_current":  "0.00002539",
-                  "estimate_last24h":  "0.00002825",
-                  "actual_last24h":  0.025211280000000006,
-                  "hashrate_last24h":  4336855.0417
+                  "hashrate":  1317127,
+                  "workers":  0,
+                  "estimate_current":  "0.00001270",
+                  "estimate_last24h":  "0.00002811",
+                  "actual_last24h":  1.599299E-05,
+                  "hashrate_last24h":  19182980.0833
               },
     "yescrypt":  {
                      "name":  "yescrypt",
@@ -366,9 +366,9 @@
                      "fees":  0.1,
                      "hashrate":  0,
                      "workers":  0,
-                     "estimate_current":  "0.00922684",
-                     "estimate_last24h":  "0.00844700",
-                     "actual_last24h":  7.83823,
+                     "estimate_current":  "0.01031130",
+                     "estimate_last24h":  "0.00873564",
+                     "actual_last24h":  0.01001407,
                      "hashrate_last24h":  0
                  },
     "yescryptR16":  {
@@ -377,10 +377,10 @@
                         "coins":  3,
                         "fees":  0.1,
                         "hashrate":  0,
-                        "workers":  0,
-                        "estimate_current":  "0.05404479",
-                        "estimate_last24h":  "0.06447607",
-                        "actual_last24h":  59.448620745599996,
-                        "hashrate_last24h":  763.8958
+                        "workers":  1,
+                        "estimate_current":  "0.10722200",
+                        "estimate_last24h":  "0.07741197",
+                        "actual_last24h":  0,
+                        "hashrate_last24h":  2513.3125
                     }
 }
