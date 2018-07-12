@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           NPlusMiner.ps1
-version:        4.0
+version:        4.2.2
 version date:   20180703
 #>
 
