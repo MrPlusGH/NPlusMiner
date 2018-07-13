@@ -1,5 +1,5 @@
 ﻿{
-    "ActiveMinerGainPct":  5,
+    "ActiveMinerGainPct":  8,
     "Algorithm":  [
                       "aeriumx",
                       "allium",
@@ -50,7 +50,7 @@
     "Donate":  8,
     "EnableEarningsTrackerLogs":  false,
     "FirstInterval":  30,
-    "Interval":  120,
+    "Interval":  180,
     "IsFixedSize":  false,
     "IsReadOnly":  false,
     "IsSynchronized":  true,
