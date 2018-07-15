@@ -13,6 +13,7 @@
                       "cryptonightV7",
                       "equihash",
                       "equihash192",
+                      "equihash144",
                       "ethash",
                       "hmq1725",
                       "hsr",

@@ -16,6 +16,7 @@
     "decred":  "Decred",
     "equihash":  "Equihash",
     "equihash192":  "Equihash192",
+    "equihash144":  "Equihash144",
     "eth":  "Ethash",
     "ethash":  "Ethash",
     "groestl":  "Groestl",
