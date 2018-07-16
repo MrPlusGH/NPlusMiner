@@ -1,4 +1,6 @@
 ﻿{
+    "aergo":  "AeriumX",
+    "aeriumx":  "AeriumX",
     "allium":  "Allium",
     "balloon":  "Balloon",
     "bitcore":  "Bitcore",
