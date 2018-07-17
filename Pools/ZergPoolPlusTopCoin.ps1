@@ -18,21 +18,16 @@ $Location = "US"
 $ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
 $PoolConf = $Config.PoolsConfig.$ConfName
 
-# Find bet coin fr each alga
 $AllMiningCoins = @()
-$TopMiningCoins = @()
 ($CoinsRequest | Get-Member -MemberType NoteProperty -ErrorAction Ignore | Select-Object -ExpandProperty Name) | %{$CoinsRequest.$_ | Add-Member -Force @{Symbol = if ($CoinsRequest.$_.Symbol) {$CoinsRequest.$_.Symbol} else {$_}} ; $AllMiningCoins += $CoinsRequest.$_}
-$Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
-	$Algo = Get-Algorithm $Request.$_.Name
-	$TopMiningCoins += $AllMiningCoins | where {($_.noautotrade -eq 0) -and ($_.hashrate -gt 0) -and ((Get-Algorithm $_.algo) -eq $Algo)} | sort -Property @{Expression = {$_.$PriceField / ($DivisorMultiplier * [Double]$_.mbtc_mh_factor)}} -Descending | select -first 1
-}
 
 #Uses BrainPlus calculated price
 $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
     $PoolHost = "$($_)$($HostSuffix)"
     $PoolPort = $Request.$_.port
     $PoolAlgorithm = Get-Algorithm $Request.$_.name
-	$TopCoin = $TopMiningCoins | where {(Get-Algorithm $_.algo) -eq $PoolAlgorithm}
+	# Find best coin for algo
+	$TopCoin = $AllMiningCoins | where {($_.noautotrade -eq 0) -and ($_.hashrate -gt 0) -and ((Get-Algorithm $_.algo) -eq $PoolAlgorithm)} | sort -Property @{Expression = {$_.$PriceField / ($DivisorMultiplier * [Double]$_.mbtc_mh_factor)}} -Descending | select -first 1
 
     $Divisor = $DivisorMultiplier * [Double]$Request.$_.mbtc_mh_factor
 
@@ -41,7 +36,6 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
 
 	$PwdCurr = if ($PoolConf.PwdCurrency) {$PoolConf.PwdCurrency}else {$Config.Passwordcurrency}
     $WorkerName = If ($PoolConf.WorkerName -like "ID=*") {$PoolConf.WorkerName} else {"ID=$($PoolConf.WorkerName)"}
-$Variables	
     if ($PoolConf.Wallet) {
         [PSCustomObject]@{
             Algorithm     = $PoolAlgorithm
