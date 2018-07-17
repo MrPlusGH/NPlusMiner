@@ -54,7 +54,7 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
             Host          = $PoolHost
             Port          = $PoolPort
             User          = $PoolConf.Wallet
-		    Pass          = "$($WorkerName),c=$($PwdCurr),mc=$(($TopMiningCoins | where {$_.algo -eq $_}).Symbol)"
+	    Pass          = "$($WorkerName),c=$($PwdCurr),mc=$(($TopMiningCoins | where {$_.algo -eq $_}).Symbol)"
             Location      = $Location
             SSL           = $false
         }
