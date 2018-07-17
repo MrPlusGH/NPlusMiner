@@ -24,15 +24,15 @@ $TopMiningCoins = @()
 ($CoinsRequest | Get-Member -MemberType NoteProperty -ErrorAction Ignore | Select-Object -ExpandProperty Name) | %{$CoinsRequest.$_ | Add-Member -Force @{Symbol = if ($CoinsRequest.$_.Symbol) {$CoinsRequest.$_.Symbol} else {$_}} ; $AllMiningCoins += $CoinsRequest.$_}
 $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
 	$Algo = Get-Algorithm $Request.$_.Name
-	$TopMiningCoins += $AllMiningCoins | where {($_.noautotrade -eq 0) -and ($_.hashrate -gt 0) -and ((Get-Algorithm $_.algo) -eq (Get-Algorithm $Algo))} | sort -Property @{Expression = {$_.$PriceField / ($DivisorMultiplier * [Double]$_.mbtc_mh_factor)}} -Descending | select -first 1
+	$TopMiningCoins += $AllMiningCoins | where {($_.noautotrade -eq 0) -and ($_.hashrate -gt 0) -and ((Get-Algorithm $_.algo) -eq $Algo)} | sort -Property @{Expression = {$_.$PriceField / ($DivisorMultiplier * [Double]$_.mbtc_mh_factor)}} -Descending | select -first 1
 }
-	$Variables.StatusText = $TopMiningCoins.Count
 
 #Uses BrainPlus calculated price
 $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
     $PoolHost = "$($_)$($HostSuffix)"
     $PoolPort = $Request.$_.port
     $PoolAlgorithm = Get-Algorithm $Request.$_.name
+	$TopCoin = $TopMiningCoins | where {(Get-Algorithm $_.algo) -eq $PoolAlgorithm}
 
     $Divisor = $DivisorMultiplier * [Double]$Request.$_.mbtc_mh_factor
 
@@ -41,12 +41,12 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
 
 	$PwdCurr = if ($PoolConf.PwdCurrency) {$PoolConf.PwdCurrency}else {$Config.Passwordcurrency}
     $WorkerName = If ($PoolConf.WorkerName -like "ID=*") {$PoolConf.WorkerName} else {"ID=$($PoolConf.WorkerName)"}
-	
+$Variables	
     if ($PoolConf.Wallet) {
         [PSCustomObject]@{
             Algorithm     = $PoolAlgorithm
-            Coin          = ($TopMiningCoins | where {$_.algo -eq $_}).Symbol
-            Info          = ($TopMiningCoins | where {$_.algo -eq $_}).Name
+            Coin          = $TopCoin.Symbol
+            Info          = $TopCoin.Name
             Price         = $Stat.Live*$PoolConf.PricePenaltyFactor
             StablePrice   = $Stat.Week
             MarginOfError = $Stat.Week_Fluctuation
@@ -54,7 +54,7 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
             Host          = $PoolHost
             Port          = $PoolPort
             User          = $PoolConf.Wallet
-	    Pass          = "$($WorkerName),c=$($PwdCurr),mc=$(($TopMiningCoins | where {$_.algo -eq $_}).Symbol)"
+		    Pass          = If ($TopCoin.Symbol) {"$($WorkerName),c=$($PwdCurr),mc=$($TopCoin.Symbol)"} else {"$($WorkerName),c=$($PwdCurr)"}
             Location      = $Location
             SSL           = $false
         }
