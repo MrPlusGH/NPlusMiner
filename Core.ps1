@@ -373,8 +373,8 @@ Function NPMCycle {
                     Benchmarked = 0
                     Hashrate_Gathered = ($_.HashRates.PSObject.Properties.Value -ne $null)
                     User = $_.User
-					Host = $_.Host
-					Coin = $_.Coin
+                    Host = $_.Host
+                    Coin = $_.Coin
                 }
             }
         }
@@ -414,7 +414,7 @@ Function NPMCycle {
                 if($_.Process -eq $null -or $_.Process.HasExited -ne $false)
                 {
                     # Log switching information to .\log\swicthing.log
-                    [pscustomobject]@{date=(get-date);Type=$_.Type;algo=$_.Algorithms;wallet=$_.User;username=$Config.UserName;Stratum="$($_.Arguments.Split(' ') | ?{($_ -like '*.*:*') -and (-not ($_.Contains($Variables.NVIDIAMinerAPITCPPort) -or ($_.contains($Variables.CPUMinerAPITCPPort))))})"} | export-csv .\Logs\switching.log -Append -NoTypeInformation
+                    [pscustomobject]@{date=(get-date);Type=$_.Type;algo=$_.Algorithms;wallet=$_.User;username=$Config.UserName;Host=$_.host;Coin=$_.Coin} | export-csv .\Logs\switching.log -Append -NoTypeInformation
 
                     # Launch prerun if exists
                     If ($_.Type -ne "CPU") {
