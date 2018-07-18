@@ -20,6 +20,7 @@ $PoolConf = $Config.PoolsConfig.$ConfName
 
 $AllMiningCoins = @()
 ($CoinsRequest | Get-Member -MemberType NoteProperty -ErrorAction Ignore | Select-Object -ExpandProperty Name) | %{$CoinsRequest.$_ | Add-Member -Force @{Symbol = if ($CoinsRequest.$_.Symbol) {$CoinsRequest.$_.Symbol} else {$_}} ; $AllMiningCoins += $CoinsRequest.$_}
+$AllMiningCoins = $AllMiningCoins | Where {$_.noautotrade -eq 0 -and $_.hashrate -gt 0}
 
 #Uses BrainPlus calculated price
 $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
@@ -34,7 +35,7 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
     if ((Get-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))}
     else {$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))}
 
-	$PwdCurr = if ($PoolConf.PwdCurrency) {$PoolConf.PwdCurrency}else {$Config.Passwordcurrency}
+    $PwdCurr = if ($PoolConf.PwdCurrency) {$PoolConf.PwdCurrency}else {$Config.Passwordcurrency}
     $WorkerName = If ($PoolConf.WorkerName -like "ID=*") {$PoolConf.WorkerName} else {"ID=$($PoolConf.WorkerName)"}
     if ($PoolConf.Wallet) {
         [PSCustomObject]@{
@@ -48,7 +49,7 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
             Host          = $PoolHost
             Port          = $PoolPort
             User          = $PoolConf.Wallet
-		    Pass          = If ($TopCoin.Symbol) {"$($WorkerName),c=$($PwdCurr),mc=$($TopCoin.Symbol)"} else {"$($WorkerName),c=$($PwdCurr)"}
+            Pass          = If ($TopCoin.Symbol) {"$($WorkerName),c=$($PwdCurr),mc=$($TopCoin.Symbol)"} else {"$($WorkerName),c=$($PwdCurr)"}
             Location      = $Location
             SSL           = $false
         }
