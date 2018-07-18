@@ -20,6 +20,8 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
         Port = $Variables.NVIDIAMinerAPITCPPort
         Wrap = $false
         URI = $Uri
-    
+        User = $Pools.(Get-Algorithm($_)).User
+        Host = $Pools.(Get-Algorithm $_).Host
+        Coin = $Pools.(Get-Algorithm $_).Coin
     }
 }

@@ -19,5 +19,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         Wrap = $true
         URI = $Uri
         User = $Pools.(Get-Algorithm($_)).User
+        Host = $Pools.(Get-Algorithm $_).Host
+        Coin = $Pools.(Get-Algorithm $_).Coin
     }
 }

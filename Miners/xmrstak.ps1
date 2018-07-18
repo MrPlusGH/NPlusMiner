@@ -57,5 +57,8 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         API        = "fireice"
         Port       = $Port
         URI        = $Uri
+        User = $Pools.$Algorithm_Norm.User
+        Host = $Pools.$Algorithm_Norm.Host
+        Coin = $Pools.$Algorithm_Norm.Coin
     }
 }
