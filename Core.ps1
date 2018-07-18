@@ -373,6 +373,8 @@ Function NPMCycle {
                     Benchmarked = 0
                     Hashrate_Gathered = ($_.HashRates.PSObject.Properties.Value -ne $null)
                     User = $_.User
+					Host = $_.Host
+					Coin = $_.Coin
                 }
             }
         }
