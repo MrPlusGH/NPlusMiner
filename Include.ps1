@@ -83,13 +83,6 @@ Function Load-Config {
     If (Test-Path $ConfigFile) {
         $ConfigLoad = Get-Content $ConfigFile | ConvertFrom-json
         $Config = [hashtable]::Synchronized(@{}); $configLoad | % {$_.psobject.properties | sort Name | % {$Config | Add-Member -Force @{$_.Name = $_.Value}}}
-		If ("equihash144" -in $Config.Algorithm) {
-			(Get-Content .\Algorithms.txt | ConvertFrom-Json) | Get-Member -MemberType noteproperty | Where {$_.Name -like "equihash144*"} | Foreach {
-				If ($_.Name -notin $Config.Algorithm) {
-					$Config.Algorithm += $_.Name
-				}
-			}
-		}
         $Config
     }
 }
