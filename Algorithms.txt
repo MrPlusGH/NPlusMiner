@@ -21,6 +21,8 @@
     "equihash144":  "Equihash144",
     "equihash144btcz":  "Equihash144btcz",
     "equihash144zel":  "Equihash144zel",
+    "equihash-btg":  "EquihashBTG",
+    "equihashbtg":  "EquihashBTG",
     "eth":  "Ethash",
     "ethash":  "Ethash",
     "groestl":  "Groestl",
