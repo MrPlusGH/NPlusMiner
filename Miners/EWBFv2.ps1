@@ -17,6 +17,7 @@ $Commands = [PSCustomObject]@{
     "equihash144btcz" = " --cuda_devices $($Config.SelGPUDSTM) --algo 144_5 --pers BitcoinZ" #Equihash144btcz
     "equihash144zel" = " --cuda_devices $($Config.SelGPUDSTM) --algo 144_5 --pers ZelProof" #Equihash144zel
     "equihash192" = " --cuda_devices $($Config.SelGPUDSTM) --algo 192_7 --pers ZERO_PoW" #Equihash192
+    "equihash-btg" = "--cuda_devices $($Config.SelGPUDSTM) --algo 144_5 --pers BgoldPoW" # Equihash-btg
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
