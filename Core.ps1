@@ -199,7 +199,7 @@ Function NPMCycle {
 			$AllPools = if(Test-Path "Pools"){Get-ChildItemContent "Pools" -Include $PoolFilter | ForEach {$_.Content | Add-Member @{Name = $_.Name} -PassThru} | 
 				Where {$_.SSL -EQ $Config.SSL -and ($Config.PoolName.Count -eq 0 -or ($_.Name -in $Config.PoolName)) -and (!$Config.Algorithm -or $_.Algorithm -in $Config.Algorithm)}}
 			if ($AllPools.Count -eq 0) {
-				$Variables.StatusText = "! Error contacting pool retyring in 30 seconds.."
+				$Variables.StatusText = "! Error contacting pool retrying in 30 seconds.."
 				Sleep 30
 			}
 		} While ($AllPools.Count -eq 0)
