@@ -198,8 +198,10 @@ Function NPMCycle {
         Do {
 			$AllPools = if(Test-Path "Pools"){Get-ChildItemContent "Pools" -Include $PoolFilter | ForEach {$_.Content | Add-Member @{Name = $_.Name} -PassThru} | 
 				Where {$_.SSL -EQ $Config.SSL -and ($Config.PoolName.Count -eq 0 -or ($_.Name -in $Config.PoolName)) -and (!$Config.Algorithm -or $_.Algorithm -in $Config.Algorithm)}}
-			$Variables.StatusText = "Error contacting pool retyring in 30 seconds"
-			Sleep 30
+			if ($AllPools.Count -eq 0) {
+				$Variables.StatusText = "! Error contacting pool retyring in 30 seconds.."
+				Sleep 30
+			}
 		} While ($AllPools.Count -eq 0)
         $Variables.StatusText = "Computing pool stats.."
         # Use location as preference and not the only one
