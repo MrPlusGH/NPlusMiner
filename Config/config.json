@@ -29,6 +29,7 @@
     "Passwordcurrency":  "BTC",
     "PoolName":  [
                      "nicehash",
+                     "miningpoolhub",
                      "zergpoolplus"
                  ],
     "Proxy":  "",
