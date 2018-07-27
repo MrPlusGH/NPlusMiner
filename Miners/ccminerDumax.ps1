@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
 
 $Path = ".\Bin\NVIDIA-ccminerDumax\ccminer.exe"
-$Uri = "https://github.com/DumaxFr/ccminer/releases/download/dumax-0.9.2/ccminer-dumax-0.9.2-win64.zip"
+$Uri = "https://github.com/DumaxFr/ccminer/releases/download/dumax-0.9.3/ccminer-dumax-0.9.3-win64.zip"
 
 $Commands = [PSCustomObject]@{
     "phi" = " -d $($Config.SelGPUCC)" #Phi(testing)
