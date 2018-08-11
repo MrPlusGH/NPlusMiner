@@ -1,14 +1,14 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
 
-$Path = ".\Bin\NVIDIA-TPruvotphi\ccminer-x64.exe"
+$Path = ".\Bin\NVIDIA-TPruvot23\ccminer-x64.exe"
 $Uri = "https://github.com/tpruvot/ccminer/releases/download/2.3-tpruvot/ccminer-2.3-cuda9.7z"
 
 $Commands = [PSCustomObject]@{
     #"polytimos" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Polytimos
-    "hsr" = " -d $($Config.SelGPUCC)" #Hsr
+    #"hsr" = " -d $($Config.SelGPUCC)" #Hsr
     #"phi" = " -N 1 -d $($Config.SelGPUCC)" #Phi (testing)
-    "phi2" = " -N 1 -d $($Config.SelGPUCC)" #Phi2 (testing)
-    "allium" = " -N 1 -i 22 -d $($Config.SelGPUCC)" #Allium
+    #"phi2" = " -N 1 -d $($Config.SelGPUCC)" #Phi2 (testing)
+    #"allium" = " -N 1 -i 22 -d $($Config.SelGPUCC)" #Allium
     #"bitcore" = " -r 0 -d $($Config.SelGPUCC)" #Bitcore(spmodbitcore faster)
     #"jha" = " -r 0 -d $($Config.SelGPUCC)" #Jha
     #"blake2s" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Blake2s
@@ -22,7 +22,7 @@ $Commands = [PSCustomObject]@{
     #"hmq1725" = " -r 0 -d $($Config.SelGPUCC)" #hmq1725
     "keccakc" = " -d $($Config.SelGPUCC) -i 29" #Keccakc
     "keccak" = " -d $($Config.SelGPUCC) -i 29" #Keccak
-    #"lyra2v2" = " -N 1 -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Lyra2RE2
+    #"lyra2v2" = " -N 1 -d $($Config.SelGPUCC)" #Lyra2RE2
     #"lyra2z" = "  -r 0 -d $($Config.SelGPUCC) --submit-stale" #Lyra2z
     #"myr-gr" = "" #MyriadGroestl
     #"neoscrypt" = " -d $($Config.SelGPUCC)" #NeoScrypt
