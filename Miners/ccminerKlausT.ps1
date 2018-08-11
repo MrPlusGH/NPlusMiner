@@ -23,7 +23,7 @@ $Commands = [PSCustomObject]@{
     "yescryptR8" = " -d $($Config.SelGPUCC)"
     "yescryptR16" = " -d $($Config.SelGPUCC)" #YescryptR16 #Yenten
     "yescryptR16v2" = " -d $($Config.SelGPUCC)" #PPN
-    "neoscrypt" = " -d $($Config.SelGPUCC)" #NeoScrypt
+    #"neoscrypt" = " -d $($Config.SelGPUCC)" #NeoScrypt
     #"nist5" = " -d $($Config.SelGPUCC)" #Nist5
     #"pascal" = "" #Pascal
     #"qubit" = "" #Qubit
@@ -35,7 +35,7 @@ $Commands = [PSCustomObject]@{
     #"x11" = "" #X11
     #"veltor" = "" #Veltor
     #"x11evo" = "" #X11evo
-    "c11" = " -d $($Config.SelGPUCC)" #C11(alexis78-v1.2 faster)
+    #"c11" = " -d $($Config.SelGPUCC)" #C11(alexis78-v1.2 faster)
     #"yescrypt" = "" #Yescrypt
 }
 
