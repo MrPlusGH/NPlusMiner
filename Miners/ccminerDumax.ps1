@@ -4,8 +4,8 @@ $Path = ".\Bin\NVIDIA-ccminerDumax\ccminer.exe"
 $Uri = "https://github.com/DumaxFr/ccminer/releases/download/dumax-0.9.3/ccminer-dumax-0.9.3-win64.zip"
 
 $Commands = [PSCustomObject]@{
-    "phi" = " -d $($Config.SelGPUCC)" #Phi(testing)
-    "phi2" = " -d $($Config.SelGPUCC)" #Phi2testing)
+    #"phi" = " -d $($Config.SelGPUCC)" #Phi(testing)
+    #"phi2" = " -d $($Config.SelGPUCC)" #Phi2testing)
     #"bitcore" = " -d $($Config.SelGPUCC)" #Bitcore
     #"jha" = " -d $($Config.SelGPUCC)" #Jha
     #"blake2s" = " -d $($Config.SelGPUCC)" #Blake2s
@@ -36,8 +36,8 @@ $Commands = [PSCustomObject]@{
     #"x11" = "" #X11
     #"veltor" = "" #Veltor
     #"x11evo" = " -d $($Config.SelGPUCC)" #X11evo
-    "x17" = " -d $($Config.SelGPUCC)" #X17(testing)
-    "x16r" = " -d $($Config.SelGPUCC)" #X16r(testing)
+    #"x17" = " -d $($Config.SelGPUCC)" #X17(testing)
+    #"x16r" = " -d $($Config.SelGPUCC)" #X16r(testing)
     "x16s" = " -d $($Config.SelGPUCC)" #X16s(testing)
 }
 
