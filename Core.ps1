@@ -229,6 +229,7 @@ Function NPMCycle {
             Compare-Object $Variables.MinersHash (Get-ChildItem .\Miners\ -filter "*.ps1" | Get-FileHash) -Property "Hash","Path" | Sort "Path" -Unique | % {
                 $Variables.StatusText = "Miner Updated: $($_.Path)"
                 $NewMiner =  &$_.path
+                $NewMiner | Add-Member -Force @{Name = (Get-Item $_.Path).BaseName}
                 If (Test-Path (Split-Path $NewMiner.Path)) {
                     $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" -and $_.Path -eq (Resolve-Path $NewMiner.Path)} | ForEach {
                         [Array]$filtered = ($BestMiners_Combo | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments)
@@ -253,12 +254,14 @@ Function NPMCycle {
                             $Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit_Bias_Orig}
                         }
                     }
+                    Get-ChildItem -path ".\stats\" -filter "$($NewMiner.Name)_*.txt" | Remove-Item -Force -Recurse
                     Remove-Item -Force -Recurse (Split-Path $NewMiner.Path)
                 }
                 $Variables.MinersHash = Get-ChildItem .\Miners\ -filter "*.ps1" | Get-FileHash
                 $Variables.MinersHash | ConvertTo-Json | out-file ".\Config\MinersHash.json"
             }
         }
+
         
         $Variables.StatusText = "Loading miners.."
         $Variables | Add-Member -Force @{Miners = @()}
