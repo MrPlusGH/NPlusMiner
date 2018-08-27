@@ -1,27 +1,27 @@
-if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
+. .\Include.ps1
 
 $Path = ".\Bin\NVIDIA-TPruvotx64\ccminer-x64.exe"
 $Uri = "https://github.com/tpruvot/ccminer/releases/download/2.2.5-tpruvot/ccminer-x64-2.2.5-cuda9.7z"
 
 $Commands = [PSCustomObject]@{
-    #"phi" = " -d $($Config.SelGPUCC)" #Phi
-    #"bitcore" = " -d $($Config.SelGPUCC)" #Bitcore
-    #"jha" = " -d $($Config.SelGPUCC)" #Jha
-    #"blake2s" = " -d $($Config.SelGPUCC)" #Blake2s
-    #"blakecoin" = " -d $($Config.SelGPUCC)" #Blakecoin
+    #"phi" = " -d $SelGPUCC" #Phi
+    #"bitcore" = " -d $SelGPUCC" #Bitcore
+    #"jha" = " -d $SelGPUCC" #Jha
+    #"blake2s" = " -d $SelGPUCC" #Blake2s
+    #"blakecoin" = " -d $SelGPUCC" #Blakecoin
     #"vanilla" = "" #BlakeVanilla
-    #"cryptonight" = " -i 10.5 -l 8x120 --bfactor=8 -d $($Config.SelGPUCC) --api-remote" #Cryptonight
+    #"cryptonight" = " -i 10.5 -l 8x120 --bfactor=8 -d $SelGPUCC --api-remote" #Cryptonight
     #"decred" = "" #Decred
     #"equihash" = "" #Equihash
     #"ethash" = "" #Ethash
-    #"groestl" = " -d $($Config.SelGPUCC)" #Groestl
-    #"hmq1725" = " -d $($Config.SelGPUCC)" #hmq1725
+    #"groestl" = " -d $SelGPUCC" #Groestl
+    #"hmq1725" = " -d $SelGPUCC" #hmq1725
     #"keccak" = "" #Keccak
-    #"lbry" = " -d $($Config.SelGPUCC)" #Lbry
+    #"lbry" = " -d $SelGPUCC" #Lbry
     #"lyra2v2" = "" #Lyra2RE2
-    "lyra2z" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0 --submit-stale" #Lyra2z
+    "lyra2z" = " -d $SelGPUCC --api-remote --api-allow=0/0 --submit-stale" #Lyra2z
     #"myr-gr" = "" #MyriadGroestl
-    #"neoscrypt" = " -d $($Config.SelGPUCC)" #NeoScrypt
+    #"neoscrypt" = " -d $SelGPUCC" #NeoScrypt
     #"nist5" = "" #Nist5
     #"pascal" = "" #Pascal
     #"qubit" = "" #Qubit
@@ -29,14 +29,14 @@ $Commands = [PSCustomObject]@{
     #"sia" = "" #Sia
     #"sib" = "" #Sib
     #"skein" = "" #Skein
-    #"skunk" = " -d $($Config.SelGPUCC)" #Skunk
-    #"timetravel" = " -d $($Config.SelGPUCC)" #Timetravel
-    "tribus" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Tribus
+    #"skunk" = " -d $SelGPUCC" #Skunk
+    #"timetravel" = " -d $SelGPUCC" #Timetravel
+    "tribus" = " -d $SelGPUCC --api-remote --api-allow=0/0" #Tribus
     #"x11" = "" #X11
     #"veltor" = "" #Veltor
-    #"x11evo" = " -d $($Config.SelGPUCC)" #X11evo
-    #"x17" = " -d $($Config.SelGPUCC)" #X17
-    # "x16r" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #X16r
+    #"x11evo" = " -d $SelGPUCC" #X11evo
+    #"x17" = " -d $SelGPUCC" #X17
+    # "x16r" = " -d $SelGPUCC --api-remote --api-allow=0/0" #X16r
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName

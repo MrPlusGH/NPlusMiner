@@ -1,6 +1,6 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
 
-$Path = ".\Bin\NVIDIA-TPruvot23\ccminer-x64.exe"
+$Path = ".\Bin\NVIDIA-Tpruvot23\ccminer-x64.exe"
 $Uri = "https://github.com/tpruvot/ccminer/releases/download/2.3-tpruvot/ccminer-2.3-cuda9.7z"
 
 $Commands = [PSCustomObject]@{
@@ -19,12 +19,12 @@ $Commands = [PSCustomObject]@{
     #"equihash" = "" #Equihash
     #"ethash" = "" #Ethash
     #"groestl" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Groestl
-    #"hmq1725" = " -r 0 -d $($Config.SelGPUCC)" #hmq1725
+    "hmq1725" = " -d $($Config.SelGPUCC) -N 1" #hmq1725
     "keccakc" = " -d $($Config.SelGPUCC) -i 29" #Keccakc
     "keccak" = " -d $($Config.SelGPUCC) -i 29" #Keccak
     #"lyra2v2" = " -N 1 -d $($Config.SelGPUCC)" #Lyra2RE2
     #"lyra2z" = "  -r 0 -d $($Config.SelGPUCC) --submit-stale" #Lyra2z
-    #"myr-gr" = "" #MyriadGroestl
+    "myr-gr" = " -d $($Config.SelGPUCC)" #MyriadGroestl
     #"neoscrypt" = " -d $($Config.SelGPUCC)" #NeoScrypt
     #"nist5" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Nist5
     #"pascal" = "" #Pascal

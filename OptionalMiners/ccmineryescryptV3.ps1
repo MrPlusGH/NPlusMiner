@@ -1,39 +1,42 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
 
-$Path = ".\Bin\NVIDIA-ccminerTpruvotskunk\ccminer.exe"
-$Uri = "https://github.com/scaras/ccminer-2.2-mod-r1/releases/download/2.2-r1/2.2-mod-r1.zip"
+$Path = ".\Bin\NVIDIA-CcmineryescryptV3\ccminer.exe"
+$Uri = "http://nemos.dx.am/opt/nemos/ccminer-yescryptV3.7z"
 
 $Commands = [PSCustomObject]@{
     #"bitcore" = "" #Bitcore
     #"blake2s" = "" #Blake2s
-    #"blakecoin" = "" #Blakecoin
+    #"blakecoin" = " -d $($Config.SelGPUCC)" #Blakecoin
     #"vanilla" = "" #BlakeVanilla
     #"cryptonight" = "" #Cryptonight
     #"decred" = "" #Decred
     #"equihash" = "" #Equihash
     #"ethash" = "" #Ethash
-    #"groestl" = " -d $($Config.SelGPUCC)" #Groestl
+    #"groestl" = " -r 0 -d $($Config.SelGPUCC)" #Groestl(fastest)
     #"hmq1725" = "" #hmq1725
-    #"keccak" = "" #Keccak
+    #"keccak" = " -d $($Config.SelGPUCC)" #Keccak
     #"lbry" = "" #Lbry
     #"lyra2v2" = " -d $($Config.SelGPUCC)" #Lyra2RE2
     #"lyra2z" = "" #Lyra2z
     #"myr-gr" = " -d $($Config.SelGPUCC)" #MyriadGroestl
-    #"neoscrypt" = " -b 4068 -d $($Config.SelGPUCC)" #NeoScrypt
+    "yescrypt" = " -d $($Config.SelGPUCC)" #yescrypt
+    "yescryptR8" = " -d $($Config.SelGPUCC)"
+    "yescryptR16" = " -d $($Config.SelGPUCC)" #YescryptR16 #Yenten
+    "yescryptR16v2" = " -d $($Config.SelGPUCC)" #PPN
+    #"neoscrypt" = " -d $($Config.SelGPUCC)" #NeoScrypt
     #"nist5" = " -d $($Config.SelGPUCC)" #Nist5
     #"pascal" = "" #Pascal
     #"qubit" = "" #Qubit
     #"scrypt" = "" #Scrypt
     #"sia" = "" #Sia
     #"sib" = "" #Sib
-    #"skein" = "" #Skein
+    #"skein" = " -d $($Config.SelGPUCC)" #Skein
     #"timetravel" = "" #Timetravel
     #"x11" = "" #X11
     #"veltor" = "" #Veltor
     #"x11evo" = "" #X11evo
-    #"x17" = "" #X17
+    #"c11" = " -d $($Config.SelGPUCC)" #C11(alexis78-v1.2 faster)
     #"yescrypt" = "" #Yescrypt
-    "skunk" = " -d $($Config.SelGPUCC)" #Skunk
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
@@ -42,7 +45,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
     [PSCustomObject]@{
         Type = "NVIDIA"
         Path = $Path
-        Arguments = "-b $($Variables.NVIDIAMinerAPITCPPort) -R 1 -a $_ -o stratum+tcp://$($Pools.(Get-Algorithm($_)).Host):$($Pools.(Get-Algorithm($_)).Port) -u $($Pools.(Get-Algorithm($_)).User) -p $($Pools.(Get-Algorithm($_)).Pass)$($Commands.$_)"
+        Arguments = "-b $($Variables.NVIDIAMinerAPITCPPort) -N 1 -R 1 -a $_ -o stratum+tcp://$($Pools.(Get-Algorithm($_)).Host):$($Pools.(Get-Algorithm($_)).Port) -u $($Pools.(Get-Algorithm($_)).User) -p $($Pools.(Get-Algorithm($_)).Pass)$($Commands.$_)"
         HashRates = [PSCustomObject]@{(Get-Algorithm($_)) = $Stats."$($Name)_$(Get-Algorithm($_))_HashRate".Week}
         API = "Ccminer"
         Port = $Variables.NVIDIAMinerAPITCPPort

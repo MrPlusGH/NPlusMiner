@@ -1,4 +1,4 @@
-if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
+. .\Include.ps1
 
 $Path = ".\Bin\NVIDIA-XMRig\xmrig-nvidia.exe"
 $Uri = "https://github.com/xmrig/xmrig-nvidia/releases/download/v2.5.0/xmrig-nvidia-2.5.0-cuda9-win64.zip"

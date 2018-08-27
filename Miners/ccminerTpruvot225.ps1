@@ -1,6 +1,6 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
 
-$Path = ".\Bin\NVIDIA-TPruvot225\ccminer.exe"
+$Path = ".\Bin\NVIDIA-Tpruvot225\ccminer.exe"
 $Uri = "https://github.com/tpruvot/ccminer/releases/download/2.2.5-tpruvot/ccminer-x86-2.2.5-cuda9.7z"
 
 $Commands = [PSCustomObject]@{
@@ -34,7 +34,7 @@ $Commands = [PSCustomObject]@{
     #"skein" = "" #Skein
     #"skunk" = " -d $($Config.SelGPUCC)" #Skunk
     "timetravel" = " -d $($Config.SelGPUCC)" #Timetravel
-    #"tribus" = " -d $($Config.SelGPUCC)" #Tribus
+    "tribus" = " -d $($Config.SelGPUCC)" #Tribus
     #"c11" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #C11
     #"veltor" = "" #Veltor
     #"x11evo" = " -d $($Config.SelGPUCC)" #X11evo (Alexis78 faster)

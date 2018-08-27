@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
 
-$Path = ".\Bin\NVIDIA-RavenSpMod\ccminer.exe"
-$Uri = "https://github.com/sp-hash/suprminer/releases/download/spmod-git6/raven_spmodgit6.7z"
+$Path = ".\Bin\NVIDIA-RavenSpMod9\ccminer.exe"
+$Uri = "https://github.com/sp-hash/suprminer/releases/download/spmod-git9/spmodgit9.7z"
 
 $Commands = [PSCustomObject]@{
     #"phi" = " -d $($Config.SelGPUCC)" #Phi
@@ -32,12 +32,12 @@ $Commands = [PSCustomObject]@{
     #"skunk" = " -d $($Config.SelGPUCC)" #Skunk
     #"timetravel" = " -d $($Config.SelGPUCC)" #Timetravel
     #"tribus" = " -d $($Config.SelGPUCC)" #Tribus
-    #"x11" = "" #X11
+    "c11" = " -d $($Config.SelGPUCC)" #C11 (trex faster/ fastest open source)
     #"veltor" = "" #Veltor
     #"x11evo" = " -d $($Config.SelGPUCC)" #X11evo
     #"x17" = " -i 21.5 -d $($Config.SelGPUCC) --api-remote" #X17
-    "x16r" = " -d $($Config.SelGPUCC)" #X16r(testing)
-    #"x16s" = " -d $($Config.SelGPUCC)" #X16s
+    "x16r" = " -d $($Config.SelGPUCC)" #X16r(trex faster/ fastest open source)
+    "x16s" = " -d $($Config.SelGPUCC)" #X16s (trex faster/ fastest open source)
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName

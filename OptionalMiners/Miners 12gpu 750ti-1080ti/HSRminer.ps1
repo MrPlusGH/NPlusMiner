@@ -1,10 +1,10 @@
-if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
+. .\Include.ps1
 
 $Path = ".\Bin\NVIDIA-Hsrminer\hsrminer_neoscrypt_fork_hp.exe"
 $Uri = "https://github.com/justaminer/hsrm-fork/raw/master/hsrminer_neoscrypt_fork_hp.zip"
 
 $Commands = [PSCustomObject]@{
-    #"neoscrypt" = " -d $($Config.SelGPUCC)" #NeoScrypt
+    #"neoscrypt" = " -d $SelGPUCC" #NeoScrypt
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName

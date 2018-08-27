@@ -1,4 +1,4 @@
-if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
+. .\Include.ps1
 
 $Path = ".\Bin\NVIDIA-CcminerSkunk\ccminer.exe"
 $Uri = "https://github.com/scaras/ccminer-2.2-mod-r1/releases/download/2.2-r1/2.2-mod-r1.zip"
@@ -12,15 +12,15 @@ $Commands = [PSCustomObject]@{
     #"decred" = "" #Decred
     #"equihash" = "" #Equihash
     #"ethash" = "" #Ethash
-    #"groestl" = " -d $($Config.SelGPUCC)" #Groestl
+    #"groestl" = " -d $SelGPUCC" #Groestl
     #"hmq1725" = "" #hmq1725
     #"keccak" = "" #Keccak
     #"lbry" = "" #Lbry
-    #"lyra2v2" = " -d $($Config.SelGPUCC)" #Lyra2RE2
+    #"lyra2v2" = " -d $SelGPUCC" #Lyra2RE2
     #"lyra2z" = "" #Lyra2z
-    #"myr-gr" = " -d $($Config.SelGPUCC)" #MyriadGroestl
-    #"neoscrypt" = " -b 4068 -d $($Config.SelGPUCC)" #NeoScrypt
-    #"nist5" = " -d $($Config.SelGPUCC)" #Nist5
+    #"myr-gr" = " -d $SelGPUCC" #MyriadGroestl
+    #"neoscrypt" = " -b 4068 -d $SelGPUCC" #NeoScrypt
+    #"nist5" = " -d $SelGPUCC" #Nist5
     #"pascal" = "" #Pascal
     #"qubit" = "" #Qubit
     #"scrypt" = "" #Scrypt
@@ -33,7 +33,7 @@ $Commands = [PSCustomObject]@{
     #"x11evo" = "" #X11evo
     #"x17" = "" #X17
     #"yescrypt" = "" #Yescrypt
-    #"skunk" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Skunk
+    #"skunk" = " -d $SelGPUCC --api-remote --api-allow=0/0" #Skunk
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
