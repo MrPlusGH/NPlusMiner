@@ -831,6 +831,9 @@ Function Autoupdate {
             # Update Optional Miners to Miners if in use
             ls .\OptionalMiners\ | ? {$_.name -in (ls .\Miners\).name} | % {Copy-Item -Force $_.FullName .\Miners\}
 
+            # Remove any obsolete miner file (ie. Not in new version Miners or OptionalMiners)
+            ls .\Miners\ | ? {$_.name -notin (ls .\$UpdateFileName\Miners\).name -and $_.name -notin (ls .\$UpdateFileName\OptionalMiners\).name} | % {Remove-Item -Force $_.FullName}
+
             # Post update specific actions if any
             # Use PostUpdateActions.ps1 in new release to place code
             If (Test-Path ".\$UpdateFileName\PostUpdateActions.ps1") {
