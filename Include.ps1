@@ -829,7 +829,7 @@ Function Autoupdate {
             Copy-Item .\$UpdateFileName\* .\ -force -Recurse
 
             # Update Optional Miners to Miners if in use
-            ls .\OptionalMiners\ | ? {$_.name -in (ls .\Miners\).name} | % {Copy-Item $_.FullName .\Miners\}
+            ls .\OptionalMiners\ | ? {$_.name -in (ls .\Miners\).name} | % {Copy-Item -Force $_.FullName .\Miners\}
 
             # Post update specific actions if any
             # Use PostUpdateActions.ps1 in new release to place code
