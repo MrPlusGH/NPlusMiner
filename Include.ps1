@@ -828,6 +828,9 @@ Function Autoupdate {
             Update-Status("Copying files...")
             Copy-Item .\$UpdateFileName\* .\ -force -Recurse
 
+            # Update Optional Miners to Miners if in use
+            ls .\OptionalMiners\ | ? {$_.name -in (ls .\Miners\).name} | % {Copy-Item $_.FullName .\Miners\}
+
             # Post update specific actions if any
             # Use PostUpdateActions.ps1 in new release to place code
             If (Test-Path ".\$UpdateFileName\PostUpdateActions.ps1") {
