@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 Product:        NPlusMiner
 File:           include.ps1
 version:        4.4.2
-version date:   20180718
+version date:   20181123
 #>
  
 # New-Item -Path function: -Name ((Get-FileHash $MyInvocation.MyCommand.path).Hash) -Value {$true} -EA SilentlyContinue | out-null
