@@ -394,10 +394,17 @@ $MainForm.add_Shown({
     If ($Version -ne $null){$Version | ConvertTo-json | Out-File ".\Config\version.json"}
     If ($Version.Product -eq $Variables.CurrentProduct -and [Version]$version.Version -gt $Variables.CurrentVersion -and $Version.Update) {
         Update-Status("Version $($version.Version) available. (You are running $($Variables.CurrentVersion))")
-        $LabelNotifications.ForeColor = "Green"
-        $LabelNotifications.Lines += "Version $([Version]$version.Version) available"
-        $LabelNotifications.Lines += $version.Message
-        If ($Config.Autoupdate -and ! $Config.ManualConfig) {Autoupdate}
+        If ([version](GetNVIDIADriverVersion) -ge [Version]$Version.MinNVIDIADriverVersion){
+            $LabelNotifications.ForeColor = "Green"
+            $LabelNotifications.Lines += "Version $([Version]$version.Version) available"
+            $LabelNotifications.Lines += $version.Message
+            If ($Config.Autoupdate -and ! $Config.ManualConfig) {Autoupdate}
+        } else {
+            Update-Status("Version $($version.Version) available. Please update NVIDIA driver. Will not AutoUpdate")
+            $LabelNotifications.ForeColor = "Red"
+            $LabelNotifications.Lines += "Driver update required. Version $([Version]$version.Version) available"
+        }
+        
     }
     
     # TimerCheckVersion
@@ -410,11 +417,19 @@ $MainForm.add_Shown({
             $Version = Invoke-WebRequest "http://tiny.cc/rrxqry" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$Version = Get-content ".\Config\version.json" | Convertfrom-json}
         If ($Version -ne $null){$Version | ConvertTo-json | Out-File ".\Config\version.json"}
         If ($Version.Product -eq $Variables.CurrentProduct -and [Version]$version.Version -gt $Variables.CurrentVersion -and $Version.Update) {
-            Update-Status("Version $($version.Version) available. (You are running $Variables.CurrentVersion)")
-            $LabelNotifications.ForeColor = "Green"
-            $LabelNotifications.Lines += "Version $([Version]$version.Version) available"
-            If ($Config.Autoupdate -and ! $Config.ManualConfig) {Autoupdate}
-}
+            Update-Status("Version $($version.Version) available. (You are running $($Variables.CurrentVersion))")
+            If ([version](GetNVIDIADriverVersion) -ge [Version]$Version.MinNVIDIADriverVersion){
+                $LabelNotifications.ForeColor = "Green"
+                $LabelNotifications.Lines += "Version $([Version]$version.Version) available"
+                $LabelNotifications.Lines += $version.Message
+                If ($Config.Autoupdate -and ! $Config.ManualConfig) {Autoupdate}
+            } else {
+                Update-Status("Version $($version.Version) available. Please update NVIDIA driver. Will not AutoUpdate")
+                $LabelNotifications.ForeColor = "Red"
+                $LabelNotifications.Lines += "Driver update required. Version $([Version]$version.Version) available"
+            }
+            
+        }
     })
     # Detects GPU count if 0 or Null in config
     If ($Config.GPUCount -eq $null -or $Config.GPUCount -lt 1){
