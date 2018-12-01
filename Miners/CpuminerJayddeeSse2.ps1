@@ -5,6 +5,8 @@ $Uri = "https://github.com/JayDDee/cpuminer-opt/files/1996977/cpuminer-opt-3.8.8
 
 $Commands = [PSCustomObject]@{
     "allium" = "" #Allium
+    "argon2d-crds" = ",d=7 " #argon2d-crds
+    "argon2d-dyn" = "" #argon2d-dyn
     #"bitcore" = "" #Bitcore
     #"blake2s" = "" #Blake2s
     #"blakecoin" = "" #Blakecoin
@@ -39,6 +41,7 @@ $Commands = [PSCustomObject]@{
     # "x16r" = "" #X16r
     "yescrypt" = "" #Yescrypt
     "yescryptr16" = "" #YescryptR16
+    "yescryptr32" = "" #YescryptR32
 }
 
 $ThreadCount = (Get-WmiObject -class win32_processor).NumberOfLogicalProcessors - 2

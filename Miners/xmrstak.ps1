@@ -1,16 +1,17 @@
-if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
+if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
 
-$Path = ".\Bin\CryptoNight-FireIce\xmr-stak.exe"
-$Uri = "https://github.com/nemosminer/xmr-stak/releases/download/xmr-stakv2.4.5/xmr-stak-2.4.5.zip"
+$Path = ".\Bin\CryptoNight-FireIce260\xmr-stak.exe"
+$Uri = "https://github.com/nemosminer/xmr-stak/releases/download/v2.6/xmr-stak-win64-2.6.0.7z"
 
 $Name = Get-Item $MyInvocation.MyCommand.Path | Select-Object -ExpandProperty BaseName
 $Port = 3335
 
 $Commands = [PSCustomObject]@{
-    "cryptonight_heavy" = "" # CryptoNight-Heavy
+    "cryptonight_heavy" = "" # CryptoNight-Heavy(cryptodredge faster)
     "cryptonight_lite"  = "" # CryptoNight-Lite
-    "cryptonight_v7"    = "" # CryptoNightV7
-    # "cryptonight"     = "" # CryptoNight is ASIC territory
+    "cryptonight_v7"    = "" # CryptoNightV7(cryptodredge faster)
+    # "monero"     = "" # Monero(v8)
+    "cryptonight_v8"    = "" # CryptoNightV8
 }
 
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
@@ -50,15 +51,12 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
     ) -replace "^{" -replace "}$" | Set-Content "$(Split-Path $Path)\$($Pools.$Algorithm_Norm.Name)_$($Algorithm_Norm)_$($Pools.$Algorithm_Norm.User)_Nvidia.txt" -Force -ErrorAction SilentlyContinue
 
     [PSCustomObject]@{
-        Type       = "NVIDIA"
-        Path       = $Path
-        Arguments  = "-C $($Pools.$Algorithm_Norm.Name)_$($Algorithm_Norm)_$($Pools.$Algorithm_Norm.User)_Nvidia.txt --noAMD --noCPU -i $($Port)"
-        HashRates  = [PSCustomObject]@{$Algorithm_Norm = $Stats."$($Name)_$($Algorithm_Norm)_HashRate".Week}
-        API        = "fireice"
-        Port       = $Port
-        URI        = $Uri
-        User = $Pools.(Get-Algorithm($_)).User
-        Host = $Pools.(Get-Algorithm $_).Host
-        Coin = $Pools.(Get-Algorithm $_).Coin
+        Type      = "NVIDIA"
+        Path      = $Path
+        Arguments = "-C $($Pools.$Algorithm_Norm.Name)_$($Algorithm_Norm)_$($Pools.$Algorithm_Norm.User)_Nvidia.txt --noAMD --noCPU -i $($Port)"
+        HashRates = [PSCustomObject]@{$Algorithm_Norm = $Stats."$($Name)_$($Algorithm_Norm)_HashRate".Week}
+        API       = "fireice"
+        Port      = $Port
+        URI       = $Uri
     }
 }

@@ -1,10 +1,13 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
 
-$Path = ".\Bin\NVIDIA-ccminerDumax\ccminer.exe"
-$Uri = "https://github.com/DumaxFr/ccminer/releases/download/dumax-0.9.4/ccminer-dumax-0.9.4-win64.zip"
+$Path = ".\Bin\NVIDIA-ccminerspmodgit11\ccminer.exe"
+$Uri = "https://github.com/sp-hash/suprminer/releases/download/spmod-git11/spmodgit11.7z"
 
 $Commands = [PSCustomObject]@{
-    "phi2" = " -i 19 -d $($Config.SelGPUCC)" #Phi2testing)
+    "c11" = " -d $($Config.SelGPUCC)" #C11 (trex faster/ fastest open source)
+    "x16r" = " -d $($Config.SelGPUCC)" #X16r(trex faster/ fastest open source)
+    "x16s" = " -d $($Config.SelGPUCC)" #X16s (trex faster/ fastest open source)
+    "x17" = " -d $($Config.SelGPUCC)" #X17 (trex faster/ fastest open source)
     #"bitcore" = " -d $($Config.SelGPUCC)" #Bitcore
     #"blake2s" = " -d $($Config.SelGPUCC)" #Blake2s
     #"blakecoin" = " -d $($Config.SelGPUCC)" #Blakecoin
@@ -23,7 +26,7 @@ $Commands = [PSCustomObject]@{
     #"neoscrypt" = " -d $($Config.SelGPUCC)" #NeoScrypt
     #"nist5" = "" #Nist5
     #"pascal" = "" #Pascal
-    #"phi" = " -d $($Config.SelGPUCC)" #Phi(testing)
+    #"phi" = " -d $($Config.SelGPUCC)" #Phi
     #"qubit" = "" #Qubit
     #"scrypt" = "" #Scrypt
     #"sia" = "" #Sia
@@ -34,11 +37,7 @@ $Commands = [PSCustomObject]@{
     #"tribus" = " -d $($Config.SelGPUCC)" #Tribus
     #"vanilla" = "" #BlakeVanilla
     #"veltor" = "" #Veltor
-    #"x11" = "" #X11
     #"x11evo" = " -d $($Config.SelGPUCC)" #X11evo
-    #"x16r" = " -d $($Config.SelGPUCC)" #X16r(testing)
-    #"x16s" = " -d $($Config.SelGPUCC)" #X16s(testing)
-    #"x17" = " -d $($Config.SelGPUCC)" #X17(testing)
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
@@ -49,7 +48,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
         Path = $Path
         Arguments = "-b $($Variables.NVIDIAMinerAPITCPPort) -R 1 -a $_ -o stratum+tcp://$($Pools.(Get-Algorithm($_)).Host):$($Pools.(Get-Algorithm($_)).Port) -u $($Pools.(Get-Algorithm($_)).User) -p $($Pools.(Get-Algorithm($_)).Pass)$($Commands.$_)"
         HashRates = [PSCustomObject]@{(Get-Algorithm($_)) = $Stats."$($Name)_$(Get-Algorithm($_))_HashRate".Day}
-        API = "Ccminer"
+        API = "ccminer"
         Port = $Variables.NVIDIAMinerAPITCPPort
         Wrap = $false
         URI = $Uri
