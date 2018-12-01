@@ -1,16 +1,16 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
 
-try {
-    $Request = Invoke-WebRequest "http://blockmasters.co/api/status" -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
+Try {
+    $Request = get-content ((split-path -parent (get-item $script:MyInvocation.MyCommand.Path).Directory) + "\BrainPlus\nlpoolplus\nlpoolplus.json") | ConvertFrom-Json
 }
 catch { return }
 
 if (-not $Request) {return}
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
-$HostSuffix = "blockmasters.co"
-# $PriceField = "actual_last24h"
-$PriceField = "estimate_current"
+$HostSuffix = "mine.nlpool.nl"
+$PriceField = "actual_last24h"
+# $PriceField = "estimate_current"
  
 $Location = "US"
 
@@ -19,15 +19,16 @@ $Location = "US"
     $PoolConf = $Config.PoolsConfig.$ConfName
 
 $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
-    $PoolHost = "$($HostSuffix)"
+    $PoolHost = $HostSuffix
     $PoolPort = $Request.$_.port
     $PoolAlgorithm = Get-Algorithm $Request.$_.name
 
-    $Divisor = 1000000 * [Double]$Request.$_.mbtc_mh_factor
+      $Divisor = 1000000 * [Double]$Request.$_.mbtc_mh_factor
 
     switch ($PoolAlgorithm) {
-        "bcd" {$Divisor /= 10}
-    }#temp fix
+        "Yescrypt" {$Divisor *= 100}       #temp fix
+
+    }
 
     if ((Get-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))}
     else {$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))}
@@ -38,7 +39,7 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
     if ($PoolConf.Wallet) {
         [PSCustomObject]@{
             Algorithm     = $PoolAlgorithm
-            Info          = "$ahashpool_Coin $ahashpool_Coinname"
+            Info          = ""
             Price         = $Stat.Live*$PoolConf.PricePenaltyFactor
             StablePrice   = $Stat.Week
             MarginOfError = $Stat.Week_Fluctuation
