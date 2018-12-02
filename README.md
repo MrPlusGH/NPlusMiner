@@ -3,7 +3,7 @@ Copyright (c) 2018 MrPlus	(https://github.com/MrPlusGH/NPlusMiner)
 Copyright (c) 2018 Nemo		(https://github.com/nemosminer/NemosMiner)
 
 ![alt text](https://github.com/MrPlusGH/NPlusMiner/blob/2.1/NPM.png)
- # NPlusMiner-v4.4.2
+ # NPlusMiner-v4.5
   
  Readme Updated 2018 December 02
  
@@ -17,6 +17,8 @@ NPlusMiner Monitors mining pools in real-time in order to find the most profitab
 	 Auto Benchmarks Each algo to get optimal speeds 
 	 Fully automated 
 	 Auto Downloads Miners
+	 Tracks and display earnings accross pools 
+	 AutoUpdate
 
 *****
 
@@ -107,7 +109,7 @@ Fee:
 
    Earnings Tracking
    
-      Displays BTC/H and BTC/D as well a estimation of when the pool payment threshold will be reached.
+      Graphical displays BTC/H and BTC/D as well a estimation of when the pool payment threshold will be reached.
       Supported pools:
             ahashpool
             zergpool
@@ -167,7 +169,7 @@ https://www.microsoft.com/en-us/download/details.aspx?id=48145
 
 running multiple cards its recommended to increase Virtual Memory 64gb is optimal
 
-Requires Nvidia driver 398.22 or newer / 398.36 recommended 
+Requires Nvidia driver 416.34 or newer / 417.01 recommended 
 https://us.download.nvidia.com/Windows/398.36/398.36-desktop-win10-64bit-international-whql.exe
 
 Made For & Tested with 8x10603gb 6x1070 6x1070ti 6x1080ti (users have reported up to 12cards working have not tested myself) Some miners do not support more that 9 cards
