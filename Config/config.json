@@ -28,6 +28,7 @@
     "MinerName":  null,
     "Passwordcurrency":  "BTC",
     "PoolName":  [
+                     "miningpoolhub",
                      "nicehash",
                      "zpoolplus"
                  ],
