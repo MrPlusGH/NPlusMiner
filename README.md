@@ -7,6 +7,9 @@ Copyright (c) 2018 Nemo		(https://github.com/nemosminer/NemosMiner)
   
  Readme Updated 2018 December 02
  
+[![Version tag](https://img.shields.io/github/release/MRPlusGH/NPlusMiner.svg)](https://github.com/MrPlusGH/NPlusMiner/releases/latest) [![Version date tag](https://img.shields.io/github/release-date/MRPlusGH/NPlusMiner.svg)](https://github.com/MRPlusGH/NPlusMiner/releases/latest) 
+[![GitHub license](https://img.shields.io/github/license/MRPlusGH/NPlusMiner.svg)](https://github.com/MRPlusGH/NPlusMiner/blob/master/LICENSE)
+ 
 *****
 **For more help and HowTos please check our wiki here** : https://github.com/MrPlusGH/NPlusMiner-Documentation/wiki
 BitcoinTalk : https://bitcointalk.org/index.php?topic=2965976.0
