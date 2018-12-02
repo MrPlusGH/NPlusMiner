@@ -612,7 +612,7 @@ $TabControl.Controls.AddRange(@($RunPage,$SwitchingPage,$ConfigPage,$Estimations
     $LabelNotifications.AutoSize                 = $false
     $LabelNotifications.width                    = 280
     $LabelNotifications.height                   = 18
-    $LabelNotifications.location                 = New-Object System.Drawing.Point(345,49)
+    $LabelNotifications.location                 = New-Object System.Drawing.Point(10,49)
     $LabelNotifications.Font                     = 'Microsoft Sans Serif,10'
     $LabelNotifications.BorderStyle              = 'None'
     $LabelNotifications.BackColor                = [System.Drawing.SystemColors]::Control
