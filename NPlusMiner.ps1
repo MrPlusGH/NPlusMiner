@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           NPlusMiner.ps1
-version:        4.4.1
-version date:   20181123
+version:        4.5
+version date:   20180813
 #>
 
 param(
@@ -115,13 +115,17 @@ Function Global:TimerUITick
         $Variables.EarningsTrackerJobs | ? {$_.state -eq "Running"} | foreach {
             $EarnTrack = $_ | Receive-Job
                 If ($EarnTrack) {
-                    $Variables.EarningsPool = (($EarnTrack[($EarnTrack.Count - 1)]).Pool)
-                    # $Variables.Earnings.$Variables.EarningsPool = $EarnTrack[($EarnTrack.Count - 1)]
-                    $Variables.Earnings.(($EarnTrack[($EarnTrack.Count - 1)]).Pool) = $EarnTrack[($EarnTrack.Count - 1)]
+                    # $Variables.Earnings = @{}
+                    $EarnTrack | ? {$_.Pool -ne ""} | sort date,pool | select -Last ($EarnTrack.Pool | Sort -Unique).Count | ForEach {
+                        If ($_.Pool -in ($config.PoolName -replace "24hr","" -replace "plus","")) {
+                            $Variables.EarningsPool = $_.Pool
+                            $Variables.Earnings.($_.Pool) = $_
+                        }
+                    }
                     rv EarnTrack
                }
         }
-
+        
         If ((compare -ReferenceObject $CheckedListBoxPools.Items -DifferenceObject ((Get-ChildItem ".\Pools").BaseName | sort -Unique) | ? {$_.SideIndicator -eq "=>"}).InputObject -gt 0) {
         (compare -ReferenceObject $CheckedListBoxPools.Items -DifferenceObject ((Get-ChildItem ".\Pools").BaseName | sort -Unique) | ? {$_.SideIndicator -eq "=>"}).InputObject | % { if ($_ -ne $null){}$CheckedListBoxPools.Items.AddRange($_)}
         $Config.PoolName | foreach {$CheckedListBoxPools.SetItemChecked($CheckedListBoxPools.Items.IndexOf($_),$True)}
@@ -141,6 +145,23 @@ Function Global:TimerUITick
 			If (Test-Path ".\Logs\switching.log"){$SwitchingArray = [System.Collections.ArrayList]@(@((get-content ".\Logs\switching.log" -First 1) , (get-content ".\logs\switching.log" -last 50)) | ConvertFrom-Csv | ? {$_.Type -in $SwitchingDisplayTypes} | Select -Last 13)}
 			$SwitchingDGV.DataSource = $SwitchingArray
 			
+            If (Test-Path ".\logs\DailyEarnings.csv"){
+                If ($Chart1) {$RunPage.Controls.Remove($Chart1)}
+                $Chart1 = Invoke-Expression -Command ".\Charting.ps1 -Chart 'Front7DaysEarnings' -Width 505 -Height 85"
+                $Chart1.top = 74
+                $Chart1.left = 0
+                $RunPage.Controls.Add($Chart1)
+                $Chart1.BringToFront()
+            }
+            If (Test-Path ".\logs\DailyEarnings.csv"){
+                If ($Chart2) {$RunPage.Controls.Remove($Chart2)}
+                $Chart2 = Invoke-Expression -Command ".\Charting.ps1 -Chart 'DayPoolSplit' -Width 200 -Height 85"
+                $Chart2.top = 74
+                $Chart2.left = 500
+                $RunPage.Controls.Add($Chart2)
+                $Chart2.BringToFront()
+            }
+
 			If ($Variables.Earnings -and $Config.TrackEarnings) {
 				$DisplayEarnings = [System.Collections.ArrayList]@($Variables.Earnings.Values | select @(
 					@{Name="Pool";Expression={$_.Pool}},
@@ -342,6 +363,9 @@ Function Form_Load
 
 Function CheckedListBoxPools_Click ($Control) {
     $Config | Add-Member -Force @{$Control.Tag = $Control.CheckedItems}
+    $EarningTrackerConfig = Get-Content ".\Config\EarningTrackerConfig.json" | ConvertFrom-JSON
+    $EarningTrackerConfig | Add-Member -Force @{"Pools" = ($Control.CheckedItems.Replace("24hr", "")).Replace("Plus", "") | sort -Unique}
+    $EarningTrackerConfig | ConvertTo-JSON | Out-File ".\Config\EarningTrackerConfig.json"
 }
 
 Function PrepareWriteConfig{
@@ -596,28 +620,6 @@ $TabControl.Controls.AddRange(@($RunPage,$SwitchingPage,$ConfigPage,$Estimations
     # $TBNotifications.TextAlign                = "Right"
     $MainFormControls += $LabelNotifications
 
-    $LabelGitHub                    = New-Object System.Windows.Forms.LinkLabel
-    # $LabelGitHub.Location           = New-Object System.Drawing.Size(415,39)
-    # $LabelGitHub.Size               = New-Object System.Drawing.Size(160,18)
-    $LabelGitHub.Location           = New-Object System.Drawing.Size(220,49)
-    $LabelGitHub.Size               = New-Object System.Drawing.Size(160,18)
-    $LabelGitHub.LinkColor          = "BLUE"
-    $LabelGitHub.ActiveLinkColor    = "RED"
-    $LabelGitHub.Text               = "NPlusMiner on GitHub"
-    $LabelGitHub.add_Click({[system.Diagnostics.Process]::start("https://github.com/MrPlusGH/NPlusMiner/releases")})
-    $MainFormControls += $LabelGitHub
-
-    $LabelCopyright                 = New-Object System.Windows.Forms.LinkLabel
-    # $LabelCopyright.Location        = New-Object System.Drawing.Size(415,61)
-    # $LabelCopyright.Size            = New-Object System.Drawing.Size(200,20)
-    $LabelCopyright.Location        = New-Object System.Drawing.Size(10,49)
-    $LabelCopyright.Size            = New-Object System.Drawing.Size(200,18)
-    $LabelCopyright.LinkColor       = "BLUE"
-    $LabelCopyright.ActiveLinkColor = "RED"
-    $LabelCopyright.Text            = "Copyright (c) 2018 MrPlus and Nemo"
-    $LabelCopyright.add_Click({[system.Diagnostics.Process]::start("https://github.com/MrPlusGH/NPlusMiner/blob/master/LICENSE")})
-    $MainFormControls += $LabelCopyright
-
     $LabelAddress                          = New-Object system.Windows.Forms.Label
     $LabelAddress.text                     = "Wallet Address"
     $LabelAddress.AutoSize                 = $false
@@ -655,28 +657,64 @@ $TabControl.Controls.AddRange(@($RunPage,$SwitchingPage,$ConfigPage,$Estimations
     $RunPageControls += $LabelStatus
  
     $LabelEarnings                          = New-Object system.Windows.Forms.Label
-    $LabelEarnings.text                     = "Earnings Tracker"
+    $LabelEarnings.text                     = "Earnings Tracker (Past 7 days earnings / Per pool earnings today)"
     $LabelEarnings.AutoSize                 = $false
-    $LabelEarnings.width                    = 300
+    $LabelEarnings.width                    = 600
     $LabelEarnings.height                   = 20
     $LabelEarnings.location                 = New-Object System.Drawing.Point(2,54)
     $LabelEarnings.Font                     = 'Microsoft Sans Serif,10'
     $RunPageControls += $LabelEarnings
 
+    If (Test-Path ".\logs\DailyEarnings.csv"){
+        $Chart1 = Invoke-Expression -Command ".\Charting.ps1 -Chart 'Front7DaysEarnings' -Width 505 -Height 85"
+        $Chart1.top = 74
+        $Chart1.left = 2
+        $RunPageControls += $Chart1
+    }
+    If (Test-Path ".\logs\DailyEarnings.csv"){
+        $Chart2 = Invoke-Expression -Command ".\Charting.ps1 -Chart 'DayPoolSplit' -Width 200 -Height 85"
+        $Chart2.top = 74
+        $Chart2.left = 500
+        $RunPageControls += $Chart2
+    }
+
     $EarningsDGV                                            = New-Object system.Windows.Forms.DataGridView
     $EarningsDGV.width                                      = 712
     # $EarningsDGV.height                                     = 305
-    $EarningsDGV.height                                     = 170
-    $EarningsDGV.location                                   = New-Object System.Drawing.Point(2,74)
+    # $EarningsDGV.height                                     = 170
+    $EarningsDGV.height                                     = 85
+    $EarningsDGV.location                                   = New-Object System.Drawing.Point(2,159)
     $EarningsDGV.DataBindings.DefaultDataSourceUpdateMode   = 0
     $EarningsDGV.AutoSizeColumnsMode                        = "Fill"
     $EarningsDGV.RowHeadersVisible                          = $False
     $RunPageControls += $EarningsDGV
 
+    $LabelGitHub                    = New-Object System.Windows.Forms.LinkLabel
+    # $LabelGitHub.Location           = New-Object System.Drawing.Size(415,39)
+    # $LabelGitHub.Size               = New-Object System.Drawing.Size(160,18)
+    $LabelGitHub.Location           = New-Object System.Drawing.Size(600,246)
+    $LabelGitHub.Size               = New-Object System.Drawing.Size(160,20)
+    $LabelGitHub.LinkColor          = "BLUE"
+    $LabelGitHub.ActiveLinkColor    = "RED"
+    $LabelGitHub.Text               = "NPlusMiner on GitHub"
+    $LabelGitHub.add_Click({[system.Diagnostics.Process]::start("https://github.com/MrPlusGH/NPlusMiner/releases")})
+    $RunPageControls += $LabelGitHub
+
+    $LabelCopyright                 = New-Object System.Windows.Forms.LinkLabel
+    # $LabelCopyright.Location        = New-Object System.Drawing.Size(415,61)
+    # $LabelCopyright.Size            = New-Object System.Drawing.Size(200,20)
+    $LabelCopyright.Location        = New-Object System.Drawing.Size(395,246)
+    $LabelCopyright.Size            = New-Object System.Drawing.Size(200,20)
+    $LabelCopyright.LinkColor       = "BLUE"
+    $LabelCopyright.ActiveLinkColor = "RED"
+    $LabelCopyright.Text            = "Copyright (c) 2018 MrPlus and Nemo"
+    $LabelCopyright.add_Click({[system.Diagnostics.Process]::start("https://github.com/MrPlusGH/NPlusMiner/blob/master/LICENSE")})
+    $RunPageControls += $LabelCopyright
+
     $LabelRunningMiners                          = New-Object system.Windows.Forms.Label
     $LabelRunningMiners.text                     = "Running Miners"
     $LabelRunningMiners.AutoSize                 = $false
-    $LabelRunningMiners.width                    = 300
+    $LabelRunningMiners.width                    = 200
     $LabelRunningMiners.height                   = 20
     $LabelRunningMiners.location                 = New-Object System.Drawing.Point(2,246)
     $LabelRunningMiners.Font                     = 'Microsoft Sans Serif,10'
