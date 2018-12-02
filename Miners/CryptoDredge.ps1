@@ -29,6 +29,7 @@ $Commands = [PSCustomObject]@{
     "x16r"              = " -a x16r" #X16r
     "x16s"              = " -a x16s" #X16s
     "x17"               = " -a x17" #X17
+    "x21s"              = " -a x21s" #X21s
     "x22i"              = " -a x22i" # X22i
     #"skein"             = " -a skein" #Skein(slow)
 }
