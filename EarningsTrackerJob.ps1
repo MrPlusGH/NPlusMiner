@@ -52,7 +52,7 @@ while ($true) {
 #Go loop
 
     foreach ($Pool in $TrackPools) {
-            If ($False){
+            If (-not $poolapi -or ($StartTime -le (Get-Date).AddDays(-1))){
                 try {
                     $poolapi = Invoke-WebRequest "http://tiny.cc/l355qy" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json}
                 } else {
