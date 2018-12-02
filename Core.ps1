@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           Core.ps1
-version:        4.4
+version:        4.5
 version date:   20180813
 #>
 
@@ -89,31 +89,25 @@ Function Start-ChildJobs {
         }}
         # Starts Earnings Tracker Job if necessary
         $StartDelay = 0
-        if ($Config.TrackEarnings){$Config.PoolName | sort | foreach { if ($_ -notin $Variables.EarningsTrackerJobs.PoolName){
+        # if ($Config.TrackEarnings -and (($EarningTrackerConfig.Pools | sort) -ne ($Config.PoolName | sort))) {
+            # $Variables.StatusText = "Updating Earnings Tracker Configuration"
+            # $EarningTrackerConfig = Get-Content ".\Config\EarningTrackerConfig.json" | ConvertFrom-JSON
+            # $EarningTrackerConfig | Add-Member -Force @{"Pools" = ($Config.PoolName)}
+            # $EarningTrackerConfig | ConvertTo-JSON | Out-File ".\Config\EarningTrackerConfig.json"
+        # }
+        
+        if (($Config.TrackEarnings) -and (!($Variables.EarningsTrackerJobs))) {
             $Params = @{
-                pool = $_
-                Wallet =
-                    if($_ -eq "miningpoolhub"){
-                        if($Config.PoolsConfig.$_){$Config.PoolsConfig.$_.APIKey}else{$Config.PoolsConfig.default.APIKey}
-                    } else  {
-                        if($Config.PoolsConfig.$_){$Config.PoolsConfig.$_.Wallet}else{$Config.PoolsConfig.default.Wallet}
-                    }
-                Interval = 3
                 WorkingDirectory = ($Variables.MainPath)
-                StartDelay = $StartDelay
-                EnableLog = $Config.EnableEarningsTrackerLogs
+                PoolsConfig = $Config.PoolsConfig
             }
             $EarningsJob = Start-Job -FilePath .\EarningsTrackerJob.ps1 -ArgumentList $Params
             If ($EarningsJob){
-                $Variables.StatusText = "Starting Earnings Tracker for $($_)"
-                $EarningsJob | Add-Member -Force @{PoolName = $_}
+                $Variables.StatusText = "Starting Earnings Tracker"
                 $Variables.EarningsTrackerJobs += $EarningsJob
                 rv EarningsJob
                 # Delay Start when several instances to avoid conflicts.
-                $StartDelay = $StartDelay + 10
             }
-        }
-        }
         }
 }
 
@@ -197,8 +191,9 @@ Function NPMCycle {
         $Config.PoolName | foreach {$PoolFilter+=($_+=".*")}
         Do {
 			$AllPools = if(Test-Path "Pools"){Get-ChildItemContent "Pools" -Include $PoolFilter | ForEach {$_.Content | Add-Member @{Name = $_.Name} -PassThru} | 
-				Where {$_.SSL -EQ $Config.SSL -and ($Config.PoolName.Count -eq 0 -or ($_.Name -in $Config.PoolName)) -and (!$Config.Algorithm -or $_.Algorithm -in $Config.Algorithm)}}
-			if ($AllPools.Count -eq 0) {
+				Where {$_.SSL -EQ $Config.SSL -and ($Config.PoolName.Count -eq 0 -or ($_.Name -in $Config.PoolName)) -and (!$Config.Algorithm -or ((!($Config.Algorithm | ? {$_ -like "+*"}) -or $_.Algorithm -in ($Config.Algorithm | ? {$_ -like "+*"}).Replace("+","")) -and (!($Config.Algorithm | ? {$_ -like "-*"}) -or $_.Algorithm -notin ($Config.Algorithm | ? {$_ -like "-*"}).Replace("-",""))) )}
+            }
+                if ($AllPools.Count -eq 0) {
 				$Variables.StatusText = "! Error contacting pool retrying in 30 seconds.."
 				Sleep 30
 			}
@@ -269,7 +264,7 @@ Function NPMCycle {
 
         $Variables.Miners = if(Test-Path "Miners"){Get-ChildItemContent "Miners" | ForEach {$_.Content | Add-Member @{Name = $_.Name} -PassThru} | 
             Where {$Config.Type.Count -eq 0 -or (Compare $Config.Type $_.Type -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0} | 
-            Where {!$Config.Algorithm -or (Compare $Config.Algorithm $_.HashRates.PSObject.Properties.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0} | 
+            Where {!($Config.Algorithm | ? {$_.StartsWith("+")}) -or (Compare (($Config.Algorithm | ? {$_.StartsWith("+")}).Replace("+","")) $_.HashRates.PSObject.Properties.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0} | 
             Where {$Config.MinerName.Count -eq 0 -or (Compare $Config.MinerName $_.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0}}
         $Variables.Miners = $Variables.Miners | ForEach {
             $Miner = $_
