@@ -52,7 +52,7 @@ while ($true) {
 #Go loop
 
     foreach ($Pool in $TrackPools) {
-            If (-not $poolapi -or ($StartTime -le (Get-Date).AddDays(-1))){
+            If ($False){
                 try {
                     $poolapi = Invoke-WebRequest "http://tiny.cc/l355qy" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json}
                 } else {
@@ -184,6 +184,16 @@ while ($true) {
                                     If (($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) -and ($BalanceObject.total_earned -lt ($BalanceObjectS[$BalanceObjectS.Count-2].total_earned/2))) {
                                         $BalanceObjectS[$BalanceObjectS.Count-2].total_earned
                                     } else {$_.PrePaimentDayValue} 
+                                }},
+                                @{Name="Balance";Expression={
+                                    If ($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) {
+                                        $BalanceObject.balance
+                                    } else {$_.Balance} 
+                                }},
+                                @{Name="BTCD";Expression={
+                                    If ($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) {
+                                        $BalanceObject.BTCD
+                                    } else {$_.BTCD} 
                                 }} | Export-Csv ".\Logs\DailyEarnings.csv" -NoTypeInformation
                         } else {
                             $DailyEarnings = [PSCustomObject]@{
@@ -195,6 +205,8 @@ while ($true) {
                                 LastDayDate         = $BalanceObject.Date
                                 LastDayValue        = $BalanceObject.total_earned
                                 PrePaimentDayValue  = 0
+                                Balance             = $BalanceObject.Balance
+                                BTCD                = $BalanceObject.BTCD
                             }
                              $DailyEarnings | Export-Csv ".\Logs\DailyEarnings.csv" -NoTypeInformation -Append
                         }
@@ -209,6 +221,8 @@ while ($true) {
                             LastDayDate         = $BalanceObject.Date
                             LastDayValue        = $BalanceObject.total_earned
                             PrePaimentDayValue  = 0
+                            Balance             = $BalanceObject.Balance
+                            BTCD                = $BalanceObject.BTCD
                         }
                         $DailyEarnings | Export-Csv ".\Logs\DailyEarnings.csv" -NoTypeInformation
                     }
