@@ -192,7 +192,7 @@ while ($true) {
                                 }},
                                 @{Name="BTCD";Expression={
                                     If ($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) {
-                                        $BalanceObject.BTCD
+                                        $BalanceObject.Growth24
                                     } else {$_.BTCD} 
                                 }} | Export-Csv ".\Logs\DailyEarnings.csv" -NoTypeInformation
                         } else {
@@ -206,7 +206,7 @@ while ($true) {
                                 LastDayValue        = $BalanceObject.total_earned
                                 PrePaimentDayValue  = 0
                                 Balance             = $BalanceObject.Balance
-                                BTCD                = $BalanceObject.BTCD
+                                BTCD                = $BalanceObject.Growth24
                             }
                              $DailyEarnings | Export-Csv ".\Logs\DailyEarnings.csv" -NoTypeInformation -Append
                         }
@@ -222,7 +222,7 @@ while ($true) {
                             LastDayValue        = $BalanceObject.total_earned
                             PrePaimentDayValue  = 0
                             Balance             = $BalanceObject.Balance
-                            BTCD                = $BalanceObject.BTCD
+                            BTCD                = $BalanceObject.Growth24
                         }
                         $DailyEarnings | Export-Csv ".\Logs\DailyEarnings.csv" -NoTypeInformation
                     }
