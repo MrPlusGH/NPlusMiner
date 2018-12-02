@@ -1,12 +1,13 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
 
 $Path = ".\Bin\NVIDIA-CryptoDredge012\CryptoDredge.exe"
-$Uri = "https://github.com/technobyl/CryptoDredge/releases/download/v0.12.0/CryptoDredge_0.12.0_cuda_10.0_windows.zip"
+$Uri = "https://github.com/technobyl/CryptoDredge/releases/download/v0.13.0/CryptoDredge_0.13.0_cuda_10.0_windows.zip"
 
 $Commands = [PSCustomObject]@{
     "allium"            = " -a allium" #Allium (fastetst)
     "bcd"               = " -a bcd" #Bcd
     "bitcore"           = " -a bitcore" #Bitcore
+    "blake2s"           = " -a blake2s" #Blake2s
     "c11"               = " -a c11" #C11
     "cnv8"              = " -a cnv8" #CryptoNightv8 
     "cryptonightheavy"  = " -a cryptonightheavy" # CryptoNightHeavy(fastest)
