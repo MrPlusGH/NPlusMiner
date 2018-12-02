@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 Product:        NPlusMiner
 File:           Core.ps1
 version:        4.5
-version date:   20180813
+version date:   20181202
 #>
 
 Function InitApplication {
