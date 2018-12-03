@@ -5,7 +5,6 @@ $Uri = "https://github.com/nemosminer/ccminerTpruvot/releases/download/v2.3-cuda
 
 $Commands = [PSCustomObject]@{
     "allium"     = " -d $($Config.SelGPUCC)" #Allium
-    "bitcore"    = " -d $($Config.SelGPUCC)" #Bitcore(spmodbitcore faster)
     "exosis"     = " -d $($Config.SelGPUCC)" #Exosis
     "hmq1725"    = " -d $($Config.SelGPUCC)" #hmq1725
     "lyra2z"     = " -d $($Config.SelGPUCC) --submit-stale" #Lyra2z
@@ -13,9 +12,9 @@ $Commands = [PSCustomObject]@{
     "sha256t"    = " -d $($Config.SelGPUCC) -i 29" #Sha256t
     "skunk"      = " -d $($Config.SelGPUCC)" #Skunk
     "sonoa"      = " -d $($Config.SelGPUCC)" #Sonoa
-    #"timetravel" = " -d $($Config.SelGPUCC)" #Timetravel
     "tribus"     = " -d $($Config.SelGPUCC)" #Tribus
     #"blake2s" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Blake2s
+    #"bitcore"    = " -d $($Config.SelGPUCC)" #Bitcore(spmodbitcore faster)
     #"c11"        = " -d $($Config.SelGPUCC)" #C11
     #"cryptonight" = " -i 10 -d $($Config.SelGPUCC)" #Cryptonight
     #"decred" = "" #Decred
@@ -37,6 +36,7 @@ $Commands = [PSCustomObject]@{
     #"scrypt" = "" #Scrypt
     #"sia" = "" #Sia
     #"sib"        = " -d $($Config.SelGPUCC)" #Sib
+    #"timetravel" = " -d $($Config.SelGPUCC)" #Timetravel
     #"vanilla" = "" #BlakeVanilla
     #"veltor" = "" #Veltor
     #"x11evo"     = " -d $($Config.SelGPUCC)" #X11evo (Alexis78 faster)
