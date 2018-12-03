@@ -297,6 +297,82 @@ function Set-Algorithm {
     }
 }
 #> 
+
+function Invoke_TcpRequest {
+     
+    param(
+        [Parameter(Mandatory = $true)]
+        [String]$Server = "localhost", 
+        [Parameter(Mandatory = $true)]
+        [String]$Port, 
+        [Parameter(Mandatory = $true)]
+        [String]$Request, 
+        [Parameter(Mandatory = $true)]
+        [Int]$Timeout = 10 #seconds
+    )
+
+    try {
+        $Client = New-Object System.Net.Sockets.TcpClient $Server, $Port
+        $Stream = $Client.GetStream()
+        $Writer = New-Object System.IO.StreamWriter $Stream
+        $Reader = New-Object System.IO.StreamReader $Stream
+        $client.SendTimeout = $Timeout * 1000
+        $client.ReceiveTimeout = $Timeout * 1000
+        $Writer.AutoFlush = $true
+
+        $Writer.WriteLine($Request)
+        $Response = $Reader.ReadLine()
+    }
+    catch { $Error.Remove($error[$Error.Count - 1])}
+    finally {
+        if ($Reader) {$Reader.Close()}
+        if ($Writer) {$Writer.Close()}
+        if ($Stream) {$Stream.Close()}
+        if ($Client) {$Client.Close()}
+    }
+
+    $response
+    
+}
+
+
+
+#************************************************************************************************************************************************************************************
+#************************************************************************************************************************************************************************************
+#************************************************************************************************************************************************************************************
+
+
+
+function Invoke_httpRequest {
+     
+    param(
+        [Parameter(Mandatory = $true)]
+        [String]$Server = "localhost", 
+        [Parameter(Mandatory = $true)]
+        [String]$Port, 
+        [Parameter(Mandatory = $false)]
+        [String]$Request, 
+        [Parameter(Mandatory = $true)]
+        [Int]$Timeout = 10 #seconds
+    )
+
+    try {
+
+        $response = Invoke-WebRequest "http://$($Server):$Port$Request" -UseBasicParsing -TimeoutSec $timeout
+    }
+    catch {$Error.Remove($error[$Error.Count - 1])}
+  
+
+    $response
+    
+}
+
+
+#************************************************************************************************************************************************************************************
+#************************************************************************************************************************************************************************************
+#************************************************************************************************************************************************************************************
+
+
 function Get-HashRate {
     param(
         [Parameter(Mandatory = $true)]
