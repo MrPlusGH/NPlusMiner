@@ -1,6 +1,6 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
 
-$Path = ".\Bin\NVIDIA-CryptoDredge012\CryptoDredge.exe"
+$Path = ".\Bin\NVIDIA-CryptoDredge\CryptoDredge.exe"
 $Uri = "https://github.com/technobyl/CryptoDredge/releases/download/v0.13.0/CryptoDredge_0.13.0_cuda_10.0_windows.zip"
 
 $Commands = [PSCustomObject]@{
