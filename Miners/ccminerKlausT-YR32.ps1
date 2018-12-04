@@ -5,12 +5,6 @@ $Uri = "https://github.com/nemosminer/ccminerKlausTyescrypt/releases/download/v1
 
 $Commands = [PSCustomObject]@{
     "yescryptR32" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR32 
-    #"neoscrypt" = " -i 17 -d $($Config.SelGPUCC)" #NeoScrypt
-    #"yescrypt" = " -i 12.5 -d $($Config.SelGPUCC)" #Yescrypt
-    #"yescryptR16" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR16
-    #"yescryptR16v2" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR16v2
-    #"yescryptR24" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR24 
-    #"yescryptR8" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR8
     #"bitcore" = "" #Bitcore
     #"blake2s" = "" #Blake2s
     #"blakecoin" = " -d $($Config.SelGPUCC)" #Blakecoin
@@ -26,6 +20,7 @@ $Commands = [PSCustomObject]@{
     #"lyra2v2" = " -d $($Config.SelGPUCC)" #Lyra2RE2
     #"lyra2z" = "" #Lyra2z
     #"myr-gr" = " -d $($Config.SelGPUCC)" #MyriadGroestl
+    #"neoscrypt" = " -i 17 -d $($Config.SelGPUCC)" #NeoScrypt
     #"nist5" = " -d $($Config.SelGPUCC)" #Nist5
     #"pascal" = "" #Pascal
     #"qubit" = "" #Qubit
@@ -38,6 +33,11 @@ $Commands = [PSCustomObject]@{
     #"veltor" = "" #Veltor
     #"x11" = "" #X11
     #"x11evo" = "" #X11evo
+    #"yescrypt" = " -i 12.5 -d $($Config.SelGPUCC)" #Yescrypt
+    #"yescryptR16" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR16
+    #"yescryptR16v2" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR16v2
+    #"yescryptR24" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR24 
+    #"yescryptR8" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR8
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
