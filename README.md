@@ -110,6 +110,26 @@ Fee:
       normal - uses current estimate API too request profit
          -High switching rate
 
+   Algo selection
+
+      Users might use the Algo list in config to Include or Exclude algos.
+      The list simply works with a +/- system.
+
+      +algo for algo selection
+      -algo for algo removal
+
+      If "+" Used, all selected algo have to be listed
+      If "Minus" Used, all algo selected but exluded ones.
+
+      Do not combine + and - for the same algo
+
+      Examples: 
+      Mine anything but x16r:			Algo list = -x16r
+      Mine anything but x16r and bcd:		Algo list = -x16r,-bcd
+      Mine only x16r:				Algo list = +x16r
+      Mine only x16r and BCD:			Algo list = +x16r,+bcd
+      Mine any available algo at pool:		Algo list = <blank>
+
    Earnings Tracking
    
       Graphical displays BTC/H and BTC/D as well a estimation of when the pool payment threshold will be reached.
