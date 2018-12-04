@@ -28,6 +28,9 @@ version date:   20181202
 # Remove progress info from job.childjobs.Progress to avoid memory leak
 $ProgressPreference="SilentlyContinue"
 
+# Fix TLS version erroring
+[Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
+
 # Set Process Priority
 (Get-Process -Id $PID).PriorityClass = "BelowNormal"
 
