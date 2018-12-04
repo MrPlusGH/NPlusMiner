@@ -9,7 +9,6 @@ $Commands = [PSCustomObject]@{
     "yescryptR16" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR16
     "yescryptR16v2" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR16v2
     "yescryptR24" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR24 
-    "yescryptR32" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR32 
     "yescryptR8" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR8
     #"bitcore" = "" #Bitcore
     #"blake2s" = "" #Blake2s
@@ -36,6 +35,7 @@ $Commands = [PSCustomObject]@{
     #"timetravel" = "" #Timetravel
     #"vanilla" = "" #BlakeVanilla
     #"veltor" = "" #Veltor
+    # "yescryptR32" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR32 
     #"x11" = "" #X11
     #"x11evo" = "" #X11evo
 }
