@@ -8,7 +8,7 @@ catch { return }
 if (-not $Request) {return}
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
-$HostSuffix = "pool1.phi-phi-pool.com"
+$HostSuffix = ".phi-phi-pool.com"
 $PriceField = "actual_last24h"
 # $PriceField = "estimate_current"
 $DivisorMultiplier = 1000000
@@ -19,19 +19,19 @@ $PoolConf = $Config.PoolsConfig.$ConfName
  
 $Locations = "asia", "eu"
 $Locations | ForEach-Object {
-    $zpoolplus_Location = $_
+    $Pool_Location = $_
         
-    switch ($zpoolplus_Location) {
+    switch ($Pool_Location) {
         "eu"    {$Location = "EU"} #Europe
         "asia"  {$Location = "JP"} #Asia [Thailand]
         default {$Location = "JP"}
     }
 
     $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
-        $PoolHost = "$($Location)$($HostSuffix)"
+        $PoolHost = "$($Pool_Location)$($HostSuffix)"
         $PoolPort = $Request.$_.port
         $PoolAlgorithm = Get-Algorithm $Request.$_.name
-
+        
     $Divisor = $DivisorMultiplier * [Double]$Request.$_.mbtc_mh_factor
 
     if ((Get-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))}
@@ -49,8 +49,8 @@ $Locations | ForEach-Object {
             Protocol      = "stratum+tcp"
             Host          = $PoolHost
             Port          = $PoolPort
-            User          = $PoolConf.Wallet
-            Pass          = "$($WorkerName),c=$($PwdCurr)"
+            User          = "$($PoolConf.Wallet).$($PoolConf.WorkerName)"
+            Pass          = "c=$($PwdCurr)"
             Location      = $Location
             SSL           = $false
 			}
