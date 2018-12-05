@@ -19,18 +19,21 @@ $PoolConf = $Config.PoolsConfig.$ConfName
 
 $Locations = "asia", "eu"
 $Locations | ForEach-Object {
-    $zpoolplus_Location = $_
+    $Pool_Location = $_
         
-    switch ($zpoolplus_Location) {
+    switch ($Pool_Location) {
         "eu"    {$Location = "EU"} #Europe
         "asia"  {$Location = "JP"} #Asia [Thailand]
         default {$Location = "JP"}
     }
 
     $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
-        $PoolHost = "$($Location)$($HostSuffix)"
+        $PoolHost = "$($Pool_Location)$($HostSuffix)"
         $PoolPort = $Request.$_.port
         $PoolAlgorithm = Get-Algorithm $Request.$_.name
+
+    # Temp fix for algo selection
+    If ($PoolAlgorithm -ne "x21s"){Return}
 
     $Divisor = $DivisorMultiplier * [Double]$Request.$_.mbtc_mh_factor
 
@@ -49,8 +52,8 @@ $Locations | ForEach-Object {
             Protocol      = "stratum+tcp"
             Host          = $PoolHost
             Port          = $PoolPort
-            User          = $PoolConf.Wallet
-            Pass          = "$($WorkerName),c=$($PwdCurr)"
+            User          = "$($PoolConf.Wallet).$($PoolConf.WorkerName)"
+            Pass          = "c=$($PwdCurr)"
             Location      = $Location
             SSL           = $false
 			}
