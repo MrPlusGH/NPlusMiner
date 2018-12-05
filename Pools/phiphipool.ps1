@@ -32,9 +32,6 @@ $Locations | ForEach-Object {
         $PoolPort = $Request.$_.port
         $PoolAlgorithm = Get-Algorithm $Request.$_.name
 
-    # Temp fix for algo selection
-    If ($PoolAlgorithm -ne "x21s"){Return}
-
     $Divisor = $DivisorMultiplier * [Double]$Request.$_.mbtc_mh_factor
 
     if ((Get-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))}
