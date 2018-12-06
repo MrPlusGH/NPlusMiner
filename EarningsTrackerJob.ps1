@@ -42,6 +42,7 @@ If (Test-Path ".\logs\EarningTrackerData.json") {$AllBalanceObjectS = Get-Conten
 
 $BalanceObjectS = @()
 $TrustLevel = 0
+$StartTime = Get-Date
 
 while ($true) {
 
