@@ -1178,6 +1178,8 @@ $TabControl.Controls.AddRange(@($RunPage,$SwitchingPage,$ConfigPage,$Estimations
     $ButtonLoadDefaultPoolsAlgos.height                  = 30
     $ButtonLoadDefaultPoolsAlgos.location                = New-Object System.Drawing.Point(358,300)
     $ButtonLoadDefaultPoolsAlgos.Font                    = 'Microsoft Sans Serif,10'
+    # Disabling button as not needed with new algo selection method
+    $ButtonLoadDefaultPoolsAlgos.Visible                 = $False
     $ConfigPageControls += $ButtonLoadDefaultPoolsAlgos
     
     $ButtonLoadDefaultPoolsAlgos.Add_Click({
