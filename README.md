@@ -75,6 +75,8 @@ Fee:
             - UserName = your MPH user name
             - WorkerName = your worker name
             - PricePenaltyFactor = See explanation below
+	    - Algorithm = List of included or excluded Aglo on pool (see example files)
+
           - Usage
             - The file Config\PoolsConfig.json contains per pool configuration details. If a pool is listed in this file,
 	    the specific settings will be taken into account. If not, the setting for the entry name default will be used.
