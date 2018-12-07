@@ -255,5 +255,5 @@ Switch ($Chart) {
 }
 
 # save chart
-   $chart1.SaveImage("$scriptpath\ChartTest.png","png") | Out-Null
+#   $chart1.SaveImage("$scriptpath\ChartTest.png","png") | Out-Null
    $chart1
