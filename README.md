@@ -134,7 +134,9 @@ Fee:
       Keep tabs on all your mining rigs from one place
       **Thanks to @NemosMiner for giving is aggreement to share the NemosMiner monitoring servers.**
       You can now optionally monitor all your workers remotely, both in the GUI and via https://nemosminer.com  
-      Monitoring setup instructions https://nemosminer.com/setup.php 
+      Monitoring setup instructions https://nemosminer.com/setup.php
+      
+      NPlusMiner does not send any personnal informations to servers. Only miner related info are collected as miner names and hashrates. Miners path are all expressed relative so we have no risk to send any personnal informations like username.
 
    Algo selection
 
