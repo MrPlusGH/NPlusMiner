@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           Charting.ps1
-version:        4.5.3
-version date:   20181204
+version:        4.5.5
+version date:   20181213
 #>
 
 
@@ -255,5 +255,5 @@ Switch ($Chart) {
 }
 
 # save chart
-#   $chart1.SaveImage("$scriptpath\ChartTest.png","png") | Out-Null
+   # $chart1.SaveImage("$scriptpath\ChartTest.png","png") | Out-Null
    $chart1
