@@ -129,6 +129,13 @@ Fee:
       Miners started at 10, First donation cycle runs at 10:52 untill 11, Next donation cycle occurs 24 hours after.
       All donation time and addresses are recorded in the logs folder.
 
+   Miners Monitoring
+
+      Keep tabs on all your mining rigs from one place
+      ** Thanks to @NemosMiner giving is aggreement to share the NemosMiner monitoring servers. **
+      You can now optionally monitor all your workers remotely, both in the GUI and via https://nemosminer.com  
+      Monitoring setup instructions https://nemosminer.com/setup.php 
+
    Algo selection
 
       Users might use the Algo list in config to Include or Exclude algos.
