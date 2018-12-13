@@ -1,6 +1,6 @@
 . .\Include.ps1
 
-$Path = ".\Bin\NVIDIA-EWBF\\miner.exe"
+$Path = ".\Bin\NVIDIA-EWBF\miner.exe"
 $Uri = "https://github.com/nemosminer/EWBF-Zec-Miner/releases/download/btg/ewbf-btg.7z"
 
 $Commands = [PSCustomObject]@{
