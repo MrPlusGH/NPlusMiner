@@ -20,8 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           Core.ps1
-version:        4.5.3
-version date:   20181204
+version:        4.5.5
+version date:   20181213
 #>
 
 Function InitApplication {
@@ -34,8 +34,15 @@ Function InitApplication {
     [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
     Set-Location (Split-Path $script:MyInvocation.MyCommand.Path)
     Get-ChildItem . -Recurse | Unblock-File
-    Update-Status("INFO: Adding NPlusMiner path to Windows Defender's exclusions.. (may show an error if Windows Defender is disabled)")
-    try{if((Get-MpPreference).ExclusionPath -notcontains (Convert-Path .)){Start-Process powershell -Verb runAs -ArgumentList "Add-MpPreference -ExclusionPath '$(Convert-Path .)'"}}catch{}
+
+    if (Get-MpComputerStatus -ErrorAction SilentlyContinue) {
+        Update-Status("INFO: Adding $($Variables.CurrentProduct) path to Windows Defender's exclusions..")
+        try {if ((Get-MpPreference).ExclusionPath -notcontains (Convert-Path .)) {Start-Process powershell -Verb runAs -ArgumentList "Add-MpPreference -ExclusionPath '$(Convert-Path .)'"}}catch {}
+    } 
+    else {
+        Update-Status("INFO: Windows Defender is disabled, make sure to exclude $($Variables.CurrentProduct) directory from your antivirus program")
+    }
+
     if($Proxy -eq ""){$PSDefaultParameterValues.Remove("*:Proxy")}
     else{$PSDefaultParameterValues["*:Proxy"] = $Proxy}
     Update-Status("Initializing Variables...")
@@ -59,6 +66,13 @@ Function InitApplication {
     $Variables | Add-Member -Force @{BrainJobs = @()}
     $Variables | Add-Member -Force @{EarningsTrackerJobs = @()}
     $Variables | Add-Member -Force @{Earnings = @{}}
+
+	
+	$Global:Variables | Add-Member -Force @{StartPaused = $False}
+	$Global:Variables | Add-Member -Force @{Started = $False}
+	$Global:Variables | Add-Member -Force @{Paused = $False}
+	$Global:Variables | Add-Member -Force @{RestartCycle = $False}
+
     
     $Location = $Config.Location
  
@@ -266,10 +280,17 @@ Function NPMCycle {
         $Variables | Add-Member -Force @{Miners = @()}
         $StartPort=4068
 
-        $Variables.Miners = if(Test-Path "Miners"){Get-ChildItemContent "Miners" | ForEach {$_.Content | Add-Member @{Name = $_.Name} -PassThru} | 
+    $Variables.Miners = if (Test-Path "Miners") {
+        @(
+            Get-ChildItemContent "Miners"
+            if ($Config.IncludeOptionalMiners -and (Test-Path "OptionalMiners")) {Get-ChildItemContent "OptionalMiners"}
+            if (Test-Path "CustomMiners") { Get-ChildItemContent "CustomMiners"}
+        ) | ForEach {$_.Content | Add-Member @{Name = $_.Name} -PassThru} |
             Where {$Config.Type.Count -eq 0 -or (Compare $Config.Type $_.Type -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0} | 
-            Where {!($Config.Algorithm | ? {$_.StartsWith("+")}) -or (Compare (($Config.Algorithm | ? {$_.StartsWith("+")}).Replace("+","")) $_.HashRates.PSObject.Properties.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0} | 
-            Where {$Config.MinerName.Count -eq 0 -or (Compare $Config.MinerName $_.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0}}
+            Where {!($Config.Algorithm | ? {$_.StartsWith("+")}) -or (Compare (($Config.Algorithm | ? {$_.StartsWith("+")}).Replace("+", "")) $_.HashRates.PSObject.Properties.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0} | 
+            Where {$Config.MinerName.Count -eq 0 -or (Compare $Config.MinerName $_.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0}
+    }
+
         $Variables.Miners = $Variables.Miners | ForEach {
             $Miner = $_
             if((Test-Path $Miner.Path) -eq $false)
@@ -421,16 +442,18 @@ Function NPMCycle {
                 {
                     $_.Status = "Failed"
                 }
-                elseif($_.Process.HasExited -eq $false)
-                {
-                $_.Active += (Get-Date)-$_.Process.StartTime
-                   $_.Process.CloseMainWindow() | Out-Null
-                   Sleep 1
-                   # simply "Kill with power"
-                   Stop-Process $_.Process -Force | Out-Null
-                   $Variables.StatusText = "closing current miner and switching"
-                   Sleep 1
-                   $_.Status = "Idle"
+                elseif ($_.Process.HasExited -eq $false) {
+                    $_.Active += (Get-Date) - $_.Process.StartTime
+                    $_.Process.CloseMainWindow() | Out-Null
+                    Sleep 1
+                    # simply "Kill with power"
+                    Stop-Process $_.Process -Force | Out-Null
+                    # Try to kill any process with the same path, in case it is still running but the process handle is incorrect
+                    $KillPath = $_.Path
+                    Get-Process | Where-Object {$_.Path -eq $KillPath} | Stop-Process -Force
+                    Write-Host -ForegroundColor Yellow "closing miner"
+                    Sleep 1
+                    $_.Status = "Idle"
                 }
                 #Restore Bias for non-active miners
                 $Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit_Bias_Orig}
@@ -578,8 +601,8 @@ Function NPMCycle {
 
     # Mostly used for debug. Will execute code found in .\EndLoopCode.ps1 if exists.
     if (Test-Path ".\EndLoopCode.ps1"){Invoke-Expression (Get-Content ".\EndLoopCode.ps1" -Raw)}
+    $Variables.StatusText = "Waiting $($Variables.TimeToSleep) seconds... | Next refresh: $((Get-Date).AddSeconds($Variables.TimeToSleep))"
     $Variables | Add-Member -Force @{EndLoop = $True}
-    $Variables.StatusText = "Sleeping $($Variables.TimeToSleep)"
     # Sleep $Variables.TimeToSleep
     # }
 }
