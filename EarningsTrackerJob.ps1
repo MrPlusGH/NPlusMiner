@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           EarningsTrackerJob.ps1
-version:        4.5.3
-version date:   20181204
+version:        4.5.5
+version date:   20181213
 #>
 
 # To start the job one could use the following
