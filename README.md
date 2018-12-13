@@ -22,6 +22,7 @@ NPlusMiner Monitors mining pools in real-time in order to find the most profitab
 	 Auto Downloads Miners
 	 Tracks and display earnings accross pools 
 	 AutoUpdate
+	 Monitoring
 
 *****
 
@@ -33,7 +34,7 @@ Easy configuration, easy start in two steps:
       2. Hit "Start"
 Fee:
 
-      There is a 8 minutes per day fee (0.5%), that can be changed in the config (Minimum is 3)
+      There is a 8 minutes per day fee (0.5%), that can be changed in the config (Minimum is 3 - 0.2%)
       When less than 3 minutes is set, lottery is 0 or any walue between 3 and 8
 
 *****
@@ -111,6 +112,22 @@ Fee:
          -**Best switching rate**
       normal - uses current estimate API too request profit
          -High switching rate
+	 
+   Developers and Contributors fee distribution
+
+      There is a 8 minutes per day fee (0.5%), that can be changed in the config (Minimum is 3 - 0.2%)
+      When less than 3 minutes is set, lottery is 0 or any walue between 3 and 8
+      
+      We use a fair fee distribution to developers and contributors. Fees are dirtibuted randomly
+      to a public list of devs which can be found here: http://tiny.cc/r355qy
+      
+      We want to stay completely transparent on the way donations are managed in the product.
+      Donations occurs once every 24 hours for the selected amount of time (default 8 minutes).
+      The first donation sequence occurs 1 hour after miners are started.
+      If Interval is set higher than the donation time, the interval will prime.
+      Example for default parameters:
+      Miners started at 10, First donation cycle runs at 10:52 untill 11, Next donation cycle occurs 24 hours after.
+      All donation time and addresses are recorded in the logs folder.
 
    Algo selection
 
