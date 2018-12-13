@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
 
-$Path = ".\Bin\NVIDIA-zealotenemy125v1\z-enemy.exe"
-$Uri = "https://nemosminer.com/data/optional/z-enemy.1-25-cuda10.0_ver1.7z"
+$Path = ".\Bin\NVIDIA-zealotenemy\z-enemy.exe"
+$Uri = "https://nemosminer.com/data/optional/z-enemy.1-27-cuda10.0.7z"
 
 $Commands = [PSCustomObject]@{
     "aeriumx"    = "" #AeriumX(RTX)
@@ -14,13 +14,13 @@ $Commands = [PSCustomObject]@{
     "phi2"       = "" #Phi2 (RTX)
     "poly"       = "" #Polytimos(RTX) 
     "skunk"      = "" #Skunk (RTX)
+    "sonoa"      = "" #SonoA (RTX)
     "timetravel" = "" #Timetravel (RTX)
     "tribus"     = "" #Tribus (RTX)
     "x16r"       = "" #X16r (RTX)
     "x16s"       = "" #X16s (RTX)
     "x17"        = " -i 21" #X17(RTX)
     "xevan"      = "" #Xevan (RTX)
-    #"sonoa"      = "" #SonoA (RTX)
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
