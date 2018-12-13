@@ -132,7 +132,7 @@ Fee:
    Miners Monitoring
 
       Keep tabs on all your mining rigs from one place
-      ** Thanks to @NemosMiner giving is aggreement to share the NemosMiner monitoring servers. **
+      **Thanks to @NemosMiner for giving is aggreement to share the NemosMiner monitoring servers.**
       You can now optionally monitor all your workers remotely, both in the GUI and via https://nemosminer.com  
       Monitoring setup instructions https://nemosminer.com/setup.php 
 
