@@ -20,8 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           include.ps1
-version:        4.5.3
-version date:   20181204
+version:        4.5.5
+version date:   20181213
 #>
  
 # New-Item -Path function: -Name ((Get-FileHash $MyInvocation.MyCommand.path).Hash) -Value {$true} -EA SilentlyContinue | out-null
@@ -46,6 +46,256 @@ Function Global:IsLoaded ($File) {
         ls function: | ? {$_.File -eq (Resolve-Path $File).Path} | Remove-Item
         $false
     }
+}
+
+Function Start-IdleTracking {
+    # Function tracks how long the system has been idle and controls the paused state
+    $Global:IdleRunspace = [runspacefactory]::CreateRunspace()
+    $IdleRunspace.Open()
+    $IdleRunspace.SessionStateProxy.SetVariable('Config', $Config)
+    $IdleRunspace.SessionStateProxy.SetVariable('Variables', $Variables)
+    $IdleRunspace.SessionStateProxy.SetVariable('StatusText', $StatusText)
+    $IdleRunspace.SessionStateProxy.Path.SetLocation((Split-Path $script:MyInvocation.MyCommand.Path))
+    $Global:idlepowershell = [powershell]::Create()
+    $idlePowershell.Runspace = $IdleRunspace
+    $idlePowershell.AddScript( {
+            # No native way to check how long the system has been idle in powershell. Have to use .NET code.
+            Add-Type -TypeDefinition @'
+using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+namespace PInvoke.Win32 {
+    public static class UserInput {
+        [DllImport("user32.dll", SetLastError=false)]
+        private static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct LASTINPUTINFO {
+            public uint cbSize;
+            public int dwTime;
+        }
+
+        public static DateTime LastInput {
+            get {
+                DateTime bootTime = DateTime.UtcNow.AddMilliseconds(-Environment.TickCount);
+                DateTime lastInput = bootTime.AddMilliseconds(LastInputTicks);
+                return lastInput;
+            }
+        }
+        public static TimeSpan IdleTime {
+            get {
+                return DateTime.UtcNow.Subtract(LastInput);
+            }
+        }
+        public static int LastInputTicks {
+            get {
+                LASTINPUTINFO lii = new LASTINPUTINFO();
+                lii.cbSize = (uint)Marshal.SizeOf(typeof(LASTINPUTINFO));
+                GetLastInputInfo(ref lii);
+                return lii.dwTime;
+            }
+        }
+    }
+}
+'@
+            Start-Transcript ".\logs\IdleTracking.log" -Append -Force
+            $ProgressPreference = "SilentlyContinue"
+            . .\Include.ps1; RegisterLoaded(".\Include.ps1")
+            While ($True) {
+                if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
+                if (!(IsLoaded(".\Core.ps1"))) {. .\Core.ps1; RegisterLoaded(".\Core.ps1")}
+                $IdleSeconds = [math]::Round(([PInvoke.Win32.UserInput]::IdleTime).TotalSeconds)
+
+                # Only do anything if Mine only when idle is turned on
+                If ($Config.MineWhenIdle) {
+                    If ($Variables.Paused) {
+                        # Check if system has been idle long enough to unpause
+                        If ($IdleSeconds -gt $Config.IdleSec) {
+                            $Variables.Paused = $False
+                            $Variables.RestartCycle = $True
+                            $Variables.StatusText = "System idle for $IdleSeconds seconds, starting mining..."
+                        }
+                    } 
+                    else {
+                        # Pause if system has become active
+                        If ($IdleSeconds -lt $Config.IdleSec) {
+                            $Variables.Paused = $True
+                            $Variables.RestartCycle = $True
+                            $Variables.StatusText = "System active, pausing mining..."
+                        }
+                    }
+                }
+                Start-Sleep 1
+            }
+        } ) | Out-Null
+    $Variables | Add-Member -Force @{IdleRunspaceHandle = $idlePowershell.BeginInvoke()}
+}
+
+Function Update-Monitoring {
+    # Updates a remote monitoring server, sending this worker's data and pulling data about other workers
+
+    # Skip if server and user aren't filled out
+    if (!$Config.MonitoringServer) { return }
+    if (!$Config.MonitoringUser) { return }
+
+    If ($Config.ReportToServer) {
+        $Version = "$($Variables.CurrentProduct) $($Variables.CurrentVersion.ToString())"
+        $Status = If ($Variables.Paused) { "Paused" } else { "Running" }
+        $RunningMiners = $Variables.ActiveMinerPrograms | Where-Object {$_.Status -eq "Running"}
+        # Add the associated object from $Variables.Miners since we need data from that too
+        $RunningMiners | Foreach-Object {
+            $RunningMiner = $_
+            $Miner = $Variables.Miners | Where-Object {$_.Name -eq $RunningMiner.Name -and $_.Path -eq $RunningMiner.Path -and $_.Arguments -eq $RunningMiner.Arguments}
+            $_ | Add-Member -Force @{'Miner' = $Miner}
+        }
+
+        # Build object with just the data we need to send, and make sure to use relative paths so we don't accidentally
+        # reveal someone's windows username or other system information they might not want sent
+        # For the ones that can be an array, comma separate them
+        $Data = $RunningMiners | Foreach-Object {
+            $RunningMiner = $_
+            [pscustomobject]@{
+                Name           = $RunningMiner.Name
+                Path           = Resolve-Path -Relative $RunningMiner.Path
+                Type           = $RunningMiner.Type -join ','
+                Algorithm      = $RunningMiner.Algorithms -join ','
+                Pool           = $RunningMiner.Miner.Pools.PSObject.Properties.Value.Name -join ','
+                CurrentSpeed   = $RunningMiner.HashRate -join ','
+                EstimatedSpeed = $RunningMiner.Miner.HashRates.PSObject.Properties.Value -join ','
+                Profit         = $RunningMiner.Miner.Profit
+            }
+        }
+        $DataJSON = ConvertTo-Json @($Data)
+        # Calculate total estimated profit
+        $Profit = [string]([Math]::Round(($data | Measure-Object Profit -Sum).Sum, 8))
+
+        # Send the request
+        $Body = @{user = $Config.MonitoringUser; worker = $Config.WorkerName; version = $Version; status = $Status; profit = $Profit; data = $DataJSON}
+        Try {
+            $Response = Invoke-RestMethod -Uri "$($Config.MonitoringServer)/api/report.php" -Method Post -Body $Body -UseBasicParsing -TimeoutSec 10 -ErrorAction Stop
+            $Variables.StatusText = "Reporting status to server... $Response"
+        }
+        Catch {
+            $Variables.StatusText = "Unable to send status to $($Config.MonitoringServer)"
+        }
+    }
+
+    If ($Config.ShowWorkerStatus) {
+        $Variables.StatusText = "Updating status of workers for $($Config.MonitoringUser)"
+        Try {
+            $Workers = Invoke-RestMethod -Uri "$($Config.MonitoringServer)/api/workers.php" -Method Post -Body @{user = $Config.MonitoringUser} -UseBasicParsing -TimeoutSec 10 -ErrorAction Stop
+            # Calculate some additional properties and format others
+            $Workers | Foreach-Object {
+                # Convert the unix timestamp to a datetime object, taking into account the local time zone
+                $_ | Add-Member -Force @{date = [TimeZone]::CurrentTimeZone.ToLocalTime(([datetime]'1/1/1970').AddSeconds($_.lastseen))}
+
+                # If a machine hasn't reported in for > 10 minutes, mark it as offline
+                $TimeSinceLastReport = New-TimeSpan -Start $_.date -End (Get-Date)
+                If ($TimeSinceLastReport.TotalMinutes -gt 10) { $_.status = "Offline" }
+                # Show friendly time since last report in seconds, minutes, hours or days
+                If ($TimeSinceLastReport.Days -ge 1) {
+                    $_ | Add-Member -Force @{timesincelastreport = '{0:N0} days ago' -f $TimeSinceLastReport.TotalDays}
+                }
+                elseif ($TimeSinceLastReport.Hours -ge 1) {
+                    $_ | Add-Member -Force @{timesincelastreport = '{0:N0} hours ago' -f $TimeSinceLastReport.TotalHours}
+                }
+                elseif ($TimeSinceLastReport.Minutes -ge 1) {
+                    $_ | Add-Member -Force @{timesincelastreport = '{0:N0} minutes ago' -f $TimeSinceLastReport.TotalMinutes}
+                }
+                else {
+                    $_ | Add-Member -Force @{timesincelastreport = '{0:N0} seconds ago' -f $TimeSinceLastReport.TotalSeconds}
+                }
+            }
+
+            $Variables | Add-Member -Force @{Workers = $Workers}
+            $Variables | Add-Member -Force @{WorkersLastUpdated = (Get-Date)}
+        }
+        Catch {
+            $Variables.StatusText = "Unable to retrieve worker data from $($Config.MonitoringServer)"
+        }
+    }
+}
+
+Function Start-Mining {
+    # Starts the runspace that runs NPMCycle
+    $Global:CycleRunspace = [runspacefactory]::CreateRunspace()
+    $CycleRunspace.Open()
+    $CycleRunspace.SessionStateProxy.SetVariable('Config', $Config)
+    $CycleRunspace.SessionStateProxy.SetVariable('Variables', $Variables)
+    $CycleRunspace.SessionStateProxy.SetVariable('StatusText', $StatusText)
+    $CycleRunspace.SessionStateProxy.Path.SetLocation((Split-Path $script:MyInvocation.MyCommand.Path))
+    $Global:powershell = [powershell]::Create()
+    $powershell.Runspace = $CycleRunspace
+    $powershell.AddScript( {
+            Start-Transcript ".\logs\CoreCyle.log" -Append -Force
+            $ProgressPreference = "SilentlyContinue"
+            . .\Include.ps1; RegisterLoaded(".\Include.ps1")
+            Update-Monitoring
+            While ($True) {
+                if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
+                if (!(IsLoaded(".\Core.ps1"))) {. .\Core.ps1; RegisterLoaded(".\Core.ps1")}
+				$Variables.Paused | out-host
+                If ($Variables.Paused) {
+                    # Run a dummy cycle to keep the UI updating.
+
+                    # Keep updating exchange rate
+                    $Rates = Invoke-RestMethod "https://api.coinbase.com/v2/exchange-rates?currency=BTC" -TimeoutSec 15 -UseBasicParsing | Select-Object -ExpandProperty data | Select-Object -ExpandProperty rates
+                    $Config.Currency | Where-Object {$Rates.$_} | ForEach-Object {$Rates | Add-Member $_ ([Double]$Rates.$_) -Force}
+                    $Variables | Add-Member -Force @{Rates = $Rates}
+
+                    # Update the UI every 30 seconds, and the Last 1/6/24hr and text window every 2 minutes
+                    for ($i = 0; $i -lt 4; $i++) {
+                        if ($i -eq 3) {
+                            $Variables | Add-Member -Force @{EndLoop = $True}
+                            Update-Monitoring
+                        }
+                        else {
+                            $Variables | Add-Member -Force @{EndLoop = $False}
+                        }
+
+                        $Variables.StatusText = "Mining paused"
+                        Start-Sleep 30
+                    }
+                }
+                else {
+                    NPMCycle
+                    Update-Monitoring
+                    Sleep $Variables.TimeToSleep
+                }
+            }
+        }) | Out-Null
+    $Variables | add-Member -Force @{CycleRunspaceHandle = $powershell.BeginInvoke()}
+    $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
+}
+
+Function Stop-Mining {
+    # Kills any active miners and stops the runspace that hosts NPMCycle
+    If ($Variables.ActiveMinerPrograms) {
+        $Variables.ActiveMinerPrograms | ForEach {
+            [Array]$filtered = ($BestMiners_Combo | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments)
+            if ($filtered.Count -eq 0) {
+                if ($_.Process -eq $null) {
+                    $_.Status = "Failed"
+                }
+                elseif ($_.Process.HasExited -eq $false) {
+                    $_.Active += (Get-Date) - $_.Process.StartTime
+                    $_.Process.CloseMainWindow() | Out-Null
+                    Sleep 1
+                    # simply "Kill with power"
+                    Stop-Process $_.Process -Force | Out-Null
+                    # Try to kill any process with the same path, in case it is still running but the process handle is incorrect
+                    $KillPath = $_.Path
+                    Get-Process | Where-Object {$_.Path -eq $KillPath} | Stop-Process -Force
+                    Write-Host -ForegroundColor Yellow "closing miner"
+                    Sleep 1
+                    $_.Status = "Idle"
+                }
+            }
+        }
+    }
+
+    $Global:CycleRunspace.Close()
+    $Global:powershell.Dispose()
 }
 
 Function Update-Status ($Text) {
@@ -276,27 +526,6 @@ function Get-ChildItemContent {
     
     $ChildItems
 }
-<#
-function Set-Algorithm {
-    param(
-        [Parameter(Mandatory=$true)]
-        [String]$API, 
-        [Parameter(Mandatory=$true)]
-        [Int]$Port, 
-        [Parameter(Mandatory=$false)]
-        [Array]$Parameters = @()
-    )
-    
-    $Server = "localhost"
-    
-    switch($API)
-    {
-        "nicehash"
-        {
-        }
-    }
-}
-#> 
 
 function Invoke_TcpRequest {
      
@@ -615,19 +844,149 @@ function Start-SubProcess {
         $ControllerProcess = Get-Process -Id $ControllerProcessID
         if ($ControllerProcess -eq $null) {return}
 
-        $ProcessParam = @{}
-        $ProcessParam.Add("FilePath", $FilePath)
-        $ProcessParam.Add("WindowStyle", 'Minimized')
-        if ($ArgumentList -ne "") {$ProcessParam.Add("ArgumentList", $ArgumentList)}
-        if ($WorkingDirectory -ne "") {$ProcessParam.Add("WorkingDirectory", $WorkingDirectory)}
-        $Process = Start-Process @ProcessParam -PassThru
+
+
+
+        Add-Type -TypeDefinition @"
+            // http://www.daveamenta.com/2013-08/powershell-start-process-without-taking-focus/
+
+            using System;
+            using System.Diagnostics;
+            using System.Runtime.InteropServices;
+             
+            [StructLayout(LayoutKind.Sequential)]
+            public struct PROCESS_INFORMATION {
+                public IntPtr hProcess;
+                public IntPtr hThread;
+                public uint dwProcessId;
+                public uint dwThreadId;
+            }
+             
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+            public struct STARTUPINFO {
+                public uint cb;
+                public string lpReserved;
+                public string lpDesktop;
+                public string lpTitle;
+                public uint dwX;
+                public uint dwY;
+                public uint dwXSize;
+                public uint dwYSize;
+                public uint dwXCountChars;
+                public uint dwYCountChars;
+                public uint dwFillAttribute;
+                public STARTF dwFlags;
+                public ShowWindow wShowWindow;
+                public short cbReserved2;
+                public IntPtr lpReserved2;
+                public IntPtr hStdInput;
+                public IntPtr hStdOutput;
+                public IntPtr hStdError;
+            }
+             
+            [StructLayout(LayoutKind.Sequential)]
+            public struct SECURITY_ATTRIBUTES {
+                public int length;
+                public IntPtr lpSecurityDescriptor;
+                public bool bInheritHandle;
+            }
+             
+            [Flags]
+            public enum CreationFlags : int {
+                NONE = 0,
+                DEBUG_PROCESS = 0x00000001,
+                DEBUG_ONLY_THIS_PROCESS = 0x00000002,
+                CREATE_SUSPENDED = 0x00000004,
+                DETACHED_PROCESS = 0x00000008,
+                CREATE_NEW_CONSOLE = 0x00000010,
+                CREATE_NEW_PROCESS_GROUP = 0x00000200,
+                CREATE_UNICODE_ENVIRONMENT = 0x00000400,
+                CREATE_SEPARATE_WOW_VDM = 0x00000800,
+                CREATE_SHARED_WOW_VDM = 0x00001000,
+                CREATE_PROTECTED_PROCESS = 0x00040000,
+                EXTENDED_STARTUPINFO_PRESENT = 0x00080000,
+                CREATE_BREAKAWAY_FROM_JOB = 0x01000000,
+                CREATE_PRESERVE_CODE_AUTHZ_LEVEL = 0x02000000,
+                CREATE_DEFAULT_ERROR_MODE = 0x04000000,
+                CREATE_NO_WINDOW = 0x08000000,
+            }
+             
+            [Flags]
+            public enum STARTF : uint {
+                STARTF_USESHOWWINDOW = 0x00000001,
+                STARTF_USESIZE = 0x00000002,
+                STARTF_USEPOSITION = 0x00000004,
+                STARTF_USECOUNTCHARS = 0x00000008,
+                STARTF_USEFILLATTRIBUTE = 0x00000010,
+                STARTF_RUNFULLSCREEN = 0x00000020,  // ignored for non-x86 platforms
+                STARTF_FORCEONFEEDBACK = 0x00000040,
+                STARTF_FORCEOFFFEEDBACK = 0x00000080,
+                STARTF_USESTDHANDLES = 0x00000100,
+            }
+             
+            public enum ShowWindow : short {
+                SW_HIDE = 0,
+                SW_SHOWNORMAL = 1,
+                SW_NORMAL = 1,
+                SW_SHOWMINIMIZED = 2,
+                SW_SHOWMAXIMIZED = 3,
+                SW_MAXIMIZE = 3,
+                SW_SHOWNOACTIVATE = 4,
+                SW_SHOW = 5,
+                SW_MINIMIZE = 6,
+                SW_SHOWMINNOACTIVE = 7,
+                SW_SHOWNA = 8,
+                SW_RESTORE = 9,
+                SW_SHOWDEFAULT = 10,
+                SW_FORCEMINIMIZE = 11,
+                SW_MAX = 11
+            }
+             
+            public static class Kernel32 {
+                [DllImport("kernel32.dll", SetLastError=true)]
+                public static extern bool CreateProcess(
+                    string lpApplicationName, 
+                    string lpCommandLine, 
+                    ref SECURITY_ATTRIBUTES lpProcessAttributes, 
+                    ref SECURITY_ATTRIBUTES lpThreadAttributes,
+                    bool bInheritHandles, 
+                    CreationFlags dwCreationFlags, 
+                    IntPtr lpEnvironment,
+                    string lpCurrentDirectory, 
+                    ref STARTUPINFO lpStartupInfo, 
+                    out PROCESS_INFORMATION lpProcessInformation);
+            }
+"@
+        $lpApplicationName = $FilePath;
+        $lpCommandLine = '"' + $FilePath + '"' #Windows paths cannot contain ", so there is no need to escape
+        if ($ArgumentList -ne "") {$lpCommandLine += " " + $ArgumentList}
+        $lpProcessAttributes = New-Object SECURITY_ATTRIBUTES
+        $lpProcessAttributes.Length = [System.Runtime.InteropServices.Marshal]::SizeOf($lpProcessAttributes)
+        $lpThreadAttributes = New-Object SECURITY_ATTRIBUTES
+        $lpThreadAttributes.Length = [System.Runtime.InteropServices.Marshal]::SizeOf($lpThreadAttributes)
+        $bInheritHandles = $false
+        $dwCreationFlags = [CreationFlags]::CREATE_NEW_CONSOLE
+        $lpEnvironment = [IntPtr]::Zero
+        if ($WorkingDirectory -ne "") {$lpCurrentDirectory = $WorkingDirectory} else {$lpCurrentDirectory = $pwd}
+
+        $lpStartupInfo = New-Object STARTUPINFO
+        $lpStartupInfo.cb = [System.Runtime.InteropServices.Marshal]::SizeOf($lpStartupInfo)
+        $lpStartupInfo.wShowWindow = [ShowWindow]::SW_SHOWMINNOACTIVE
+        $lpStartupInfo.dwFlags = [STARTF]::STARTF_USESHOWWINDOW
+        $lpProcessInformation = New-Object PROCESS_INFORMATION
+
+        [Kernel32]::CreateProcess($lpApplicationName, $lpCommandLine, [ref] $lpProcessAttributes, [ref] $lpThreadAttributes, $bInheritHandles, $dwCreationFlags, $lpEnvironment, $lpCurrentDirectory, [ref] $lpStartupInfo, [ref] $lpProcessInformation)
+        $x = [System.Runtime.InteropServices.Marshal]::GetLastWin32Error()
+        Write-Host "Last error $x"
+        $Process = Get-Process -Id $lpProcessInformation.dwProcessID
+
         if ($Process -eq $null) {
             [PSCustomObject]@{ProcessId = $null}
-            return        
+            return
         }
 
         [PSCustomObject]@{ProcessId = $Process.Id; ProcessHandle = $Process.Handle}
-        
+
         $ControllerProcess.Handle | Out-Null
         $Process.Handle | Out-Null
 
@@ -763,7 +1122,7 @@ Function Autoupdate {
                 Update-Status("Update file CRC not valid!"); return
             }
             else {
-                Update-Status("Update file validated. Updating NPlusMiner")
+                Update-Status("Update file validated. Updating $($Variables.CurrentProduct)")
             }
             
             # Backup current version folder in zip file
@@ -818,8 +1177,8 @@ Function Autoupdate {
                 sleep 10
                 While (!(Get-Process -id $NewKid.ProcessId -EA silentlycontinue) -and ($waited -le 10)) {sleep 1; $waited++}
                 If (!(Get-Process -id $NewKid.ProcessId -EA silentlycontinue)) {
-                    Update-Status("Failed to start new instance of NPlusMiner")
-                    Update-Notifications("NPlusMiner auto updated to version $($AutoUpdateVersion.Version) but failed to restart.")
+                    Update-Status("Failed to start new instance of $($Variables.CurrentProduct)")
+                    Update-Notifications("$($Variables.CurrentProduct) auto updated to version $($AutoUpdateVersion.Version) but failed to restart.")
                     $LabelNotifications.ForeColor = "Red"
                     return
                 }
@@ -828,8 +1187,8 @@ Function Autoupdate {
                 $TempVerObject | Add-Member -Force @{AutoUpdated = (Get-Date)}
                 $TempVerObject | ConvertTo-Json | Out-File .\Version.json
                 
-                Update-Status("NPlusMiner successfully updated to version $($AutoUpdateVersion.Version)")
-                Update-Notifications("NPlusMiner successfully updated to version $($AutoUpdateVersion.Version)")
+                Update-Status("$($Variables.CurrentProduct) successfully updated to version $($AutoUpdateVersion.Version)")
+                Update-Notifications("$($Variables.CurrentProduct) successfully updated to version $($AutoUpdateVersion.Version)")
 
                 Update-Status("Killing myself")
                 If (Get-Process -id $NewKid.ProcessId) {Stop-process -id $PID}
