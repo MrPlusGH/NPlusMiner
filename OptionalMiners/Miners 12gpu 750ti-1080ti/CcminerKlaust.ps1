@@ -1,4 +1,4 @@
-if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
+. .\Include.ps1
 
 $Path = ".\Bin\NVIDIA-CcminerKlaust\ccminer.exe"
 $Uri = "https://github.com/KlausT/ccminer/releases/download/8.21/ccminer-821-cuda91-x64.zip"
@@ -6,32 +6,32 @@ $Uri = "https://github.com/KlausT/ccminer/releases/download/8.21/ccminer-821-cud
 $Commands = [PSCustomObject]@{
     #"bitcore" = "" #Bitcore
     #"blake2s" = "" #Blake2s
-    "blakecoin" = " -d $($Config.SelGPUCC)" #Blakecoin
+    "blakecoin" = " -d $SelGPUCC" #Blakecoin
     #"vanilla" = "" #BlakeVanilla
     #"cryptonight" = "" #Cryptonight
     #"decred" = "" #Decred
     #"equihash" = "" #Equihash
     #"ethash" = "" #Ethash
-    "groestl" = " -d $($Config.SelGPUCC)" #Groestl
+    "groestl" = " -d $SelGPUCC" #Groestl
     #"hmq1725" = "" #hmq1725
-    "keccak" = " -d $($Config.SelGPUCC)" #Keccak
+    "keccak" = " -d $SelGPUCC" #Keccak
     #"lbry" = "" #Lbry
-    #"lyra2v2" = " -d $($Config.SelGPUCC)" #Lyra2RE2
+    #"lyra2v2" = " -d $SelGPUCC" #Lyra2RE2
     #"lyra2z" = "" #Lyra2z
-    "myr-gr" = " -d $($Config.SelGPUCC)" #MyriadGroestl
-    "neoscrypt" = " -d $($Config.SelGPUCC)" #NeoScrypt
-    #"nist5" = " -d $($Config.SelGPUCC)" #Nist5
+    "myr-gr" = " -d $SelGPUCC" #MyriadGroestl
+    "neoscrypt" = " -d $SelGPUCC" #NeoScrypt
+    #"nist5" = " -d $SelGPUCC" #Nist5
     #"pascal" = "" #Pascal
     #"qubit" = "" #Qubit
     #"scrypt" = "" #Scrypt
     #"sia" = "" #Sia
     #"sib" = "" #Sib
-    "skein" = " -d $($Config.SelGPUCC)" #Skein
+    "skein" = " -d $SelGPUCC" #Skein
     #"timetravel" = "" #Timetravel
     #"x11" = "" #X11
     #"veltor" = "" #Veltor
     #"x11evo" = "" #X11evo
-    "c11" = " -d $($Config.SelGPUCC)" #C11
+    "c11" = " -d $SelGPUCC" #C11
     #"yescrypt" = "" #Yescrypt
 }
 

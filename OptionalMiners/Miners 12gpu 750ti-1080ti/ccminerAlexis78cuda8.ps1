@@ -1,38 +1,38 @@
-if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
+. .\Include.ps1
 
 $Path = ".\Bin\NVIDIA-Alexis78cuda8\ccminer-alexis.exe"
 $Uri = "http://ccminer.org/preview/ccminer-hsr-alexis-x86-cuda8.7z"
 
 $Commands = [PSCustomObject]@{
-    #"hsr" = " -d $($Config.SelGPUCC) --api-remote" #Hsr
+    #"hsr" = " -d $SelGPUCC --api-remote" #Hsr
     #"bitcore" = "" #Bitcore
-    #"blake2s" = " -d $($Config.SelGPUCC) --api-remote" #Blake2s
-    #"blakecoin" = " -d $($Config.SelGPUCC) --api-remote" #Blakecoin
+    #"blake2s" = " -d $SelGPUCC --api-remote" #Blake2s
+    #"blakecoin" = " -d $SelGPUCC --api-remote" #Blakecoin
     #"vanilla" = "" #BlakeVanilla
     #"cryptonight" = "" #Cryptonight
-    #"veltor" = " -i 23 -d $($Config.SelGPUCC) --api-remote" #Veltor
+    #"veltor" = " -i 23 -d $SelGPUCC --api-remote" #Veltor
     #"decred" = "" #Decred
     #"equihash" = "" #Equihash
     #"ethash" = "" #Ethash
     #"groestl" = "" #Groestl
     #"hmq1725" = "" #hmq1725
     #"keccak" = " -m 2 -i 29" #Keccak
-    #"lbry" = " -d $($Config.SelGPUCC)" #Lbry
-    #"lyra2v2" = " -d $($Config.SelGPUCC) --api-remote" #Lyra2RE2
+    #"lbry" = " -d $SelGPUCC" #Lbry
+    #"lyra2v2" = " -d $SelGPUCC --api-remote" #Lyra2RE2
     #"lyra2z" = "" #Lyra2z
-    #"myr-gr" = " -d $($Config.SelGPUCC) --api-remote" #MyriadGroestl
-    #"neoscrypt" = " -i 15 -d $($Config.SelGPUCC)" #NeoScrypt
-    #"nist5" = " -d $($Config.SelGPUCC) --api-remote" #Nist5
+    #"myr-gr" = " -d $SelGPUCC --api-remote" #MyriadGroestl
+    #"neoscrypt" = " -i 15 -d $SelGPUCC" #NeoScrypt
+    #"nist5" = " -d $SelGPUCC --api-remote" #Nist5
     #"pascal" = "" #Pascal
     #"qubit" = "" #Qubit
     #"scrypt" = "" #Scrypt
     #"sia" = "" #Sia
-    #"sib" = " -i 21 -d $($Config.SelGPUCC) --api-remote" #Sib
-    #"skein" = " -d $($Config.SelGPUCC) --api-remote" #Skein
+    #"sib" = " -i 21 -d $SelGPUCC --api-remote" #Sib
+    #"skein" = " -d $SelGPUCC --api-remote" #Skein
     #"timetravel" = "" #Timetravel
-    #"c11" = " -i 21 -d $($Config.SelGPUCC) --api-remote" #C11
+    #"c11" = " -i 21 -d $SelGPUCC --api-remote" #C11
     #"x11evo" = "" #X11evo
-    #"x17" = " -i 21 -d $($Config.SelGPUCC) --api-remote" #X17
+    #"x17" = " -i 21 -d $SelGPUCC --api-remote" #X17
     #"yescrypt" = "" #Yescrypt
 }
 

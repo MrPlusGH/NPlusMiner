@@ -1,12 +1,10 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
-
-$Path = ".\Bin\CPU-JayDDee\cpuminer-aes-sse42.exe"
-$Uri = "https://github.com/JayDDee/cpuminer-opt/files/1996977/cpuminer-opt-3.8.8.1-windows.zip"
+ 
+$Path = ".\Bin\CPU-JayDDeeYespower\cpuminer-sse42.exe"
+$Uri = "https://github.com/bubasik/cpuminer-opt-yespower/releases/download/v3.8.8.3/cpuminer-opt-cryply-yespower-ver2.zip"
 
 $Commands = [PSCustomObject]@{
-    "allium" = "" #Allium
-    "argon2d-crds" = ",d=7 " #argon2d-crds
-    "argon2d-dyn" = "" #argon2d-dyn
+    # "allium" = "" #Allium
     #"bitcore" = "" #Bitcore
     #"blake2s" = "" #Blake2s
     #"blakecoin" = "" #Blakecoin
@@ -18,14 +16,14 @@ $Commands = [PSCustomObject]@{
     #"equihash" = "" #Equihash
     #"ethash" = "" #Ethash
     #"groestl" = "" #Groestl
-    "hmq1725" = "" #HMQ1725
-    #"hodl" = "" #Hodl
+    # "hmq1725" = "" #HMQ1725
+    # "hodl" = "" #Hodl
     #"jha" = "" #JHA
     #"keccak" = "" #Keccak
     #"lbry" = "" #Lbry
     #"lyra2v2" = "" #Lyra2RE2
-    "lyra2z" = "" #Lyra2z
-    "m7m" = "" #m7m
+    # "lyra2z" = "" #Lyra2z
+    # "m7m" = "" #m7m
     #"myr-gr" = "" #MyriadGroestl
     #"neoscrypt" = "" #NeoScrypt
     #"nist5" = "" #Nist5
@@ -39,9 +37,10 @@ $Commands = [PSCustomObject]@{
     #"x11evo" = "" #X11evo
     #"x17" = "" #X17
     # "x16r" = "" #X16r
-    "yescrypt" = "" #Yescrypt
-    "yescryptr16" = "" #YescryptR16
-    "yescryptr32" = "" #YescryptR32
+    # "yescrypt" = "" #Yescrypt
+    "yespower" = "" #Yespower
+    # "yescryptr16" = "" #YescryptR16
+    # "yescryptr32" = "" #YescryptR32
 }
 
 $ThreadCount = (Get-WmiObject -class win32_processor).NumberOfLogicalProcessors - 2

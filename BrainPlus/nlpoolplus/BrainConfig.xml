@@ -11,10 +11,10 @@
       <I32 N="ManualPriceFactor">1</I32>
       <I32 N="Interval">60</I32>
       <B N="EnableLog">false</B>
-      <S N="LogDataPath">.\BrainMemory-ZergPool.csv</S>
-      <S N="TransferFile">.\zergpoolplus.json</S>
-      <S N="PoolName">zergpool</S>
-      <S N="PoolStatusUri">http://api.zergpool.com:8080/api/status</S>
+      <S N="LogDataPath">.\BrainMemory-nlPool.csv</S>
+      <S N="TransferFile">.\nlpoolplus.json</S>
+      <S N="PoolName">nlpool</S>
+      <S N="PoolStatusUri">http://www.nlpool.nl/api/status</S>
     </MS>
   </Obj>
 </Objs>

@@ -1,6 +1,6 @@
 . .\Include.ps1
 
-$Path = ".\Bin\NVIDIA-EWBF\\miner.exe"
+$Path = ".\Bin\NVIDIA-EWBF\miner.exe"
 $Uri = "https://github.com/nemosminer/EWBF-Zec-Miner/releases/download/btg/ewbf-btg.7z"
 
 $Commands = [PSCustomObject]@{
@@ -40,12 +40,14 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
     [PSCustomObject]@{
         Type = "NVIDIA"
         Path = $Path
-        Arguments = " --templimit 95 --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) --server $($Pools.(Get-Algorithm($_)).Host) --port $($Pools.(Get-Algorithm($_)).Port) --fee 0 --solver 0 --eexit 1 --user $($Pools.(Get-Algorithm($_)).User) --pass $($Pools.(Get-Algorithm($_)).Pass)$($Commands.$_) --intensity 64"
+        Arguments = "--api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) --server $($Pools.(Get-Algorithm($_)).Host) --port $($Pools.(Get-Algorithm($_)).Port) --fee 0 --solver 0 --eexit 1 --user $($Pools.(Get-Algorithm($_)).User) --pass $($Pools.(Get-Algorithm($_)).Pass)$($Commands.$_) --intensity 64"
         HashRates = [PSCustomObject]@{(Get-Algorithm($_)) = $Stats."$($Name)_$(Get-Algorithm($_))_HashRate".Week}
         API = "EWBF"
         Port = $Variables.NVIDIAMinerAPITCPPort
         Wrap = $false
         URI = $Uri
-    
+        User = $Pools.(Get-Algorithm($_)).User
+        Host = $Pools.(Get-Algorithm $_).Host
+        Coin = $Pools.(Get-Algorithm $_).Coin
     }
 }

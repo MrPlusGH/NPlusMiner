@@ -18,10 +18,10 @@ $Locations | ForEach-Object {
         $NiceHash_Location = $_
         
         switch ($NiceHash_Location) {
-            "eu" {$Location = "Europe"}
-            "usa" {$Location = "US"}
-            "jp" {$Location = "JP"}
-            default {$Location = "Asia"}
+            "eu"    {$Location = "EU"}
+            "usa"   {$Location = "US"}
+            "jp"    {$Location = "JP"}
+            default {$Location = "US"}
         }
 
     $Request.result.simplemultialgo | ForEach-Object {

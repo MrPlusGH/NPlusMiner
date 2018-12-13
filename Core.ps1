@@ -20,8 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           Core.ps1
-version:        4.2.2
-version date:   20180703
+version:        4.5.5
+version date:   20181213
 #>
 
 Function InitApplication {
@@ -34,8 +34,15 @@ Function InitApplication {
     [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
     Set-Location (Split-Path $script:MyInvocation.MyCommand.Path)
     Get-ChildItem . -Recurse | Unblock-File
-    Update-Status("INFO: Adding NPlusMiner path to Windows Defender's exclusions.. (may show an error if Windows Defender is disabled)")
-    try{if((Get-MpPreference).ExclusionPath -notcontains (Convert-Path .)){Start-Process powershell -Verb runAs -ArgumentList "Add-MpPreference -ExclusionPath '$(Convert-Path .)'"}}catch{}
+
+    if (Get-MpComputerStatus -ErrorAction SilentlyContinue) {
+        Update-Status("INFO: Adding $($Variables.CurrentProduct) path to Windows Defender's exclusions..")
+        try {if ((Get-MpPreference).ExclusionPath -notcontains (Convert-Path .)) {Start-Process powershell -Verb runAs -ArgumentList "Add-MpPreference -ExclusionPath '$(Convert-Path .)'"}}catch {}
+    } 
+    else {
+        Update-Status("INFO: Windows Defender is disabled, make sure to exclude $($Variables.CurrentProduct) directory from your antivirus program")
+    }
+
     if($Proxy -eq ""){$PSDefaultParameterValues.Remove("*:Proxy")}
     else{$PSDefaultParameterValues["*:Proxy"] = $Proxy}
     Update-Status("Initializing Variables...")
@@ -59,6 +66,13 @@ Function InitApplication {
     $Variables | Add-Member -Force @{BrainJobs = @()}
     $Variables | Add-Member -Force @{EarningsTrackerJobs = @()}
     $Variables | Add-Member -Force @{Earnings = @{}}
+
+	
+	$Global:Variables | Add-Member -Force @{StartPaused = $False}
+	$Global:Variables | Add-Member -Force @{Started = $False}
+	$Global:Variables | Add-Member -Force @{Paused = $False}
+	$Global:Variables | Add-Member -Force @{RestartCycle = $False}
+
     
     $Location = $Config.Location
  
@@ -89,31 +103,25 @@ Function Start-ChildJobs {
         }}
         # Starts Earnings Tracker Job if necessary
         $StartDelay = 0
-        if ($Config.TrackEarnings){$Config.PoolName | sort | foreach { if ($_ -notin $Variables.EarningsTrackerJobs.PoolName){
+        # if ($Config.TrackEarnings -and (($EarningTrackerConfig.Pools | sort) -ne ($Config.PoolName | sort))) {
+            # $Variables.StatusText = "Updating Earnings Tracker Configuration"
+            # $EarningTrackerConfig = Get-Content ".\Config\EarningTrackerConfig.json" | ConvertFrom-JSON
+            # $EarningTrackerConfig | Add-Member -Force @{"Pools" = ($Config.PoolName)}
+            # $EarningTrackerConfig | ConvertTo-JSON | Out-File ".\Config\EarningTrackerConfig.json"
+        # }
+        
+        if (($Config.TrackEarnings) -and (!($Variables.EarningsTrackerJobs))) {
             $Params = @{
-                pool = $_
-                Wallet =
-                    if($_ -eq "miningpoolhub"){
-                        if($Config.PoolsConfig.$_){$Config.PoolsConfig.$_.APIKey}else{$Config.PoolsConfig.default.APIKey}
-                    } else  {
-                        if($Config.PoolsConfig.$_){$Config.PoolsConfig.$_.Wallet}else{$Config.PoolsConfig.default.Wallet}
-                    }
-                Interval = 3
                 WorkingDirectory = ($Variables.MainPath)
-                StartDelay = $StartDelay
-                EnableLog = $Config.EnableEarningsTrackerLogs
+                PoolsConfig = $Config.PoolsConfig
             }
             $EarningsJob = Start-Job -FilePath .\EarningsTrackerJob.ps1 -ArgumentList $Params
             If ($EarningsJob){
-                $Variables.StatusText = "Starting Earnings Tracker for $($_)"
-                $EarningsJob | Add-Member -Force @{PoolName = $_}
+                $Variables.StatusText = "Starting Earnings Tracker"
                 $Variables.EarningsTrackerJobs += $EarningsJob
                 rv EarningsJob
                 # Delay Start when several instances to avoid conflicts.
-                $StartDelay = $StartDelay + 10
             }
-        }
-        }
         }
 }
 
@@ -167,7 +175,7 @@ Function NPMCycle {
                 $Config | Add-Member -Force @{PoolsConfig = [PSCustomObject]@{default=[PSCustomObject]@{Wallet = $Variables.DonateRandom.Wallet;UserName = $Variables.DonateRandom.UserName;WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion.ToString().replace('.',''))";PricePenaltyFactor=1}}}
             }
         }
-        if((Get-Date).AddDays(-1) -ge $Variables.LastDonated -and $Variables.DonateRandom.Wallet -ne $Null)
+        if(((Get-Date).AddDays(-1) -ge $Variables.LastDonated -and $Variables.DonateRandom.Wallet -ne $Null) -or (! $Config.PoolsConfig))
         {
             $Config | Add-Member -Force -MemberType ScriptProperty -Name "PoolsConfig" -Value {
                 If (Test-Path ".\Config\PoolsConfig.json"){
@@ -195,12 +203,23 @@ Function NPMCycle {
         $Variables.StatusText = "Loading pool stats.."
         $PoolFilter = @()
         $Config.PoolName | foreach {$PoolFilter+=($_+=".*")}
-        $AllPools = if(Test-Path "Pools"){Get-ChildItemContent "Pools" -Include $PoolFilter | ForEach {$_.Content | Add-Member @{Name = $_.Name} -PassThru} | 
-            Where {$_.SSL -EQ $Config.SSL -and ($Config.PoolName.Count -eq 0 -or ($_.Name -in $Config.PoolName)) -and ($_.Algorithm -in $Config.Algorithm)}}
+        Do {
+			$AllPools = if(Test-Path "Pools"){Get-ChildItemContent "Pools" -Include $PoolFilter | ForEach {$_.Content | Add-Member @{Name = $_.Name} -PassThru} | 
+				Where {$_.SSL -EQ $Config.SSL -and ($Config.PoolName.Count -eq 0 -or ($_.Name -in $Config.PoolName)) -and (!$Config.Algorithm -or ((!($Config.Algorithm | ? {$_ -like "+*"}) -or $_.Algorithm -in ($Config.Algorithm | ? {$_ -like "+*"}).Replace("+","")) -and (!($Config.Algorithm | ? {$_ -like "-*"}) -or $_.Algorithm -notin ($Config.Algorithm | ? {$_ -like "-*"}).Replace("-",""))) )}
+            }
+                if ($AllPools.Count -eq 0) {
+				$Variables.StatusText = "! Error contacting pool retrying in 30 seconds.."
+				Sleep 30
+			}
+		} While ($AllPools.Count -eq 0)
         $Variables.StatusText = "Computing pool stats.."
         # Use location as preference and not the only one
         $AllPools = ($AllPools | ?{$_.location -eq $Config.Location}) + ($AllPools | ?{$_.name -notin ($AllPools | ?{$_.location -eq $Config.Location}).Name})
-        # if($AllPools.Count -eq 0){$Variables.StatusText = "Error contacting pool, retrying.."; $timerCycle.Interval = 15000 ; $timerCycle.Start() ; return}
+        # Filter Algo based on Per Pool Config
+        $PoolsConf = $Config.PoolsConfig
+        $AllPools = $AllPools | Where {$_.Name -notin ($PoolsConf | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name) -or ($_.Name -in ($PoolsConf | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name) -and ((!($PoolsConf.($_.Name).Algorithm | ? {$_ -like "+*"}) -or ("+$($_.Algorithm)" -in $PoolsConf.($_.Name).Algorithm)) -and ("-$($_.Algorithm)" -notin $PoolsConf.($_.Name).Algorithm)))}
+
+	# if($AllPools.Count -eq 0){$Variables.StatusText = "Error contacting pool, retrying.."; $timerCycle.Interval = 15000 ; $timerCycle.Start() ; return}
         $Pools = [PSCustomObject]@{}
         $Pools_Comparison = [PSCustomObject]@{}
         $AllPools.Algorithm | Sort -Unique | ForEach {
@@ -223,20 +242,55 @@ Function NPMCycle {
             Compare-Object $Variables.MinersHash (Get-ChildItem .\Miners\ -filter "*.ps1" | Get-FileHash) -Property "Hash","Path" | Sort "Path" -Unique | % {
                 $Variables.StatusText = "Miner Updated: $($_.Path)"
                 $NewMiner =  &$_.path
-                If (Test-Path (Split-Path $NewMiner.Path)) {Remove-Item -Force -Recurse (Split-Path $NewMiner.Path)}
+                $NewMiner | Add-Member -Force @{Name = (Get-Item $_.Path).BaseName}
+                If (Test-Path (Split-Path $NewMiner.Path)) {
+                    $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" -and $_.Path -eq (Resolve-Path $NewMiner.Path)} | ForEach {
+                        [Array]$filtered = ($BestMiners_Combo | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments)
+                        if($filtered.Count -eq 0)
+                        {
+                            if($_.Process -eq $null)
+                            {
+                                $_.Status = "Failed"
+                            }
+                            elseif($_.Process.HasExited -eq $false)
+                            {
+                            $_.Active += (Get-Date)-$_.Process.StartTime
+                               $_.Process.CloseMainWindow() | Out-Null
+                               Sleep 1
+                               # simply "Kill with power"
+                               Stop-Process $_.Process -Force | Out-Null
+                               $Variables.StatusText = "closing current miner for Update"
+                               Sleep 1
+                               $_.Status = "Idle"
+                            }
+                            #Restore Bias for non-active miners
+                            $Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit_Bias_Orig}
+                        }
+                    }
+                    Get-ChildItem -path ".\stats\" -filter "$($NewMiner.Name)_*.txt" | Remove-Item -Force -Recurse
+                    Remove-Item -Force -Recurse (Split-Path $NewMiner.Path)
+                }
                 $Variables.MinersHash = Get-ChildItem .\Miners\ -filter "*.ps1" | Get-FileHash
                 $Variables.MinersHash | ConvertTo-Json | out-file ".\Config\MinersHash.json"
             }
         }
+
         
         $Variables.StatusText = "Loading miners.."
         $Variables | Add-Member -Force @{Miners = @()}
         $StartPort=4068
 
-        $Variables.Miners = if(Test-Path "Miners"){Get-ChildItemContent "Miners" | ForEach {$_.Content | Add-Member @{Name = $_.Name} -PassThru} | 
+    $Variables.Miners = if (Test-Path "Miners") {
+        @(
+            Get-ChildItemContent "Miners"
+            if ($Config.IncludeOptionalMiners -and (Test-Path "OptionalMiners")) {Get-ChildItemContent "OptionalMiners"}
+            if (Test-Path "CustomMiners") { Get-ChildItemContent "CustomMiners"}
+        ) | ForEach {$_.Content | Add-Member @{Name = $_.Name} -PassThru} |
             Where {$Config.Type.Count -eq 0 -or (Compare $Config.Type $_.Type -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0} | 
-            Where {$Config.Algorithm.Count -eq 0 -or (Compare $Config.Algorithm $_.HashRates.PSObject.Properties.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0} | 
-            Where {$Config.MinerName.Count -eq 0 -or (Compare $Config.MinerName $_.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0}}
+            Where {!($Config.Algorithm | ? {$_.StartsWith("+")}) -or (Compare (($Config.Algorithm | ? {$_.StartsWith("+")}).Replace("+", "")) $_.HashRates.PSObject.Properties.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0} | 
+            Where {$Config.MinerName.Count -eq 0 -or (Compare $Config.MinerName $_.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0}
+    }
+
         $Variables.Miners = $Variables.Miners | ForEach {
             $Miner = $_
             if((Test-Path $Miner.Path) -eq $false)
@@ -373,6 +427,8 @@ Function NPMCycle {
                     Benchmarked = 0
                     Hashrate_Gathered = ($_.HashRates.PSObject.Properties.Value -ne $null)
                     User = $_.User
+                    Host = $_.Host
+                    Coin = $_.Coin
                 }
             }
         }
@@ -386,16 +442,18 @@ Function NPMCycle {
                 {
                     $_.Status = "Failed"
                 }
-                elseif($_.Process.HasExited -eq $false)
-                {
-                $_.Active += (Get-Date)-$_.Process.StartTime
-                   $_.Process.CloseMainWindow() | Out-Null
-                   Sleep 1
-                   # simply "Kill with power"
-                   Stop-Process $_.Process -Force | Out-Null
-                   $Variables.StatusText = "closing current miner and switching"
-                   Sleep 1
-                   $_.Status = "Idle"
+                elseif ($_.Process.HasExited -eq $false) {
+                    $_.Active += (Get-Date) - $_.Process.StartTime
+                    $_.Process.CloseMainWindow() | Out-Null
+                    Sleep 1
+                    # simply "Kill with power"
+                    Stop-Process $_.Process -Force | Out-Null
+                    # Try to kill any process with the same path, in case it is still running but the process handle is incorrect
+                    $KillPath = $_.Path
+                    Get-Process | Where-Object {$_.Path -eq $KillPath} | Stop-Process -Force
+                    Write-Host -ForegroundColor Yellow "closing miner"
+                    Sleep 1
+                    $_.Status = "Idle"
                 }
                 #Restore Bias for non-active miners
                 $Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit_Bias_Orig}
@@ -412,7 +470,7 @@ Function NPMCycle {
                 if($_.Process -eq $null -or $_.Process.HasExited -ne $false)
                 {
                     # Log switching information to .\log\swicthing.log
-                    [pscustomobject]@{date=(get-date);Type=$_.Type;algo=$_.Algorithms;wallet=$_.User;username=$Config.UserName;Stratum="$($_.Arguments.Split(' ') | ?{($_ -like '*.*:*') -and (-not ($_.Contains($Variables.NVIDIAMinerAPITCPPort) -or ($_.contains($Variables.CPUMinerAPITCPPort))))})"} | export-csv .\Logs\switching.log -Append -NoTypeInformation
+                    [pscustomobject]@{date=(get-date);Type=$_.Type;algo=$_.Algorithms;wallet=$_.User;username=$Config.UserName;Host=$_.host} | export-csv .\Logs\switching.log -Append -NoTypeInformation
 
                     # Launch prerun if exists
                     If ($_.Type -ne "CPU") {
@@ -543,8 +601,8 @@ Function NPMCycle {
 
     # Mostly used for debug. Will execute code found in .\EndLoopCode.ps1 if exists.
     if (Test-Path ".\EndLoopCode.ps1"){Invoke-Expression (Get-Content ".\EndLoopCode.ps1" -Raw)}
+    $Variables.StatusText = "Waiting $($Variables.TimeToSleep) seconds... | Next refresh: $((Get-Date).AddSeconds($Variables.TimeToSleep))"
     $Variables | Add-Member -Force @{EndLoop = $True}
-    $Variables.StatusText = "Sleeping $($Variables.TimeToSleep)"
     # Sleep $Variables.TimeToSleep
     # }
 }

@@ -1,43 +1,7 @@
-﻿{
+{
     "ActiveMinerGainPct":  8,
     "Algorithm":  [
-                      "aeriumx",
-                      "allium",
-                      "balloon",
-                      "bitcore",
-                      "blake2s",
-                      "c11",
-                      "cryptonight",
-                      "cryptonightheavy",
-                      "cryptonight-heavy",
-                      "cryptonightV7",
-                      "equihash",
-                      "equihash192",
-                      "equihash144",
-                      "ethash",
-                      "hmq1725",
-                      "hsr",
-                      "keccak",
-                      "keccakc",
-                      "lbry",
-                      "Lyra2RE2",
-                      "lyra2z",
-                      "m7m",
-                      "neoscrypt",
-                      "Nist5",
-                      "phi",
-                      "phi2",
-                      "sib",
-                      "skein",
-                      "skunk",
-                      "timetravel",
-                      "tribus",
-                      "x16r",
-                      "x16s",
-                      "x17",
-                      "xevan",
-                      "yescrypt",
-                      "yescryptR16"
+                      ""
                   ],
     "API_ID":  0,
     "API_Key":  "",
@@ -51,25 +15,37 @@
     "Donate":  8,
     "EnableEarningsTrackerLogs":  false,
     "FirstInterval":  30,
-    "Interval":  180,
+    "HideConsole":  true,
+    "IdleSec":  "15",
+    "IncludeOptionalMiners":  false,
+    "Interval":  240,
     "IsFixedSize":  false,
     "IsReadOnly":  false,
     "IsSynchronized":  true,
     "Keys":  [
 
              ],
-    "Location":  "US",
+    "Location":  "EU",
     "ManualConfig":  false,
     "MarginOfError":  0,
     "MinerName":  null,
+    "MineWhenIdle":  false,
+    "MonitoringServer":  "",
+    "MonitoringUser":  "",
     "Passwordcurrency":  "BTC",
     "PoolName":  [
+                     "miningpoolhub",
                      "nicehash",
-                     "zergpoolplus"
+                     "zpoolplus"
                  ],
     "Proxy":  "",
+    "ReportToServer":  false,
+    "SelGPUCC":  "0",
+    "SelGPUDSTM":  "0",
+    "ShowWorkerStatus":  false,
     "SSL":  false,
     "StartGUIMinimized":  false,
+    "StartPaused":  false,
     "StatsInterval":  300,
     "SyncRoot":  {
 
@@ -87,5 +63,5 @@
 
                ],
     "Wallet":  "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy",
-    "WorkerName":  "ID=NPlusMinerRocks"
+    "WorkerName":  "NPlusMinerRocks"
 }

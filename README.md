@@ -3,11 +3,16 @@ Copyright (c) 2018 MrPlus	(https://github.com/MrPlusGH/NPlusMiner)
 Copyright (c) 2018 Nemo		(https://github.com/nemosminer/NemosMiner)
 
 ![alt text](https://github.com/MrPlusGH/NPlusMiner/blob/2.1/NPM.png)
- # NPlusMiner-v4.2.2
+ # NPlusMiner-v4.5.5
   
- Readme Updated 2018 July 14
+ Readme Updated 2018 December 13
+ 
+[![Version tag](https://img.shields.io/github/release/MRPlusGH/NPlusMiner.svg)](https://github.com/MrPlusGH/NPlusMiner/releases/latest) [![Version date tag](https://img.shields.io/github/release-date/MRPlusGH/NPlusMiner.svg)](https://github.com/MRPlusGH/NPlusMiner/releases/latest) 
+[![GitHub license](https://img.shields.io/github/license/MRPlusGH/NPlusMiner.svg)](https://github.com/MRPlusGH/NPlusMiner/blob/master/LICENSE)
  
 *****
+**Have questions? Need help?** We're on Discord: https://discord.gg/2BCqPxe
+
 **For more help and HowTos please check our wiki here** : https://github.com/MrPlusGH/NPlusMiner-Documentation/wiki
 BitcoinTalk : https://bitcointalk.org/index.php?topic=2965976.0
 *****
@@ -17,6 +22,9 @@ NPlusMiner Monitors mining pools in real-time in order to find the most profitab
 	 Auto Benchmarks Each algo to get optimal speeds 
 	 Fully automated 
 	 Auto Downloads Miners
+	 Tracks and display earnings accross pools 
+	 AutoUpdate
+	 Monitoring
 
 *****
 
@@ -28,7 +36,7 @@ Easy configuration, easy start in two steps:
       2. Hit "Start"
 Fee:
 
-      There is a 8 minutes per day fee (0.5%), that can be changed in the config (Minimum is 3)
+      There is a 8 minutes per day fee (0.5%), that can be changed in the config (Minimum is 3 - 0.2%)
       When less than 3 minutes is set, lottery is 0 or any walue between 3 and 8
 
 *****
@@ -70,6 +78,8 @@ Fee:
             - UserName = your MPH user name
             - WorkerName = your worker name
             - PricePenaltyFactor = See explanation below
+	    - Algorithm = List of included or excluded Aglo on pool (see example files)
+
           - Usage
             - The file Config\PoolsConfig.json contains per pool configuration details. If a pool is listed in this file,
 	    the specific settings will be taken into account. If not, the setting for the entry name default will be used.
@@ -104,10 +114,55 @@ Fee:
          -**Best switching rate**
       normal - uses current estimate API too request profit
          -High switching rate
+	 
+   Developers and Contributors fee distribution
+
+      There is a 8 minutes per day fee (0.5%), that can be changed in the config (Minimum is 3 - 0.2%)
+      When less than 3 minutes is set, lottery is 0 or any walue between 3 and 8
+      
+      We use a fair fee distribution to developers and contributors. Fees are dirtibuted randomly
+      to a public list of devs which can be found here: http://tiny.cc/r355qy
+      
+      We want to stay completely transparent on the way donations are managed in the product.
+      Donations occurs once every 24 hours for the selected amount of time (default 8 minutes).
+      The first donation sequence occurs 1 hour after miners are started.
+      If Interval is set higher than the donation time, the interval will prime.
+      Example for default parameters:
+      Miners started at 10, First donation cycle runs at 10:52 untill 11, Next donation cycle occurs 24 hours after.
+      All donation time and addresses are recorded in the logs folder.
+
+   Miners Monitoring
+
+      Keep tabs on all your mining rigs from one place
+      **Thanks to @NemosMiner for giving is aggreement to share the NemosMiner monitoring servers.**
+      You can now optionally monitor all your workers remotely, both in the GUI and via https://nemosminer.com  
+      Monitoring setup instructions https://nemosminer.com/setup.php
+      
+      NPlusMiner does not send any personnal informations to servers. Only miner related info are collected as miner names and hashrates. Miners path are all expressed relative so we have no risk to send any personnal informations like username.
+
+   Algo selection
+
+      Users might use the Algo list in config to Include or Exclude algos.
+      The list simply works with a +/- system.
+
+      +algo for algo selection
+      -algo for algo removal
+
+      If "+" Used, all selected algo have to be listed
+      If "Minus" Used, all algo selected but exluded ones.
+
+      Do not combine + and - for the same algo
+
+      Examples: 
+      Mine anything but x16r:			Algo list = -x16r
+      Mine anything but x16r and bcd:		Algo list = -x16r,-bcd
+      Mine only x16r:				Algo list = +x16r
+      Mine only x16r and BCD:			Algo list = +x16r,+bcd
+      Mine any available algo at pool:		Algo list = <blank>
 
    Earnings Tracking
    
-      Displays BTC/H and BTC/D as well a estimation of when the pool payment threshold will be reached.
+      Graphical displays BTC/H and BTC/D as well a estimation of when the pool payment threshold will be reached.
       Supported pools:
             ahashpool
             zergpool
@@ -167,7 +222,8 @@ https://www.microsoft.com/en-us/download/details.aspx?id=48145
 
 running multiple cards its recommended to increase Virtual Memory 64gb is optimal
 
-Requires Nvidia driver 397.44 or newer
+Requires Nvidia driver 416.34 or newer / 417.35 recommended 
+http://us.download.nvidia.com/Windows/417.35/417.35-desktop-win10-64bit-international-whql.exe
 
 Made For & Tested with 8x10603gb 6x1070 6x1070ti 6x1080ti (users have reported up to 12cards working have not tested myself) Some miners do not support more that 9 cards
 

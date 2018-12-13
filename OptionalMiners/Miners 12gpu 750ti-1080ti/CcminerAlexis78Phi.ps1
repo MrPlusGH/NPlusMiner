@@ -1,27 +1,27 @@
-if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
+. .\Include.ps1
 
 $Path = ".\Bin\NVIDIA-Alexis78Phi\ccminer.exe"
 $Uri = "https://github.com/216k155/ccminer-phi-anxmod/releases/download/ccminer%2Fphi-1.0/ccminer-phi-1.0.zip"
 
 $Commands = [PSCustomObject]@{
-    #"phi" = " -d $($Config.SelGPUCC) --api-remote" #Phi
-    #"bitcore" = " -d $($Config.SelGPUCC)" #Bitcore
-    #"jha" = " -d $($Config.SelGPUCC) --api-remote" #Jha
-    #"blake2s" = " -d $($Config.SelGPUCC)" #Blake2s
-    #"blakecoin" = " -d $($Config.SelGPUCC)" #Blakecoin
+    #"phi" = " -d $SelGPUCC --api-remote" #Phi
+    #"bitcore" = " -d $SelGPUCC" #Bitcore
+    #"jha" = " -d $SelGPUCC --api-remote" #Jha
+    #"blake2s" = " -d $SelGPUCC" #Blake2s
+    #"blakecoin" = " -d $SelGPUCC" #Blakecoin
     #"vanilla" = "" #BlakeVanilla
-    #"cryptonight" = " -i 10 -d $($Config.SelGPUCC)" #Cryptonight
+    #"cryptonight" = " -i 10 -d $SelGPUCC" #Cryptonight
     #"decred" = "" #Decred
     #"equihash" = "" #Equihash
     #"ethash" = "" #Ethash
-    #"groestl" = " -d $($Config.SelGPUCC) --api-remote" #Groestl
-    #"hmq1725" = " -d $($Config.SelGPUCC) --api-remote" #hmq1725
+    #"groestl" = " -d $SelGPUCC --api-remote" #Groestl
+    #"hmq1725" = " -d $SelGPUCC --api-remote" #hmq1725
     #"keccak" = "" #Keccak
-    #"lbry" = " -d $($Config.SelGPUCC)" #Lbry
+    #"lbry" = " -d $SelGPUCC" #Lbry
     #"lyra2v2" = "" #Lyra2RE2
-    #"lyra2z" = " -d $($Config.SelGPUCC)" #Lyra2z
+    #"lyra2z" = " -d $SelGPUCC" #Lyra2z
     #"myr-gr" = "" #MyriadGroestl
-    #"neoscrypt" = " -d $($Config.SelGPUCC)" #NeoScrypt
+    #"neoscrypt" = " -d $SelGPUCC" #NeoScrypt
     #"nist5" = "" #Nist5
     #"pascal" = "" #Pascal
     #"qubit" = "" #Qubit
@@ -29,13 +29,13 @@ $Commands = [PSCustomObject]@{
     #"sia" = "" #Sia
     #"sib" = "" #Sib
     #"skein" = "" #Skein
-    #"skunk" = " -d $($Config.SelGPUCC)" #Skunk
-    #"timetravel" = " -d $($Config.SelGPUCC) --api-remote" #Timetravel
-    #"tribus" = " -d $($Config.SelGPUCC) --api-remote" #Tribus
+    #"skunk" = " -d $SelGPUCC" #Skunk
+    #"timetravel" = " -d $SelGPUCC --api-remote" #Timetravel
+    #"tribus" = " -d $SelGPUCC --api-remote" #Tribus
     #"x11" = "" #X11
     #"veltor" = "" #Veltor
-    #"x11evo" = " -d $($Config.SelGPUCC) --api-remote" #X11evo
-    #"x17" = " -d $($Config.SelGPUCC)" #X17
+    #"x11evo" = " -d $SelGPUCC --api-remote" #X11evo
+    #"x17" = " -d $SelGPUCC" #X17
     #"yescrypt" = "" #Yescrypt
 }
 

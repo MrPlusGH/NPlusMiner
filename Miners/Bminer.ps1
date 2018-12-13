@@ -1,9 +1,9 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
  
 $Path = ".\Bin\NVIDIA-Bminer\bminer.exe"
-$Uri = "https://www.bminercontent.com/releases/bminer-lite-v9.0.0-199ca8c-amd64.zip"
+$Uri = "https://www.bminercontent.com/releases/bminer-lite-v10.7.0-31ee7bc-CUDA-9.2-amd64.zip"
 $Commands = [PSCustomObject]@{
-    "equihash" = " -max-temperature 94 -devices $($Config.SelGPUCC)" #Equihash(fastest no dev fee)
+    # "equihash" = " -max-temperature 94 -devices $($Config.SelGPUCC)" #Equihash(fastest no dev fee)
 }
 $Port = $Variables.NVIDIAMinerAPITCPPort
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
@@ -19,5 +19,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         Wrap = $true
         URI = $Uri    
         User = $Pools.(Get-Algorithm($_)).User
+        Host = $Pools.(Get-Algorithm $_).Host
+        Coin = $Pools.(Get-Algorithm $_).Coin
     }
 }

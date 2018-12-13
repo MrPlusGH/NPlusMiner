@@ -1,22 +1,20 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
 
 $Path = ".\Bin\NVIDIA-ccminerDumax\ccminer.exe"
-$Uri = "https://github.com/DumaxFr/ccminer/releases/download/dumax-0.9.2/ccminer-dumax-0.9.2-win64.zip"
+$Uri = "https://github.com/DumaxFr/ccminer/releases/download/dumax-0.9.4/ccminer-dumax-0.9.4-win64.zip"
 
 $Commands = [PSCustomObject]@{
-    "phi" = " -d $($Config.SelGPUCC)" #Phi(testing)
-    "phi2" = " -d $($Config.SelGPUCC)" #Phi2testing)
+    "phi2" = " -i 19 -d $($Config.SelGPUCC)" #Phi2testing)
     #"bitcore" = " -d $($Config.SelGPUCC)" #Bitcore
-    #"jha" = " -d $($Config.SelGPUCC)" #Jha
     #"blake2s" = " -d $($Config.SelGPUCC)" #Blake2s
     #"blakecoin" = " -d $($Config.SelGPUCC)" #Blakecoin
-    #"vanilla" = "" #BlakeVanilla
     #"cryptonight" = " -i 10.5 -l 8x120 --bfactor=8 -d $($Config.SelGPUCC) --api-remote" #Cryptonight
     #"decred" = "" #Decred
     #"equihash" = "" #Equihash
     #"ethash" = "" #Ethash
     #"groestl" = " -d $($Config.SelGPUCC)" #Groestl
     #"hmq1725" = " -d $($Config.SelGPUCC)" #hmq1725
+    #"jha" = " -d $($Config.SelGPUCC)" #Jha
     #"keccak" = "" #Keccak
     #"lbry" = " -d $($Config.SelGPUCC)" #Lbry
     #"lyra2v2" = "" #Lyra2RE2
@@ -25,6 +23,7 @@ $Commands = [PSCustomObject]@{
     #"neoscrypt" = " -d $($Config.SelGPUCC)" #NeoScrypt
     #"nist5" = "" #Nist5
     #"pascal" = "" #Pascal
+    #"phi" = " -d $($Config.SelGPUCC)" #Phi(testing)
     #"qubit" = "" #Qubit
     #"scrypt" = "" #Scrypt
     #"sia" = "" #Sia
@@ -33,12 +32,13 @@ $Commands = [PSCustomObject]@{
     #"skunk" = " -d $($Config.SelGPUCC)" #Skunk
     #"timetravel" = " -d $($Config.SelGPUCC)" #Timetravel
     #"tribus" = " -d $($Config.SelGPUCC)" #Tribus
-    #"x11" = "" #X11
+    #"vanilla" = "" #BlakeVanilla
     #"veltor" = "" #Veltor
+    #"x11" = "" #X11
     #"x11evo" = " -d $($Config.SelGPUCC)" #X11evo
-    "x17" = " -d $($Config.SelGPUCC)" #X17(testing)
-    "x16r" = " -d $($Config.SelGPUCC)" #X16r(testing)
-    "x16s" = " -d $($Config.SelGPUCC)" #X16s(testing)
+    #"x16r" = " -d $($Config.SelGPUCC)" #X16r(testing)
+    #"x16s" = " -d $($Config.SelGPUCC)" #X16s(testing)
+    #"x17" = " -d $($Config.SelGPUCC)" #X17(testing)
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
@@ -54,5 +54,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
         Wrap = $false
         URI = $Uri
         User = $Pools.(Get-Algorithm($_)).User
+        Host = $Pools.(Get-Algorithm $_).Host
+        Coin = $Pools.(Get-Algorithm $_).Coin
     }
 }
