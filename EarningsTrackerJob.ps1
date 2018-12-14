@@ -70,7 +70,7 @@ while ($true) {
                 $BalanceJson = ($poolapi | ? {$_.Name -eq $pool}).Balance
                 $TotalJson = ($poolapi | ? {$_.Name -eq $pool}).Total
 
-                $ConfName = if ($PoolsConfig.$Name -ne $Null){$Name}else{"default"}
+                $ConfName = if ($PoolsConfig.$Pool -ne $Null){$Pool}else{"default"}
                 $PoolConf = $PoolsConfig.$ConfName
 
                 $Wallet =
