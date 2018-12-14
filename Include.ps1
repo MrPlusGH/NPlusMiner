@@ -29,7 +29,7 @@ version date:   20181213
 
 
 Function GetNVIDIADriverVersion {
-	((gwmi win32_VideoController) | select name,description,@{Name = "NVIDIAVersion" ; Expression = {([regex]"[0-9.]{6}$").match($_.driverVersion).value.Replace(".","").Insert(3,'.')}} | ? {$_.Description -like "*NVIDIA*"} | select -First 1).NVIDIAVersion
+    ((gwmi win32_VideoController) | select name, description, @{Name = "NVIDIAVersion" ; Expression = {([regex]"[0-9.]{6}$").match($_.driverVersion).value.Replace(".", "").Insert(3, '.')}} | ? {$_.Description -like "*NVIDIA*"} | select -First 1).NVIDIAVersion
 }
  
 Function Global:RegisterLoaded ($File) {
@@ -234,7 +234,7 @@ Function Start-Mining {
             While ($True) {
                 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
                 if (!(IsLoaded(".\Core.ps1"))) {. .\Core.ps1; RegisterLoaded(".\Core.ps1")}
-				$Variables.Paused | out-host
+                $Variables.Paused | out-host
                 If ($Variables.Paused) {
                     # Run a dummy cycle to keep the UI updating.
 
@@ -387,39 +387,39 @@ function Set-Stat {
     $SmallestValue = 1E-20
 
     $Stat = [PSCustomObject]@{
-        Live = $Value
-        Minute = $Value
-        Minute_Fluctuation = 1 / 2
-        Minute_5 = $Value
-        Minute_5_Fluctuation = 1 / 2
-        Minute_10 = $Value
+        Live                  = $Value
+        Minute                = $Value
+        Minute_Fluctuation    = 1 / 2
+        Minute_5              = $Value
+        Minute_5_Fluctuation  = 1 / 2
+        Minute_10             = $Value
         Minute_10_Fluctuation = 1 / 2
-        Hour = $Value
-        Hour_Fluctuation = 1 / 2
-        Day = $Value
-        Day_Fluctuation = 1 / 2
-        Week = $Value
-        Week_Fluctuation = 1 / 2
-        Updated = $Date
+        Hour                  = $Value
+        Hour_Fluctuation      = 1 / 2
+        Day                   = $Value
+        Day_Fluctuation       = 1 / 2
+        Week                  = $Value
+        Week_Fluctuation      = 1 / 2
+        Updated               = $Date
     }
 
     if (Test-Path $Path) {$Stat = Get-Content $Path | ConvertFrom-Json}
 
     $Stat = [PSCustomObject]@{
-        Live = [Double]$Stat.Live
-        Minute = [Double]$Stat.Minute
-        Minute_Fluctuation = [Double]$Stat.Minute_Fluctuation
-        Minute_5 = [Double]$Stat.Minute_5
-        Minute_5_Fluctuation = [Double]$Stat.Minute_5_Fluctuation
-        Minute_10 = [Double]$Stat.Minute_10
+        Live                  = [Double]$Stat.Live
+        Minute                = [Double]$Stat.Minute
+        Minute_Fluctuation    = [Double]$Stat.Minute_Fluctuation
+        Minute_5              = [Double]$Stat.Minute_5
+        Minute_5_Fluctuation  = [Double]$Stat.Minute_5_Fluctuation
+        Minute_10             = [Double]$Stat.Minute_10
         Minute_10_Fluctuation = [Double]$Stat.Minute_10_Fluctuation
-        Hour = [Double]$Stat.Hour
-        Hour_Fluctuation = [Double]$Stat.Hour_Fluctuation
-        Day = [Double]$Stat.Day
-        Day_Fluctuation = [Double]$Stat.Day_Fluctuation
-        Week = [Double]$Stat.Week
-        Week_Fluctuation = [Double]$Stat.Week_Fluctuation
-        Updated = [DateTime]$Stat.Updated
+        Hour                  = [Double]$Stat.Hour
+        Hour_Fluctuation      = [Double]$Stat.Hour_Fluctuation
+        Day                   = [Double]$Stat.Day
+        Day_Fluctuation       = [Double]$Stat.Day_Fluctuation
+        Week                  = [Double]$Stat.Week
+        Week_Fluctuation      = [Double]$Stat.Week_Fluctuation
+        Updated               = [DateTime]$Stat.Updated
     }
     
     $Span_Minute = [Math]::Min(($Date - $Stat.Updated).TotalMinutes, 1)
@@ -430,44 +430,44 @@ function Set-Stat {
     $Span_Week = [Math]::Min((($Date - $Stat.Updated).TotalDays / 7), 1)
 
     $Stat = [PSCustomObject]@{
-        Live = $Value
-        Minute = ((1 - $Span_Minute) * $Stat.Minute) + ($Span_Minute * $Value)
-        Minute_Fluctuation = ((1 - $Span_Minute) * $Stat.Minute_Fluctuation) + 
+        Live                  = $Value
+        Minute                = ((1 - $Span_Minute) * $Stat.Minute) + ($Span_Minute * $Value)
+        Minute_Fluctuation    = ((1 - $Span_Minute) * $Stat.Minute_Fluctuation) + 
         ($Span_Minute * ([Math]::Abs($Value - $Stat.Minute) / [Math]::Max([Math]::Abs($Stat.Minute), $SmallestValue)))
-        Minute_5 = ((1 - $Span_Minute_5) * $Stat.Minute_5) + ($Span_Minute_5 * $Value)
-        Minute_5_Fluctuation = ((1 - $Span_Minute_5) * $Stat.Minute_5_Fluctuation) + 
+        Minute_5              = ((1 - $Span_Minute_5) * $Stat.Minute_5) + ($Span_Minute_5 * $Value)
+        Minute_5_Fluctuation  = ((1 - $Span_Minute_5) * $Stat.Minute_5_Fluctuation) + 
         ($Span_Minute_5 * ([Math]::Abs($Value - $Stat.Minute_5) / [Math]::Max([Math]::Abs($Stat.Minute_5), $SmallestValue)))
-        Minute_10 = ((1 - $Span_Minute_10) * $Stat.Minute_10) + ($Span_Minute_10 * $Value)
+        Minute_10             = ((1 - $Span_Minute_10) * $Stat.Minute_10) + ($Span_Minute_10 * $Value)
         Minute_10_Fluctuation = ((1 - $Span_Minute_10) * $Stat.Minute_10_Fluctuation) + 
         ($Span_Minute_10 * ([Math]::Abs($Value - $Stat.Minute_10) / [Math]::Max([Math]::Abs($Stat.Minute_10), $SmallestValue)))
-        Hour = ((1 - $Span_Hour) * $Stat.Hour) + ($Span_Hour * $Value)
-        Hour_Fluctuation = ((1 - $Span_Hour) * $Stat.Hour_Fluctuation) + 
+        Hour                  = ((1 - $Span_Hour) * $Stat.Hour) + ($Span_Hour * $Value)
+        Hour_Fluctuation      = ((1 - $Span_Hour) * $Stat.Hour_Fluctuation) + 
         ($Span_Hour * ([Math]::Abs($Value - $Stat.Hour) / [Math]::Max([Math]::Abs($Stat.Hour), $SmallestValue)))
-        Day = ((1 - $Span_Day) * $Stat.Day) + ($Span_Day * $Value)
-        Day_Fluctuation = ((1 - $Span_Day) * $Stat.Day_Fluctuation) + 
+        Day                   = ((1 - $Span_Day) * $Stat.Day) + ($Span_Day * $Value)
+        Day_Fluctuation       = ((1 - $Span_Day) * $Stat.Day_Fluctuation) + 
         ($Span_Day * ([Math]::Abs($Value - $Stat.Day) / [Math]::Max([Math]::Abs($Stat.Day), $SmallestValue)))
-        Week = ((1 - $Span_Week) * $Stat.Week) + ($Span_Week * $Value)
-        Week_Fluctuation = ((1 - $Span_Week) * $Stat.Week_Fluctuation) + 
+        Week                  = ((1 - $Span_Week) * $Stat.Week) + ($Span_Week * $Value)
+        Week_Fluctuation      = ((1 - $Span_Week) * $Stat.Week_Fluctuation) + 
         ($Span_Week * ([Math]::Abs($Value - $Stat.Week) / [Math]::Max([Math]::Abs($Stat.Week), $SmallestValue)))
-        Updated = $Date
+        Updated               = $Date
     }
 
     if (-not (Test-Path "Stats")) {New-Item "Stats" -ItemType "directory"}
     [PSCustomObject]@{
-        Live = [Decimal]$Stat.Live
-        Minute = [Decimal]$Stat.Minute
-        Minute_Fluctuation = [Double]$Stat.Minute_Fluctuation
-        Minute_5 = [Decimal]$Stat.Minute_5
-        Minute_5_Fluctuation = [Double]$Stat.Minute_5_Fluctuation
-        Minute_10 = [Decimal]$Stat.Minute_10
+        Live                  = [Decimal]$Stat.Live
+        Minute                = [Decimal]$Stat.Minute
+        Minute_Fluctuation    = [Double]$Stat.Minute_Fluctuation
+        Minute_5              = [Decimal]$Stat.Minute_5
+        Minute_5_Fluctuation  = [Double]$Stat.Minute_5_Fluctuation
+        Minute_10             = [Decimal]$Stat.Minute_10
         Minute_10_Fluctuation = [Double]$Stat.Minute_10_Fluctuation
-        Hour = [Decimal]$Stat.Hour
-        Hour_Fluctuation = [Double]$Stat.Hour_Fluctuation
-        Day = [Decimal]$Stat.Day
-        Day_Fluctuation = [Double]$Stat.Day_Fluctuation
-        Week = [Decimal]$Stat.Week
-        Week_Fluctuation = [Double]$Stat.Week_Fluctuation
-        Updated = [DateTime]$Stat.Updated
+        Hour                  = [Decimal]$Stat.Hour
+        Hour_Fluctuation      = [Double]$Stat.Hour_Fluctuation
+        Day                   = [Decimal]$Stat.Day
+        Day_Fluctuation       = [Double]$Stat.Day_Fluctuation
+        Week                  = [Decimal]$Stat.Week
+        Week_Fluctuation      = [Double]$Stat.Week_Fluctuation
+        Updated               = [DateTime]$Stat.Updated
     } | ConvertTo-Json | Set-Content $Path
 
     $Stat
@@ -526,7 +526,6 @@ function Get-ChildItemContent {
     
     $ChildItems
 }
-
 function Invoke_TcpRequest {
      
     param(
@@ -600,7 +599,6 @@ function Invoke_httpRequest {
 #************************************************************************************************************************************************************************************
 #************************************************************************************************************************************************************************************
 #************************************************************************************************************************************************************************************
-
 
 function Get-HashRate {
     param(
@@ -980,12 +978,12 @@ function Start-SubProcess {
         Write-Host "Last error $x"
         $Process = Get-Process -Id $lpProcessInformation.dwProcessID
 
-	# Dirty workaround
-	# Need to investigate. lpProcessInformation sometimes comes null even if process started
-	# So getting process with the same FilePath if so
-	if ($Process -eq $null) {
-		$Process = (Get-Process | ? {$_.Path -eq $FilePath})[0]
-	}
+        # Dirty workaround
+        # Need to investigate. lpProcessInformation sometimes comes null even if process started
+        # So getting process with the same FilePath if so
+        if ($Process -eq $null) {
+            $Process = (Get-Process | ? {$_.Path -eq $FilePath})[0]
+        }
 
         if ($Process -eq $null) {
             [PSCustomObject]@{ProcessId = $null}
