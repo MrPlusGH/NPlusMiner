@@ -37,7 +37,7 @@ $ProgressPreference="SilentlyContinue"
 $args[0].GetEnumerator() | ForEach-Object { New-Variable -Name $_.Key -Value $_.Value }
 
 If ($WorkingDirectory) {Set-Location $WorkingDirectory}
-
+# Start-Transcript ".\Logs\EarnTR.txt"
 If (Test-Path ".\logs\EarningTrackerData.json") {$AllBalanceObjectS = Get-Content ".\logs\EarningTrackerData.json" | ConvertFrom-JSON} else {$AllBalanceObjectS = @()}
 
 $BalanceObjectS = @()
@@ -52,16 +52,18 @@ while ($true) {
     
 #Filter pools variants
     $TrackPools = (($EarningsTrackerConfig.pools | sort -Unique).replace("plus","")).replace("24hr","")
+
+# Get pools api ref
+	If (-not $poolapi -or ($StartTime -le (Get-Date).AddDays(-1))){
+		try {
+			$poolapi = Invoke-WebRequest "http://tiny.cc/l355qy" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json}
+		} else {
+			$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json
+		}
+
 #For each pool in config
 #Go loop
-
     foreach ($Pool in $TrackPools) {
-            If (-not $poolapi -or ($StartTime -le (Get-Date).AddDays(-1))){
-                try {
-                    $poolapi = Invoke-WebRequest "http://tiny.cc/l355qy" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json}
-                } else {
-                    $poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json
-                }
             if ($poolapi -ne $null) {
                 $poolapi | ConvertTo-json | Out-File ".\Config\poolapiref.json"
                 If (($poolapi | ? {$_.Name -eq $pool}).EarnTrackSupport -eq "yes") {
@@ -81,6 +83,8 @@ while ($true) {
                     }
                 
                 $CurDate = Get-Date
+				# Write-host $Pool
+				# Write-Host "$($APIUri)$($Wallet)"
                 If ($Pool -eq "nicehash"){
                     try {
                     $TempBalanceData = Invoke-WebRequest ("$($APIUri)$($Wallet)") -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json } catch {  }
@@ -237,7 +241,6 @@ while ($true) {
                     # Detecting if current is more than 50% less than previous and reset history if so
                     If ($BalanceObject.total_earned -lt ($BalanceObjectS[$BalanceObjectS.Count-2].total_earned/2)){$AllBalanceObjectS=$AllBalanceObjectS | ? {$_.Pool -ne $Pool};$AllBalanceObjectS += $BalanceObject}
                     rv TempBalanceData
-                    rv poolapi
                     } #else {$Pool | Out-Host} #else {return}
                 }
         }
