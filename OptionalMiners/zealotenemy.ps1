@@ -7,9 +7,9 @@ $Commands = [PSCustomObject]@{
     "aeriumx"    = "" #AeriumX(RTX)
     "bcd"        = "" #Bcd(RTX)
     "bitcore"    = "" #Bitcore (RTX)
-    "c11"        = " -i 21" #C11 (RTX)
+    "c11"        = "" #C11 (RTX)
     "hex"        = "" #Hex (RTX)
-    "hsr"        = " -i 21" #Hsr
+    "hsr"        = "" #Hsr
     "phi"        = "" #Phi (RTX)
     "phi2"       = "" #Phi2 (RTX)
     "poly"       = "" #Polytimos(RTX) 
@@ -19,7 +19,7 @@ $Commands = [PSCustomObject]@{
     "tribus"     = "" #Tribus (RTX)
     "x16r"       = "" #X16r (RTX)
     "x16s"       = "" #X16s (RTX)
-    "x17"        = " -i 21" #X17(RTX)
+    "x17"        = "" #X17(RTX)
     "xevan"      = "" #Xevan (RTX)
 }
 
