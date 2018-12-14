@@ -83,15 +83,15 @@ while ($true) {
                 $CurDate = Get-Date
                 If ($Pool -eq "nicehash"){
                     try {
-                    $TempBalanceData = Invoke-WebRequest ($APIUri+$Wallet) -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json } catch {  }
+                    $TempBalanceData = Invoke-WebRequest ("$($APIUri)$($Wallet)") -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json } catch {  }
                     if (-not $TempBalanceData.$BalanceJson) {$TempBalanceData | Add-Member -NotePropertyName $BalanceJson -NotePropertyValue ($TempBalanceData.result.Stats | measure -sum $BalanceJson).sum -Force}
                     if (-not $TempBalanceData.$TotalJson) {$TempBalanceData | Add-Member -NotePropertyName $TotalJson -NotePropertyValue ($TempBalanceData.result.Stats | measure -sum $BalanceJson).sum -Force}
                 } elseif ($Pool -eq "miningpoolhub") {
                     try {
-                    $TempBalanceData = ((((Invoke-WebRequest ($APIUri+$Wallet) -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"}).content | ConvertFrom-Json).getuserallbalances).data | Where {$_.coin -eq "bitcoin"}) } catch {  }#.confirmed
+                    $TempBalanceData = ((((Invoke-WebRequest ("$($APIUri)$($Wallet)") -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"}).content | ConvertFrom-Json).getuserallbalances).data | Where {$_.coin -eq "bitcoin"}) } catch {  }#.confirmed
                 } else {
                     try {
-                    $TempBalanceData = Invoke-WebRequest ($APIUri+$Wallet) -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json } catch {  }
+                    $TempBalanceData = Invoke-WebRequest ("$($APIUri)$($Wallet)") -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json } catch {  }
                 }
                 If ($TempBalanceData.$BalanceJson -gt 0){
                     $BalanceData = $TempBalanceData
