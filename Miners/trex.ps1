@@ -4,7 +4,7 @@ $Path = ".\Bin\NVIDIA-trex\t-rex.exe"
 $Uri = "https://github.com/trexminer/T-Rex/releases/download/0.8.8/t-rex-0.8.8-win-cuda10.0.zip"
 
 $Commands = [PSCustomObject]@{
-"balloon" = "" #Balloon(fastest)
+"astralhash" = "" #Astralhash
 "bcd" = "" #Bcd(fastest)
 "bitcore" = "" #Bitcore(fastest)
 "c11" = "" #C11(fastest)
@@ -12,7 +12,10 @@ $Commands = [PSCustomObject]@{
 "geek"= "" #Geekcash
 "hmq1725" = "" #Hmq1725(fastest)
 "hsr" = "" #Hsr(Testing)
+"jeonghash" = "" #Jeonghash
 "lyra2z" = "" #Lyra2z (cryptodredge faster)
+"padihash" = "" #Padihash
+"pawelhash" = "" #Pawelhash"balloon" = "" #Balloon(fastest)
 "polytimos" = "" #Poly(fastest)
 "sha256t" = "" #Sha256t(fastest)
 "skunk" = "" #Skunk(fastest)
