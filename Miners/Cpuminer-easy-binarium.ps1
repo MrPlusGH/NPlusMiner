@@ -1,6 +1,6 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
  
-$Path = ".\Bin\CPU-easyBinarium\cpuminer_sse2.exe"
+$Path = ".\Bin\CPU-easyBinarium\cpuminer.exe"
 $Uri = "https://github.com/binariumpay/cpuminer-easy/releases/download/0.2/cpuminer-easy_win_64.7z"
 
 $Commands = [PSCustomObject]@{
