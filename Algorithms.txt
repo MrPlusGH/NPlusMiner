@@ -18,6 +18,8 @@
     "x13bcd":  "Bcd",
     "bastion":  "Bastion",
     "bitcore":  "Bitcore",
+    "binariumv1":  "binarium-v1",
+    "binariumv1":  "Binarium_hash_v1",
     "blake":  "Blakecoin",
     "blake14r":  "Decred",
     "blake256":  "Blakecoin",
