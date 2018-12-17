@@ -19,6 +19,7 @@ $Commands = [PSCustomObject]@{
     "lbk3"              = " -a lbk3" #Lbk3(test)
     "lyra2v2"           = " -a lyra2v2" #Lyra2RE2 (fastest)
     "lyra2vc0ban"       = " -a lyra2vc0ban" #Lyra2vc0banHash
+    "lyra2v3"           = " -a lyrarev3" #Lyra2v3
     "lyra2z"            = " -a lyra2z" #Lyra2z (fastest)
     "lyrarev3"          = " -a lyrarev3" #Lyra2REv3 
     "neoscrypt"         = " -a neoscrypt" #NeoScrypt (fastest)
