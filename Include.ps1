@@ -973,23 +973,40 @@ function Start-SubProcess {
         $lpStartupInfo.dwFlags = [STARTF]::STARTF_USESHOWWINDOW
         $lpProcessInformation = New-Object PROCESS_INFORMATION
 
-        [Kernel32]::CreateProcess($lpApplicationName, $lpCommandLine, [ref] $lpProcessAttributes, [ref] $lpThreadAttributes, $bInheritHandles, $dwCreationFlags, $lpEnvironment, $lpCurrentDirectory, [ref] $lpStartupInfo, [ref] $lpProcessInformation)
+        $CreateProcessExitCode = [Kernel32]::CreateProcess($lpApplicationName, $lpCommandLine, [ref] $lpProcessAttributes, [ref] $lpThreadAttributes, $bInheritHandles, $dwCreationFlags, $lpEnvironment, $lpCurrentDirectory, [ref] $lpStartupInfo, [ref] $lpProcessInformation)
         $x = [System.Runtime.InteropServices.Marshal]::GetLastWin32Error()
+		Write-Host "CreateProcessExitCode: $CreateProcessExitCode"
         Write-Host "Last error $x"
-        $Process = Get-Process -Id $lpProcessInformation.dwProcessID
+		Write-Host $lpCommandLine
+		Write-Host "lpProcessInformation.dwProcessID: $($lpProcessInformation.dwProcessID)"
+		
+		If ($CreateProcessExitCode) {
+			Write-Host "lpProcessInformation.dwProcessID - WHEN TRUE: $($lpProcessInformation.dwProcessID)"
 
-        # Dirty workaround
-        # Need to investigate. lpProcessInformation sometimes comes null even if process started
-        # So getting process with the same FilePath if so
-        if ($Process -eq $null) {
-            Sleep 2
-            $Process = (Get-Process | ? {$_.Path -eq $FilePath})[0]
-        }
+			$Process = Get-Process -Id $lpProcessInformation.dwProcessID
 
-        if ($Process -eq $null) {
-            [PSCustomObject]@{ProcessId = $null}
-            return
-        }
+			# Dirty workaround
+			# Need to investigate. lpProcessInformation sometimes comes null even if process started
+			# So getting process with the same FilePath if so
+			$Tries = 0
+			While ($Process -eq $null -and $Tries -le 5) {
+				Write-Host "Can't get process - $Tries"
+				$Tries++
+				Sleep 1
+				$Process = (Get-Process | ? {$_.Path -eq $FilePath})[0]
+				Write-Host "Process= $($Process.Handle)"
+			}
+
+			if ($Process -eq $null) {
+				Write-Host "Case 2 - Failed Get-Process"
+				[PSCustomObject]@{ProcessId = $null}
+				return
+			}
+		} else {
+			Write-Host "Case 1 - Failed CreateProcess"
+			[PSCustomObject]@{ProcessId = $null}
+			return
+		}
 
         [PSCustomObject]@{ProcessId = $Process.Id; ProcessHandle = $Process.Handle}
 
