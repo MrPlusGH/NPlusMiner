@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
  
-$Path = ".\Bin\CPU-easyBinarium\cpuminer.exe"
-$Uri = "https://github.com/binariumpay/cpuminer-easy/releases/download/0.2/cpuminer-easy_win_64.7z"
+$Path = ".\Bin\CPU-bubasikBinarium\cpuminer-aes-sse42.exe"
+$Uri = "https://github.com/bubasik/cpuminer-easy-binarium/releases/download/1.0/cpuminer-easy-binarium-win_x64.zip"
 
 $Commands = [PSCustomObject]@{
     # "allium" = "" #Allium
@@ -52,6 +52,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
 
     switch ($_) {
         "hodl" {$ThreadCount = (Get-WmiObject -class win32_processor).NumberOfLogicalProcessors}
+        "binarium-v1" {$ThreadCount = (Get-WmiObject -class win32_processor).NumberOfLogicalProcessors}
         default {$ThreadCount = (Get-WmiObject -class win32_processor).NumberOfLogicalProcessors - 2}
     }
 
@@ -59,7 +60,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
         Type = "CPU"
         Path = $Path
         Arguments = "--cpu-affinity AAAA -q -t $($ThreadCount) -b $($Variables.CPUMinerAPITCPPort) -a $(Get-Algorithm $_) -o $($Pools.(Get-Algorithm $_).Protocol)://$($Pools.(Get-Algorithm $_).Host):$($Pools.(Get-Algorithm $_).Port) -u $($Pools.(Get-Algorithm $_).User) -p $($Pools.(Get-Algorithm $_).Pass)$($Commands.$_)"
-        HashRates = [PSCustomObject]@{(Get-Algorithm $_) = $Stats."$($Name)_$(Get-Algorithm $_)_HashRate".Week * 0.68 } # accounts for rejects
+        HashRates = [PSCustomObject]@{(Get-Algorithm $_) = $Stats."$($Name)_$(Get-Algorithm $_)_HashRate".Week}
         API = "Ccminer"
         Port = $Variables.CPUMinerAPITCPPort
         Wrap = $false
