@@ -60,7 +60,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
         Type = "CPU"
         Path = $Path
         Arguments = "--cpu-affinity AAAA -q -t $($ThreadCount) -b $($Variables.CPUMinerAPITCPPort) -a $(Get-Algorithm $_) -o $($Pools.(Get-Algorithm $_).Protocol)://$($Pools.(Get-Algorithm $_).Host):$($Pools.(Get-Algorithm $_).Port) -u $($Pools.(Get-Algorithm $_).User) -p $($Pools.(Get-Algorithm $_).Pass)$($Commands.$_)"
-        HashRates = [PSCustomObject]@{(Get-Algorithm $_) = $Stats."$($Name)_$(Get-Algorithm $_)_HashRate".Week}
+        HashRates = [PSCustomObject]@{(Get-Algorithm $_) = $Stats."$($Name)_$(Get-Algorithm $_)_HashRate".Week * 0.68 } # Account for rejected share. Work with pool ops to fix.
         API = "Ccminer"
         Port = $Variables.CPUMinerAPITCPPort
         Wrap = $false
