@@ -829,12 +829,25 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $CheckShowSwitchingNVIDIA.Tag                   = "NVIDIA"
     $CheckShowSwitchingNVIDIA.text                  = "NVIDIA"
     $CheckShowSwitchingNVIDIA.AutoSize              = $false
-    $CheckShowSwitchingNVIDIA.width                 = 100
+    $CheckShowSwitchingNVIDIA.width                 = 70
     $CheckShowSwitchingNVIDIA.height                = 20
     $CheckShowSwitchingNVIDIA.location              = New-Object System.Drawing.Point(62,2)
     $CheckShowSwitchingNVIDIA.Font                  = 'Microsoft Sans Serif,10'
     $CheckShowSwitchingNVIDIA.Checked               = ("NVIDIA" -in $Config.Type)
     $SwitchingPageControls += $CheckShowSwitchingNVIDIA
+    
+	$CheckShowSwitchingAMD = New-Object system.Windows.Forms.CheckBox
+	$CheckShowSwitchingAMD.Tag = "AMD"
+	$CheckShowSwitchingAMD.text = "AMD"
+	$CheckShowSwitchingAMD.AutoSize = $false
+	$CheckShowSwitchingAMD.width = 100
+	$CheckShowSwitchingAMD.height = 20
+	$CheckShowSwitchingAMD.location = New-Object System.Drawing.Point(137, 2)
+	$CheckShowSwitchingAMD.Font = 'Microsoft Sans Serif,10'
+	$CheckShowSwitchingAMD.Checked = ("AMD" -in $Config.Type)
+	$SwitchingPageControls += $CheckShowSwitchingAMD
+		
+	$CheckShowSwitchingAMD | foreach {$_.Add_Click( {CheckBoxSwitching_Click($This)})}
     
     $CheckShowSwitchingNVIDIA | foreach {$_.Add_Click({CheckBoxSwitching_Click($This)})}
     
@@ -1184,7 +1197,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $CheckBoxMinerTypeNVIDIA.Tag                   = "TypeNVIDIA"
     $CheckBoxMinerTypeNVIDIA.text                  = "NVIDIA"
     $CheckBoxMinerTypeNVIDIA.AutoSize              = $false
-    $CheckBoxMinerTypeNVIDIA.width                 = 100
+    $CheckBoxMinerTypeNVIDIA.width                 = 70
     $CheckBoxMinerTypeNVIDIA.height                = 20
     $CheckBoxMinerTypeNVIDIA.location              = New-Object System.Drawing.Point(186,268)
     $CheckBoxMinerTypeNVIDIA.Font                  = 'Microsoft Sans Serif,10'
@@ -1205,6 +1218,33 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
             }
         }else{$Config.Type = @($Config.Type | ? {$_ -ne $This.Text})}
     })
+
+	$CheckBoxMinerTypeAMD = New-Object system.Windows.Forms.CheckBox
+	$CheckBoxMinerTypeAMD.Tag = "TypeAMD"
+	$CheckBoxMinerTypeAMD.text = "AMD"
+	$CheckBoxMinerTypeAMD.AutoSize = $false
+	$CheckBoxMinerTypeAMD.width = 60
+	$CheckBoxMinerTypeAMD.height = 20
+	$CheckBoxMinerTypeAMD.location = New-Object System.Drawing.Point(261, 268)
+	$CheckBoxMinerTypeAMD.Font = 'Microsoft Sans Serif,10'
+	$CheckBoxMinerTypeAMD.Checked = ($CheckBoxMinerTypeAMD.text -in $Config.Type)
+	$ConfigPageControls += $CheckBoxMinerTypeAMD
+
+	$CheckBoxMinerTypeAMD.Add_Click( {
+			If ($This.checked -and $This.Text -notin $Config.Type) {
+				[Array]$Config.Type += $This.Text
+				If ($Variables."$($This.Text)MinerAPITCPPort" -eq $Null -or ($Variables.ActiveMinerPrograms | ? {$_.Status -eq "Running" -and $_.Type -eq $This.Text}) -eq $null) {
+					# Find available TCP Ports
+					$StartPort = 4068
+					Update-Status("Finding available TCP Port for $($This.Text)")
+					$Port = Get-FreeTcpPort($StartPort)
+					$Variables | Add-Member -Force @{"$($This.Text)MinerAPITCPPort" = $Port}
+					Update-Status("Miners API Port: $($Port)")
+					$StartPort = $Port + 1
+				}
+			}
+			else {$Config.Type = @($Config.Type | ? {$_ -ne $This.Text})}
+		})
 
     $CheckBoxAutostart                       = New-Object system.Windows.Forms.CheckBox
     $CheckBoxAutostart.Tag                   = "Autostart"
