@@ -829,7 +829,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $CheckShowSwitchingNVIDIA.Tag                   = "NVIDIA"
     $CheckShowSwitchingNVIDIA.text                  = "NVIDIA"
     $CheckShowSwitchingNVIDIA.AutoSize              = $false
-    $CheckShowSwitchingNVIDIA.width                 = 100
+    $CheckShowSwitchingNVIDIA.width                 = 70
     $CheckShowSwitchingNVIDIA.height                = 20
     $CheckShowSwitchingNVIDIA.location              = New-Object System.Drawing.Point(62,2)
     $CheckShowSwitchingNVIDIA.Font                  = 'Microsoft Sans Serif,10'
@@ -842,7 +842,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
 	$CheckShowSwitchingAMD.AutoSize = $false
 	$CheckShowSwitchingAMD.width = 100
 	$CheckShowSwitchingAMD.height = 20
-	$CheckShowSwitchingAMD.location = New-Object System.Drawing.Point(162, 2)
+	$CheckShowSwitchingAMD.location = New-Object System.Drawing.Point(137, 2)
 	$CheckShowSwitchingAMD.Font = 'Microsoft Sans Serif,10'
 	$CheckShowSwitchingAMD.Checked = ("AMD" -in $Config.Type)
 	$SwitchingPageControls += $CheckShowSwitchingAMD
@@ -1197,7 +1197,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $CheckBoxMinerTypeNVIDIA.Tag                   = "TypeNVIDIA"
     $CheckBoxMinerTypeNVIDIA.text                  = "NVIDIA"
     $CheckBoxMinerTypeNVIDIA.AutoSize              = $false
-    $CheckBoxMinerTypeNVIDIA.width                 = 100
+    $CheckBoxMinerTypeNVIDIA.width                 = 70
     $CheckBoxMinerTypeNVIDIA.height                = 20
     $CheckBoxMinerTypeNVIDIA.location              = New-Object System.Drawing.Point(186,268)
     $CheckBoxMinerTypeNVIDIA.Font                  = 'Microsoft Sans Serif,10'
