@@ -97,9 +97,8 @@ while ($true) {
                     try {
                     $TempBalanceData = Invoke-WebRequest ("$($APIUri)$($Wallet)") -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json } catch {  }
                 }
-                If ($TempBalanceData.$BalanceJson -gt 0){
+                If ($TempBalanceData.$TotalJson -gt 0){
                     $BalanceData = $TempBalanceData
-
                     $AllBalanceObjectS += [PSCustomObject]@{
                             Pool            = $Pool
                             Date            = $CurDate
