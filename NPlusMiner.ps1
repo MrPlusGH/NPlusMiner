@@ -123,6 +123,7 @@ Function Global:TimerUITick
 				If ($Variables.Paused) {
 					$EarningsDGV.DataSource = [System.Collections.ArrayList]@()
 					$RunningMinersDGV.DataSource = [System.Collections.ArrayList]@()
+					$LabelBTCD.ForeColor = "Red"
 					$TimerUI.Stop
 				}
             }
@@ -131,6 +132,7 @@ Function Global:TimerUITick
         If (!$Variables.EndLoop) {Update-Status($Variables.StatusText)}
         # $TimerUI.Interval = 1
 
+	$LabelBTCD.ForeColor = "Green"
         Start-ChildJobs
 
         $Variables.EarningsTrackerJobs | ? {$_.state -eq "Running"} | foreach {
