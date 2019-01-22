@@ -3,9 +3,9 @@ Copyright (c) 2018 MrPlus	(https://github.com/MrPlusGH/NPlusMiner)
 Copyright (c) 2018 Nemo		(https://github.com/nemosminer/NemosMiner)
 
 ![alt text](https://github.com/MrPlusGH/NPlusMiner/blob/2.1/NPM.png)
- # NPlusMiner-v4.6.0
+ # NPlusMiner-v4.6.1
   
- Readme Updated 2019 January 17
+ Readme Updated 2019 January 22
  
 [![Version tag](https://img.shields.io/github/release/MRPlusGH/NPlusMiner.svg)](https://github.com/MrPlusGH/NPlusMiner/releases/latest) [![Version date tag](https://img.shields.io/github/release-date/MRPlusGH/NPlusMiner.svg)](https://github.com/MRPlusGH/NPlusMiner/releases/latest) 
 [![GitHub license](https://img.shields.io/github/license/MRPlusGH/NPlusMiner.svg)](https://github.com/MRPlusGH/NPlusMiner/blob/master/LICENSE)
