@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           Core.ps1
-version:        4.5.5
+version:        4.6.1
 version date:   20181213
 #>
 
@@ -405,6 +405,13 @@ Function NPMCycle {
         $BestMiners_Combos_Comparison += $Miners_Device_Combos | ForEach {$Miner_Device_Combo = $_.Combination; [PSCustomObject]@{Combination = $Miner_Device_Combo | ForEach {$Miner_Device_Count = $_.Device.Count; [Regex]$Miner_Device_Regex = '^(' + (($_.Device | ForEach {[Regex]::Escape($_)}) -join '|') + ')$'; $BestDeviceMiners_Comparison | Where {([Array]$_.Device -notmatch $Miner_Device_Regex).Count -eq 0 -and ([Array]$_.Device -match $Miner_Device_Regex).Count -eq $Miner_Device_Count}}}}
         $BestMiners_Combo = $BestMiners_Combos | Sort -Descending {($_.Combination | Where Profit -EQ $null | Measure).Count},{($_.Combination | Measure Profit_Bias -Sum).Sum},{($_.Combination | Where Profit -NE 0 | Measure).Count} | Select -First 1 | Select -ExpandProperty Combination
         $BestMiners_Combo_Comparison = $BestMiners_Combos_Comparison | Sort -Descending {($_.Combination | Where Profit -EQ $null | Measure).Count},{($_.Combination | Measure Profit_Comparison -Sum).Sum},{($_.Combination | Where Profit -NE 0 | Measure).Count} | Select -First 1 | Select -ExpandProperty Combination
+
+        # No CPU mining if GPU miner prevents it
+        If ($BestMiners_Combo.PreventCPUMining -contains $true) {
+            $BestMiners_Combo = $BestMiners_Combo | ? {$_.type -ne "CPU"}
+            $Variables.StatusText = "Miner prevents CPU mining"
+        }
+
         #Add the most profitable miners to the active list
         $BestMiners_Combo | ForEach {
             if(($Variables.ActiveMinerPrograms | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments).Count -eq 0)
@@ -477,7 +484,7 @@ Function NPMCycle {
                         $PrerunName = ".\Prerun\"+$_.Algorithms+".bat"
                         $DefaultPrerunName = ".\Prerun\default.bat"
                                 If (Test-Path $PrerunName) {
-                            Update-Status("Launching Prerun: $PrerunName")
+                            $Variables.StatusText = "Launching Prerun: $PrerunName"
                             Start-Process $PrerunName -WorkingDirectory ".\Prerun" -WindowStyle hidden
                             Sleep 2
                         } else {
