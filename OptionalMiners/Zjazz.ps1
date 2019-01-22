@@ -24,5 +24,6 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         User      = $Pools.(Get-Algorithm($_)).User
         Host      = $Pools.(Get-Algorithm $_).Host
         Coin      = $Pools.(Get-Algorithm $_).Coin
+        PreventCPUMining      = $true
     }
 }
