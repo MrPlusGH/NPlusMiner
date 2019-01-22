@@ -140,7 +140,7 @@ Function Global:TimerUITick
                 If ($EarnTrack) {
                     # $Variables.Earnings = @{}
                     $EarnTrack | ? {$_.Pool -ne ""} | sort date,pool | select -Last ($EarnTrack.Pool | Sort -Unique).Count | ForEach {
-                        If ($_.Pool -in ($config.PoolName -replace "24hr","" -replace "plus","")) {
+                        If ($true) { #$_.Pool -in ($config.PoolName -replace "24hr","" -replace "plus","")) {
                             $Variables.EarningsPool = $_.Pool
                             $Variables.Earnings.($_.Pool) = $_
                         }
@@ -417,7 +417,7 @@ Function Form_Load
     $LabelBTCD.Text = "$($Variables.CurrentProduct) $($Variables.CurrentVersion)"
     $MainForm.Number = 0
     $TimerUI.Add_Tick({TimerUITick})
-    $TimerUI.Interval = 50
+    $TimerUI.Interval = 500
     $TimerUI.Stop()
         
 		If ($CheckBoxConsole.Checked) {
