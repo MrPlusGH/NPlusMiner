@@ -417,7 +417,7 @@ Function Form_Load
     $LabelBTCD.Text = "$($Variables.CurrentProduct) $($Variables.CurrentVersion)"
     $MainForm.Number = 0
     $TimerUI.Add_Tick({TimerUITick})
-    $TimerUI.Interval = 500
+    $TimerUI.Interval = 50
     $TimerUI.Stop()
         
 		If ($CheckBoxConsole.Checked) {
