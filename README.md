@@ -3,7 +3,7 @@ Copyright (c) 2018 MrPlus	(https://github.com/MrPlusGH/NPlusMiner)
 Copyright (c) 2018 Nemo		(https://github.com/nemosminer/NemosMiner)
 
 ![alt text](https://github.com/MrPlusGH/NPlusMiner/blob/2.1/NPM.png)
- # NPlusMiner-v4.6.1
+ # NPlusMiner-v4.6.2
   
  Readme Updated 2019 January 22
  
