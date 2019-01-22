@@ -1,6 +1,6 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
 
-$Path = ".\Bin\NVIDIA-zjazz12\zjazz_cuda.exe"
+$Path = ".\Bin\NVIDIA-zjazz\zjazz_cuda.exe"
 $Uri = "https://github.com/zjazz/zjazz_cuda_miner/releases/download/1.2/zjazz_cuda_win64_1.2.zip"
 
 $Commands = [PSCustomObject]@{
