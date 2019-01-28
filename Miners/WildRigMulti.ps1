@@ -29,17 +29,18 @@ $Commands = [PSCustomObject]@{
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
+	$Algo = Get-Algorithm($_)
     [PSCustomObject]@{
         Type = "AMD"
         Path = $Path
-        Arguments = "--api-port=$($Variables.AMDMinerAPITCPPort) --algo $_ --url=$($Pools.(Get-Algorithm($_)).Host):$($Pools.(Get-Algorithm($_)).Port) --user=$($Pools.(Get-Algorithm($_)).User) --pass=$($Pools.(Get-Algorithm($_)).Pass) $($Commands.$_)"
-        HashRates = [PSCustomObject]@{(Get-Algorithm($_)) = $Stats."$($Name)_$(Get-Algorithm($_))_HashRate".Live}
+        Arguments = "--api-port=$($Variables.AMDMinerAPITCPPort) --algo $_ --url=$($Pools.($Algo).Host):$($Pools.($Algo).Port) --user=$($Pools.($Algo).User) --pass=$($Pools.($Algo).Pass) $($Commands.$_)"
+        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Live}
         API = "Xmrig"
         Port = $Variables.AMDMinerAPITCPPort
         Wrap = $false
         URI = $Uri
-        User = $Pools.(Get-Algorithm($_)).User
-        Host = $Pools.(Get-Algorithm $_).Host
-        Coin = $Pools.(Get-Algorithm $_).Coin
+        User = $Pools.($Algo).User
+        Host = $Pools.($Algo).Host
+        Coin = $Pools.($Algo).Coin
     }
 }

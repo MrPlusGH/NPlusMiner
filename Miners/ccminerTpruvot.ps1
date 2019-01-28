@@ -10,7 +10,7 @@ $Commands = [PSCustomObject]@{
     "lyra2z"     = " -d $($Config.SelGPUCC) --submit-stale" #Lyra2z
     "phi"        = " -d $($Config.SelGPUCC)" #Phi (testing)
     "sha256t"    = " -d $($Config.SelGPUCC) -i 29" #Sha256t
-    #"skunk"      = " -d $($Config.SelGPUCC)" #Skunk
+    "skunk"      = " -d $($Config.SelGPUCC)" #Skunk
     "sonoa"      = " -d $($Config.SelGPUCC)" #Sonoa
     "tribus"     = " -d $($Config.SelGPUCC)" #Tribus
     #"blake2s" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Blake2s
@@ -50,17 +50,18 @@ $Commands = [PSCustomObject]@{
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
+	$Algo = Get-Algorithm($_)
     [PSCustomObject]@{
         Type      = "NVIDIA"
         Path      = $Path
-        Arguments = "--cpu-priority 5 -b $($Variables.NVIDIAMinerAPITCPPort) -N 1 -R 1 -a $_ -o stratum+tcp://$($Pools.(Get-Algorithm($_)).Host):$($Pools.(Get-Algorithm($_)).Port) -u $($Pools.(Get-Algorithm($_)).User) -p $($Pools.(Get-Algorithm($_)).Pass)$($Commands.$_)"
-        HashRates = [PSCustomObject]@{(Get-Algorithm($_)) = $Stats."$($Name)_$(Get-Algorithm($_))_HashRate".Day}
+        Arguments = "--cpu-priority 5 -b $($Variables.NVIDIAMinerAPITCPPort) -N 1 -R 1 -a $_ -o stratum+tcp://$($Pools.($Algo).Host):$($Pools.($Algo).Port) -u $($Pools.($Algo).User) -p $($Pools.($Algo).Pass)$($Commands.$_)"
+        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Day}
         API       = "ccminer"
         Port      = $Variables.NVIDIAMinerAPITCPPort
         Wrap      = $false
         URI       = $Uri
-        User      = $Pools.(Get-Algorithm($_)).User
-        Host = $Pools.(Get-Algorithm $_).Host
-        Coin = $Pools.(Get-Algorithm $_).Coin
+        User      = $Pools.($Algo).User
+        Host = $Pools.($Algo).Host
+        Coin = $Pools.($Algo).Coin
     }
 }

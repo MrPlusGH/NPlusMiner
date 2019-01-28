@@ -56,17 +56,18 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
         default {$ThreadCount = (Get-WmiObject -class win32_processor).NumberOfLogicalProcessors - 2}
     }
 
+	$Algo = Get-Algorithm($_)
     [PSCustomObject]@{
         Type = "CPU"
         Path = $Path
-        Arguments = "--cpu-affinity AAAA -q -t $($ThreadCount) -b $($Variables.CPUMinerAPITCPPort) -a $_ -o $($Pools.(Get-Algorithm $_).Protocol)://$($Pools.(Get-Algorithm $_).Host):$($Pools.(Get-Algorithm $_).Port) -u $($Pools.(Get-Algorithm $_).User) -p $($Pools.(Get-Algorithm $_).Pass)$($Commands.$_)"
-        HashRates = [PSCustomObject]@{(Get-Algorithm $_) = $Stats."$($Name)_$(Get-Algorithm $_)_HashRate".Week}
+        Arguments = "--cpu-affinity AAAA -q -t $($ThreadCount) -b $($Variables.CPUMinerAPITCPPort) -a $_ -o $($Pools.($Algo).Protocol)://$($Pools.($Algo).Host):$($Pools.($Algo).Port) -u $($Pools.($Algo).User) -p $($Pools.($Algo).Pass)$($Commands.$_)"
+        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Week}
         API = "Ccminer"
         Port = $Variables.CPUMinerAPITCPPort
         Wrap = $false
         URI = $Uri
-        User = $Pools.(Get-Algorithm($_)).User
-        Host = $Pools.(Get-Algorithm $_).Host
-        Coin = $Pools.(Get-Algorithm $_).Coin
+        User = $Pools.($Algo).User
+        Host = $Pools.($Algo).Host
+        Coin = $Pools.($Algo).Coin
     }
 }
