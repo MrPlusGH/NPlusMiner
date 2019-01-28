@@ -13,6 +13,17 @@ $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 	$ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
     $PoolConf = $Config.PoolsConfig.$ConfName
 
+
+    $Request.result.simplemultialgo | ForEach-Object {
+        $Algo = $_.Name
+		$NiceHash_Port = $_.port
+        $NiceHash_Algorithm = Get-Algorithm $_.name
+        $NiceHash_Coin = ""
+
+        $Divisor = 1000000000
+
+        $Stat = Set-Stat -Name "$($Name)_$($NiceHash_Algorithm)_Profit" -Value ([Double]$_.paying / $Divisor)
+
 $Locations = "eu", "usa", "hk", "jp", "in", "br"
 $Locations | ForEach-Object {
         $NiceHash_Location = $_
@@ -23,16 +34,7 @@ $Locations | ForEach-Object {
             "jp"    {$Location = "JP"}
             default {$Location = "US"}
         }
-
-    $Request.result.simplemultialgo | ForEach-Object {
-        $NiceHash_Host = "$($_.Name).$NiceHash_Location.nicehash.com"
-        $NiceHash_Port = $_.port
-        $NiceHash_Algorithm = Get-Algorithm $_.name
-        $NiceHash_Coin = ""
-
-        $Divisor = 1000000000
-
-        $Stat = Set-Stat -Name "$($Name)_$($NiceHash_Algorithm)_Profit" -Value ([Double]$_.paying / $Divisor)
+        $NiceHash_Host = "$($Algo).$NiceHash_Location.nicehash.com"
 
         if ($PoolConf.Wallet) {
             [PSCustomObject]@{
