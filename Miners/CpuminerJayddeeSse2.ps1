@@ -40,6 +40,7 @@ $Commands = [PSCustomObject]@{
     #"x17" = "" #X17
     # "x16r" = "" #X16r
     "yescrypt" = "" #Yescrypt
+    "yescryptr8" = "" #YescryptR8
     "yescryptr16" = "" #YescryptR16
     "yescryptr32" = "" #YescryptR32
 }
