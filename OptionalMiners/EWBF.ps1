@@ -37,17 +37,18 @@ $Commands = [PSCustomObject]@{
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
+    $Algo = $Algo
     [PSCustomObject]@{
         Type = "NVIDIA"
         Path = $Path
-        Arguments = "--api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) --server $($Pools.(Get-Algorithm($_)).Host) --port $($Pools.(Get-Algorithm($_)).Port) --fee 0 --solver 0 --eexit 1 --user $($Pools.(Get-Algorithm($_)).User) --pass $($Pools.(Get-Algorithm($_)).Pass)$($Commands.$_) --intensity 64"
-        HashRates = [PSCustomObject]@{(Get-Algorithm($_)) = $Stats."$($Name)_$(Get-Algorithm($_))_HashRate".Week}
+        Arguments = "--api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) --server $($Pools.($Algo).Host) --port $($Pools.($Algo).Port) --fee 0 --solver 0 --eexit 1 --user $($Pools.($Algo).User) --pass $($Pools.($Algo).Pass)$($Commands.$_) --intensity 64"
+        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Week}
         API = "EWBF"
         Port = $Variables.NVIDIAMinerAPITCPPort
         Wrap = $false
         URI = $Uri
-        User = $Pools.(Get-Algorithm($_)).User
-        Host = $Pools.(Get-Algorithm $_).Host
-        Coin = $Pools.(Get-Algorithm $_).Coin
+        User = $Pools.($Algo).User
+        Host = $Pools.($Algo).Host
+        Coin = $Pools.($Algo).Coin
     }
 }
