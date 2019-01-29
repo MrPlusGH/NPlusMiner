@@ -10,7 +10,7 @@ $Commands = [PSCustomObject]@{
     "lyra2z"     = " -d $($Config.SelGPUCC) --submit-stale" #Lyra2z
     "phi"        = " -d $($Config.SelGPUCC)" #Phi (testing)
     "sha256t"    = " -d $($Config.SelGPUCC) -i 29" #Sha256t
-    "skunk"      = " -d $($Config.SelGPUCC)" #Skunk
+    #"skunk"      = " -d $($Config.SelGPUCC)" #Skunk
     "sonoa"      = " -d $($Config.SelGPUCC)" #Sonoa
     "tribus"     = " -d $($Config.SelGPUCC)" #Tribus
     #"blake2s" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Blake2s
