@@ -6,12 +6,12 @@ $Uri = "https://github.com/nemosminer/ccminerTpruvot/releases/download/v2.3-cuda
 $Commands = [PSCustomObject]@{
     "allium"     = " -d $($Config.SelGPUCC)" #Allium
     "exosis"     = " -d $($Config.SelGPUCC)" #Exosis
-    "hmq1725"    = " -d $($Config.SelGPUCC)" #hmq1725
+    #"hmq1725"    = " -d $($Config.SelGPUCC)" #hmq1725
     "lyra2z"     = " -d $($Config.SelGPUCC) --submit-stale" #Lyra2z
-    "phi"        = " -d $($Config.SelGPUCC)" #Phi (testing)
+    #"phi"        = " -d $($Config.SelGPUCC)" #Phi (testing)
     "sha256t"    = " -d $($Config.SelGPUCC) -i 29" #Sha256t
     #"skunk"      = " -d $($Config.SelGPUCC)" #Skunk
-    "sonoa"      = " -d $($Config.SelGPUCC)" #Sonoa
+    #"sonoa"      = " -d $($Config.SelGPUCC)" #Sonoa
     "tribus"     = " -d $($Config.SelGPUCC)" #Tribus
     #"blake2s" = " -d $($Config.SelGPUCC) --api-remote --api-allow=0/0" #Blake2s
     #"bitcore"    = " -d $($Config.SelGPUCC)" #Bitcore(spmodbitcore faster)
