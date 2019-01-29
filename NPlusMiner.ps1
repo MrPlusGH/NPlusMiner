@@ -191,14 +191,16 @@ Function Global:TimerUITick
                     @{Name="Trust";Expression={"{0:P0}" -f $_.TrustLevel}},
                     @{Name="Balance";Expression={$_.Balance}},
                     # @{Name="Unpaid";Expression={$_.total_unpaid}},
-                    @{Name="BTC/D";Expression={"{0:N8}" -f ($_.BTCD)}},
-                    @{Name="mBTC/D";Expression={"{0:N3}" -f ($_.BTCD*1000)}},
+                    # @{Name="BTC/D";Expression={"{0:N8}" -f ($_.BTCD)}},
+                    @{Name="1h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth1*1000)}},
+                    @{Name="6h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth6*1000)}},
+                    @{Name="24h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth24*1000)}},
 
                     @{Name = "Est. Pay Date"; Expression = {if ($_.EstimatedPayDate -is 'DateTime') {$_.EstimatedPayDate.ToShortDateString()} else {$_.EstimatedPayDate}}},
 
-                    @{Name="PaymentThreshold";Expression={"$($_.PaymentThreshold) ($('{0:P0}' -f $($_.Balance / $_.PaymentThreshold)))"}},
-                    @{Name="Wallet";Expression={$_.Wallet}}
-                ) | Sort "BTC/D" -Descending)
+                    @{Name="PaymentThreshold";Expression={"$($_.PaymentThreshold) ($('{0:P0}' -f $($_.Balance / $_.PaymentThreshold)))"}}#,
+                    # @{Name="Wallet";Expression={$_.Wallet}}
+                ) | Sort "1h m$([char]0x20BF)/D","6h m$([char]0x20BF)/D","24h m$([char]0x20BF)/D" -Descending)
                 $EarningsDGV.DataSource = [System.Collections.ArrayList]@($DisplayEarnings)
                 $EarningsDGV.ClearSelection()
             }
@@ -268,7 +270,7 @@ Function Global:TimerUITick
         
         
             If ($Variables.Earnings.Values -ne $Null){
-                $LabelBTCD.Text = "Avg: " +("{0:N6}" -f ($Variables.Earnings.Values | measure -Property BTCD -Sum).sum) + " BTC/D   |   " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property BTCD -Sum).sum*1000)) + " mBTC/D"
+                $LabelBTCD.Text = "Avg: " +("{0:N6}" -f ($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum) + " $([char]0x20BF)/D   |   " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000)) + " m$([char]0x20BF)/D"
                 
                 $LabelEarningsDetails.Lines = @()
                 # If ((($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24) -lt ((($Variables.Earnings.Values | measure -Property BTCD -Sum).sum*1000)*0.999)) {
@@ -281,7 +283,7 @@ Function Global:TimerUITick
                         {$_ -lt 0}
                             {"<"}
                     }
-                $LabelEarningsDetails.Lines += "Last  1h: " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24)) + " mBTC/D " + $TrendSign
+                $LabelEarningsDetails.Lines += "Last  1h: " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24)) + " m$([char]0x20BF)/D " + $TrendSign
                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property BTCD -Sum).sum*1000),3)) {
                         {$_ -eq 0}
                             {"="}
@@ -290,7 +292,7 @@ Function Global:TimerUITick
                         {$_ -lt 0}
                             {"<"}
                     }
-                $LabelEarningsDetails.Lines += "Last  6h: " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4)) + " mBTC/D " + $TrendSign
+                $LabelEarningsDetails.Lines += "Last  6h: " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4)) + " m$([char]0x20BF)/D " + $TrendSign
                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property BTCD -Sum).sum*1000),3)) {
                         {$_ -eq 0}
                             {"="}
@@ -299,7 +301,7 @@ Function Global:TimerUITick
                         {$_ -lt 0}
                             {"<"}
                     }
-                $LabelEarningsDetails.Lines += "Last 24h: " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000)) + " mBTC/D " + $TrendSign
+                $LabelEarningsDetails.Lines += "Last 24h: " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000)) + " m$([char]0x20BF)/D " + $TrendSign
                 rv TrendSign
             } else {
                 $LabelBTCD.Text = "Waiting data from pools."
