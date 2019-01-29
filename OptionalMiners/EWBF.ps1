@@ -37,7 +37,7 @@ $Commands = [PSCustomObject]@{
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
-    $Algo = $Algo
+    $Algo = Get-Algorithm($_)
     [PSCustomObject]@{
         Type = "NVIDIA"
         Path = $Path
