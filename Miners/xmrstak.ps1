@@ -16,7 +16,7 @@ $Commands = [PSCustomObject]@{
 
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
 
-    $Algorithm_Norm = $Algo
+    $Algorithm_Norm = Get-Algorithm($_)
 
     ([PSCustomObject]@{
             pool_list       = @([PSCustomObject]@{

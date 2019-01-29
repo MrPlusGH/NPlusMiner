@@ -10,7 +10,7 @@ $Commands = [PSCustomObject]@{
     #"cryptonightV7" = "" #CryptonightV7
 }
 
-$ThreadCount = (Get-WmiObject -class win32_processor).NumberOfLogicalProcessors - 2
+$ThreadCount = $ThreadCount = $Variables.ProcessorCount - 2
 
 $Port = $Variables.CPUMinerAPITCPPort #2222
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
