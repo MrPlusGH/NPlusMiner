@@ -20,8 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           Core.ps1
-version:        4.6.1
-version date:   20190122
+version:        4.6.3
+version date:   20190129
 #>
 
 Function InitApplication {
