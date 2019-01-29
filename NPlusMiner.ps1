@@ -278,27 +278,27 @@ Function Global:TimerUITick
                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000),3)) {
                         {$_ -eq 0}
                             {"="}
-                        {$_ -lt 0}
-                            {">"}
                         {$_ -gt 0}
+                            {">"}
+                        {$_ -lt 0}
                             {"<"}
                     }
                 $LabelEarningsDetails.Lines += "Last  1h: " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24)) + " m$([char]0x20BF)/D " + $TrendSign
                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3)) {
                         {$_ -eq 0}
                             {"="}
-                        {$_ -lt 0}
-                            {">"}
                         {$_ -gt 0}
+                            {">"}
+                        {$_ -lt 0}
                             {"<"}
                     }
                 $LabelEarningsDetails.Lines += "Last  6h: " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4)) + " m$([char]0x20BF)/D " + $TrendSign
                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property BTCD -Sum).sum*1000),3)) {
                         {$_ -eq 0}
                             {"="}
-                        {$_ -lt 0}
-                            {">"}
                         {$_ -gt 0}
+                            {">"}
+                        {$_ -lt 0}
                             {"<"}
                     }
                 $LabelEarningsDetails.Lines += "Last 24h: " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000)) + " m$([char]0x20BF)/D " + $TrendSign
