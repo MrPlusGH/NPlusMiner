@@ -26,6 +26,8 @@ version date:   20190122
 
 Function InitApplication {
     $Variables | Add-Member -Force @{SourcesHash = @()}
+	$Variables | Add-Member -Force @{ProcessorCount = (Get-WmiObject -class win32_processor).NumberOfLogicalProcessors}
+	
     if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
     Set-Location (Split-Path $script:MyInvocation.MyCommand.Path)
 
@@ -126,6 +128,7 @@ Function Start-ChildJobs {
 }
 
 Function NPMCycle {
+$CycleTime = Measure-Command -Expression {
     if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1");"LoadedInclude" | out-host}
 
     $Variables | Add-Member -Force @{EndLoop = $False}
@@ -610,6 +613,8 @@ Function NPMCycle {
 
     # Mostly used for debug. Will execute code found in .\EndLoopCode.ps1 if exists.
     if (Test-Path ".\EndLoopCode.ps1"){Invoke-Expression (Get-Content ".\EndLoopCode.ps1" -Raw)}
+}
+	$Variables.StatusText = "Cycle Time (seconds): $($CycleTime.TotalSeconds)"
     $Variables.StatusText = "Waiting $($Variables.TimeToSleep) seconds... | Next refresh: $((Get-Date).AddSeconds($Variables.TimeToSleep))"
     $Variables | Add-Member -Force @{EndLoop = $True}
     # Sleep $Variables.TimeToSleep
