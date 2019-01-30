@@ -259,7 +259,6 @@ $CycleTime = Measure-Command -Expression {
                             }
                             elseif($_.Process.HasExited -eq $false)
                             {
-                            $_.Active += (Get-Date)-$_.Process.StartTime
                                $_.Process.CloseMainWindow() | Out-Null
                                Sleep 1
                                # simply "Kill with power"
@@ -455,8 +454,7 @@ $CycleTime = Measure-Command -Expression {
                     $_.Status = "Failed"
                 }
                 elseif ($_.Process.HasExited -eq $false) {
-                    $_.Active += (Get-Date) - $_.Process.StartTime
-                    $_.Process.CloseMainWindow() | Out-Null
+					$_.Process.CloseMainWindow() | Out-Null
                     Sleep 1
                     # simply "Kill with power"
                     Stop-Process $_.Process -Force | Out-Null
@@ -506,7 +504,9 @@ $CycleTime = Measure-Command -Expression {
                     $Variables.DecayStart = Get-Date
                     $_.New = $true
                     $_.Activated++
-                    if($_.Process -ne $null){$_.Active += $_.Process.ExitTime-$_.Process.StartTime}
+                    # if($_.Process -ne $null){$_.TotalActive += $_.Process.ExitTime-$_.Process.StartTime}
+                    if($_.Process -ne $null){$_.Active = [TimeSpan]0}
+					
                     if($_.Wrap){$_.Process = Start-Process -FilePath "PowerShell" -ArgumentList "-executionpolicy bypass -command . '$(Convert-Path ".\Wrapper.ps1")' -ControllerProcessID $PID -Id '$($_.Port)' -FilePath '$($_.Path)' -ArgumentList '$($_.Arguments)' -WorkingDirectory '$(Split-Path $_.Path)'" -PassThru}
                     else{$_.Process = Start-SubProcess -FilePath $_.Path -ArgumentList $_.Arguments -WorkingDirectory (Split-Path $_.Path)}
                     if($_.Process -eq $null){$_.Status = "Failed"}
@@ -516,7 +516,9 @@ $CycleTime = Measure-Command -Expression {
                         #Newely started miner should looks better than other in the first run too
                         $Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit * (1 + $Config.ActiveMinerGainPct / 100)}
                     }
-                }
+                } else {
+					$_.Active = (Get-date) - $_.Process.StartTime
+				}
                 $CurrentMinerHashrate_Gathered = $_.Hashrate_Gathered
             }
         }
