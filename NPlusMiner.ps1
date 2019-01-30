@@ -192,8 +192,8 @@ Function Global:TimerUITick
                     @{Name="Balance";Expression={$_.Balance}},
                     # @{Name="Unpaid";Expression={$_.total_unpaid}},
                     # @{Name="BTC/D";Expression={"{0:N8}" -f ($_.BTCD)}},
-                    @{Name="1h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth1*1000)}},
-                    @{Name="6h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth6*1000)}},
+                    @{Name="1h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth1*1000*24)}},
+                    @{Name="6h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth6*1000*4)}},
                     @{Name="24h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth24*1000)}},
 
                     @{Name = "Est. Pay Date"; Expression = {if ($_.EstimatedPayDate -is 'DateTime') {$_.EstimatedPayDate.ToShortDateString()} else {$_.EstimatedPayDate}}},
