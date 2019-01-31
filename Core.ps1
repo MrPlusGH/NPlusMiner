@@ -619,7 +619,8 @@ $CycleTime = Measure-Command -Expression {
     # Mostly used for debug. Will execute code found in .\EndLoopCode.ps1 if exists.
     if (Test-Path ".\EndLoopCode.ps1"){Invoke-Expression (Get-Content ".\EndLoopCode.ps1" -Raw)}
 }
-	$Variables.StatusText = "Cycle Time (seconds): $($CycleTime.TotalSeconds)"
+    # $Variables.StatusText = "Cycle Time (seconds): $($CycleTime.TotalSeconds)"
+    "Cycle Time (seconds): $($CycleTime.TotalSeconds)" | out-host
     $Variables.StatusText = "Waiting $($Variables.TimeToSleep) seconds... | Next refresh: $((Get-Date).AddSeconds($Variables.TimeToSleep))"
     $Variables | Add-Member -Force @{EndLoop = $True}
     # Sleep $Variables.TimeToSleep
