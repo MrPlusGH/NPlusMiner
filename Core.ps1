@@ -432,6 +432,7 @@ $CycleTime = Measure-Command -Expression {
                     Algorithms = $_.HashRates.PSObject.Properties.Name
                     New = $false
                     Active = [TimeSpan]0
+                    TotalActive = [TimeSpan]0
                     Activated = 0
                     Status = "Idle"
                     HashRate = 0
@@ -517,8 +518,10 @@ $CycleTime = Measure-Command -Expression {
                         $Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit * (1 + $Config.ActiveMinerGainPct / 100)}
                     }
                 } else {
-					$_.Active = (Get-date) - $_.Process.StartTime
-				}
+                    $now = Get-Date
+                    $_.TotalActive = $_.TotalActive + ( $Now - $_.Process.StartTime ) - $_.Active
+                    $_.Active = $Now - $_.Process.StartTime
+                }
                 $CurrentMinerHashrate_Gathered = $_.Hashrate_Gathered
             }
         }
