@@ -1,13 +1,13 @@
 if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
 
-$Path = ".\Bin\NVIDIA-Tpruvot\ccminer.exe"
-$Uri = "https://github.com/nemosminer/ccminerTpruvot/releases/download/v2.3-cuda10/ccminertpruvotx32.7z"
+$Path = ".\Bin\NVIDIA-Tpruvot\ccminer-x64.exe"
+$Uri = "https://github.com/tpruvot/ccminer/releases/download/2.3.1-tpruvot/ccminer-2.3.1-cuda10.7z"
 
 $Commands = [PSCustomObject]@{
     "allium"     = " -d $($Config.SelGPUCC)" #Allium
     "exosis"     = " -d $($Config.SelGPUCC)" #Exosis
     #"hmq1725"    = " -d $($Config.SelGPUCC)" #hmq1725
-    "lyra2z"     = " -d $($Config.SelGPUCC) --submit-stale" #Lyra2z
+    #"lyra2z"     = " -d $($Config.SelGPUCC) --submit-stale" #Lyra2z
     #"phi"        = " -d $($Config.SelGPUCC)" #Phi (testing)
     "sha256t"    = " -d $($Config.SelGPUCC) -i 29" #Sha256t
     #"skunk"      = " -d $($Config.SelGPUCC)" #Skunk
@@ -45,6 +45,9 @@ $Commands = [PSCustomObject]@{
     #"x16s"       = " -d $($Config.SelGPUCC)" #X16s
     #"x17"        = " -d $($Config.SelGPUCC)" #X17(Enemy1.03 faster)
     #"yescrypt" = "" #Yescrypt
+    "sha256q"       = " -d $($Config.SelGPUCC)" #Sha256q
+    #"lyra2v3"       = " -d $($Config.SelGPUCC)" #Lyra2v3
+    "blake2b"       = " -d $($Config.SelGPUCC)" #blake2b
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
