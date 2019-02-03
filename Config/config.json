@@ -1,7 +1,7 @@
 {
     "ActiveMinerGainPct":  8,
     "Algorithm":  [
-                      ""
+                      "-x16r"
                   ],
     "API_ID":  0,
     "API_Key":  "",
@@ -34,9 +34,8 @@
     "MonitoringUser":  "",
     "Passwordcurrency":  "BTC",
     "PoolName":  [
-                     "miningpoolhub",
                      "nicehash",
-                     "zpoolplus"
+                     "zergpoolplus"
                  ],
     "Proxy":  "",
     "ReportToServer":  false,
