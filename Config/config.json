@@ -1,7 +1,6 @@
 {
     "ActiveMinerGainPct":  8,
     "Algorithm":  [
-                      "-x16r"
                   ],
     "API_ID":  0,
     "API_Key":  "",
