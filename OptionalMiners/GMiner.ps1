@@ -1,4 +1,4 @@
-if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
+if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-Gminer\miner.exe"
 $Uri = "https://nemosminer.com/data/optional/gminer_1_29_minimal_windows64.7z"

@@ -1,4 +1,4 @@
-if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
+if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\\Bin\\Ethash-Claymore\\EthDcrMiner64.exe"
 $Uri = "https://github.com/nemosminer/Claymores-Dual-Ethereum/releases/download/v12.0/Claymore.s.Dual.Ethereum.GPU.Miner.v12.0.7z"

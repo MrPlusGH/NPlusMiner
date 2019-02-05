@@ -1,4 +1,4 @@
-if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
+if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = '.\Bin\AMD-WildRigMulti\wildrig.exe'
 $Uri = 'https://github.com/andru-kun/wildrig-multi/releases/download/0.15.0/wildrig-0.15.0.6-beta.7z'

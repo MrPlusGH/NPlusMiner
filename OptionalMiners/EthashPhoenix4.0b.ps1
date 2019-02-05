@@ -1,6 +1,6 @@
 
 
-if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
+if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\\Bin\\Ethash-Phoenix40b\\PhoenixMiner.exe"
 $Uri = "https://nemosminer.com/data/optional/PhoenixMiner_4.1c_Windows.7z"
