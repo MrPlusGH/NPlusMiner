@@ -1,4 +1,4 @@
-if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
+if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 try {
     $Request = Invoke-WebRequest "https://api.nicehash.com/api?method=simplemultialgo.info" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
@@ -32,7 +32,9 @@ $Locations | ForEach-Object {
             "eu"    {$Location = "EU"}
             "usa"   {$Location = "US"}
             "jp"    {$Location = "JP"}
-            default {$Location = "US"}
+            "hk"    {$Location = "HK"}
+            "in"    {$Location = "IN"}
+            "br"    {$Location = "BR"}
         }
         $NiceHash_Host = "$($Algo).$NiceHash_Location.nicehash.com"
 
