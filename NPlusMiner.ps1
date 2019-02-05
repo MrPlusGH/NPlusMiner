@@ -83,8 +83,8 @@ param(
 )
 
 
-. .\include.ps1
-. .\Core.ps1
+. .\Includes\include.ps1
+. .\Includes\Core.ps1
 
 @"
 NPlusMiner
@@ -107,9 +107,21 @@ Write-Host -F Yellow " Copyright and license notices must be preserved."
 
 "@
 
-        $Global:Config = [hashtable]::Synchronized(@{})
-        $Global:Variables = [hashtable]::Synchronized(@{})
-        $Global:Variables | Add-Member -Force -MemberType ScriptProperty -Name 'StatusText' -Value{ $this._StatusText;$This._StatusText = @() }  -SecondValue { If (!$this._StatusText){$this._StatusText=@()};$this._StatusText+=$args[0];$Variables | Add-Member -Force @{RefreshNeeded = $True} }
+    $Global:Config = [hashtable]::Synchronized(@{})
+    $Global:Variables = [hashtable]::Synchronized(@{})
+    $Global:Variables | Add-Member -Force -MemberType ScriptProperty -Name 'StatusText' -Value{ $this._StatusText;$This._StatusText = @() }  -SecondValue { If (!$this._StatusText){$this._StatusText=@()};$this._StatusText+=$args[0];$Variables | Add-Member -Force @{RefreshNeeded = $True} }
+
+    # Load Branding
+    If (Test-Path ".\Config\Branding.json") {
+        $Branding = Get-Content ".\Config\Branding.json" | ConvertFrom-Json
+    } Else {
+        $Branding = [PSCustomObject]@{
+            LogoPath = "https://github.com/MrPlusGH/NPlusMiner/raw/master/NPM.png"
+            BrandName = "NPlusMiner"
+            BrandWebSite = "https://github.com/MrPlusGH/NPlusMiner"
+            ProductLable = "NPlusMiner"
+        }
+    }
         
 Function Global:TimerUITick
 {
@@ -155,8 +167,8 @@ Function Global:TimerUITick
         }
         $Variables | Add-Member -Force @{InCycle = $True}
         # $MainForm.Number+=1
-        $MainForm.Text = $Variables.CurrentProduct + " " + $Variables.CurrentVersion + " Runtime " + ("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate)) + " Path: " + (Split-Path $script:MyInvocation.MyCommand.Path)
-        $host.UI.RawUI.WindowTitle = $Variables.CurrentProduct + " " + $Variables.CurrentVersion + " Runtime " + ("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate)) + " Path: " + (Split-Path $script:MyInvocation.MyCommand.Path)
+        $MainForm.Text = $Branding.ProductLable + " " + $Variables.CurrentVersion + " Runtime " + ("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate)) + " Path: " + (Split-Path $script:MyInvocation.MyCommand.Path)
+        $host.UI.RawUI.WindowTitle = $Branding.ProductLable + " " + $Variables.CurrentVersion + " Runtime " + ("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate)) + " Path: " + (Split-Path $script:MyInvocation.MyCommand.Path)
 
 
         If ($Variables.EndLoop) {
@@ -170,7 +182,7 @@ Function Global:TimerUITick
             
             If (Test-Path ".\logs\DailyEarnings.csv"){
                 If ($Chart1) {$RunPage.Controls.Remove($Chart1)}
-                $Chart1 = Invoke-Expression -Command ".\Charting.ps1 -Chart 'Front7DaysEarnings' -Width 505 -Height 85"
+                $Chart1 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'Front7DaysEarnings' -Width 505 -Height 85"
                 $Chart1.top = 74
                 $Chart1.left = 0
                 $RunPage.Controls.Add($Chart1)
@@ -178,7 +190,7 @@ Function Global:TimerUITick
             }
             If (Test-Path ".\logs\DailyEarnings.csv"){
                 If ($Chart2) {$RunPage.Controls.Remove($Chart2)}
-                $Chart2 = Invoke-Expression -Command ".\Charting.ps1 -Chart 'DayPoolSplit' -Width 200 -Height 85"
+                $Chart2 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'DayPoolSplit' -Width 200 -Height 85"
                 $Chart2.top = 74
                 $Chart2.left = 500
                 $RunPage.Controls.Add($Chart2)
@@ -308,8 +320,8 @@ Function Global:TimerUITick
                 $LabelEarningsDetails.Lines = @()
             }
         
-            if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1;RegisterLoaded(".\Include.ps1")}
-            if (!(IsLoaded(".\Core.ps1"))) {. .\Core.ps1;RegisterLoaded(".\Core.ps1")}
+            if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
+            if (!(IsLoaded(".\Includes\Core.ps1"))) {. .\Includes\Core.ps1;RegisterLoaded(".\Includes\Core.ps1")}
         
             $Variables | Add-Member -Force @{CurrentProduct = (Get-Content .\Version.json | ConvertFrom-Json).Product}
             $Variables | Add-Member -Force @{CurrentVersion = [Version](Get-Content .\Version.json | ConvertFrom-Json).Version}
@@ -415,8 +427,8 @@ Function Global:TimerUITick
 
 Function Form_Load
 {
-    $MainForm.Text = "$($Variables.CurrentProduct) $($Variables.CurrentVersion)"
-    $LabelBTCD.Text = "$($Variables.CurrentProduct) $($Variables.CurrentVersion)"
+    $MainForm.Text = "$($Branding.ProductLable) $($Variables.CurrentVersion)"
+    $LabelBTCD.Text = "$($Branding.ProductLable) $($Variables.CurrentVersion)"
     $MainForm.Number = 0
     $TimerUI.Add_Tick({TimerUITick})
     $TimerUI.Interval = 50
@@ -478,7 +490,7 @@ Add-Type -AssemblyName System.Windows.Forms
 If (Test-Path ".\Logs\switching.log"){$SwitchingArray = [System.Collections.ArrayList]@(Import-Csv ".\Logs\switching.log" | Select -Last 14)}
 
 $MainForm = New-Object system.Windows.Forms.Form
-$NPMIcon = New-Object system.drawing.icon (".\NPM.ICO")
+$NPMIcon = New-Object system.drawing.icon (".\Includes\NPM.ICO")
 $MainForm.Icon                  = $NPMIcon
 $MainForm.ClientSize            = '740,450' # best to keep under 800,600
 $MainForm.text                  = "Form"
@@ -631,6 +643,15 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
 # Form Controls
     $MainFormControls = @()
 
+    # $Logo = [System.Drawing.Image]::Fromfile('.\config\logo.png')
+    $pictureBoxLogo = new-object Windows.Forms.PictureBox
+    $pictureBoxLogo.Width = 47 #$img.Size.Width
+    $pictureBoxLogo.Height = 47 #$img.Size.Height
+    # $pictureBoxLogo.Image = $Logo
+    $pictureBoxLogo.SizeMode = 1
+    $pictureBoxLogo.ImageLocation = $Branding.LogoPath
+    $MainFormControls += $pictureBoxLogo
+
     $LabelEarningsDetails                          = New-Object system.Windows.Forms.TextBox
     $LabelEarningsDetails.Tag                      = ""
     $LabelEarningsDetails.MultiLine                = $true
@@ -638,7 +659,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $LabelEarningsDetails.AutoSize                 = $false
     $LabelEarningsDetails.width                    = 200 #382
     $LabelEarningsDetails.height                   = 47 #62
-    $LabelEarningsDetails.location                 = New-Object System.Drawing.Point(10,2)
+    $LabelEarningsDetails.location                 = New-Object System.Drawing.Point(57,2)
     $LabelEarningsDetails.Font                     = 'lucida console,10'
     $LabelEarningsDetails.BorderStyle              = 'None'
     $LabelEarningsDetails.BackColor                = [System.Drawing.SystemColors]::Control
@@ -650,9 +671,9 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $LabelBTCD                          = New-Object system.Windows.Forms.Label
     $LabelBTCD.text                     = "BTC/D"
     $LabelBTCD.AutoSize                 = $False
-    $LabelBTCD.width                    = 390
+    $LabelBTCD.width                    = 473
     $LabelBTCD.height                   = 35
-    $LabelBTCD.location                 = New-Object System.Drawing.Point(330,2)
+    $LabelBTCD.location                 = New-Object System.Drawing.Point(247,2)
     $LabelBTCD.Font                     = 'Microsoft Sans Serif,14'
     $LabelBTCD.TextAlign                = "MiddleRight"
     $LabelBTCD.ForeColor                = "Green"
@@ -749,13 +770,13 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $RunPageControls += $LabelEarnings
 
     If (Test-Path ".\logs\DailyEarnings.csv"){
-        $Chart1 = Invoke-Expression -Command ".\Charting.ps1 -Chart 'Front7DaysEarnings' -Width 505 -Height 85"
+        $Chart1 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'Front7DaysEarnings' -Width 505 -Height 85"
         $Chart1.top = 74
         $Chart1.left = 2
         $RunPageControls += $Chart1
     }
     If (Test-Path ".\logs\DailyEarnings.csv"){
-        $Chart2 = Invoke-Expression -Command ".\Charting.ps1 -Chart 'DayPoolSplit' -Width 200 -Height 85"
+        $Chart2 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'DayPoolSplit' -Width 200 -Height 85"
         $Chart2.top = 74
         $Chart2.left = 500
         $RunPageControls += $Chart2
@@ -1083,8 +1104,9 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $LabelDonate.AutoSize                 = $false
     $LabelDonate.width                    = 120
     $LabelDonate.height                   = 20
-    $LabelDonate.location                 = New-Object System.Drawing.Point(2,178)
+    $LabelDonate.location                 = New-Object System.Drawing.Point(2,268)
     $LabelDonate.Font                     = 'Microsoft Sans Serif,10'
+    $LabelDonate.Visible                  = $False
     $ConfigPageControls += $LabelDonate
 
     $TBDonate                          = New-Object system.Windows.Forms.TextBox
@@ -1095,8 +1117,9 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $TBDonate.AutoSize                 = $false
     $TBDonate.width                    = 300
     $TBDonate.height                   = 20
-    $TBDonate.location                 = New-Object System.Drawing.Point(122,178)
+    $TBDonate.location                 = New-Object System.Drawing.Point(122,268)
     $TBDonate.Font                     = 'Microsoft Sans Serif,10'
+    $TBDonate.Visible                  = $False
     $ConfigPageControls += $TBDonate
 
     $LabelProxy                          = New-Object system.Windows.Forms.Label
@@ -1104,7 +1127,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $LabelProxy.AutoSize                 = $false
     $LabelProxy.width                    = 120
     $LabelProxy.height                   = 20
-    $LabelProxy.location                 = New-Object System.Drawing.Point(2,202)
+    $LabelProxy.location                 = New-Object System.Drawing.Point(2,178)
     $LabelProxy.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $LabelProxy
 
@@ -1116,7 +1139,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $TBProxy.AutoSize                 = $false
     $TBProxy.width                    = 300
     $TBProxy.height                   = 20
-    $TBProxy.location                 = New-Object System.Drawing.Point(122,202)    
+    $TBProxy.location                 = New-Object System.Drawing.Point(122,178)    
     $TBProxy.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $TBProxy
 
@@ -1125,7 +1148,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $LabelActiveMinerGainPct.AutoSize                 = $false
     $LabelActiveMinerGainPct.width                    = 120
     $LabelActiveMinerGainPct.height                   = 20
-    $LabelActiveMinerGainPct.location                 = New-Object System.Drawing.Point(2,224)
+    $LabelActiveMinerGainPct.location                 = New-Object System.Drawing.Point(2,202)
     $LabelActiveMinerGainPct.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $LabelActiveMinerGainPct
 
@@ -1137,7 +1160,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $TBActiveMinerGainPct.AutoSize                 = $false
     $TBActiveMinerGainPct.width                    = 300
     $TBActiveMinerGainPct.height                   = 20
-    $TBActiveMinerGainPct.location                 = New-Object System.Drawing.Point(122,224)
+    $TBActiveMinerGainPct.location                 = New-Object System.Drawing.Point(122,202)
     $TBActiveMinerGainPct.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $TBActiveMinerGainPct
 
@@ -1146,7 +1169,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $LabelMPHAPIKey.AutoSize                 = $false
     $LabelMPHAPIKey.width                    = 120
     $LabelMPHAPIKey.height                   = 20
-    $LabelMPHAPIKey.location                 = New-Object System.Drawing.Point(2,246)
+    $LabelMPHAPIKey.location                 = New-Object System.Drawing.Point(2,224)
     $LabelMPHAPIKey.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $LabelMPHAPIKey
 
@@ -1157,7 +1180,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $TBMPHAPIKey.AutoSize                 = $false
     $TBMPHAPIKey.width                    = 300
     $TBMPHAPIKey.height                   = 20
-    $TBMPHAPIKey.location                 = New-Object System.Drawing.Point(122,246)
+    $TBMPHAPIKey.location                 = New-Object System.Drawing.Point(122,224)
     $TBMPHAPIKey.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $TBMPHAPIKey
 
@@ -1166,7 +1189,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $LabelMinersTypes.AutoSize                 = $false
     $LabelMinersTypes.width                    = 120
     $LabelMinersTypes.height                   = 20
-    $LabelMinersTypes.location                 = New-Object System.Drawing.Point(2,268)
+    $LabelMinersTypes.location                 = New-Object System.Drawing.Point(2,246)
     $LabelMinersTypes.Font                     = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $LabelMinersTypes
 
@@ -1176,7 +1199,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $CheckBoxMinerTypeCPU.AutoSize              = $false
     $CheckBoxMinerTypeCPU.width                 = 60
     $CheckBoxMinerTypeCPU.height                = 20
-    $CheckBoxMinerTypeCPU.location              = New-Object System.Drawing.Point(124,268)
+    $CheckBoxMinerTypeCPU.location              = New-Object System.Drawing.Point(124,246)
     $CheckBoxMinerTypeCPU.Font                  = 'Microsoft Sans Serif,10'
     $CheckBoxMinerTypeCPU.Checked               = ($CheckBoxMinerTypeCPU.text -in $Config.Type)
     $ConfigPageControls += $CheckBoxMinerTypeCPU
@@ -1203,7 +1226,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $CheckBoxMinerTypeNVIDIA.AutoSize              = $false
     $CheckBoxMinerTypeNVIDIA.width                 = 70
     $CheckBoxMinerTypeNVIDIA.height                = 20
-    $CheckBoxMinerTypeNVIDIA.location              = New-Object System.Drawing.Point(186,268)
+    $CheckBoxMinerTypeNVIDIA.location              = New-Object System.Drawing.Point(186,246)
     $CheckBoxMinerTypeNVIDIA.Font                  = 'Microsoft Sans Serif,10'
     $CheckBoxMinerTypeNVIDIA.Checked               = ($CheckBoxMinerTypeNVIDIA.text -in $Config.Type)
     $ConfigPageControls += $CheckBoxMinerTypeNVIDIA
@@ -1229,7 +1252,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $CheckBoxMinerTypeAMD.AutoSize = $false
     $CheckBoxMinerTypeAMD.width = 60
     $CheckBoxMinerTypeAMD.height = 20
-    $CheckBoxMinerTypeAMD.location = New-Object System.Drawing.Point(261, 268)
+    $CheckBoxMinerTypeAMD.location = New-Object System.Drawing.Point(261, 246)
     $CheckBoxMinerTypeAMD.Font = 'Microsoft Sans Serif,10'
     $CheckBoxMinerTypeAMD.Checked = ($CheckBoxMinerTypeAMD.text -in $Config.Type)
     $ConfigPageControls += $CheckBoxMinerTypeAMD
@@ -1341,9 +1364,10 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $CheckBoxAutoUpdate.AutoSize              = $false
     $CheckBoxAutoUpdate.width                 = 100
     $CheckBoxAutoUpdate.height                = 20
-    $CheckBoxAutoUpdate.location              = New-Object System.Drawing.Point(560,90)
+    $CheckBoxAutoUpdate.location              = New-Object System.Drawing.Point(560,156)
     $CheckBoxAutoUpdate.Font                  = 'Microsoft Sans Serif,10'
     $CheckBoxAutoUpdate.Checked               =   $Config.AutoUpdate
+    $CheckBoxAutoUpdate.Visible               =   $False
     # $CheckBoxAutoUpdate.Enabled               =   $False
     $ConfigPageControls += $CheckBoxAutoUpdate
 
@@ -1375,7 +1399,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $CheckBoxConsole.AutoSize = $false
     $CheckBoxConsole.width = 160
     $CheckBoxConsole.height = 20
-    $CheckBoxConsole.location = New-Object System.Drawing.Point(560, 156)
+    $CheckBoxConsole.location = New-Object System.Drawing.Point(560, 90)
     $CheckBoxConsole.Font = 'Microsoft Sans Serif,10'
     $CheckBoxConsole.Checked = $Config.HideConsole
     $ConfigPageControls += $CheckBoxConsole
@@ -1580,7 +1604,7 @@ $ButtonPause.Add_Click( {
 
             $ButtonPause.Text = "Mine"
             Update-Status("Mining paused. BrainPlus and Earning tracker running.")
-            $LabelBTCD.Text = "Mining Paused | $($Variables.CurrentProduct) $($Variables.CurrentVersion)"
+            $LabelBTCD.Text = "Mining Paused | $($Branding.ProductLable) $($Variables.CurrentVersion)"
             # $TimerUI.Stop()
         }
         else {
@@ -1613,15 +1637,15 @@ $ButtonStart.Add_Click( {
             if ($IdleRunspace) {$IdleRunspace.Close()}
             if ($idlePowershell) {$idlePowershell.Dispose()}
 
-            $LabelBTCD.Text = "Stopped | $($Variables.CurrentProduct) $($Variables.CurrentVersion)"
+            $LabelBTCD.Text = "Stopped | $($Branding.ProductLable) $($Variables.CurrentVersion)"
             Update-Status("Idle")
             $ButtonStart.Text = "Start"
             # $TimerUI.Interval = 1000
             $TimerUI.Stop()
         }
         else {
-            if (!(IsLoaded(".\Core.ps1"))) {. .\Core.ps1; RegisterLoaded(".\Core.ps1")}
-            if (!(IsLoaded(".\Include.ps1"))) {. .\Include.ps1; RegisterLoaded(".\Include.ps1")}
+            if (!(IsLoaded(".\Includes\Core.ps1"))) {. .\Includes\Core.ps1; RegisterLoaded(".\Includes\Core.ps1")}
+            if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
             PrepareWriteConfig
             $ButtonStart.Text = "Stop"
             InitApplication
