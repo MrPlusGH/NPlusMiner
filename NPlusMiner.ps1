@@ -116,7 +116,7 @@ Write-Host -F Yellow " Copyright and license notices must be preserved."
         $Branding = Get-Content ".\Config\Branding.json" | ConvertFrom-Json
     } Else {
         $Branding = [PSCustomObject]@{
-            LogoPath = "https://github.com/MrPlusGH/NPlusMiner/raw/master/Includes/NPM.png"
+            LogoPath = "https://raw.githubusercontent.com/MrPlusGH/NPlusMiner/master/Includes/NPM.png"
             BrandName = "NPlusMiner"
             BrandWebSite = "https://github.com/MrPlusGH/NPlusMiner"
             ProductLable = "NPlusMiner"
