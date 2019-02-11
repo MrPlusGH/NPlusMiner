@@ -10,6 +10,9 @@
       <I32 N="SampleHalfPower">0</I32>
       <I32 N="ManualPriceFactor">1</I32>
       <I32 N="Interval">60</I32>
+      <I32 N="PerAPIFailPercentPenalty">10</I32>
+      <I32 N="AllowedAPIFailureCount">1</I32>
+      <B N="UseFullTrust">false</B>
       <B N="EnableLog">false</B>
       <S N="LogDataPath">.\BrainMemory-phiphipool.csv</S>
       <S N="TransferFile">.\phiphipoolplus.json</S>
