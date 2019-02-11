@@ -3,6 +3,8 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLo
 $Path = ".\Bin\NVIDIA-TTMiner\TT-Miner.exe"
 $Uri = "https://tradeproject.de/download/Miner/TT-Miner.zip"
 
+# Comment to force update to 2.1.9
+
 $Commands = [PSCustomObject]@{
     "progpow"  = " -a PROGPOW-100 "
 }
