@@ -4,7 +4,7 @@ $Path = ".\Bin\NVIDIA-CryptoDredge\CryptoDredge.exe"
 $Uri = "https://github.com/technobyl/CryptoDredge/releases/download/v0.16.1/CryptoDredge_0.16.1_cuda_10.0_windows.zip"
 
 $Commands = [PSCustomObject]@{
-    "allium"            = " --intensity 8 -a allium" #Allium (fastest)
+    #"allium"            = " --intensity 8 -a allium" #Allium (fastest) [Rejected shares ?!]
     "lyra2v3"           = " --intensity 8 -a lyra2v3" #Lyra2v3 (fastest)
     "lyra2zz "          = " --intensity 8 -a lyra2zz" #Lyra2zz (Testing)
     "neoscrypt"         = " --intensity 6 -a neoscrypt" #NeoScrypt (fastest)
