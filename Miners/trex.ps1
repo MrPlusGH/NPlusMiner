@@ -26,7 +26,7 @@ $Commands = [PSCustomObject]@{
     "dedal"      = "" #Dedal (fastest)
     "sha256t"    = " -i 26" #Sha256t (fastest)
     "sha256q"    = "" #Sha256q (testing)
-    "x21s"       = ",d=16 " #X21s (fastest)
+    "x21s"       = "" #X21s (fastest)
     "x22i"       = " -i 23" #X22i (fastest)
     "timetravel" = " -i 25" #Timetravel (fastest)
 }
