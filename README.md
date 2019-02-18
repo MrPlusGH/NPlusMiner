@@ -11,6 +11,7 @@ Copyright (c) 2018 Nemo		(https://github.com/nemosminer/NemosMiner)
 [![GitHub license](https://img.shields.io/github/license/MRPlusGH/NPlusMiner.svg)](https://github.com/MRPlusGH/NPlusMiner/blob/master/LICENSE)
 
 [![Discord tag](https://img.shields.io/discord/522832112311599124.svg?label=Discord&style=popout&logo=discord)](https://discord.gg/2BCqPxe)
+
 [Click to Join Discord](https://discord.gg/2BCqPxe)
 
 *****
