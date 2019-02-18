@@ -3,14 +3,14 @@ Copyright (c) 2018 MrPlus	(https://github.com/MrPlusGH/NPlusMiner)
 Copyright (c) 2018 Nemo		(https://github.com/nemosminer/NemosMiner)
 
 ![alt text](https://github.com/MrPlusGH/NPlusMiner/raw/master/Includes/NPM.png)
- # NPlusMiner-v4.7.1
+ # NPlusMiner-v4.7.2
   
  Readme Updated 2019 February 18
  
 [![Version tag](https://img.shields.io/github/release/MRPlusGH/NPlusMiner.svg)](https://github.com/MrPlusGH/NPlusMiner/releases/latest) [![Version date tag](https://img.shields.io/github/release-date/MRPlusGH/NPlusMiner.svg)](https://github.com/MRPlusGH/NPlusMiner/releases/latest) 
 [![GitHub license](https://img.shields.io/github/license/MRPlusGH/NPlusMiner.svg)](https://github.com/MRPlusGH/NPlusMiner/blob/master/LICENSE)
 
-[![Discord tag](https://img.shields.io/discord/522832112311599124.svg?label=Discord&style=plastic)](https://discord.gg/2BCqPxe) [Click to Join Discord](https://discord.gg/2BCqPxe)
+[![Discord tag](https://img.shields.io/discord/522832112311599124.svg?label=Discord&style=plastic&logo=discord)](https://discord.gg/2BCqPxe) [Click to Join Discord](https://discord.gg/2BCqPxe)
 
 *****
 **Have questions? Need help?** We're on Discord: https://discord.gg/2BCqPxe
