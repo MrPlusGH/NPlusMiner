@@ -1,12 +1,11 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-TTMiner\TT-Miner.exe"
-$Uri = "https://tradeproject.de/download/Miner/TT-Miner.zip"
-
-# Comment to force update to 2.1.9
+$Uri = "https://tradeproject.de/download/Miner/TT-Miner-2.1.11-beta7.zip"
 
 $Commands = [PSCustomObject]@{
     "progpow"  = " -a PROGPOW-100 "
+    "mtp"      = " -a MTP-100 " #(Supports NiceHash) 
 }
  
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
