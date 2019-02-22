@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
-$Path = ".\Bin\NVIDIA-ccminerspmodgit\ccminer.exe"
-$Uri = "https://github.com/sp-hash/suprminer/releases/download/spmod-git11/spmodgit11.7z"
+$Path = ".\Bin\NVIDIA-ccminersuprminer\ccminer.exe"
+$Uri = "https://github.com/ocminer/suprminer/releases/download/2.0/suprminer-2.0.7z"
 
 $Commands = [PSCustomObject]@{
     #"c11" = " -d $($Config.SelGPUCC)" #C11 (trex faster/ fastest open source)
