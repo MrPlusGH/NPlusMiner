@@ -7,6 +7,7 @@ $Commands = [PSCustomObject]@{
     "allium" = "" #Allium
     "argon2d-crds" = ",d=7 " #argon2d-crds
     "argon2d-dyn" = "" #argon2d-dyn
+    "argon2d4096" = "" #argon2d4096 
     #"bitcore" = "" #Bitcore
     #"blake2s" = "" #Blake2s
     #"blakecoin" = "" #Blakecoin
