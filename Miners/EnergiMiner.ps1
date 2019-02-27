@@ -11,10 +11,11 @@ $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
     $Algo = Get-Algorithm($_)
+    $Pass = If ($Pools.($Algo).Pass -like "*,*") {$Pools.($Algo).Pass.ToString().replace(',','%2C')} else {$Pools.($Algo).Pass}
     [PSCustomObject]@{
         Type      = "NVIDIA"
         Path      = $Path
-        Arguments = "--response-timeout 10 --cuda-parallel-hash 8 --cuda-block-size 256 --cuda-devices $($Config.SelGPUDSTM) -U stratum://$($Pools.($Algo).User):$($Pools.($Algo).Pass.ToString().replace(',','%2C'))@nrghash.mine.zergpool.com:$($Pools.($Algo).Port)"
+        Arguments = "--response-timeout 10 --cuda-parallel-hash 8 --cuda-block-size 256 --cuda-devices $($Config.SelGPUDSTM) -U stratum://$($Pools.($Algo).User):$($Pass)@$($Pools.($Algo).Host):$($Pools.($Algo).Port)"
         HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Week}
         API       = "wrapper"
         Port      = $Variables.NVIDIAMinerAPITCPPort #4068
@@ -24,4 +25,19 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         Host      = $Pools.($Algo).Host
         Coin      = $Pools.($Algo).Coin
     }
+    
+    [PSCustomObject]@{
+        Type      = "AMD"
+        Path      = $Path
+        Arguments = "--response-timeout 10 -G --cl-local-work 256 --opencl-devices $($Config.SelGPUDSTM) -U stratum://$($Pools.($Algo).User):$($Pass)@$($Pools.($Algo).Host):$($Pools.($Algo).Port)"
+        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Week}
+        API       = "wrapper"
+        Port      = $Variables.AMDMinerAPITCPPort #4068
+        Wrap      = $true
+        URI       = $Uri
+        User      = $Pools.($Algo).User
+        Host      = $Pools.($Algo).Host
+        Coin      = $Pools.($Algo).Coin
+    }
+
 }
