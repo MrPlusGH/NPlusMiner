@@ -488,6 +488,9 @@ $CycleTime = Measure-Command -Expression {
                     [pscustomobject]@{date=(get-date);Type=$_.Type;algo=$_.Algorithms;wallet=$_.User;username=$Config.UserName;Host=$_.host} | export-csv .\Logs\switching.log -Append -NoTypeInformation
 
                     # Launch prerun if exists
+                    If ($_.Type -ne "AMD") {
+                        Start-Process ".\Prerun\AMDEnvVar.bat" -WorkingDirectory ".\Prerun" -WindowStyle hidden
+                    }
                     If ($_.Type -ne "CPU") {
                         $PrerunName = ".\Prerun\"+$_.Algorithms+".bat"
                         $DefaultPrerunName = ".\Prerun\default.bat"
