@@ -791,6 +791,26 @@ function Get-HashRate {
                     }
                 }
             }
+
+            "LOL" {
+                $Request = Invoke-WebRequest "http://localhost:8080/summary" -UseBasicParsing
+                if ($Request) {
+                    $Data = $Request | ConvertFrom-Json
+					$HashRate = [Double]$data.Session.Performance_Summary
+                }
+            }
+
+            "jceamd" {
+                $Request = Invoke-WebRequest "http://$($Server):$($Port)/api.json" -UseBasicParsing
+                if ($Request) {
+                    $Data = $Request | ConvertFrom-Json
+					$HashRate_Value = [Double]$Data.hashrate.total[0]
+					if (-not $HashRate_Value) {$HashRate_Value = [Double]$Data.hashrate.total[1]} #fix
+					if (-not $HashRate_Value) {$HashRate_Value = [Double]$Data.hashrate.total[2]} #fix
+					$HashRate = $HashRate_Value
+                }
+            }
+            
         } #end switch
         
         $HashRates = @()
