@@ -799,7 +799,6 @@ function Get-HashRate {
 					$HashRate = [Double]$data.Session.Performance_Summary
                 }
             }
-
             
         } #end switch
         
