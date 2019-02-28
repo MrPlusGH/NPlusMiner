@@ -791,6 +791,15 @@ function Get-HashRate {
                     }
                 }
             }
+
+            "LOL" {
+                $Request = Invoke_httpRequest $Server $Port "/summary" 5
+                if ($Request) {
+                    $Data = $Request | ConvertFrom-Json
+					$HashRate = [Double]$data.Session.Performance_Summary
+                }
+            }
+            
         } #end switch
         
         $HashRates = @()
