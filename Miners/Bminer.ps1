@@ -31,18 +31,4 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         Host = $Pools.($Algo).Host
         Coin = $Pools.($Algo).Coin
     }
-
-    [PSCustomObject]@{
-        Type      = "AMD"
-        Path      = $Path
-        Arguments =  "$($Commands.$_)$($Pools.($Algo).User):$($Pass)@$($Pools.($Algo).Host):$($Pools.($Algo).Port) -max-temperature 94 -nofee -devices $($Config.SelGPUCC) -api 127.0.0.1:$Port"
-        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Week * 0.99} # 1% dev fee
-        API       = "bminer"
-        Port      = $Variables.AMDMinerAPITCPPort
-        Wrap      = $false
-        URI       = $Uri    
-        User = $Pools.($Algo).User
-        Host = $Pools.($Algo).Host
-        Coin = $Pools.($Algo).Coin
-    }
 }
