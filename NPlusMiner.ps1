@@ -464,6 +464,7 @@ Function PrepareWriteConfig{
         If ($CheckBoxDisableGPU0.checked -and [Int]$_.Text -gt 1){$FirstGPU = 1}else{$FirstGPU = 0}
         $Config | Add-Member -Force @{SelGPUCC = (($FirstGPU..($_.Text-1)) -join ",")}
         $Config | Add-Member -Force @{SelGPUDSTM = (($FirstGPU..($_.Text-1)) -join " ")}
+        $Config | Add-Member -Force @{SelGPUMM = (($FirstGPU..($_.Text)) -join ",")}
     }
     $ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox") -and ($_.Tag -eq "Algorithm")} | foreach {
         $Config | Add-Member -Force @{$_.Tag = @($_.Text -split ",")}

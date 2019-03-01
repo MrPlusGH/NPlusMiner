@@ -13,7 +13,6 @@ $Commands = [PSCustomObject]@{
     "Grincuckaroo29" = " -uri cuckaroo29://" #Grin(testing)
     "grin" = " -uri cuckaroo29://" #Grin(testing)
 }
-$Port = $Variables.NVIDIAMinerAPITCPPort
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
@@ -25,7 +24,21 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         Arguments = "$($Commands.$_)$($Pools.($Algo).User):$($Pass)@$($Pools.($Algo).Host):$($Pools.($Algo).Port) -max-temperature 94 -nofee -devices $($Config.SelGPUCC) -api 127.0.0.1:$Port"
         HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Day}
         API       = "bminer"
-        Port      = $Port
+        Port      = $Variables.NVIDIAMinerAPITCPPort
+        Wrap      = $false
+        URI       = $Uri    
+        User = $Pools.($Algo).User
+        Host = $Pools.($Algo).Host
+        Coin = $Pools.($Algo).Coin
+    }
+
+    [PSCustomObject]@{
+        Type      = "AMD"
+        Path      = $Path
+        Arguments =  "$($Commands.$_)$($Pools.($Algo).User):$($Pass)@$($Pools.($Algo).Host):$($Pools.($Algo).Port) -max-temperature 94 -nofee -devices $($Config.SelGPUCC) -api 127.0.0.1:$Port"
+        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Week * 0.99} # 1% dev fee
+        API       = "bminer"
+        Port      = $Variables.AMDMinerAPITCPPort
         Wrap      = $false
         URI       = $Uri    
         User = $Pools.($Algo).User
