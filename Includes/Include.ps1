@@ -323,14 +323,18 @@ Function Update-Notifications ($Text) {
 
 Function DetectGPUCount {
     Update-Status("Fetching GPU Count")
+    $DetectedGPU = @()
     try {
-        $DetectedGPU = @(Get-WmiObject Win32_PnPSignedDriver | Select DeviceName, DriverVersion, Manufacturer, DeviceClass | Where { $_.Manufacturer -like "*NVIDIA*" -and $_.DeviceClass -like "*display*"}) 
+        $DetectedGPU += @(Get-WmiObject Win32_PnPEntity | Select Name, Manufacturer, PNPClass, Availability, ConfigManagerErrorCode, ConfigManagerUserConfig | Where {$_.Manufacturer -like "*NVIDIA*" -and $_.PNPClass -like "*display*" -and $_.ConfigManagerErrorCode -ne "22"}) 
     }
-    catch { $DetectedGPU = @()}
+    catch { Update-Status("NVIDIA Detection failed") }
+    try {
+        $DetectedGPU += @(Get-WmiObject Win32_PnPEntity | Select Name, Manufacturer, PNPClass, Availability, ConfigManagerErrorCode, ConfigManagerUserConfig | Where {$_.Manufacturer -like "*Advanced Micro Devices*" -and $_.PNPClass -like "*display*" -and $_.ConfigManagerErrorCode -ne "22"}) 
+    }
+    catch { Update-Status("AMD Detection failed") }
     $DetectedGPUCount = $DetectedGPU.Count
-    # $DetectedGPUCount = @(Get-WmiObject Win32_PnPSignedDriver | Select DeviceName,DriverVersion,Manufacturer,DeviceClass | Where { $_.Manufacturer -like "*NVIDIA*" -and $_.DeviceClass -like "*display*"}).count } catch { $DetectedGPUCount = 0}
     $i = 0
-    $DetectedGPU | foreach {Update-Status("$($i): $($_.DeviceName)") | Out-Null; $i++}
+    $DetectedGPU | foreach {Update-Status("$($i): $($_.Name)") | Out-Null; $i++}
     Update-Status("Found $($DetectedGPUCount) GPU(s)")
     $DetectedGPUCount
 }
