@@ -4,8 +4,8 @@ $Path = ".\Bin\AMD-Teamred\teamredminer.exe"
 $Uri = "https://github.com/Cryptominer937/Miners/raw/master/teamredminer-v0.4.0-win.zip"
 
 $Commands = [PSCustomObject]@{
-    #"cryptonightv8" = " -a cnv8"
-	"cryptonight_r" = " -a cnr"
+    #"cryptonightv8" = " -a cnv8 "
+	"cryptonight_r" = " -a cnr --cn_config 8+6,8+6,8+6,8+6,8+6,8+6"
 	"lyra2rev3" = " -a lyra2rev3"
 	"lyra2z" = " -a lyra2z"
 	"phi2" = " -a phi2"
