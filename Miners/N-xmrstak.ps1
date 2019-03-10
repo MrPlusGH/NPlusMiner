@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\CryptoNight-FireIce\xmr-stak.exe"
-$Uri = "https://github.com/fireice-uk/xmr-stak/releases/download/2.8.3/xmr-stak-win64-2.8.3.7z"
+$Uri = "https://github.com/fireice-uk/xmr-stak/releases/download/2.10.0/xmr-stak-win64-2.10.0.7z"
 
 $Name = Get-Item $MyInvocation.MyCommand.Path | Select-Object -ExpandProperty BaseName
 $Port = 3335
@@ -12,6 +12,7 @@ $Commands = [PSCustomObject]@{
     #"cryptonight_v7"    = "" # CryptoNightV7(cryptodredge faster)
     #"cryptonight_v8"    = "" # CryptoNightV8
     # "monero"     = "" # Monero(v8)
+    "cryptonight_r"     = "" #Cryptonight_r (Monero)
 }
 
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
