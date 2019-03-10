@@ -1,11 +1,10 @@
 ﻿if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
-$Path = ".\Bin\AMD-Teamred\teamredminer.exe"
-$Uri = "https://github.com/Cryptominer937/Miners/raw/master/teamredminer-v0.4.0-win.zip"
+$Path = ".\Bin\AMD-Teamred3.1\teamredminer.exe"
+$Uri = "https://github.com/Cryptominer937/Miners/raw/master/teamredminer-v0.3.10-win.zip"
 
 $Commands = [PSCustomObject]@{
-    #"cryptonightv8" = " -a cnv8 "
-	"cryptonight_r" = " -a cnr --cn_config 8+6,8+6,8+6,8+6,8+6,8+6"
+    #"cryptonightv8" = " -a cnv8"
 	"lyra2rev3" = " -a lyra2rev3"
 	"lyra2z" = " -a lyra2z"
 	"phi2" = " -a phi2"
