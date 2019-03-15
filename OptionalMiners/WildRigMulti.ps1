@@ -43,7 +43,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
     [PSCustomObject]@{
         Type = "AMD"
         Path = $Path
-        Arguments = "--api-port=$($Variables.AMDMinerAPITCPPort) --url=$($Pools.($Algo).Host):$($Pools.($Algo).Port) --user=$($Pools.($Algo).User) --pass=$($Pools.($Algo).Pass)$($Commands.$_)"
+        Arguments = "--opencl-threads auto --opencl-launch auto --api-port=$($Variables.AMDMinerAPITCPPort) --url=$($Pools.($Algo).Host):$($Pools.($Algo).Port) --user=$($Pools.($Algo).User) --pass=$($Pools.($Algo).Pass)$($Commands.$_)"
         HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Week * .99} # substract 1% devfee
         API = "Xmrig"
         Port = $Variables.AMDMinerAPITCPPort
