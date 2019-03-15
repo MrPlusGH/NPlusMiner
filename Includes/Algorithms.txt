@@ -177,6 +177,7 @@
     "quarkcoin":  "Quark",
     "qubit":  "Qubit",
     "qubitcoin":  "Qubit",
+    "rainforest":  "Rainforest",
     "s3":  "SHA256t",
     "scryptjanenf":  "ScryptJaneNF",
     "scryptjane":  "ScryptJaneNF",
