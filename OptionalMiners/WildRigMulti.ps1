@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\AMD-WildRigMulti\wildrig.exe"
-$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.15.3/wildrig-multi-windows-0.15.3.8-beta.7z"
+$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.15.4p7/wildrig-multi-windows-0.15.4-preview7.7z"
 
 $Commands = [PSCustomObject]@{
     "bcd"           = " --algo bcd" #BitcoinDiamond
@@ -43,7 +43,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
     [PSCustomObject]@{
         Type = "AMD"
         Path = $Path
-        Arguments = "--opencl-threads auto --opencl-launch auto --api-port=$($Variables.AMDMinerAPITCPPort) --url=$($Pools.($Algo).Host):$($Pools.($Algo).Port) --user=$($Pools.($Algo).User) --pass=$($Pools.($Algo).Pass)$($Commands.$_)"
+        Arguments = "--api-port=$($Variables.AMDMinerAPITCPPort) --url=$($Pools.($Algo).Host):$($Pools.($Algo).Port) --opencl-threads auto --opencl-launch auto --user=$($Pools.($Algo).User) --pass=$($Pools.($Algo).Pass)$($Commands.$_)"
         HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Week * .99} # substract 1% devfee
         API = "Xmrig"
         Port = $Variables.AMDMinerAPITCPPort
