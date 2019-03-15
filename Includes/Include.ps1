@@ -803,6 +803,14 @@ function Get-HashRate {
 					$HashRate = [Double]$data.Session.Performance_Summary
                 }
             }
+
+            "nheq" {
+                $Request = Invoke_TcpRequest $Server $Port "status" 5
+                if ($Request) {
+                    $Data = $Request | ConvertFrom-Json
+					$HashRate = [Double]$Data.result.speed_ips * 1000000
+                }
+            }
             
         } #end switch
         
