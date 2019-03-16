@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-Gminer\miner.exe"
-$Uri = "https://nemosminer.com/data/optional/gminer_1_31_minimal_windows64.7z"
+$Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/1.36/gminer_1_36_minimal_windows64.zip"
 $Commands = [PSCustomObject]@{
     "equihash144"  = " --devices $($Config.SelGPUDSTM) --algo 144_5 --pers auto" #Equihash144 (fastest)
     "zhash"        = " --devices $($Config.SelGPUDSTM) --algo 144_5 --pers auto" #Zhash (fastest)
