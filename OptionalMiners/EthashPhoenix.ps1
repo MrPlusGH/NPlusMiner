@@ -3,7 +3,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\\Bin\\Ethash-Phoenix\\PhoenixMiner.exe"
-$Uri = "https://nemosminer.com/data/optional/PhoenixMiner_4.1c_Windows.7z"
+$Uri = "https://nemosminer.com/data/optional/PhoenixMiner_4.2b_Windows.7z"
 $Commands = [PSCustomObject]@{
     #"ethash" = " -di $($($Config.SelGPUCC).Replace(',',''))" #Ethash(fastest)
 }
