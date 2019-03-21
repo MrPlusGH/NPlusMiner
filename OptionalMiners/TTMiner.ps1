@@ -4,8 +4,8 @@ $Path = ".\Bin\NVIDIA-TTMiner\TT-Miner.exe"
 $Uri = "https://tradeproject.de/download/Miner/TT-Miner-2.1.17.zip"
 
 $Commands = [PSCustomObject]@{
-    #"progpow"  = " -a PROGPOW-100 "
-    "mtp"      = " -a MTP-101 " #(Supports NiceHash) 
+    "progpow"  = " -a PROGPOW-100 "
+    "mtp"      = " -a MTP-100 " #(Supports NiceHash) 
 }
  
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
