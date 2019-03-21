@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\AMD-WildRigMulti\wildrig.exe"
-$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.15.4p7/wildrig-multi-windows-0.15.4-preview7.7z"
+$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.15.4p8/wildrig-multi-windows-0.15.4-preview8.7z"
 
 $Commands = [PSCustomObject]@{
     "bcd"           = " --algo bcd" #BitcoinDiamond
