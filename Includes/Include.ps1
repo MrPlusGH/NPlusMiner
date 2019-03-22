@@ -756,6 +756,14 @@ function Get-HashRate {
                     if ($HashRate -eq "") {$HashRate = $Data[3]}
                 }
             }
+
+            "miniZ" {
+                $Message = '{"id":"0", "method":"getstat"}'
+                $Request = Invoke_TcpRequest $server $port $message 5
+                $Data = $Request | ConvertFrom-Json
+                $HashRate = [Double](($Data.result.speed_sps) | Measure-Object -Sum).Sum
+			}
+
             "wrapper" {
                 $HashRate = ""
                 $wrpath = ".\Logs\Energi.txt"
