@@ -522,7 +522,7 @@ $MainForm.add_Shown({
     # TimerCheckVersion
     $TimerCheckVersion = New-Object System.Windows.Forms.Timer
     $TimerCheckVersion.Enabled = $true
-    $TimerCheckVersion.Interval = 1440*60*1000
+    $TimerCheckVersion.Interval = 700*60*1000
     $TimerCheckVersion.Add_Tick({
         Update-Status("Checking version")
         try {
