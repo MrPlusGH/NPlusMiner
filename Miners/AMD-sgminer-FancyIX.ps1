@@ -9,7 +9,7 @@ $Commands = [PSCustomObject]@{
     "lyra2v3" = " --kernel lyra2v3 --gpu-threads 1 --worksize 256 -I 24"
     "lyra2z" = " --kernel lyra2z --gpu-threads 1 --worksize 256 -I 22"
     "lyra2zz" = " --kernel lyra2zz --gpu-threads 1 --worksize 256 -I 22"
-    "mtp" = " --kernel mtp -I 18"
+    # "mtp" = " --kernel mtp -I 18"
     "phi2" = " --kernel phi2 --gpu-threads 1 --worksize 256 -I 22"
     "x22i" = " --kernel x22i --gpu-threads 2 --worksize 256 -I 22"
     }
