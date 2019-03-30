@@ -4,7 +4,6 @@ $Path = ".\Bin\AMD-Bitcore\sgminer-x64.exe"
 $Uri = "https://github.com/RainbowMiner/miner-binaries/releases/download/v5.6.1.9-sgminerbitcore/sgminer-bitcore-5.6.1.9.zip"
 
 $Commands = [PSCustomObject]@{
-    "timetravel10" = " --kernel timetravel10 -I 19"
     "bitcore" = " --kernel timetravel10 -I 19"
     }
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName

@@ -6,7 +6,7 @@
     "API_Key":  "",
     "APIKEY":  "",
     "Autostart":  false,
-    "AutoUpdate":  true,
+    "AutoUpdate":  false,
     "Count":  0,
     "Currency":  "USD",
     "Delay":  1,
