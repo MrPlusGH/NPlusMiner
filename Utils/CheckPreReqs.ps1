@@ -42,3 +42,5 @@ if ([version](GetNVIDIADriverVersion) -lt [version]"416.34") {
 } else {
 	Write-Host -F Green "OK - NVIDIA driver version. $([version](GetNVIDIADriverVersion))"
 }
+
+Pause
