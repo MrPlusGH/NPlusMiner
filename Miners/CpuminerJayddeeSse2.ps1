@@ -25,6 +25,7 @@ $Commands = [PSCustomObject]@{
     #"keccak" = "" #Keccak
     #"lbry" = "" #Lbry
     #"lyra2v2" = "" #Lyra2RE2
+    "lyra2z330" = "" #lyra2z330
     "lyra2z" = "" #Lyra2z
     "m7m" = "" #m7m
     #"myr-gr" = "" #MyriadGroestl
