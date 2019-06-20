@@ -1244,6 +1244,9 @@ Function Autoupdate {
             Update-Status("Copying files...")
             Copy-Item .\$UpdateFileName\* .\ -force -Recurse
 
+            # Remove any obsolete Optional miner file (ie. Not in new version OptionalMiners)
+            ls .\OptionalMiners\ | ? {$_.name -notin (ls .\$UpdateFileName\OptionalMiners\).name} | % {Remove-Item -Recurse -Force $_.FullName}
+
             # Update Optional Miners to Miners if in use
             ls .\OptionalMiners\ | ? {$_.name -in (ls .\Miners\).name} | % {Copy-Item -Force $_.FullName .\Miners\}
 
