@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           BrainPlus.ps1
-version:        4.7.1
-version date:   20190211
+version:        5.0.0
+version date:   20190620
 #>
 
 
