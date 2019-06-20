@@ -1,13 +1,14 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-miniZ\miniZ.exe"
-$Uri = "https://nemosminer.com/data/optional/miniZv1.2lcuda10winx64.7z"
+$Uri = "https://nemosminer.com/data/optional/miniZ_v1.3n5_cuda10_win-x64.7z"
 $Commands = [PSCustomObject]@{
     "equihash144"  = " --algo 144,5 --pers auto" #Equihash144 (fastest)
     "zhash"        = " --algo 144,5 --pers auto" #Zhash (fastest)
     "equihash192"  = " --algo 192,7 --pers auto" #Equihash192 (fastest)
     "equihash-btg" = " --algo 144,5 --pers BgoldPoW " # Equihash-btg MPH (fastest)
     "equihash96"   = " --algo 96,5  --pers auto" #Equihash96 (ewbf faster)
+    "beam"         = " --algo 150,5 --pers auto" #Beam
 }
 $Port = $Variables.NVIDIAMinerAPITCPPort
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
