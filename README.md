@@ -63,10 +63,10 @@ Fee:
    Auto Ban miners
    
         There are cases where some miners might fail in some systems.
-	I such cases, NPlusMiner will ignore this miner after a count of failure.
-	Default value for max failure is 3 and can be changes in Config.json.
-	"MaxMinerFailure":  3 - set to 0 to deactivate autoban.
-	Bans are only valid for a session. NPlusMiner will retry the miner on restart.
+        I such cases, NPlusMiner will ignore this miner after a count of failure.
+        Default value for max failure is 3 and can be changes in Config.json.
+        "MaxMinerFailure":  3 - set to 0 to deactivate autoban.
+        Bans are only valid for a session. NPlusMiner will retry the miner on restart.
 		
    Pause Mining
    
