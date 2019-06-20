@@ -60,6 +60,14 @@ Fee:
    
       Since version 4.0 NPlusMiner integrates an AutoUpdate feature.
       
+   Auto Ban miners
+   
+        There are cases where some miners might fail in some systems.
+	I such cases, NPlusMiner will ignore this miner after a count of failure.
+	Default value for max failure is 3 and can be changes in Config.json.
+	"MaxMinerFailure":  3 - set to 0 to deactivate autoban.
+	Bans are only valid for a session. NPlusMiner will retry the miner on restart.
+		
    Pause Mining
    
         Ability to pause miners while keeping other jobs running (pause button)
