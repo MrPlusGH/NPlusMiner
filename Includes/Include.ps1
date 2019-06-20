@@ -27,6 +27,23 @@ version date:   20181223
 # New-Item -Path function: -Name ((Get-FileHash $MyInvocation.MyCommand.path).Hash) -Value {$true} -EA SilentlyContinue | out-null
 # Get-Item function::"$((Get-FileHash $MyInvocation.MyCommand.path).Hash)" | Add-Member @{"File" = $MyInvocation.MyCommand.path} -EA SilentlyContinue
 
+function Get-MemoryUsage {
+      $memusagebyte = [System.GC]::GetTotalMemory('forcefullcollection')
+      $memusageMB = $memusagebyte / 1MB
+      $diffbytes = $memusagebyte - $script:last_memory_usage_byte
+      $difftext = ''
+      $sign = ''
+      if ( $script:last_memory_usage_byte -ne 0 ) {
+            if ( $diffbytes -ge 0 ) {
+                $sign = '+'
+            }
+            $difftext = ", $sign$diffbytes"
+      }
+      Write-Host -Object ('Memory usage: {0:n1} MB ({1:n0} Bytes{2})' -f $memusageMB,$memusagebyte, $difftext)
+      Write-Host " "
+      # save last value in script global variable
+      $script:last_memory_usage_byte = $memusagebyte
+}
 
 Function GetNVIDIADriverVersion {
     ((gwmi win32_VideoController) | select name, description, @{Name = "NVIDIAVersion" ; Expression = {([regex]"[0-9.]{6}$").match($_.driverVersion).value.Replace(".", "").Insert(3, '.')}} | ? {$_.Description -like "*NVIDIA*"} | select -First 1).NVIDIAVersion
@@ -804,6 +821,14 @@ function Get-HashRate {
                 }
             }
 
+            "NBMiner" {
+                $Request = Invoke_httpRequest $Server $Port "/api/v1/status" 5
+                if ($Request) {
+                    $Data = $Request | ConvertFrom-Json
+                    $HashRate = [double]$Data.miner.total_hashrate_raw
+                }
+            }
+
             "LOL" {
                 $Request = Invoke_httpRequest $Server $Port "/summary" 5
                 if ($Request) {
@@ -1025,13 +1050,13 @@ function Start-SubProcess {
 
         $CreateProcessExitCode = [Kernel32]::CreateProcess($lpApplicationName, $lpCommandLine, [ref] $lpProcessAttributes, [ref] $lpThreadAttributes, $bInheritHandles, $dwCreationFlags, $lpEnvironment, $lpCurrentDirectory, [ref] $lpStartupInfo, [ref] $lpProcessInformation)
         $x = [System.Runtime.InteropServices.Marshal]::GetLastWin32Error()
-		Write-Host "CreateProcessExitCode: $CreateProcessExitCode"
-        Write-Host "Last error $x"
+		# Write-Host "CreateProcessExitCode: $CreateProcessExitCode"
+        # Write-Host "Last error $x"
 		Write-Host $lpCommandLine
-		Write-Host "lpProcessInformation.dwProcessID: $($lpProcessInformation.dwProcessID)"
+		# Write-Host "lpProcessInformation.dwProcessID: $($lpProcessInformation.dwProcessID)"
 		
 		If ($CreateProcessExitCode) {
-			Write-Host "lpProcessInformation.dwProcessID - WHEN TRUE: $($lpProcessInformation.dwProcessID)"
+			# Write-Host "lpProcessInformation.dwProcessID - WHEN TRUE: $($lpProcessInformation.dwProcessID)"
 
 			$Process = Get-Process -Id $lpProcessInformation.dwProcessID
 

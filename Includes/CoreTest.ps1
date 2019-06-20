@@ -64,7 +64,7 @@ Function InitApplication {
     #Set donation parameters
     $Variables | Add-Member -Force @{DonateRandom = [PSCustomObject]@{}}
     $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
-    # If ($Config.Donate -lt 3) {$Config.Donate = (0,(3..8)) | Get-Random}
+    If ($Config.Donate -lt 3) {$Config.Donate = (0,(3..8)) | Get-Random}
     $Variables | Add-Member -Force @{WalletBackup = $Config.Wallet}
     $Variables | Add-Member -Force @{UserNameBackup = $Config.UserName}
     $Variables | Add-Member -Force @{WorkerNameBackup = $Config.WorkerName}
@@ -144,7 +144,7 @@ $CycleTime = Measure-Command -Expression {
         $Variables.ActiveMinerPrograms | ForEach {
             if($_.Process -eq $null -or $_.Process.HasExited)
             {
-                if($_.Status -eq "Running"){$_.Status = "Failed";$_.FailedCount++}
+                if($_.Status -eq "Running"){$_.Status = "Failed"}
             }
             else
             {
@@ -170,47 +170,45 @@ $CycleTime = Measure-Command -Expression {
             }
         }
 
-# $Global:Config | Add-Member -Force @{ConfigFile = ".\Config\Config.json"}
-# $Variables.LastDonated = (Get-Date).AddDays(-1).AddMinutes($Config.Donate) # ENTER
-# $Variables.LastDonated = (Get-Date).AddDays(-1).AddHours(-1) # EXIT
-# $Variables.StatusText = $Config.Donate
-# $Variables.StatusText = $Variables.LastDonated
         #Activate or deactivate donation
-        if((Get-Date).AddDays(-1).AddMinutes($Config.Donate) -ge $Variables.LastDonated -and $Variables.DonateRandom.wallet -eq $Null){
+        if(((Get-Date).AddDays(-1).AddMinutes($Config.Donate) -ge $Variables.LastDonated -and $Variables.DonateRandom.wallet -eq $Null) ){
             # Get donation addresses randomly from agreed developers list
             # This will fairly distribute donations to Developers
             # Developers list and wallets is publicly available at: http://tiny.cc/r355qy 
-            $Variables.StatusText = "ENTERING DONATION"
-            $Variables | Add-Member -Force @{ DonationRunning = $True }
-            $Config.PartyWhenAvailable = $False
             try {$Donation = Invoke-WebRequest "http://tiny.cc/r355qy" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$Donation = @([PSCustomObject]@{Name = "mrplus";Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy";UserName = "mrplus"},[PSCustomObject]@{Name = "nemo";Wallet = "1QGADhdMRpp9Pk5u5zG1TrHKRrdK5R81TE";UserName = "nemo"})}
             if ($Donation -ne $null) {
+                $Variables | Add-Member -Force @{DonationRunning = $true}
                 If ($Config.Donate -lt 3) {$Config.Donate = (0,(3..8)) | Get-Random}
-                $Variables.DonateRandom = $Donation | Get-Random
-                $Config | Add-Member -Force @{PoolsConfig = [PSCustomObject]@{default=[PSCustomObject]@{Wallet = $Variables.DonateRandom.Wallet;UserName = $Variables.DonateRandom.UserName;WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion.ToString().replace('.',''))";PricePenaltyFactor=1}}}
-                If ($Variables.DonateRandom.PoolsConfURL) {
-                    # Get Dev Pools Config
-                    try {
-                        $DevPoolsConfig = Invoke-WebRequest $Variables.DonateRandom.PoolsConfURL -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json
-                    } catch {
-                        $Config | Add-Member -Force @{PoolsConfig = [PSCustomObject]@{default=[PSCustomObject]@{Wallet = $Variables.DonateRandom.Wallet;UserName = $Variables.DonateRandom.UserName;WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion.ToString().replace('.',''))";PricePenaltyFactor=1}}}
+                # $Variables.DonateRandom = $Donation | Get-Random
+                
+                #Revert comment, testing DevPoolConf
+                $Variables.DonateRandom = $Donation[0]
+                try {
+                    $DevPoolsConfig = Invoke-WebRequest $Variables.DonateRandom.PoolsConfURL -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json
+                    $DevPoolsConfig | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | foreach { $DevPoolsConfig.$_ | Add-Member -Force @{WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion.ToString().replace('.',''))"} }
+                    If ( $Variables.DonateRandom.ForcePoolList ) {
+                        $Config.PoolName = $Variables.DonateRandom.PoolList
                     }
-                    If ($DevPoolsConfig -ne $null) {
-                        $DevPoolsConfig | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | foreach { $DevPoolsConfig.$_.WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion.ToString().replace('.',''))" }
-                        $Config | Add-Member -Force -MemberType NoteProperty -Name "PoolsConfig" -Value $DevPoolsConfig
-                        If ( $Variables.DonateRandom.ForcePoolList ) {
-                            $Config.PoolName = $Variables.DonateRandom.PoolList
-                        }
-                        rv DevPoolsConfig
-                    }
+                } catch {
+                    $DevPoolsConfig = [PSCustomObject]@{default=[PSCustomObject]@{Wallet = $Variables.DonateRandom.Wallet;UserName = $Variables.DonateRandom.UserName;WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion.ToString().replace('.',''))";PricePenaltyFactor=1}}
                 }
+$Variables.StatusText = "donating to: $($Variables.DonateRandom.Wallet)"
+                $Config | Add-Member -Force @{PoolsConfig = $DevPoolsConfig}
+                #Prevent switching during donation
+                $Variables.TimeToSleep = $Config.Donate*60
             }
         }
-        if(((Get-Date).AddDays(-1) -ge $Variables.LastDonated -and $Variables.DonateRandom.Wallet -ne $Null) -or (! $Config.PoolsConfig)){
-            $Variables.StatusText = "EXITING DONATION"
-            $Variables | Add-Member -Force @{ DonationRunning = $False }
-            $ConfigLoad = Get-Content $Config.ConfigFile | ConvertFrom-json
-            $ConfigLoad | % {$_.psobject.properties | sort Name | % {$Config | Add-Member -Force @{$_.Name = $_.Value}}}
+$Variables.StatusText = "$((Get-Date).AddDays(-1)) - $($Variables.LastDonated)"
+$Variables.LastDonated = (Get-Date).AddDays(-1).AddMinutes(10)
+$Variables.StatusText = "$((Get-Date).AddDays(-1)) - $($Variables.LastDonated)"
+
+        if((((Get-Date).AddDays(-1) -ge $Variables.LastDonated -and $Variables.DonateRandom.Wallet -ne $Null) -or (! $Config.PoolsConfig))  )
+        {
+        
+        $Variables.StatusText = "Exiting Donation"
+            $Variables | Add-Member -Force @{DonationRunning = $false}
+            $Config = Load-Config -ConfigFile $Variables.ConfigFile
+            $Variables.TimeToSleep = $Config.Interval
             $Config | Add-Member -Force -MemberType ScriptProperty -Name "PoolsConfig" -Value {
                 If (Test-Path ".\Config\PoolsConfig.json"){
                     get-content ".\Config\PoolsConfig.json" | ConvertFrom-json
@@ -287,7 +285,6 @@ $CycleTime = Measure-Command -Expression {
                             if($_.Process -eq $null)
                             {
                                 $_.Status = "Failed"
-                                $_.FailedCount++
                             }
                             elseif($_.Process.HasExited -eq $false)
                             {
@@ -326,19 +323,6 @@ $CycleTime = Measure-Command -Expression {
             Where {!($Config.Algorithm | ? {$_.StartsWith("+")}) -or (Compare (($Config.Algorithm | ? {$_.StartsWith("+")}).Replace("+", "")) $_.HashRates.PSObject.Properties.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0} | 
             Where {$Config.MinerName.Count -eq 0 -or (Compare $Config.MinerName $_.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0}
     }
-
-        # Ban miners if too many failures as defined by MaxMinerFailure
-        # 0 means no ban
-        # Int value means ban after x failures
-        # defaults to 3 if no value in config
-        # ** Ban is not persistent across sessions **
-       If ($Config.MaxMinerFailure -gt 0){
-           $Config | Add-Member -Force @{ MaxMinerFailure = If ($Config.MaxMinerFailure) {$Config.MaxMinerFailure} else {3} }
-           $BannedMiners = $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Failed" -and $_.FailedCount -ge $Config.MaxMinerFailure }
-           # $BannedMiners | foreach { $Variables.StatusText = "BANNED: $($_.Name) / $($_.Algorithms). Too many failures. Consider Algo exclusion in config." }
-           $BannedMiners | foreach { "BANNED: $($_.Name) / $($_.Algorithms). Too many failures. Consider Algo exclusion in config." | Out-Host }
-           $Variables.Miners = $Variables.Miners | Where { $_.Path -notin $BannedMiners.Path -and $_.Arguments -notin $BannedMiners.Arguments }
-       }
 
         $Variables.Miners = $Variables.Miners | ForEach {
             $Miner = $_
@@ -437,6 +421,7 @@ $CycleTime = Measure-Command -Expression {
         }
         # Remove miners when no estimation info from pools or 0BTC. Avoids mining when algo down at pool or benchmarking for ever
         If (($Variables.Miners | ? {($_.Pools.PSObject.Properties.Value.Price -ne $null) -and ($_.Pools.PSObject.Properties.Value.Price -gt 0)}).Count -gt 0) {$Variables.Miners = $Variables.Miners | ? {($_.Pools.PSObject.Properties.Value.Price -ne $null) -and ($_.Pools.PSObject.Properties.Value.Price -gt 0)}}
+
         #Don't penalize active miners. Miner could switch a little bit later and we will restore his bias in this case
         $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" } | ForEach {$Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit * (1 + $Config.ActiveMinerGainPct / 100)}}
         #Get most profitable miner combination i.e. AMD+NVIDIA+CPU
@@ -453,11 +438,25 @@ $CycleTime = Measure-Command -Expression {
         $BestMiners_Combos_Comparison += $Miners_Device_Combos | ForEach {$Miner_Device_Combo = $_.Combination; [PSCustomObject]@{Combination = $Miner_Device_Combo | ForEach {$Miner_Device_Count = $_.Device.Count; [Regex]$Miner_Device_Regex = '^(' + (($_.Device | ForEach {[Regex]::Escape($_)}) -join '|') + ')$'; $BestDeviceMiners_Comparison | Where {([Array]$_.Device -notmatch $Miner_Device_Regex).Count -eq 0 -and ([Array]$_.Device -match $Miner_Device_Regex).Count -eq $Miner_Device_Count}}}}
         $BestMiners_Combo = $BestMiners_Combos | Sort -Descending {($_.Combination | Where Profit -EQ $null | Measure).Count},{($_.Combination | Measure Profit_Bias -Sum).Sum},{($_.Combination | Where Profit -NE 0 | Measure).Count} | Select -First 1 | Select -ExpandProperty Combination
         $BestMiners_Combo_Comparison = $BestMiners_Combos_Comparison | Sort -Descending {($_.Combination | Where Profit -EQ $null | Measure).Count},{($_.Combination | Measure Profit_Comparison -Sum).Sum},{($_.Combination | Where Profit -NE 0 | Measure).Count} | Select -First 1 | Select -ExpandProperty Combination
+
         # No CPU mining if GPU miner prevents it
         If ($BestMiners_Combo.PreventCPUMining -contains $true) {
             $BestMiners_Combo = $BestMiners_Combo | ? {$_.type -ne "CPU"}
             $Variables.StatusText = "Miner prevents CPU mining"
         }
+
+        # Ban miners if too many failures as defined by MaxMinerFailure
+        # 0 means no ban
+        # Int value means ban after x failures
+        # defaults to 3 if no value in config
+        # ** Ban is not persistent across sessions **
+#        If ($Config.MaxMinerFailure -gt 0){
+#            $Config | Add-Member -Force @{ MaxMinerFailure = If ($Config.MaxMinerFailure) {$Config.MaxMinerFailure} else {3} }
+#            $Config.MaxMinerFailure = If ($Config.MaxMinerFailure) {$Config.MaxMinerFailure} else {3}
+#            $BannedMiners = $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Failed" -and $_.Activated -ge $Config.MaxMinerFailure }
+#            $BannedMiners | foreach { $Variables.StatusText = "BANNED: $($_.Name) / $($_.Algorithms). Too many failures. Consider Algo exclusion in config." }
+#            $BestMiners_Combo = $BestMiners_Combo | Where { $_.Path -notin $BannedMiners.Path -and $_.Arguments -notin $BannedMiners.Arguments }
+#        }
 
         #Add the most profitable miners to the active list
         $BestMiners_Combo | ForEach {
@@ -477,7 +476,6 @@ $CycleTime = Measure-Command -Expression {
                     Active = [TimeSpan]0
                     TotalActive = [TimeSpan]0
                     Activated = 0
-                    FailedCount = 0
                     Status = "Idle"
                     HashRate = 0
                     Benchmarked = 0
@@ -497,7 +495,6 @@ $CycleTime = Measure-Command -Expression {
                 if($_.Process -eq $null)
                 {
                     $_.Status = "Failed"
-                    $_.FailedCount++
                 }
                 elseif ($_.Process.HasExited -eq $false) {
 					$_.Process.CloseMainWindow() | Out-Null
@@ -529,13 +526,13 @@ $CycleTime = Measure-Command -Expression {
                     [pscustomobject]@{date=(get-date);Type=$_.Type;algo=$_.Algorithms;wallet=$_.User;username=$Config.UserName;Host=$_.host} | export-csv .\Logs\switching.log -Append -NoTypeInformation
 
                     # Launch prerun if exists
-                    If ($_.Type -eq "AMD" -and (Test-Path ".\Prerun\AMDPrerun.bat")) {
+                    If ($_.Type -ne "AMD" -and (Test-Path ".\Prerun\AMDPrerun.bat")) {
                         Start-Process ".\Prerun\AMDPrerun.bat" -WorkingDirectory ".\Prerun" -WindowStyle hidden
                     }
-                    If ($_.Type -eq "NVIDIA" -and (Test-Path ".\Prerun\NVIDIAPrerun.bat")) {
+                    If ($_.Type -ne "NVIDIA" -and (Test-Path ".\Prerun\NVIDIAPrerun.bat")) {
                         Start-Process ".\Prerun\NVIDIAPrerun.bat" -WorkingDirectory ".\Prerun" -WindowStyle hidden
                     }
-                    If ($_.Type -eq "CPU" -and (Test-Path ".\Prerun\CPUPrerun.bat")) {
+                    If ($_.Type -ne "CPU" -and (Test-Path ".\Prerun\CPUPrerun.bat")) {
                         Start-Process ".\Prerun\CPUPrerun.bat" -WorkingDirectory ".\Prerun" -WindowStyle hidden
                     }
                     If ($_.Type -ne "CPU") {
@@ -564,7 +561,7 @@ $CycleTime = Measure-Command -Expression {
 					
                     if($_.Wrap){$_.Process = Start-Process -FilePath "PowerShell" -ArgumentList "-executionpolicy bypass -command . '$(Convert-Path ".\Includes\Wrapper.ps1")' -ControllerProcessID $PID -Id '$($_.Port)' -FilePath '$($_.Path)' -ArgumentList '$($_.Arguments)' -WorkingDirectory '$(Split-Path $_.Path)'" -PassThru}
                     else{$_.Process = Start-SubProcess -FilePath $_.Path -ArgumentList $_.Arguments -WorkingDirectory (Split-Path $_.Path)}
-                    if($_.Process -eq $null){$_.Status = "Failed";$_.FailedCount++}
+                    if($_.Process -eq $null){$_.Status = "Failed"}
                     else {
                         $_.Status = "Running"
                         $newMiner = $true
@@ -598,15 +595,14 @@ $CycleTime = Measure-Command -Expression {
                 else { $Variables.TimeToSleep =  $Config.StatsInterval }
             }
         } else {
-        $Variables.TimeToSleep = $Config.Interval
+        $Variables.TimeToSleep = $Config.Interval 
+        # $Variables.TimeToSleep = If ($Variables.DonationRunning) {$Config.Donate*60}else{ $Config.Interval }
         }
-        # Prevent switching during donation
-        If ( $Variables.DonationRunning ) { If ($Config.Interval -ge ($Config.Donate * 60)) {$Variables.TimeToSleep = $Config.Interval} else {$Variables.TimeToSleep = $Config.Donate * 60 }}
         #Save current hash rates
         $Variables.ActiveMinerPrograms | ForEach {
             if($_.Process -eq $null -or $_.Process.HasExited)
             {
-                if($_.Status -eq "Running"){$_.Status = "Failed";$_.FailedCount++}
+                if($_.Status -eq "Running"){$_.Status = "Failed"}
             }
             else
             {
@@ -630,18 +626,17 @@ $CycleTime = Measure-Command -Expression {
                     }
                 }
             }
-            
-            # Benchmark timeout
-           # if($_.Benchmarked -ge 6 -or ($_.Benchmarked -ge 3 -and $_.Activated -ge 3))
-           # {
-               # for($i = 0; $i -lt $_.Algorithms.Count; $i++)
-               # {
-                   # if((Get-Stat "$($_.Name)_$($_.Algorithms | Select -Index $i)_HashRate") -eq $null)
-                   # {
-                       # $Stat = Set-Stat -Name "$($_.Name)_$($_.Algorithms | Select -Index $i)_HashRate" -Value 0
-                   # }
-               # }
-           # }
+            #Benchmark timeout
+    #        if($_.Benchmarked -ge 6 -or ($_.Benchmarked -ge 2 -and $_.Activated -ge 2))
+    #        {
+    #            for($i = 0; $i -lt $_.Algorithms.Count; $i++)
+    #            {
+    #                if((Get-Stat "$($_.Name)_$($_.Algorithms | Select -Index $i)_HashRate") -eq $null)
+    #                {
+    #                    $Stat = Set-Stat -Name "$($_.Name)_$($_.Algorithms | Select -Index $i)_HashRate" -Value 0
+    #                }
+    #            }
+    #        }
         }
     # }
 
@@ -682,15 +677,6 @@ $CycleTime = Measure-Command -Expression {
     $Variables | Add-Member -Force @{EndLoop = $True}
     # Sleep $Variables.TimeToSleep
     # }
-# $Variables.BrainJobs | foreach { $_ | stop-job | remove-job }
-# $Variables.BrainJobs = @()
-# $pid | out-host
-# $Variables | convertto-json | out-file ".\logs\variables.json"
-Remove-Variable Stats,Miners_Type_Combos,Miners_Index_Combos,Miners_Device_Combos,BestMiners_Combos,BestMiners_Combos_Comparison,AllPools,Pools,Miner_Pools,Miner_Pools_Comparison,Miner_Profits,Miner_Profits_Comparison,Miner_Profits_Bias,Miner
-# Get-Variable | out-file ".\logs\variables.txt"
-# $StackTrace | convertto-json | out-file ".\logs\stacktrace.json"
-# remove-variable variables
-Get-MemoryUsage
 }
 #Stop the log
 # Stop-Transcript

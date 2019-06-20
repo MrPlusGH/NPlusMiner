@@ -108,6 +108,7 @@ Write-Host -F Yellow " Copyright and license notices must be preserved."
 "@
 
     $Global:Config = [hashtable]::Synchronized(@{})
+    $Global:Config | Add-Member -Force @{ConfigFile = $ConfigFile}
     $Global:Variables = [hashtable]::Synchronized(@{})
     $Global:Variables | Add-Member -Force -MemberType ScriptProperty -Name 'StatusText' -Value{ $this._StatusText;$This._StatusText = @() }  -SecondValue { If (!$this._StatusText){$this._StatusText=@()};$this._StatusText+=$args[0];$Variables | Add-Member -Force @{RefreshNeeded = $True} }
 
@@ -126,7 +127,6 @@ Write-Host -F Yellow " Copyright and license notices must be preserved."
 Function Global:TimerUITick
 {
     $TimerUI.Enabled = $False
-
     # If something (pause button, idle timer) has set the RestartCycle flag, stop and start mining to switch modes immediately
             If ($Variables.RestartCycle) {
                 $Variables.RestartCycle = $False
@@ -269,7 +269,7 @@ Function Global:TimerUITick
             }
             
             If ($Variables.ActiveMinerPrograms) {
-                $RunningMinersDGV.DataSource = [System.Collections.ArrayList]@($Variables.ActiveMinerPrograms | ? {$_.Status -eq "Running"} | select Type,Algorithms,Name,@{Name="HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},@{Name="Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},@{Name="Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},Host | sort Type)
+                $RunningMinersDGV.DataSource = [System.Collections.ArrayList]@($Variables.ActiveMinerPrograms | ? {$_.Status -eq "Running"} | select Type,Algorithms,Coin,Name,@{Name="HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},@{Name="Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},@{Name="Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},Host | sort Type)
                 $RunningMinersDGV.ClearSelection()
             
                 [Array] $processRunning = $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" }
@@ -1393,6 +1393,17 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $CheckBoxIncludeOptionalMiners.Checked = $Config.IncludeOptionalMiners
     $ConfigPageControls += $CheckBoxIncludeOptionalMiners
 
+    $CheckBoxParty = New-Object system.Windows.Forms.CheckBox
+    $CheckBoxParty.Tag = "PartyWhenAvailable"
+    $CheckBoxParty.text = "Party when available"
+    $CheckBoxParty.AutoSize = $false
+    $CheckBoxParty.width = 160
+    $CheckBoxParty.height = 20
+    $CheckBoxParty.location = New-Object System.Drawing.Point(560, 156)
+    $CheckBoxParty.Font = 'Microsoft Sans Serif,10'
+    $CheckBoxParty.Checked = $Config.PartyWhenAvailable
+    $ConfigPageControls += $CheckBoxParty
+
     $CheckBoxConsole = New-Object system.Windows.Forms.CheckBox
     $CheckBoxConsole.Tag = "HideConsole"
     $CheckBoxConsole.text = "Hide Console"
@@ -1605,6 +1616,26 @@ $ButtonPause.Add_Click( {
             $ButtonPause.Text = "Mine"
             Update-Status("Mining paused. BrainPlus and Earning tracker running.")
             $LabelBTCD.Text = "Mining Paused | $($Branding.ProductLable) $($Variables.CurrentVersion)"
+            
+            If ($Variables.DonationRunning) {
+                $Variables | Add-Member -Force @{ DonationRunning = $False }
+                $ConfigLoad = Get-Content $Config.ConfigFile | ConvertFrom-json
+                $ConfigLoad | % {$_.psobject.properties | sort Name | % {$Config | Add-Member -Force @{$_.Name = $_.Value}}}
+                $Config | Add-Member -Force -MemberType ScriptProperty -Name "PoolsConfig" -Value {
+                    If (Test-Path ".\Config\PoolsConfig.json"){
+                        get-content ".\Config\PoolsConfig.json" | ConvertFrom-json
+                    }else{
+                        [PSCustomObject]@{default=[PSCustomObject]@{
+                            Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy"
+                            UserName = "mrplus"
+                            WorkerName = "NPlusMinerNoCfg"
+                            PoolPenalty = 1
+                        }}
+                    }
+                }
+                $Variables.DonateRandom = [PSCustomObject]@{}
+            }
+            
             # $TimerUI.Stop()
         }
         else {
@@ -1641,6 +1672,26 @@ $ButtonStart.Add_Click( {
             Update-Status("Idle")
             $ButtonStart.Text = "Start"
             # $TimerUI.Interval = 1000
+
+            If ($Variables.DonationRunning) {
+                $Variables | Add-Member -Force @{ DonationRunning = $False }
+                $ConfigLoad = Get-Content $Config.ConfigFile | ConvertFrom-json
+                $ConfigLoad | % {$_.psobject.properties | sort Name | % {$Config | Add-Member -Force @{$_.Name = $_.Value}}}
+                $Config | Add-Member -Force -MemberType ScriptProperty -Name "PoolsConfig" -Value {
+                    If (Test-Path ".\Config\PoolsConfig.json"){
+                        get-content ".\Config\PoolsConfig.json" | ConvertFrom-json
+                    }else{
+                        [PSCustomObject]@{default=[PSCustomObject]@{
+                            Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy"
+                            UserName = "mrplus"
+                            WorkerName = "NPlusMinerNoCfg"
+                            PoolPenalty = 1
+                        }}
+                    }
+                }
+                $Variables.DonateRandom = [PSCustomObject]@{}
+            }
+
             $TimerUI.Stop()
         }
         else {
@@ -1650,6 +1701,7 @@ $ButtonStart.Add_Click( {
             $ButtonStart.Text = "Stop"
             InitApplication
             $Variables | add-Member -Force @{MainPath = (Split-Path $script:MyInvocation.MyCommand.Path)}
+            $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
 
             Start-IdleTracking
 

@@ -214,7 +214,7 @@
     "tribus":  "Tribus",
     "unitus":  "Argon2dUIS",
     "vanilla":  "BlakeVanilla",
-    "veil":  "x16rt",
+    "veil":  "Veil",
     "veltor":  "Veltor",
     "vergeblake2s":  "Blake2s",
     "vergelyra2re2":  "Lyra2RE2",
