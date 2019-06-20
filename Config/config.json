@@ -27,7 +27,7 @@
     "Location":  "EU",
     "ManualConfig":  false,
     "MarginOfError":  0,
-    "MaxMinerFailure":  0,
+    "MaxMinerFailure":  3,
     "MinerName":  null,
     "MineWhenIdle":  false,
     "MonitoringServer":  "",
