@@ -12,7 +12,7 @@ $HostSuffix = ".mine.zergpool.com"
 $PriceField = "Plus_Price"
 # $PriceField = "actual_last24h"
 # $PriceField = "estimate_current"
-$DivisorMultiplier = 1000000
+$DivisorMultiplier = 1000000000
  
 $Location = "US"
 
@@ -33,21 +33,12 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
     $WorkerName = If ($PoolConf.WorkerName -like "ID=*") {$PoolConf.WorkerName} else {"ID=$($PoolConf.WorkerName)"}
     
     $PoolPassword = If ( ! $Config.PartyWhenAvailable ) {"$($WorkerName),c=$($PwdCurr)"} else { "$($WorkerName),c=$($PwdCurr),m=party.NPlusMiner" }
-    $PoolPassword = If ( $Config.ExcludeSoloCoinsOnBrainPlus -and $Request.$_.MC ) {
-        If ($Config.UseTopCoinOnBrainPlus) {
-            $MC = $Request.$_.MC.Split("/")[0]
-        } else {
-            $MC = $Request.$_.MC
-        }
-        "$($PoolPassword),mc=$($MC)"
-    } else {
-        $PoolPassword
-    }
+    $PoolPassword = If ( $Request.$_.MC ) { "$($PoolPassword),mc=$($Request.$_.MC)" } else { $PoolPassword }
 	
     if ($PoolConf.Wallet) {
         [PSCustomObject]@{
             Algorithm     = $PoolAlgorithm
-            Info          = $MC
+            Info          = $Request.$_.MC
             Price         = $Stat.Live*$PoolConf.PricePenaltyFactor #*$SoloPenalty
             StablePrice   = $Stat.Week
             MarginOfError = $Stat.Week_Fluctuation
@@ -58,6 +49,7 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
 		    Pass          = $PoolPassword
             Location      = $Location
             SSL           = $false
+            Coin          = $Request.$_.MC
         }
     }
 }
