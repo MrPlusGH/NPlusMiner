@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           BrainPlus.ps1
-version:        4.7.1
-version date:   20190211
+version:        5.0.0
+version date:   20190620
 #>
 
 
@@ -86,111 +86,188 @@ $ProgressPreference="SilentlyContinue"
 
 While ($true) {
 #Get-Config{
-    If (Test-Path ".\BrainConfig.xml") {
-        $Config = Import-Clixml ".\BrainConfig.xml"
-        $SampleSizeMinutes = $Config.SampleSizeMinutes
-        $TrendSpanSizeMinutes = $Config.TrendSpanSizeMinutes
-        $SampleHalfPower = $Config.SampleHalfPower
-        $ManualPriceFactor = $Config.ManualPriceFactor
-        $Interval = $Config.Interval
-        $LogDataPath = $Config.LogDataPath
-        $TransferFile = $Config.TransferFile
-        $EnableLog = $Config.EnableLog
-        $PoolName = $Config.PoolName
-        $PoolStatusUri = $Config.PoolStatusUri
-        $PerAPIFailPercentPenalty = $Config.PerAPIFailPercentPenalty
-        $AllowedAPIFailureCount = $Config.AllowedAPIFailureCount
-        $UseFullTrust = $Config.UseFullTrust
+    If (Test-Path ".\BrainConfig.json") {
+        $Config = Get-Content ".\BrainConfig.json" | ConvertFrom-Json
     } else {return}
 $CurDate = Get-Date
 $RetryInterval = 0
 try{
-    # $AlgoData = Invoke-WebRequest $PoolStatusUri -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json
-    $AlgoData = Invoke-WebRequest $PoolStatusUri -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json
+    # $AlgoData = Invoke-WebRequest $Config.PoolStatusUri -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json
+    $AlgoData = Invoke-WebRequest $Config.PoolStatusUri -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json
+    $CoinsData = Invoke-WebRequest "http://api.zergpool.com:8080/api/currencies" -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
     $APICallFails = 0
 } catch {
     $APICallFails++
-    $RetryInterval = $Interval * [math]::max(0,$APICallFails - $AllowedAPIFailureCount)
-}
-Foreach ($Algo in ($AlgoData | gm -MemberType NoteProperty).Name) {
-        $BasePrice = If ($AlgoData.($Algo).actual_last24h) {$AlgoData.($Algo).actual_last24h / 1000} else {$AlgoData.($Algo).estimate_last24h}
-        $AlgoData.($Algo).estimate_current = [math]::max(0, [decimal]($AlgoData.($Algo).estimate_current * ( 1 - ($PerAPIFailPercentPenalty * [math]::max(0,$APICallFails - $AllowedAPIFailureCount) /100))))
-        $AlgoObject += [PSCustomObject]@{
-            Date                = $CurDate
-            Name                = $AlgoData.($Algo).name
-            Port                = $AlgoData.($Algo).port
-            coins               = $AlgoData.($Algo).coins
-            Fees                = $AlgoData.($Algo).Fees
-            Hashrate            = $AlgoData.($Algo).Hashrate
-            Workers             = $AlgoData.($Algo).Workers
-            estimate_current    = $AlgoData.($Algo).estimate_current -as [Decimal]
-            estimate_last24h    = $AlgoData.($Algo).estimate_last24h
-            actual_last24h      = $BasePrice
-            hashrate_last24h    = $AlgoData.($Algo).hashrate_last24h
-            Last24Drift         = $AlgoData.($Algo).estimate_current - $BasePrice
-            Last24DriftSign     = If (($AlgoData.($Algo).estimate_current - $BasePrice) -ge 0) {"Up"} else {"Down"}
-            Last24DriftPercent  = if ($BasePrice -gt 0) {($AlgoData.($Algo).estimate_current - $BasePrice) / $BasePrice} else {0}
-            FirstDate           = ($AlgoObject[0]).Date
-            TimeSpan            = If($AlgoObject.Date -ne $null) {(New-TimeSpan -Start ($AlgoObject[0]).Date -End $CurDate).TotalMinutes}
-        }
+    $RetryInterval = $Config.Interval * [math]::max(0,$APICallFails - $Config.AllowedAPIFailureCount)
 }
 
-# Created here for performance optimization, minimize # of lookups
-$FirstAlgoObject = $AlgoObject[0] # | ? {$_.date -eq ($AlgoObject.Date | measure -Minimum).Minimum}
-$CurAlgoObject = $AlgoObject | ? {$_.date -eq $CurDate}
-$TrendSpanSizets = New-TimeSpan -Minutes $TrendSpanSizeMinutes
-$SampleSizets = New-TimeSpan -Minutes $SampleSizeMinutes
-$SampleSizeHalfts = New-TimeSpan -Minutes ($SampleSizeMinutes/2)
-$GroupAvgSampleSize = $AlgoObject | ? {$_.Date -ge ($CurDate - $SampleSizets)} | group Name,Last24DriftSign | select Name,Count,@{Name="Avg";Expression={($_.group.Last24DriftPercent | measure -Average).Average}},@{Name="Median";Expression={Get-Median $_.group.Last24DriftPercent}}
-$GroupMedSampleSize = $AlgoObject | ? {$_.Date -ge ($CurDate - $SampleSizets)} | group Name | select Name,Count,@{Name="Avg";Expression={($_.group.Last24DriftPercent | measure -Average).Average}},@{Name="Median";Expression={Get-Median $_.group.Last24DriftPercent}}
-$GroupAvgSampleSizeHalf = $AlgoObject | ? {$_.Date -ge ($CurDate - $SampleSizeHalfts)} | group Name,Last24DriftSign | select Name,Count,@{Name="Avg";Expression={($_.group.Last24DriftPercent | measure -Average).Average}},@{Name="Median";Expression={Get-Median $_.group.Last24DriftPercent}}
-$GroupMedSampleSizeHalf = $AlgoObject | ? {$_.Date -ge ($CurDate - $SampleSizeHalfts)} | group Name | select Name,Count,@{Name="Avg";Expression={($_.group.Last24DriftPercent | measure -Average).Average}},@{Name="Median";Expression={Get-Median $_.group.Last24DriftPercent}}
-$GroupMedSampleSizeNoPercent = $AlgoObject | ? {$_.Date -ge ($CurDate - $SampleSizets)} | group Name | select Name,Count,@{Name="Avg";Expression={($_.group.Last24DriftPercent | measure -Average).Average}},@{Name="Median";Expression={Get-Median $_.group.Last24Drift}}
+# If ($CoinsData) {
+    # $Coins = $Null
+    # $CoinsData | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
+        # If (! $CoinsData.$_.Symbol) {
+            # $CoinsData.$_ | Add-Member -Force @{symbol = $_}
+        # }
+        # $Coins += @{$_ = $CoinsData.$_}
+    # }
+# }
+$CoinsDataArray = @()
 
-Foreach ($Name in ($AlgoObject.Name | Select -Unique)) {
-        $PenaltySampleSize = ((($GroupAvgSampleSize | ? {$_.Name -eq $Name+", Up"}).Count - ($GroupAvgSampleSize | ? {$_.Name -eq $Name+", Down"}).Count) / (($GroupMedSampleSize | ? {$_.Name -eq $Name}).Count)) * [math]::abs(($GroupMedSampleSize | ? {$_.Name -eq $Name}).Median)
-        $PenaltySampleSizeHalf = ((($GroupAvgSampleSizeHalf | ? {$_.Name -eq $Name+", Up"}).Count - ($GroupAvgSampleSizeHalf | ? {$_.Name -eq $Name+", Down"}).Count) / (($GroupMedSampleSizeHalf | ? {$_.Name -eq $Name}).Count)) * [math]::abs(($GroupMedSampleSizeHalf | ? {$_.Name -eq $Name}).Median)
-        $PenaltySampleSizeNoPercent = ((($GroupAvgSampleSize | ? {$_.Name -eq $Name+", Up"}).Count - ($GroupAvgSampleSize | ? {$_.Name -eq $Name+", Down"}).Count) / (($GroupMedSampleSize | ? {$_.Name -eq $Name}).Count)) * [math]::abs(($GroupMedSampleSizeNoPercent | ? {$_.Name -eq $Name}).Median)
-        $Penalty = ($PenaltySampleSizeHalf*$SampleHalfPower + $PenaltySampleSizeNoPercent) / ($SampleHalfPower+1)
-        $LiveTrend = ((Get-Trendline ($AlgoObjects | ? {$_.Name -eq $Name}).estimate_current)[1])
-        # $Price = (($Penalty) + ($CurAlgoObject | ? {$_.Name -eq $Name}).actual_last24h) 
-        $Price = [math]::max( 0, [decimal](($Penalty) + ($CurAlgoObject | ? {$_.Name -eq $Name}).actual_last24h) )
-        If ( $UseFullTrust ) {
-            If ( $Penalty -gt 0 ){
-                $Price = [Math]::max([decimal]$Price, [decimal]($CurAlgoObject | ? {$_.Name -eq $Name}).estimate_current)
+If ( $AlgoData -and $CoinsData ) {
+    Foreach ($Coin in ($CoinsData | gm -MemberType NoteProperty).Name) {
+            # $BasePrice = If ($CoinsData.($Coin)."24h_btc") {$CoinsData.($Coin)."24h_btc" / 1000} else {$CoinsData.($Coin).estimate -as [Decimal]}
+            $BasePrice = If ($AlgoData.($CoinsData.$Coin.Algo).actual_last24h) {[Decimal]$AlgoData.($CoinsData.$Coin.Algo).actual_last24h} else {$CoinsData.($Coin).estimate -as [Decimal]}
+            $CoinsData.($Coin).estimate = [math]::max(0, [decimal]($CoinsData.($Coin).estimate * ( 1 - ($Config.PerAPIFailPercentPenalty * [math]::max(0,$APICallFails - $Config.AllowedAPIFailureCount) /100))))
+            If (! $CoinsData.$_.Symbol) {
+                $CoinsData.($Coin) | Add-Member -Force @{symbol           = $Coin}
+            }
+            $CoinsData.($Coin) | Add-Member -Force @{ Date                = $CurDate }
+            $CoinsData.($Coin) | Add-Member -Force @{ CoinName            = $CoinsData.($Coin).Name }
+            $CoinsData.($Coin) | Add-Member -Force @{ Name                = $Coin }
+            $CoinsData.($Coin) | Add-Member -Force @{ estimate            = $CoinsData.($Coin).estimate -as [Decimal] }
+            $CoinsData.($Coin) | Add-Member -Force @{ actual_last24h      = $BasePrice }
+            $CoinsData.($Coin) | Add-Member -Force @{ estimate_current    = $CoinsData.($Coin).estimate }
+            $CoinsData.($Coin) | Add-Member -Force @{ Last24Drift         = $CoinsData.($Coin).estimate - $BasePrice }
+            $CoinsData.($Coin) | Add-Member -Force @{ Last24DriftSign     = If (($CoinsData.($Coin).estimate - $BasePrice) -ge 0) {"Up"} else {"Down"} }
+            $CoinsData.($Coin) | Add-Member -Force @{ Last24DriftPercent  = if ($BasePrice -gt 0) {($CoinsData.($Coin).estimate - $BasePrice) / $BasePrice} else {0} }
+            $CoinsData.($Coin) | Add-Member -Force @{ FirstDate           = ($AlgoObject[0]).Date }
+            $CoinsData.($Coin) | Add-Member -Force @{ TimeSpan            = If($AlgoObject.Date -ne $null) {(New-TimeSpan -Start ($AlgoObject[0]).Date -End $CurDate).TotalMinutes} }
+            $CoinsData.($Coin) | Add-Member -Force @{ AlgoObject          = $AlgoData.($CoinsData.($Coin).Algo) }
+            $CoinsData.($Coin) | Add-Member -Force @{ NoAutotrade         = $CoinsData.($Coin).noautotrade }
+            $CoinsData.($Coin) | Add-Member -Force @{ SharedHashPercent   = If ($CoinsData.($Coin).hashrate) { ($CoinsData.($Coin).hashrate_shared / $CoinsData.($Coin).hashrate) } else  {1} }
+            $CoinsData.($Coin) | Add-Member -Force @{ SoloHashPercent     = If ($CoinsData.($Coin).hashrate) { ($CoinsData.($Coin).hashrate_solo / $CoinsData.($Coin).hashrate) } else {0} }
+            
+            $CoinsDataArray += $CoinsData.($Coin)
+            $AlgoObject += $CoinsData.($Coin)
+    }
+# "First Loop" | Out-Host
+    # Created here for performance optimization, minimize # of lookups
+    $FirstAlgoObject = $AlgoObject[0] # | ? {$_.date -eq ($AlgoObject.Date | measure -Minimum).Minimum}
+    $CurAlgoObject = $AlgoObject | ? {$_.date -eq $CurDate}
+    $TrendSpanSizets = New-TimeSpan -Minutes $Config.TrendSpanSizeMinutes
+    $SampleSizets = New-TimeSpan -Minutes $Config.SampleSizeMinutes
+    $SampleSizeHalfts = New-TimeSpan -Minutes ($Config.SampleSizeMinutes/2)
+    $GroupAvgSampleSize = $AlgoObject | ? {$_.Date -ge ($CurDate - $SampleSizets)} | group Name,Last24DriftSign | select Name,Count,@{Name="Avg";Expression={($_.group.Last24DriftPercent | measure -Average).Average}},@{Name="Median";Expression={Get-Median $_.group.Last24DriftPercent}}
+    $GroupMedSampleSize = $AlgoObject | ? {$_.Date -ge ($CurDate - $SampleSizets)} | group Name | select Name,Count,@{Name="Avg";Expression={($_.group.Last24DriftPercent | measure -Average).Average}},@{Name="Median";Expression={Get-Median $_.group.Last24DriftPercent}}
+    $GroupAvgSampleSizeHalf = $AlgoObject | ? {$_.Date -ge ($CurDate - $SampleSizeHalfts)} | group Name,Last24DriftSign | select Name,Count,@{Name="Avg";Expression={($_.group.Last24DriftPercent | measure -Average).Average}},@{Name="Median";Expression={Get-Median $_.group.Last24DriftPercent}}
+    $GroupMedSampleSizeHalf = $AlgoObject | ? {$_.Date -ge ($CurDate - $SampleSizeHalfts)} | group Name | select Name,Count,@{Name="Avg";Expression={($_.group.Last24DriftPercent | measure -Average).Average}},@{Name="Median";Expression={Get-Median $_.group.Last24DriftPercent}}
+    $GroupMedSampleSizeHalfNoPercent = $AlgoObject | ? {$_.Date -ge ($CurDate - $SampleSizeHalfts)} | group Name | select Name,Count,@{Name="Avg";Expression={($_.group.Last24DriftPercent | measure -Average).Average}},@{Name="Median";Expression={Get-Median $_.group.Last24Drift}},@{Name="EstimateMedian";Expression={Get-Median $_.group.estimate_current}},@{Name="EstimateAverage";Expression={($_.group.estimate_current | measure -Average).Average}}
+    $GroupMedSampleSizeNoPercent = $AlgoObject | ? {$_.Date -ge ($CurDate - $SampleSizets)} | group Name | select Name,Count,@{Name="Avg";Expression={($_.group.Last24DriftPercent | measure -Average).Average}},@{Name="Median";Expression={Get-Median $_.group.Last24Drift}},@{Name="EstimateMedian";Expression={Get-Median $_.group.estimate_current}},@{Name="EstimateAverage";Expression={($_.group.estimate_current | measure -Average).Average}}
+# "Groups created" | Out-Host
+# (Measure-Command{
+
+    ForEach ($CoinObject in $CoinsDataArray) {
+        $PenaltySampleSize = ((($GroupAvgSampleSize | ? {$_.Name -eq $CoinObject.Name+", Up"}).Count - ($GroupAvgSampleSize | ? {$_.Name -eq $CoinObject.Name+", Down"}).Count) / (($GroupMedSampleSize | ? {$_.Name -eq $CoinObject.Name}).Count)) * [math]::abs(($GroupMedSampleSize | ? {$_.Name -eq $CoinObject.Name}).Median)
+        $PenaltySampleSizeHalf = ((($GroupAvgSampleSizeHalf | ? {$_.Name -eq $CoinObject.Name+", Up"}).Count - ($GroupAvgSampleSizeHalf | ? {$_.Name -eq $CoinObject.Name+", Down"}).Count) / (($GroupMedSampleSizeHalfNoPercent | ? {$_.Name -eq $CoinObject.Name}).Count)) * [math]::abs(($GroupMedSampleSizeHalfNoPercent | ? {$_.Name -eq $CoinObject.Name}).Median)
+        $PenaltySampleSizeNoPercent = ((($GroupAvgSampleSize | ? {$_.Name -eq $CoinObject.Name+", Up"}).Count - ($GroupAvgSampleSize | ? {$_.Name -eq $CoinObject.Name+", Down"}).Count) / (($GroupMedSampleSizeNoPercent | ? {$_.Name -eq $CoinObject.Name}).Count)) * [math]::abs(($GroupMedSampleSizeNoPercent | ? {$_.Name -eq $CoinObject.Name}).Median)
+        $Penalty1 = ($PenaltySampleSizeHalf*$Config.Model1SampleHalfPower + $PenaltySampleSizeNoPercent) / ($Config.Model1SampleHalfPower+1)
+        $Penalty2 =
+            If ($CoinObject.AlgoObject.estimate_last24h) {
+                (($CoinObject.AlgoObject.actual_last24h /1000) / $CoinObject.AlgoObject.estimate_last24h)
             } else {
-                $Price = [Math]::min([decimal]$Price, [decimal]($CurAlgoObject | ? {$_.Name -eq $Name}).estimate_current)
+                1
+            }
+        $Penalty = $Penalty1 * $Penalty2
+        $LiveTrend = ((Get-Trendline $CoinObject.estimate_current)[1])
+        # $Price = (($Penalty) + ($CurAlgoObject | ? {$_.Name -eq $Name}).actual_last24h) 
+        # $Price = [math]::max( 0, [decimal](((($Penalty1) + $CoinObject.actual_last24h) + (($Penalty2) * ($GroupMedSampleSizeHalfNoPercent | ? {$_.Name -eq $CoinObject.Name}).EstimateMedian))/2) )
+        If ($Config.Penalty2onModel1 -and $Penalty2) {
+            $Price1 = (($Penalty1 ) + $CoinObject.actual_last24h) * $Penalty2
+        } else {
+            $Price1 = (($Penalty1) + $CoinObject.actual_last24h)
+        }
+        
+        Switch ($config.Model2RefPrice) {
+            "Average" {
+                $Price2 = $Penalty2 *(( (($Config.Model2SampleHalfPower * ($GroupMedSampleSizeHalfNoPercent | ? {$_.Name -eq $CoinObject.Name}).EstimateAverage )) + ( ($GroupMedSampleSizeNoPercent | ? {$_.Name -eq $CoinObject.Name}).EstimateAverage ))  / ($Config.Model2SampleHalfPower+1) )
+            }
+            "Median" {
+                $Price2 = $Penalty2 *(( (($Config.Model2SampleHalfPower * ($GroupMedSampleSizeHalfNoPercent | ? {$_.Name -eq $CoinObject.Name}).EstimateMedian )) + ( ($GroupMedSampleSizeNoPercent | ? {$_.Name -eq $CoinObject.Name}).EstimateMedian ))  / ($Config.Model2SampleHalfPower+1) )
+            }
+            "Current" {
+                $Price2 = $Penalty2 * $CoinObject.estimate_current
+            }
+            default {
+                $Price2 = $Penalty2 * $CoinObject.estimate_current
+            }
+        }
+        # $Price2 = $Penalty2 *(( (($Config.Model2SampleHalfPower * ($GroupMedSampleSizeHalfNoPercent | ? {$_.Name -eq $CoinObject.Name}).EstimateMedian )) + ( ($GroupMedSampleSizeNoPercent | ? {$_.Name -eq $CoinObject.Name}).EstimateMedian ))  / ($Config.Model2SampleHalfPower+1) )
+        # $Price2 = $Penalty2 *(( (($Config.Model2SampleHalfPower * ($GroupMedSampleSizeHalfNoPercent | ? {$_.Name -eq $CoinObject.Name}).EstimateAverage )) + ( ($GroupMedSampleSizeNoPercent | ? {$_.Name -eq $CoinObject.Name}).EstimateAverage ))  / ($Config.Model2SampleHalfPower+1) )
+        # $Price2 = $Penalty2 * $CoinObject.estimate_current
+        # $Price1 = (($Penalty1) + $Price2)
+        # $Price2 = $Penalty2 * $Price1
+        $Price = [math]::max( 0, [decimal](($Price1 * $Config.Model1Power + $Price2 * $Config.Model2Power) / ($Config.Model1Power + $Config.Model2Power)) )
+        If ( $Config.UseFullTrust ) {
+            If ( $Penalty -gt 0 ){
+                $Price = [Math]::max([decimal]$Price, [decimal]$CoinObject.estimate_current)
+            } else {
+                $Price = [Math]::min([decimal]$Price, [decimal]$CoinObject.estimate_current)
             }
         }
 
         $MathObject += [PSCustomObject]@{
-            Name                = $Name
-            DriftAvg            = (($CurAlgoObject | ? {$_.Name -eq $Name}).Last24DriftPercent | measure -Average).Average
-            TimeSpan            = ($CurAlgoObject | ? {$_.Name -eq $Name}).TimeSpan
-            UpDriftAvg          = ($GroupAvgSampleSize | ? {$_.Name -eq $Name+", Up"}).Avg
-            DownDriftAvg        = ($GroupAvgSampleSize | ? {$_.Name -eq $Name+", Down"}).Avg
-            Penalty             = $Penalty
+            Name                = $CoinObject.Name
+            DriftAvg            = ($CoinObject.Last24DriftPercent | measure -Average).Average
+            TimeSpan            = $CoinObject.TimeSpan
+            UpDriftAvg          = ($GroupAvgSampleSize | ? {$_.Name -eq $CoinObject.Name+", Up"}).Avg
+            DownDriftAvg        = ($GroupAvgSampleSize | ? {$_.Name -eq $CoinObject.Name+", Down"}).Avg
+            Penalty             = $Penalty1
             PlusPrice           = $Price
-            PlusPriceRaw        = [math]::max( 0, [decimal](($Penalty) + ($CurAlgoObject | ? {$_.Name -eq $Name}).actual_last24h) )
-            PlusPriceMax        = $Price
-            CurrentLive         = ($CurAlgoObject | ? {$_.Name -eq $Name}).estimate_current
-            Current24hr         = ($CurAlgoObject | ? {$_.Name -eq $Name}).actual_last24h
+            PlusPrice1          = $Price1
+            PlusPrice2          = $Price2
+            CurrentLive         = $CoinObject.estimate_current
+            Current24hr         = $CoinObject.actual_last24h
+            CurrentLiveMed      = ($GroupMedSampleSizeNoPercent | ? {$_.Name -eq $CoinObject.Name}).EstimateMedian
             Date                = $CurDate
             LiveTrend           = $LiveTrend
             APICallFails        = $APICallFails
+            EstimationTrust     = $Penalty2
         }
-        # $AlgoData.($Name).actual_last24h = $Price
-        $AlgoData.($Name) | Add-Member -Force @{Plus_Price = $Price}
-}
-if ($EnableLog) {$MathObject | Export-Csv -NoTypeInformation -Append $LogDataPath}
-($AlgoData | ConvertTo-Json).replace("NaN",0) | Set-Content $TransferFile
+    
+        If ($CoinsData.($CoinObject.Name)) { $CoinsData.($CoinObject.Name) | Add-Member -Force @{Plus_Price = $Price} }
+        
+        
+    
+    }
+# }).TotalSeconds | out-host
+    
+# "Coins Loop end" | out-host    
+# $CoinsDataArray | ? {(!$_.NoAutotrade) -and $_.SoloHashPercent -lt ($Config.MaxSoloPercent/100)} | group Algo | foreach {$_.Group | sort Plus_Price -Descending | select -First 1} | ft * -Auto
+            
+            $CoinsDataArray = $CoinsDataArray | ? {(!$_.NoAutotrade) -and $_.SoloHashPercent -lt ($Config.MaxSoloPercent/100)} | group Algo | foreach {$_.Group | sort Plus_Price -Descending | select -First 1}
+            
+            Foreach ($AlgoName in ($AlgoData | gm -MemberType NoteProperty).Name) {
+                $TopCoin = $CoinsDataArray | ? { $_.algo -eq $AlgoName }
+                If ($TopCoin) {
+                    $AlgoData.($AlgoName) | Add-Member -Force @{Plus_Price = $TopCoin.Plus_Price}
+                    $AlgoData.($AlgoName)  | Add-Member -Force @{MC = $TopCoin.Symbol}
+                } else {
+                    $AlgoData.PSObject.Properties.Remove($AlgoName)
+                }
+            }
+
+
+
+if ($Config.EnableLog) {$MathObject | Export-Csv -NoTypeInformation -Append $Config.LogDataPath}
+($AlgoData | ConvertTo-Json).replace("NaN",0) | Set-Content $Config.TransferFile
+
+}        
 
 # Limit to only sample size + 10 minutes min history
-$AlgoObject = $AlgoObject | ? {$_.Date -ge $CurDate.AddMinutes(-($SampleSizeMinutes+10))}
-(($GroupMedSampleSize | ? {$_.Name -eq $Name}).Count)
+$AlgoObject = $AlgoObject | ? {$_.Date -ge $CurDate.AddMinutes(-($Config.SampleSizeMinutes+10))}
+(($GroupMedSampleSize | ? {$_.Name -eq $CoinObject.Name}).Count)
+
+rv CoinsDataArray
+rv GroupAvgSampleSize
+rv GroupMedSampleSize
+rv GroupAvgSampleSizeHalf
+rv GroupMedSampleSizeHalf
+rv GroupMedSampleSizeHalfNoPercent
+rv GroupMedSampleSizeNoPercent
+rv TopCoin
+
 
 $MathObject = @()
-Sleep ($Interval+$RetryInterval-(Get-Date).Second)
+Sleep ($Config.Interval+$RetryInterval-(Get-Date).Second)
 }
 
 

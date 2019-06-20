@@ -1,0 +1,22 @@
+﻿{
+    "SampleSizeMinutes":  60,
+    "TrendSpanSizeMinutes":  30,
+    "Model2RefPrice":  "Current",
+    "Model1SampleHalfPower":  0,
+    "Model2SampleHalfPower":  0,
+    "Model1Power":  1,
+    "Model2Power":  0.5,
+    "Penalty2onModel1":  true,
+    "ManualPriceFactor":  1,
+    "Interval":  60,
+    "PerAPIFailPercentPenalty":  10,
+    "AllowedAPIFailureCount":  1,
+    "MaxSoloPercent":  101,
+    "UseFullTrust":  false,
+    "EnableLog":  false,
+    "LogDataPath":  ".\\BrainMemory-ZergPool.csv",
+    "TransferFile":  ".\\zergpoolplus.json",
+    "PoolName":  "zergpool",
+    "PoolStatusUri":  "http://api.zergpool.com:8080/api/status",
+    "PoolCurrenciesUri":  "http://api.zergpool.com:8080/api/currencies"
+}

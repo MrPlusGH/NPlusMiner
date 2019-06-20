@@ -1,14 +1,13 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-Alexis78\ccminer.exe"
-$Uri = "https://github.com/nemosminer/ccminerAlexis78/releases/download/Alexis78-v1.4/ccminerAlexis78v1.4x64.7z"
+$Uri = "https://github.com/nemosminer/ccminerAlexis78/releases/download/Alexis78-v1.5/ccminerAlexis78v1.5.7z"
 
 $Commands = [PSCustomObject]@{
     "keccak" = " -N 1 -m 2 -i 29 -d $($Config.SelGPUCC)" #Keccak
     "keccakc" = " -N 1 -i 29 -d $($Config.SelGPUCC)" #Keccakc
-    #"lyra2v2" = " -d $($Config.SelGPUCC) -N 1" #Lyra2RE2
     "poly" = " -N 1 -d $($Config.SelGPUCC)" #polytimos
-    #"skein" = " -i 28 -N 1 -d $($Config.SelGPUCC)" #Skein
+    "skein2" = " -i 29 -N 1 -d $($Config.SelGPUCC)" #Skein
     "x11evo" = " -N 1 -i 21 -d $($Config.SelGPUCC) " #X11evo
     #"bitcore" = "" #Bitcore
     #"blake2s" = " -r 0 -d $($Config.SelGPUCC)" #Blake2s
@@ -21,6 +20,7 @@ $Commands = [PSCustomObject]@{
     #"hmq1725" = "" #hmq1725
     #"hsr" = " -N 1 -d $($Config.SelGPUCC)" #Hsr(testing)
     #"lbry" = " -d $($Config.SelGPUCC)" #Lbry
+    #"lyra2v2" = " -d $($Config.SelGPUCC) -N 1" #Lyra2RE2
     #"lyra2z" = "" #Lyra2z
     #"myr-gr" = " -d $($Config.SelGPUCC) -N 1" #MyriadGroestl
     #"neoscrypt" = " -i 15 -d $($Config.SelGPUCC)" #NeoScrypt
@@ -30,6 +30,7 @@ $Commands = [PSCustomObject]@{
     #"scrypt" = "" #Scrypt
     #"sia" = "" #Sia
     #"sib" = " -i 21 -d $($Config.SelGPUCC)" #Sib
+    #"skein" = " -i 28 -N 1 -d $($Config.SelGPUCC)" #Skein
     #"timetravel" = "" #Timetravel
     #"vanilla" = "" #BlakeVanilla
     #"veltor" = " -i 23 -d $($Config.SelGPUCC)" #Veltor(fastest)

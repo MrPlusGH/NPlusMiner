@@ -1,11 +1,20 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
-$Path = ".\Bin\NVIDIA-CcminerKlausTR32\ccminer.exe"
-$Uri = "https://github.com/nemosminer/ccminer-KlausT-8.21-mod-r18-src-fix/releases/download/8.21-r18-fix%2Blyra2v3/ccminer-8.21-yescrypt-algos+lyra2v3.7z"
+$Path = ".\Bin\NVIDIA-Ccmineryescrypt9\ccminer.exe"
+$Uri = "https://github.com/nemosminer/ccminerKlausTyescrypt/releases/download/v9/ccminerKlausTyescryptv9.7z"
 
 $Commands = [PSCustomObject]@{
-    "yescryptR32" = " -i 12.5 -d $($Config.SelGPUCC)" #YescryptR32
+    "yescrypt" = " -d $($Config.SelGPUCC)" #Yescrypt
+    "yescryptR16" = " -i 13.25 -d $($Config.SelGPUCC)" #YescryptR16
+    "yescryptR16v2" = " -d $($Config.SelGPUCC)" #YescryptR16v2
+    "yescryptR24" = " -d $($Config.SelGPUCC)" #YescryptR24 
+    "yescryptR8" = " -d $($Config.SelGPUCC)" #YescryptR8
+    "yescryptR32" = " -i 12.49 -d $($Config.SelGPUCC)" #YescryptR32
 }
+    switch ($_) {
+        "yescryptR32" {$Fee = 0.14} # account for 14% stale shares
+              default {$Fee = 0.00}
+    }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
