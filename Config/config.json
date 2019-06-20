@@ -27,10 +27,12 @@
     "Location":  "EU",
     "ManualConfig":  false,
     "MarginOfError":  0,
+    "MaxMinerFailure":  0,
     "MinerName":  null,
     "MineWhenIdle":  false,
     "MonitoringServer":  "",
     "MonitoringUser":  "",
+    "PartyWhenAvailable":  false,
     "Passwordcurrency":  "BTC",
     "PoolName":  [
                      "nicehash",
