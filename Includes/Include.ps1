@@ -275,7 +275,7 @@ Function Start-Mining {
                             $Variables | Add-Member -Force @{EndLoop = $False}
                         }
 
-                        $Variables.StatusText = "Mining paused"
+                        #$Variables.StatusText = "Mining paused"
                         Start-Sleep 30
                     }
                 }
