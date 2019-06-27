@@ -1,23 +1,23 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
-$Path = ".\Bin\NVIDIA-ccminermtp\ccminer.exe"
-$Uri = "https://github.com/zcoinofficial/ccminer/releases/download/1.1.22/ccminer.exe"
-
+$Path = ".\Bin\NVIDIA-TTMiner\TT-Miner.exe"
+$Uri = "https://TradeProject.de/download/Miner/TT-Miner.zip"
+ 
 $Commands = [PSCustomObject]@{
-    "mtp" = "" #mtp
+    "progpow"  = " -a PROGPOW "
+    "mtp"      = " -a MTP " #(Supports NiceHash) 
 }
-
+ 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
-	$Algo = Get-Algorithm($_)
-    If ($Pools.($Algo).Host -like "*nicehash*") {return}
+    $Algo = Get-Algorithm($_)
     [PSCustomObject]@{
         Type      = "NVIDIA"
         Path      = $Path
-        Arguments = "-b $($Variables.NVIDIAMinerAPITCPPort) -o stratum+tcp://$($Pools.($Algo).Host):$($Pools.($Algo).Port) -a $Algo -u $($Pools.($Algo).User) -p $($Pools.($Algo).Pass)$($Commands.$_)"
-        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Week}
-        API       = "ccminer"
+        Arguments = "-d $($Config.SelGPUDSTM) --api-bind 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -o stratum+tcp://$($Pools.($Algo).Host):$($Pools.($Algo).Port) -u $($Pools.($Algo).User) -p $($Pools.($Algo).Pass)$($Commands.$_)"
+        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".week * .98} # substract 2% devfee
+        API       = "TTminer"
         Port      = $Variables.NVIDIAMinerAPITCPPort #4068
         Wrap      = $false
         URI       = $Uri

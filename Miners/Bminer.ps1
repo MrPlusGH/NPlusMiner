@@ -3,7 +3,7 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLo
 $Path = ".\Bin\NVIDIA-Bminer\bminer.exe"
 $Uri = "https://www.bminercontent.com/releases/bminer-lite-v15.5.3-747d98e-amd64.zip"
 $Commands = [PSCustomObject]@{
-    "Grincuckaroo29" = " -uri cuckaroo29://" #Grin(testing)
+    # "Grincuckaroo29" = " -uri cuckaroo29://" #Grin(testing)
     "ethash" = " -uri ethstratum://" #Ethash (fastest)
     # "aeternity" = " -uri aeternity://" #aeternity(testing)
     # "beam" = " -uri beam://" #beam(testing)
