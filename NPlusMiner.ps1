@@ -1404,6 +1404,26 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $CheckBoxParty.Checked = $Config.PartyWhenAvailable
     $ConfigPageControls += $CheckBoxParty
 
+    $CheckBoxPenalizeSoloInPlus = New-Object system.Windows.Forms.CheckBox
+    $CheckBoxPenalizeSoloInPlus.Tag = "PenalizeSoloInPlus"
+    $CheckBoxPenalizeSoloInPlus.text = "Penalize solo in Plus"
+    $CheckBoxPenalizeSoloInPlus.AutoSize = $false
+    $CheckBoxPenalizeSoloInPlus.width = 160
+    $CheckBoxPenalizeSoloInPlus.height = 20
+    $CheckBoxPenalizeSoloInPlus.location = New-Object System.Drawing.Point(560, 178)
+    $CheckBoxPenalizeSoloInPlus.Font = 'Microsoft Sans Serif,10'
+    $CheckBoxPenalizeSoloInPlus.Checked = $Config.CheckBoxPenalizeSoloInPlus
+    $ConfigPageControls += $CheckBoxPenalizeSoloInPlus
+
+    $CheckBoxPenalizeSoloInPlus.Add_Click( {
+                Get-ChildItem -Recurse ".\BrainPlus\" | ? {$_.Name -eq "BrainConfig.json"} | foreach {
+                    $BrainPlusConf = Get-Content $_.FullName | ConvertFrom-Json
+                    $BrainPlusConf | Add-Member -Force @{SoloBlocksPenalty = $CheckBoxPenalizeSoloInPlus.Checked}
+                    $BrainPlusConf | ConvertTo-Json | Out-File $_.FullName
+                    rv BrainPlusConf
+                }
+    })
+
     $CheckBoxConsole = New-Object system.Windows.Forms.CheckBox
     $CheckBoxConsole.Tag = "HideConsole"
     $CheckBoxConsole.text = "Hide Console"

@@ -275,7 +275,7 @@ Function Start-Mining {
                             $Variables | Add-Member -Force @{EndLoop = $False}
                         }
 
-                        #$Variables.StatusText = "Mining paused"
+                        $Variables.StatusText = "Mining paused"
                         Start-Sleep 30
                     }
                 }
@@ -1235,6 +1235,9 @@ Function Autoupdate {
             If (Test-Path ".\$UpdateFileName\PreUpdateActions.ps1") {
                 Invoke-Expression (get-content ".\$UpdateFileName\PreUpdateActions.ps1" -Raw)
             }
+            
+            # Empty OptionalMiners - Get rid of Obsolete ones
+            ls .\OptionalMiners\ | % {Remove-Item -Recurse -Force $_.FullName}
             
             # unzip in child folder excluding config
             Update-Status("Unzipping update...")

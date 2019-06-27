@@ -37,12 +37,9 @@ Function InitApplication {
     Set-Location (Split-Path $script:MyInvocation.MyCommand.Path)
     Get-ChildItem . -Recurse | Unblock-File
 
-    if (Get-MpComputerStatus -ErrorAction SilentlyContinue) {
-        Update-Status("INFO: Adding $($Variables.CurrentProduct) path to Windows Defender's exclusions..")
-        try {if ((Get-MpPreference).ExclusionPath -notcontains (Convert-Path .)) {Start-Process powershell -Verb runAs -ArgumentList "Add-MpPreference -ExclusionPath '$(Convert-Path .)'"}}catch {}
-    } 
-    else {
-        Update-Status("INFO: Windows Defender is disabled, make sure to exclude $($Variables.CurrentProduct) directory from your antivirus program")
+    if (Get-Command "Unblock-File" -ErrorAction SilentlyContinue) { Get-ChildItem . -Recurse | Unblock-File }
+    if ((Get-Command "Get-MpPreference" -ErrorAction SilentlyContinue) -and (Get-MpComputerStatus -ErrorAction SilentlyContinue) -and (Get-MpPreference).ExclusionPath -notcontains (Convert-Path .)) {
+        Start-Process (@{desktop = "powershell"; core = "pwsh" }.$PSEdition) "-Command Import-Module '$env:Windir\System32\WindowsPowerShell\v1.0\Modules\Defender\Defender.psd1'; Add-MpPreference -ExclusionPath '$(Convert-Path .)'" -Verb runAs
     }
 
     if($Proxy -eq ""){$PSDefaultParameterValues.Remove("*:Proxy")}
@@ -198,7 +195,7 @@ $CycleTime = Measure-Command -Expression {
                     If ($DevPoolsConfig -ne $null) {
                         $DevPoolsConfig | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | foreach { $DevPoolsConfig.$_.WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion.ToString().replace('.',''))" }
                         $Config | Add-Member -Force -MemberType NoteProperty -Name "PoolsConfig" -Value $DevPoolsConfig
-                        If ( $Variables.DonateRandom.ForcePoolList ) {
+                        If ( $Variables.DonateRandom.ForcePoolList -and (Compare-Object ((Get-ChildItem ".\Pools").BaseName | sort -Unique) $Variables.DonateRandom.PoolList -IncludeEqual -ExcludeDifferent)) {
                             $Config.PoolName = $Variables.DonateRandom.PoolList
                         }
                         rv DevPoolsConfig
