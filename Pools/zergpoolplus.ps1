@@ -12,7 +12,7 @@ $HostSuffix = ".mine.zergpool.com"
 $PriceField = "Plus_Price"
 # $PriceField = "actual_last24h"
 # $PriceField = "estimate_current"
-$DivisorMultiplier = 1000000000
+$DivisorMultiplier = 1000000
  
 $Location = "US"
 
