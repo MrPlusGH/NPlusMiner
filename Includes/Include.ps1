@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           include.ps1
-version:        4.5.9
+version:        5.1.0
 version date:   20181223
 #>
  
