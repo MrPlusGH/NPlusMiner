@@ -34,6 +34,7 @@
     "MonitoringUser":  "",
     "PartyWhenAvailable":  false,
     "Passwordcurrency":  "BTC",
+    "PenalizeSoloInPlus":  true,
     "PoolName":  [
                      "nicehash",
                      "miningpoolhub",
