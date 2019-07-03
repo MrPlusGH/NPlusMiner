@@ -89,12 +89,13 @@ Function InitApplication {
         $StartPort = $Port+1
     }
     Sleep 2
-}
 
     # Copy nvml.dll to proper location as latest drivers miss it
     If ( (! (Test-Path "C:\Program Files\NVIDIA Corporation\NVSMI\nvml.dll")) -and (Test-Path "c:\Windows\System32\nvml.dll") ) {
         Copy-Item "c:\Windows\System32\nvml.dll" "C:\Program Files\NVIDIA Corporation\NVSMI\nvml.dll" -Force -ErrorAction Ignore
     }
+}
+
 
 Function Start-ChildJobs {
         # Starts Brains if necessary
