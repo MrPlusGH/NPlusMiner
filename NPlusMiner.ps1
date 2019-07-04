@@ -1412,7 +1412,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $CheckBoxPenalizeSoloInPlus.height = 20
     $CheckBoxPenalizeSoloInPlus.location = New-Object System.Drawing.Point(560, 178)
     $CheckBoxPenalizeSoloInPlus.Font = 'Microsoft Sans Serif,10'
-    $CheckBoxPenalizeSoloInPlus.Checked = $Config.CheckBoxPenalizeSoloInPlus
+    $CheckBoxPenalizeSoloInPlus.Checked = $Config.PenalizeSoloInPlus
     $ConfigPageControls += $CheckBoxPenalizeSoloInPlus
 
     $CheckBoxPenalizeSoloInPlus.Add_Click( {
