@@ -88,7 +88,7 @@ param(
 
 @"
 NPlusMiner
-Copyright (c) 2018 MrPlus and Nemo
+Copyright (c) 2018 MrPlus
 
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
@@ -126,7 +126,7 @@ Write-Host -F Yellow " Copyright and license notices must be preserved."
         
 Function Global:TimerUITick
 {
-    $TimerUI.Enabled = $False
+    $TimerUI.Stop()
     # If something (pause button, idle timer) has set the RestartCycle flag, stop and start mining to switch modes immediately
             If ($Variables.RestartCycle) {
                 $Variables.RestartCycle = $False
@@ -136,7 +136,7 @@ Function Global:TimerUITick
                     $EarningsDGV.DataSource = [System.Collections.ArrayList]@()
                     $RunningMinersDGV.DataSource = [System.Collections.ArrayList]@()
                     $LabelBTCD.ForeColor = "Red"
-                    $TimerUI.Stop
+                    $TimerUI.Stop()
                 }
             }
 
@@ -427,6 +427,9 @@ Function Global:TimerUITick
 
 Function Form_Load
 {
+    $DblBuff = ($MainForm.GetType()).GetProperty("DoubleBuffered", ('Instance','NonPublic'))
+    $DblBuff.SetValue($MainForm, $Truen, $null)
+
     $MainForm.Text = "$($Branding.ProductLable) $($Variables.CurrentVersion)"
     $LabelBTCD.Text = "$($Branding.ProductLable) $($Variables.CurrentVersion)"
     $MainForm.Number = 0
@@ -453,6 +456,7 @@ Function CheckedListBoxPools_Click ($Control) {
 }
 
 Function PrepareWriteConfig{
+    If ($Variables.DonationRunning) {Update-Status("Donation Running - Not saving config"); return}
     If ($Config.ManualConfig) {Update-Status("Manual config mode - Not saving config"); return}
     If ($Config -eq $null){$Config = [hashtable]::Synchronized(@{})}
     $Config | Add-Member -Force @{$TBAddress.Tag = $TBAddress.Text}
@@ -621,6 +625,12 @@ $Variables | Add-Member -Force @{CurrentVersion = [Version](Get-Content .\Versio
 $Variables | Add-Member -Force @{CurrentVersionAutoUpdated = (Get-Content .\Version.json | ConvertFrom-Json).AutoUpdated.Value}
 $Variables.StatusText = "Idle"
 $TabControl = New-object System.Windows.Forms.TabControl
+
+Try{
+    $DblBuff = ($TabControl.GetType()).GetProperty("DoubleBuffered", ('Instance','NonPublic'))
+    $DblBuff.SetValue($MainForm, $Truen, $null)
+} catch {}
+
 $RunPage = New-Object System.Windows.Forms.TabPage
 $RunPage.Text = "Run"
 $SwitchingPage = New-Object System.Windows.Forms.TabPage
@@ -811,7 +821,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $LabelCopyright.Size            = New-Object System.Drawing.Size(200,20)
     $LabelCopyright.LinkColor       = "BLUE"
     $LabelCopyright.ActiveLinkColor = "BLUE"
-    $LabelCopyright.Text            = "Copyright (c) 2018 MrPlus and Nemo"
+    $LabelCopyright.Text            = "Copyright (c) 2018 MrPlus"
     $LabelCopyright.add_Click({[system.Diagnostics.Process]::start("https://github.com/MrPlusGH/NPlusMiner/blob/master/LICENSE")})
     $RunPageControls += $LabelCopyright
 
@@ -833,6 +843,15 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $RunningMinersDGV.AutoSizeColumnsMode                        = "Fill"
     $RunningMinersDGV.RowHeadersVisible                          = $False
     $RunPageControls += $RunningMinersDGV
+
+    $RunPageControls | foreach {
+        # If ($_.GetType() -ne "System.Windows.Forms.DataGridView") {
+            Try{
+                $DblBuff = ($_.GetType()).GetProperty("DoubleBuffered", ('Instance','NonPublic'))
+                $DblBuff.SetValue($MainForm, $Truen, $null)
+            } catch {}
+        # }
+    }
 
 # Switching Page Controls
     $SwitchingPageControls = @()
@@ -897,6 +916,13 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $SwitchingDGV.DataSource                                = $SwitchingArray
     $SwitchingPageControls += $SwitchingDGV
 
+    # $SwitchingPageControls | foreach {
+        # Try{
+            # $DblBuff = ($_.GetType()).GetProperty("DoubleBuffered", ('Instance','NonPublic'))
+            # $DblBuff.SetValue($MainForm, $Truen, $null)
+        # } catch {}
+    # }
+
     # Estimations Page Controls
     $EstimationsDGV                                             = New-Object system.Windows.Forms.DataGridView
     $EstimationsDGV.width                                       = 712
@@ -905,6 +931,9 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $EstimationsDGV.DataBindings.DefaultDataSourceUpdateMode    = 0
     $EstimationsDGV.AutoSizeColumnsMode                         = "Fill"
     $EstimationsDGV.RowHeadersVisible                           = $False
+
+    # $DblBuff = ($EstimationsDGV.GetType()).GetProperty("DoubleBuffered", ('Instance','NonPublic'))
+    # $DblBuff.SetValue($MainForm, $Truen, $null)
 
 # Config Page Controls
     $ConfigPageControls = @()
@@ -1502,7 +1531,14 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     
     $ConfigPageControls += $CheckedListBoxPools
     
-    # Monitoring Page Controls
+    # $ConfigPageControls | foreach {
+        # Try{
+            # $DblBuff = ($_.GetType()).GetProperty("DoubleBuffered", ('Instance','NonPublic'))
+            # $DblBuff.SetValue($MainForm, $Truen, $null)
+        # } catch {}
+    # }
+
+# Monitoring Page Controls
     $MonitoringPageControls = @()
     $MonitoringSettingsControls = @()
 
@@ -1623,7 +1659,7 @@ $MainForm | Add-Member -Name number -Value 0 -MemberType NoteProperty
 $TimerUI = New-Object System.Windows.Forms.Timer
 # $TimerUI.Add_Tick({TimerUI_Tick})
 
-$TimerUI.Enabled = $false
+$TimerUI.Stop()
 
 $ButtonPause.Add_Click( {
         If (!$Variables.Paused) {
