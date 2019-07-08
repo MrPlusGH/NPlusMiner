@@ -8,6 +8,7 @@ $Commands = [PSCustomObject]@{
     "bcd"           = " --algo bcd" #BitcoinDiamond
     "bitcore"       = " --algo bitcore" #Bitcore
     "blake2b"       = " --algo blake2b" #Blake2b
+    "bmw512"        = " --algo bmw512" #bmw512
     "c11"           = " --algo c11" #C11
     "dedal"         = " --algo dedal" #Dedal
     "exosis"        = " --algo exosis" #Exosis
