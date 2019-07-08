@@ -38,7 +38,7 @@ Function InitApplication {
     Get-ChildItem . -Recurse | Unblock-File
 
     if (Get-Command "Unblock-File" -ErrorAction SilentlyContinue) { Get-ChildItem . -Recurse | Unblock-File }
-    if ((Get-Command "Get-MpPreference" -ErrorAction SilentlyContinue) -and (Get-MpComputerStatus -ErrorAction SilentlyContinue) -and (Get-MpPreference).ExclusionPath -notcontains (Convert-Path .)) {
+    if ((Get-Command "Get-MpPreference" -ErrorAction SilentlyContinue) -and (Get-MpPreference).ExclusionPath -notcontains (Convert-Path .)) {
         Start-Process (@{desktop = "powershell"; core = "pwsh" }.$PSEdition) "-Command Import-Module '$env:Windir\System32\WindowsPowerShell\v1.0\Modules\Defender\Defender.psd1'; Add-MpPreference -ExclusionPath '$(Convert-Path .)'" -Verb runAs
     }
 
@@ -89,6 +89,11 @@ Function InitApplication {
         $StartPort = $Port+1
     }
     Sleep 2
+    
+    # Copy nvml.dll to proper location as latest drivers miss it
+    If ( (! (Test-Path "C:\Program Files\NVIDIA Corporation\NVSMI\nvml.dll")) -and (Test-Path "c:\Windows\System32\nvml.dll") ) {
+        Copy-Item "c:\Windows\System32\nvml.dll" "C:\Program Files\NVIDIA Corporation\NVSMI\nvml.dll" -Force -ErrorAction Ignore
+    }
 }
 
 Function Start-ChildJobs {
@@ -167,11 +172,6 @@ $CycleTime = Measure-Command -Expression {
             }
         }
 
-# $Global:Config | Add-Member -Force @{ConfigFile = ".\Config\Config.json"}
-# $Variables.LastDonated = (Get-Date).AddDays(-1).AddMinutes($Config.Donate) # ENTER
-# $Variables.LastDonated = (Get-Date).AddDays(-1).AddHours(-1) # EXIT
-# $Variables.StatusText = $Config.Donate
-# $Variables.StatusText = $Variables.LastDonated
         #Activate or deactivate donation
         if((Get-Date).AddDays(-1).AddMinutes($Config.Donate) -ge $Variables.LastDonated -and $Variables.DonateRandom.wallet -eq $Null){
             # Get donation addresses randomly from agreed developers list
@@ -184,17 +184,19 @@ $CycleTime = Measure-Command -Expression {
             if ($Donation -ne $null) {
                 If ($Config.Donate -lt 3) {$Config.Donate = (0,(3..8)) | Get-Random}
                 $Variables.DonateRandom = $Donation | Get-Random
-                $Config | Add-Member -Force @{PoolsConfig = [PSCustomObject]@{default=[PSCustomObject]@{Wallet = $Variables.DonateRandom.Wallet;UserName = $Variables.DonateRandom.UserName;WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion.ToString().replace('.',''))";PricePenaltyFactor=1}}}
+                $DevPoolsConfig = [PSCustomObject]@{default = [PSCustomObject]@{Wallet = $Variables.DonateRandom.Wallet;UserName = $Variables.DonateRandom.UserName;WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion.ToString().replace('.',''))";PricePenaltyFactor=1}}
+                Merge-PoolsConfig -Main $Config.PoolsConfig -Secondary $DevPoolsConfig | convertto-json | out-file ".\logs\test2.json"
+                $Config | Add-Member -Force @{PoolsConfig = Merge-PoolsConfig -Main $Config.PoolsConfig -Secondary $DevPoolsConfig}
                 If ($Variables.DonateRandom.PoolsConfURL) {
                     # Get Dev Pools Config
                     try {
                         $DevPoolsConfig = Invoke-WebRequest $Variables.DonateRandom.PoolsConfURL -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json
                     } catch {
-                        $Config | Add-Member -Force @{PoolsConfig = [PSCustomObject]@{default=[PSCustomObject]@{Wallet = $Variables.DonateRandom.Wallet;UserName = $Variables.DonateRandom.UserName;WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion.ToString().replace('.',''))";PricePenaltyFactor=1}}}
+                        $DevPoolsConfig = [PSCustomObject]@{default = [PSCustomObject]@{Wallet = $Variables.DonateRandom.Wallet;UserName = $Variables.DonateRandom.UserName;WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion.ToString().replace('.',''))";PricePenaltyFactor=1}}
                     }
                     If ($DevPoolsConfig -ne $null) {
                         $DevPoolsConfig | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | foreach { $DevPoolsConfig.$_.WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion.ToString().replace('.',''))" }
-                        $Config | Add-Member -Force -MemberType NoteProperty -Name "PoolsConfig" -Value $DevPoolsConfig
+                        $Config | Add-Member -Force @{PoolsConfig = Merge-PoolsConfig -Main $Config.PoolsConfig -Secondary $DevPoolsConfig}
                         If ( $Variables.DonateRandom.ForcePoolList -and (Compare-Object ((Get-ChildItem ".\Pools").BaseName | sort -Unique) $Variables.DonateRandom.PoolList -IncludeEqual -ExcludeDifferent)) {
                             $Config.PoolName = $Variables.DonateRandom.PoolList
                         }
@@ -274,13 +276,10 @@ $CycleTime = Measure-Command -Expression {
         } else {
             Compare-Object $Variables.MinersHash (Get-ChildItem .\Miners\ -filter "*.ps1" | Get-FileHash) -Property "Hash","Path" | Sort "Path" -Unique | % {
                 $Variables.StatusText = "Miner Updated: $($_.Path)"
-                $NewMiner =  &$_.path
+                $NewMiner =  &$_.path | select -first 1
                 $NewMiner | Add-Member -Force @{Name = (Get-Item $_.Path).BaseName}
                 If (Test-Path (Split-Path $NewMiner.Path)) {
                     $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" -and $_.Path -eq (Resolve-Path $NewMiner.Path)} | ForEach {
-                        [Array]$filtered = ($BestMiners_Combo | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments)
-                        if($filtered.Count -eq 0)
-                        {
                             if($_.Process -eq $null)
                             {
                                 $_.Status = "Failed"
@@ -298,9 +297,9 @@ $CycleTime = Measure-Command -Expression {
                             }
                             #Restore Bias for non-active miners
                             $Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit_Bias_Orig}
-                        }
                     }
-                    Get-ChildItem -path ".\stats\" -filter "$($NewMiner.Name)_*.txt" | Remove-Item -Force -Recurse
+                    # Force re-benchmark - Deactivated
+                    # Get-ChildItem -path ".\stats\" -filter "$($NewMiner.Name)_*.txt" | Remove-Item -Force -Recurse
                     Remove-Item -Force -Recurse (Split-Path $NewMiner.Path)
                 }
                 $Variables.MinersHash = Get-ChildItem .\Miners\ -filter "*.ps1" | Get-FileHash
@@ -454,6 +453,12 @@ $CycleTime = Measure-Command -Expression {
         If ($BestMiners_Combo.PreventCPUMining -contains $true) {
             $BestMiners_Combo = $BestMiners_Combo | ? {$_.type -ne "CPU"}
             $Variables.StatusText = "Miner prevents CPU mining"
+        }
+        
+        If ($Variables.DonationRunning) {
+            $BestMiners_Combo | % {
+                $_.Arguments = $_.Arguments -replace "$($Config.PoolsConfig.Default.WorkerName)","$($Config.PoolsConfig.Default.WorkerName)_$($_.Type)"
+            }
         }
 
         #Add the most profitable miners to the active list

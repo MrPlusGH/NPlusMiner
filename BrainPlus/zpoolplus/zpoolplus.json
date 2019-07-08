@@ -4,7 +4,7 @@
                   "port":  3691,
                   "coins":  1,
                   "fees":  1.25,
-                  "hashrate":  95291008,
+                  "hashrate":  95291007,
                   "workers":  2,
                   "estimate_current":  "0.00000242",
                   "estimate_last24h":  "0.00000686",

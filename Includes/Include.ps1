@@ -364,6 +364,20 @@ Function Load-Config {
     If (Test-Path $ConfigFile) {
         $ConfigLoad = Get-Content $ConfigFile | ConvertFrom-json
         $Config = [hashtable]::Synchronized(@{}); $configLoad | % {$_.psobject.properties | sort Name | % {$Config | Add-Member -Force @{$_.Name = $_.Value}}}
+        
+    $Config | Add-Member -Force -MemberType ScriptProperty -Name "PoolsConfig" -Value {
+        If (Test-Path ".\Config\PoolsConfig.json"){
+            get-content ".\Config\PoolsConfig.json" | ConvertFrom-json
+        }else{
+            [PSCustomObject]@{default=[PSCustomObject]@{
+                Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy"
+                UserName = "mrplus"
+                WorkerName = "NPlusMinerNoCfg"
+                PricePenaltyFactor = 1
+            }}
+        }
+    }
+
         $Config
     }
 }
@@ -516,40 +530,40 @@ function Get-ChildItemContent {
         [Parameter(Mandatory = $false)]
         [Array]$Include = @()
     )
-
-    $ChildItems = Get-ChildItem -Recurse -Path $Path -Include $Include | ForEach-Object {
-        $Name = $_.BaseName
-        $Content = @()
-        if ($_.Extension -eq ".ps1") {
-            $Content = &$_.FullName
-        }
-        else {
-            $Content = $_ | Get-Content | ConvertFrom-Json
-        }
-        $Content | ForEach-Object {
-            [PSCustomObject]@{Name = $Name; Content = $_}
-        }
-    }
-    
-    $ChildItems | ForEach-Object {
-        $Item = $_
-        $ItemKeys = $Item.Content.PSObject.Properties.Name.Clone()
-        $ItemKeys | ForEach-Object {
-            if ($Item.Content.$_ -is [String]) {
-                $Item.Content.$_ = Invoke-Expression "`"$($Item.Content.$_)`""
+        $ChildItems = Get-ChildItem -Recurse -Path $Path -Include $Include | ForEach-Object {
+            $Name = $_.BaseName
+            $Content = @()
+            if ($_.Extension -eq ".ps1") {
+                $Content = &$_.FullName
             }
-            elseif ($Item.Content.$_ -is [PSCustomObject]) {
-                $Property = $Item.Content.$_
-                $PropertyKeys = $Property.PSObject.Properties.Name
-                $PropertyKeys | ForEach-Object {
-                    if ($Property.$_ -is [String]) {
-                        $Property.$_ = Invoke-Expression "`"$($Property.$_)`""
+            else {
+                Try {
+                    $Content = $_ | Get-Content | ConvertFrom-Json
+                } catch { Update-Status("Invalid json: $($_)")}
+            }
+            $Content | ForEach-Object {
+                [PSCustomObject]@{Name = $Name; Content = $_}
+            }
+        }
+        
+        $ChildItems | ForEach-Object {
+            $Item = $_
+            $ItemKeys = $Item.Content.PSObject.Properties.Name.Clone()
+            $ItemKeys | ForEach-Object {
+                if ($Item.Content.$_ -is [String]) {
+                    $Item.Content.$_ = Invoke-Expression "`"$($Item.Content.$_)`""
+                }
+                elseif ($Item.Content.$_ -is [PSCustomObject]) {
+                    $Property = $Item.Content.$_
+                    $PropertyKeys = $Property.PSObject.Properties.Name
+                    $PropertyKeys | ForEach-Object {
+                        if ($Property.$_ -is [String]) {
+                            $Property.$_ = Invoke-Expression "`"$($Property.$_)`""
+                        }
                     }
                 }
             }
         }
-    }
-    
     $ChildItems
 }
 function Invoke_TcpRequest {
@@ -1323,5 +1337,35 @@ Function Autoupdate {
         Update-Notifications("$($AutoUpdateVersion.Product)-$($AutoUpdateVersion.Version). Not candidate for Autoupdate")
         $LabelNotifications.ForeColor = "Green"
     }
+}
+
+function Merge-PoolsConfig {
+    param(
+        [Parameter(Mandatory = $true)]
+        $Main, 
+        [Parameter(Mandatory = $true)]
+        $Secondary
+    )
+        $Main.PSObject.Properties.Name | ForEach {
+            If (! $Secondary.$_) {
+                $ObjectCopy = [PSCustomObject]@{}
+                $Secondary.default.PSObject.Properties.Name | % { $ObjectCopy | Add-Member -Force @{$_ = $Secondary.default.$_} }
+                $Secondary | Add-Member -Force @{$_ = $ObjectCopy}
+            }
+            If (! $Secondary.$_.Algorithm) {
+                $Secondary.$_ | Add-Member -Force @{ Algorithm = @()}
+            }
+        }
+
+        $Secondary.PSObject.Properties.Name | foreach {
+                [Array]$Secondary.$_.Algorithm += [Array]($Main.$_.Algorithm)
+                If ([Array]$Secondary.$_.Algorithm -ne $null) {
+                    $Secondary.$_.Algorithm = [Array]($Secondary.$_.Algorithm | sort -Unique)
+                } else {
+                    $Secondary.$_ | Add-Member -Force @{ Algorithm = @()}
+                }
+        }
+
+        $Secondary
 }
 
