@@ -32,11 +32,11 @@ $Locations | ForEach-Object {
             "eu"    {$Location = "EU"}
             "usa"   {$Location = "US"}
             "jp"    {$Location = "JP"}
-            "hk"    {$Location = "HK"}
-            "in"    {$Location = "IN"}
-            "br"    {$Location = "BR"}
+            "hk"    {$Location = "JP"}
+            "in"    {$Location = "JP"}
+            "br"    {$Location = "US"}
         }
-        $NiceHash_Host = "$($Algo).$NiceHash_Location.nicehash.com"
+        $NiceHash_Host = "$($Algo).$($NiceHash_Location)-new.nicehash.com"
 
         if ($PoolConf.Wallet) {
             [PSCustomObject]@{
