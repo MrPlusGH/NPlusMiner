@@ -1,7 +1,9 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 try {
-    $Request = Invoke-WebRequest "https://api.nicehash.com/api?method=simplemultialgo.info" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
+    $Request = Invoke-WebRequest "https://api2.nicehash.com/main/api/v2/public/simplemultialgo/info/" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
+    $RequestAlgodetails = Invoke-WebRequest "https://api2.nicehash.com/main/api/v2/mining/algorithms/" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
+    $Request.miningAlgorithms | foreach {$Algo = $_.Algorithm ; $_ | Add-Member -force @{algodetails = $RequestAlgodetails.miningAlgorithms | ? {$_.Algorithm -eq $Algo}}}
 }
 catch { return }
 
@@ -14,15 +16,17 @@ $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
     $PoolConf = $Config.PoolsConfig.$ConfName
 
 
-    $Request.result.simplemultialgo | ForEach-Object {
-        $Algo = $_.Name
-		$NiceHash_Port = $_.port
-        $NiceHash_Algorithm = Get-Algorithm $_.name
+    $Request.miningAlgorithms | ForEach-Object {
+        $Algo = $_.Algorithm
+		$NiceHash_Port = $_.algodetails.port
+        $NiceHash_Algorithm = Get-Algorithm $_.Algorithm
         $NiceHash_Coin = ""
 
-        $Divisor = 1000000000
+        $DivisorMultiplier = 1000000000
+        $Divisor = $DivisorMultiplier * [Double]$_.Algodetails.marketFactor
+        $Divisor = 100000000
 
-        $Stat = Set-Stat -Name "$($Name)_$($NiceHash_Algorithm)_Profit" -Value ([Double]$_.paying / $Divisor)
+        $Stat = Set-Stat -Name "$($Name)_$($NiceHash_Algorithm)_Profit" -Value ([Double]$_.paying  / $Divisor)
 
 $Locations = "eu", "usa", "hk", "jp", "in", "br"
 $Locations | ForEach-Object {
