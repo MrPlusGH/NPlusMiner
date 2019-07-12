@@ -16,7 +16,7 @@ $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
     $PoolConf = $Config.PoolsConfig.$ConfName
 
 
-    $Request.miningAlgorithms | ForEach-Object {
+    $Request.miningAlgorithms| ? { [Double]$_.paying -gt 0 } | ForEach-Object {
         $Algo = $_.Algorithm
 		$NiceHash_Port = $_.algodetails.port
         $NiceHash_Algorithm = Get-Algorithm $_.Algorithm
