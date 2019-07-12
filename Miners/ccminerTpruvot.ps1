@@ -5,7 +5,7 @@ $Uri = "https://github.com/tpruvot/ccminer/releases/download/2.3.1-tpruvot/ccmin
 
 $Commands = [PSCustomObject]@{
     "allium"     = " -d $($Config.SelGPUCC)" #Allium
-    "exosis"     = " -d $($Config.SelGPUCC)" #Exosis
+    #"exosis"     = " -d $($Config.SelGPUCC)" #Exosis
     #"hmq1725"    = " -d $($Config.SelGPUCC)" #hmq1725
     #"lyra2z"     = " -d $($Config.SelGPUCC) --submit-stale" #Lyra2z
     #"phi"        = " -d $($Config.SelGPUCC)" #Phi (testing)
