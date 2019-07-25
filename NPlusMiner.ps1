@@ -450,7 +450,7 @@ Function Form_Load
         $TimerUI.Stop()
         TimerUITick
         If ($MainForm.Number -gt 6000) {
-            Write-Host -B R "Releasing Timer"
+            # Write-Host -B R "Releasing Timer"
             $MainForm.Number = 0
             # $TimerUI.Stop()
             $TimerUI.Remove_Tick({TimerUITick})
