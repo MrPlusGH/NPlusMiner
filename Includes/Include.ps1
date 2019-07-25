@@ -28,21 +28,35 @@ version date:   20181223
 # Get-Item function::"$((Get-FileHash $MyInvocation.MyCommand.path).Hash)" | Add-Member @{"File" = $MyInvocation.MyCommand.path} -EA SilentlyContinue
 
 function Get-MemoryUsage {
-      $memusagebyte = [System.GC]::GetTotalMemory('forcefullcollection')
-      $memusageMB = $memusagebyte / 1MB
-      $diffbytes = $memusagebyte - $script:last_memory_usage_byte
-      $difftext = ''
-      $sign = ''
-      if ( $script:last_memory_usage_byte -ne 0 ) {
-            if ( $diffbytes -ge 0 ) {
-                $sign = '+'
-            }
-            $difftext = ", $sign$diffbytes"
+      # $memusagebyte = [System.GC]::GetTotalMemory('forcefullcollection')
+      # $memusageMB = $memusagebyte / 1MB
+      # $diffbytes = $memusagebyte - $script:last_memory_usage_byte
+      # $difftext = ''
+      # $sign = ''
+      # if ( $script:last_memory_usage_byte -ne 0 ) {
+            # if ( $diffbytes -ge 0 ) {
+                # $sign = '+'
+            # }
+            # $difftext = ", $sign$diffbytes"
+      # }
+# [System.GC]::Collect()
+      # Write-Host -Object ('Memory usage: {0:n1} MB ({1:n0} Bytes{2})' -f $memusageMB,$memusagebyte, $difftext)
+      # Write-Host " "
+      $P = get-process -PID $PID
+      If (!$Variables.PerfCounterProcPath) {
+        $proc_path=((Get-Counter "\Process(*)\ID Process").CounterSamples | ? {$_.RawValue -eq $pid}).Path  
+        $proc_path = $proc_path -replace "id process","Working Set - Private"
+        $Variables | Add-Member -Force @{PerfCounterProcPath = $proc_path}
       }
-      Write-Host -Object ('Memory usage: {0:n1} MB ({1:n0} Bytes{2})' -f $memusageMB,$memusagebyte, $difftext)
-      Write-Host " "
+      
+      # Write-Host -Object ('PagedMemorySize  : {0:n1} MB ' -f ($P.PagedMemorySize/1024))
+      # Write-Host -Object ('PrivateMemorySize: {0:n1} MB ' -f ($P.PrivateMemorySize/1024))
+      # Write-Host -Object ('VirtualMemorySize: {0:n1} MB ' -f ($P.VirtualMemorySize/1024))
+      # Write-Host -Object ('WorkingSetSize: {0:n1} MB ' -f ($P.WorkingSet/1024))
+      Write-Host -Object ('PrivatePageCount: {0:n1} MB ' -f (((Get-Counter $Variables.PerfCounterProcPath).CounterSamples[0]).RawValue/1mb))
+
       # save last value in script global variable
-      $script:last_memory_usage_byte = $memusagebyte
+      # $script:last_memory_usage_byte = $
 }
 
 Function GetNVIDIADriverVersion {
