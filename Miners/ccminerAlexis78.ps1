@@ -8,7 +8,8 @@ $Commands = [PSCustomObject]@{
     "keccakc" = " -N 1 -i 29 -d $($Config.SelGPUCC)" #Keccakc
     "poly" = " -N 1 -d $($Config.SelGPUCC)" #polytimos
     "skein2" = " -i 29 -N 1 -d $($Config.SelGPUCC)" #Skein
-    "x11evo" = ",m=solo,d=0.04 -N 1 -i 21 -d $($Config.SelGPUCC) " #X11evo
+    "x11evo" = " -N 1 -i 21 -d $($Config.SelGPUCC) " #X11evo
+    "x14" = " -d $($Config.SelGPUCC) " #X14
     #"bitcore" = "" #Bitcore
     #"blake2s" = " -r 0 -d $($Config.SelGPUCC)" #Blake2s
     #"c11" = " -N 1 -i 21 -d $($Config.SelGPUCC)" #C11
