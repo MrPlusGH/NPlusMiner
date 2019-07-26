@@ -430,7 +430,7 @@ Function Global:TimerUITick
 Function Form_Load
 {
     $DblBuff = ($MainForm.GetType()).GetProperty("DoubleBuffered", ('Instance','NonPublic'))
-    $DblBuff.SetValue($MainForm, $Truen, $null)
+    $DblBuff.SetValue($MainForm, $True, $null)
 
     $MainForm.Text = "$($Branding.ProductLable) $($Variables.CurrentVersion)"
     $LabelBTCD.Text = "$($Branding.ProductLable) $($Variables.CurrentVersion)"
@@ -646,7 +646,7 @@ $TabControl = New-object System.Windows.Forms.TabControl
 
 Try{
     $DblBuff = ($TabControl.GetType()).GetProperty("DoubleBuffered", ('Instance','NonPublic'))
-    $DblBuff.SetValue($MainForm, $Truen, $null)
+    $DblBuff.SetValue($MainForm, $True, $null)
 } catch {}
 
 $RunPage = New-Object System.Windows.Forms.TabPage
@@ -866,7 +866,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
         # If ($_.GetType() -ne "System.Windows.Forms.DataGridView") {
             Try{
                 $DblBuff = ($_.GetType()).GetProperty("DoubleBuffered", ('Instance','NonPublic'))
-                $DblBuff.SetValue($MainForm, $Truen, $null)
+                $DblBuff.SetValue($MainForm, $True, $null)
             } catch {}
         # }
     }
