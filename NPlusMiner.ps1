@@ -196,7 +196,7 @@ Function Global:TimerUITick
                 $RunPage.Controls.Add($Chart2)
                 $Chart2.BringToFront()
                 
-                $RunPage.Controls | ? {($_.gettype()).name -eq "Chart" -and $_ -ne $Chart1 -and $_ -ne $Chart2} | % {$Variables.StatusText = "Cleaning charts";$RunPage.Controls[$RunPage.Controls.IndexOf($_)].Dispose();$RunPage.Controls.Remove($_)}
+                $RunPage.Controls | ? {($_.gettype()).name -eq "Chart" -and $_ -ne $Chart1 -and $_ -ne $Chart2} | % {$RunPage.Controls[$RunPage.Controls.IndexOf($_)].Dispose();$RunPage.Controls.Remove($_)}
             }
 
             If ($Variables.Earnings -and $Config.TrackEarnings) {
