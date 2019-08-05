@@ -6,7 +6,7 @@ $Uri = "https://github.com/nemosminer/ccminer-KlausT-8.21-mod-r18-src-fix/releas
 $Commands = [PSCustomObject]@{
     "lyra2rev3" = " -i 24 -a lyra2v3 -d $($Config.SelGPUCC)" #Lyra2rev3 
     "lyra2v3" = " -a lyra2v3 -d $($Config.SelGPUCC)" #Lyra2v3 -i 24 max
-    "lyra2z330" = ",d=0.004 -a lyra2z330 -d $($Config.SelGPUCC) -t 1 --no-cpu-verify" #Lyra2z330
+    "lyra2z330" = " -a lyra2z330 -d $($Config.SelGPUCC) -t 1 --no-cpu-verify" #Lyra2z330
     # "neoscrypt" = " -a neoscrypt -d $($Config.SelGPUCC)" #NeoScrypt
     # "yescrypt" = " -a yescrypt -d $($Config.SelGPUCC)" #Yescrypt
     # "yescryptR16" = " -a yescryptr16 -d $($Config.SelGPUCC)" #YescryptR16
