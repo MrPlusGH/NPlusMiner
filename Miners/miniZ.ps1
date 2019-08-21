@@ -10,6 +10,7 @@ $Commands = [PSCustomObject]@{
     "equihash-btg" = " --algo 144,5 --pers BgoldPoW " # Equihash-btg MPH (fastest)
     "equihash96"   = " --algo 96,5  --pers auto" #Equihash96 (ewbf faster)
     "beam"         = " --algo 150,5 --pers auto" #Beam
+    "beamv2"       = " --par=beam2" #Beam
     "equihash125"  = " --par=125,4" #Equihash125
 }
 $Port = $Variables.NVIDIAMinerAPITCPPort
