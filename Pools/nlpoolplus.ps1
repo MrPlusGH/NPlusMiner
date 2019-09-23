@@ -27,7 +27,10 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
       $Divisor = 1000000 * [Double]$Request.$_.mbtc_mh_factor
 
     switch ($PoolAlgorithm) {
-        "Yescrypt" {$Divisor *= 100}       #temp fix
+        "equihash125" { $Divisor *= 2 } #temp fix
+        "equihash144" { $Divisor *= 2 } #temp fix
+        "equihash192" { $Divisor *= 2 } #temp fix
+        "verushash"   { $Divisor *= 2 } #temp fix
 
     }
 
