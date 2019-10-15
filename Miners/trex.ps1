@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-trex\t-rex.exe"
-$Uri = "https://github.com/trexminer/T-Rex/releases/download/0.14.4/t-rex-0.14.4-win-cuda10.0.zip"
+$Uri = "https://github.com/trexminer/T-Rex/releases/download/0.14.6/t-rex-0.14.6-win-cuda10.0.zip"
  
 $Commands = [PSCustomObject]@{
     "astralhash" = "" #Astralhash
