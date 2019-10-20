@@ -40,7 +40,7 @@ $Locations | ForEach-Object {
             "in"    {$Location = "JP"}
             "br"    {$Location = "US"}
         }
-        $NiceHash_Host = "$($Algo).$($NiceHash_Location)-new.nicehash.com"
+        $NiceHash_Host = "$($Algo).$($NiceHash_Location).nicehash.com"
 
         if ($PoolConf.Wallet) {
             [PSCustomObject]@{
