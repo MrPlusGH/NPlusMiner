@@ -541,7 +541,7 @@ $CycleTime = Measure-Command -Expression {
                 if($_.Process -eq $null -or $_.Process.HasExited -ne $false)
                 {
                     # Log switching information to .\log\swicthing.log
-                    [pscustomobject]@{date=(get-date);Type=$_.Type;algo=$_.Algorithms;wallet=$_.User;username=$Config.UserName;Host=$_.host} | export-csv .\Logs\switching.log -Append -NoTypeInformation
+                    [pscustomobject]@{date=(get-date);Type=$_.Type;algo=$_.Algorithms;coin=$_.Coin;Host=$_.host;wallet=$_.User;username=$Config.UserName} | export-csv .\Logs\switching.log -Append -NoTypeInformation -Force
 
                     # Launch prerun if exists
                     If ($_.Type -eq "AMD" -and (Test-Path ".\Prerun\AMDPrerun.bat")) {
