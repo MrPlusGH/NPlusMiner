@@ -540,8 +540,16 @@ $CycleTime = Measure-Command -Expression {
             {
                 if($_.Process -eq $null -or $_.Process.HasExited -ne $false)
                 {
-                    # Log switching information to .\log\swicthing.log
-                    [pscustomobject]@{date=(get-date);Type=$_.Type;algo=$_.Algorithms;coin=$_.Coin;Host=$_.host;wallet=$_.User;username=$Config.UserName} | export-csv .\Logs\switching.log -Append -NoTypeInformation -Force
+                    # Migrate previous version of .\log\switching.log (Add Coin)
+                    # Move to app init
+                    If (!(Get-Content .\Logs\switching.log -First 1).Contains("coin")) {
+                        $tmp = @()
+                        Import-Csv .\Logs\switching.log | % {$tmp += [PsCustomObject][Ordered]@{date=$_.date;Type=$_.Type;algo=$_.Algo;coin=$_.Coin;wallet=$_.wallet;username=$_.UserName;Host=$_.host}}
+                        $tmp | export-csv .\Logs\switching.log -NoTypeInformation -Force
+                        rv tmp
+                    }
+                    # Log switching information to .\log\switching.log
+                    [pscustomobject]@{date=(get-date);Type=$_.Type;algo=$_.Algorithms;coin=$_.Coin;wallet=$_.User;username=$Config.UserName;Host=$_.host} | export-csv .\Logs\switching.log -Append -NoTypeInformation -Force
 
                     # Launch prerun if exists
                     If ($_.Type -eq "AMD" -and (Test-Path ".\Prerun\AMDPrerun.bat")) {
