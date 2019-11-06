@@ -226,9 +226,11 @@ $CycleTime = Measure-Command -Expression {
             $Variables.DonateRandom = [PSCustomObject]@{}
         }
         $Variables.StatusText = "Loading BTC rate from 'api.coinbase.com'.."
-        $Rates = Invoke-RestMethod "https://api.coinbase.com/v2/exchange-rates?currency=BTC" -TimeoutSec 15 -UseBasicParsing | Select-Object -ExpandProperty data | Select-Object -ExpandProperty rates
-        $Config.Currency | Where-Object {$Rates.$_} | ForEach-Object {$Rates | Add-Member $_ ([Double]$Rates.$_) -Force}
-        $Variables | Add-Member -Force @{Rates = $Rates}
+        Try{
+            $Rates = Invoke-RestMethod "https://api.coinbase.com/v2/exchange-rates?currency=BTC" -TimeoutSec 15 -UseBasicParsing | Select-Object -ExpandProperty data | Select-Object -ExpandProperty rates
+            $Config.Currency | Where-Object {$Rates.$_} | ForEach-Object {$Rates | Add-Member $_ ([Double]$Rates.$_) -Force}
+            $Variables | Add-Member -Force @{Rates = $Rates}
+        } catch {$Variables.StatusText = "Minor error - Failed to load BTC rate.."}
         #Load the Stats
         $Stats = [PSCustomObject]@{}
         if(Test-Path "Stats"){Get-ChildItemContent "Stats" | ForEach {$Stats | Add-Member $_.Name $_.Content}}
@@ -247,7 +249,7 @@ $CycleTime = Measure-Command -Expression {
 		} While ($AllPools.Count -eq 0)
         $Variables.StatusText = "Computing pool stats.."
         # Use location as preference and not the only one
-        $LocPools = $AllPools | ?{$_.location -eq $Config.Location}
+        $LocPools = @($AllPools | ?{$_.location -eq $Config.Location})
         $AllPools = $LocPools + ($AllPools | ? {$_.name -notin $LocPools.name})
         rv LocPools
         # Filter Algo based on Per Pool Config
@@ -258,8 +260,10 @@ $CycleTime = Measure-Command -Expression {
         $Pools = [PSCustomObject]@{}
         $Pools_Comparison = [PSCustomObject]@{}
         $AllPools.Algorithm | Sort -Unique | ForEach {
-            $Pools | Add-Member $_ ($AllPools | Where Algorithm -EQ $_ | Sort Price -Descending | Select -First 1)
-            $Pools_Comparison | Add-Member $_ ($AllPools | Where Algorithm -EQ $_ | Sort StablePrice -Descending | Select -First 1)
+            # $Pools | Add-Member $_ ($AllPools | Where Algorithm -EQ $_ | Sort Price -Descending | Select -First 1)
+            # $Pools_Comparison | Add-Member $_ ($AllPools | Where Algorithm -EQ $_ | Sort StablePrice -Descending | Select -First 1)
+            $Pools | Add-Member $_ ($AllPools | Where Algorithm -EQ $_ | Sort Price -Descending)
+            $Pools_Comparison | Add-Member $_ ($AllPools | Where Algorithm -EQ $_ | Sort StablePrice -Descending)
         }
         # $AllPools.Algorithm | Select -Unique | ForEach {$Pools_Comparison | Add-Member $_ ($AllPools | Where Algorithm -EQ $_ | Sort StablePrice -Descending | Select -First 1)}
         #Load information about the Miners
@@ -278,7 +282,7 @@ $CycleTime = Measure-Command -Expression {
                 $Variables.StatusText = "Miner Updated: $($_.Path)"
                 $NewMiner =  &$_.path | select -first 1
                 $NewMiner | Add-Member -Force @{Name = (Get-Item $_.Path).BaseName}
-                If (Test-Path (Split-Path $NewMiner.Path)) {
+                If ($NewMiner.Path -and (Test-Path (Split-Path $NewMiner.Path))) {
                     $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" -and $_.Path -eq (Resolve-Path $NewMiner.Path)} | ForEach {
                             if($_.Process -eq $null)
                             {
@@ -313,7 +317,10 @@ $CycleTime = Measure-Command -Expression {
         $StartPort=4068
     
     # Better load here than in miner file. Reduces disk reads.
-    $MinersConfig = If (Test-Path ".\Config\MinersConfig.json") { Get-content ".\Config\MinersConfig.json" | convertfrom-json }
+    # $MinersConfig = If (Test-Path ".\Config\MinersConfig.json") { Get-content ".\Config\MinersConfig.json" | convertfrom-json }
+    $Script:MinerCustomConfig = Get-Content ".\Config\MinerCustomConfig.json" | ConvertFrom-Json
+    $Script:MinerCustomConfigCode = Get-Content ".\Includes\MinerCustomConfig.ps1" -raw
+
     $Variables.Miners = if (Test-Path "Miners") {
         @(
             Get-ChildItemContent "Miners"
@@ -386,7 +393,6 @@ $CycleTime = Measure-Command -Expression {
         }
         $Variables.StatusText = "Comparing miners and pools.."
         if($Variables.Miners.Count -eq 0){$Variables.StatusText = "No Miners!"}#; sleep $Config.Interval; continue}
-
         $Variables.Miners | ForEach {
             $Miner = $_
             $Miner_HashRates = [PSCustomObject]@{}
@@ -398,12 +404,14 @@ $CycleTime = Measure-Command -Expression {
             $Miner_Types = $Miner.Type | Select -Unique
             $Miner_Indexes = $Miner.Index | Select -Unique
             $Miner.HashRates | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
+                $LocPool = $Pools.$_ | ? {$_.Host -eq $Miner.Host -and $_.Coin -eq $Miner.Coin}
+                $LocPoolsComp = $Pools_Comparison.$_ | ? {$_.Host -eq $Miner.Host -and $_.Coin -eq $Miner.Coin}
                 $Miner_HashRates | Add-Member $_ ([Double]$Miner.HashRates.$_)
-                $Miner_Pools | Add-Member $_ ([PSCustomObject]$Pools.$_)
-                $Miner_Pools_Comparison | Add-Member $_ ([PSCustomObject]$Pools_Comparison.$_)
-                $Miner_Profits | Add-Member $_ ([Double]$Miner.HashRates.$_*$Pools.$_.Price)
-                $Miner_Profits_Comparison | Add-Member $_ ([Double]$Miner.HashRates.$_*$Pools_Comparison.$_.Price)
-                $Miner_Profits_Bias | Add-Member $_ ([Double]$Miner.HashRates.$_*$Pools.$_.Price*(1-($Config.MarginOfError*[Math]::Pow($Variables.DecayBase,$DecayExponent))))
+                $Miner_Pools | Add-Member $_ ([PSCustomObject]$LocPool)
+                $Miner_Pools_Comparison | Add-Member $_ ([PSCustomObject]$LocPoolsComp | ? {$_.Host -eq $Miner.Host -and $_.Coin -eq $Miner.Coin})
+                $Miner_Profits | Add-Member $_ ([Double]$Miner.HashRates.$_*$LocPool.Price)
+                $Miner_Profits_Comparison | Add-Member $_ ([Double]$Miner.HashRates.$_*$LocPoolsComp.Price)
+                $Miner_Profits_Bias | Add-Member $_ ([Double]$Miner.HashRates.$_*$LocPool.Price*(1-($Config.MarginOfError*[Math]::Pow($Variables.DecayBase,$DecayExponent))))
             }
             $Miner_Profit = [Double]($Miner_Profits.PSObject.Properties.Value | Measure -Sum).Sum
             $Miner_Profit_Comparison = [Double]($Miner_Profits_Comparison.PSObject.Properties.Value | Measure -Sum).Sum
@@ -717,7 +725,7 @@ Remove-Variable Stats,Miners_Type_Combos,Miners_Index_Combos,Miners_Device_Combo
 # Get-Variable | out-file ".\logs\variables.txt"
 # $StackTrace | convertto-json | out-file ".\logs\stacktrace.json"
 # remove-variable variables
-Get-MemoryUsage
+# Get-MemoryUsage
 }
 #Stop the log
 # Stop-Transcript

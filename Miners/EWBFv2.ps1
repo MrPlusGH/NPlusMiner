@@ -13,18 +13,28 @@ $Commands = [PSCustomObject]@{
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
-	$Algo = Get-Algorithm($_)
-    [PSCustomObject]@{
-        Type      = "NVIDIA"
-        Path      = $Path
-        Arguments = "--templimit 95 --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) --server $($Pools.($Algo).Host) --port $($Pools.($Algo).Port) --eexit 1 --user $($Pools.($Algo).User) --pass $($Pools.($Algo).Pass)$($Commands.$_) --fee 0 --intensity 64"
-        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Day}
-        API       = "ewbf"
-        Port      = $Variables.NVIDIAMinerAPITCPPort
-        Wrap      = $false
-        URI       = $Uri
-        User      = $Pools.($Algo).User
-        Host      = $Pools.($Algo).Host
-        Coin      = $Pools.($Algo).Coin
+	$Algo =$_
+	$AlgoNorm = Get-Algorithm($_)
+
+    $Pools.($AlgoNorm) | foreach {
+        $Pool = $_
+        invoke-Expression -command ( $MinerCustomConfigCode )
+        If ($AbortCurrentPool) {Return}
+
+        $Arguments = "--templimit 95 --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) --server $($Pool.Host) --port $($Pool.Port) --eexit 1 --user $($Pool.User) --pass $($Password) --fee 0 --intensity 64"
+
+        [PSCustomObject]@{
+            Type      = "NVIDIA"
+            Path      = $Path
+            Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Day}
+            API       = "ewbf"
+            Port      = $Variables.NVIDIAMinerAPITCPPort
+            Wrap      = $false
+            URI       = $Uri
+            User      = $Pool.User
+            Host      = $Pool.Host
+            Coin      = $Pool.Coin
+        }
     }
 }

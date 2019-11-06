@@ -1,10 +1,10 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-Bminer\bminer.exe"
-$Uri = "https://www.bminercontent.com/releases/bminer-lite-v15.8.3-fc8dae9-amd64.zip"
+$Uri = "https://www.bminercontent.com/releases/bminer-lite-v15.7.4-564ee38-amd64.zip"
 $Commands = [PSCustomObject]@{
     # "Grincuckaroo29" = " -uri cuckaroo29://" #Grin(testing)
-    "ethash" = " -uri ethstratum://" #Ethash (fastest)
+    # "ethash" = " -uri ethstratum://" #Ethash (fastest)
     # "aeternity" = " -uri aeternity://" #aeternity(testing)
     # "beam" = " -uri beam://" #beam(testing)
     #"equihash" = " -uri stratum://" #Equihash(Asic)
@@ -16,19 +16,29 @@ $Port = $Variables.NVIDIAMinerAPITCPPort
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
-    $Algo = Get-Algorithm($_)
-    $Pass = If ($Pools.($Algo).Pass -like "*,*") {$Pools.($Algo).Pass.ToString().replace(',','%2C')} else {$Pools.($Algo).Pass}
-    [PSCustomObject]@{
-        Type      = "NVIDIA"
-        Path      = $Path
-        Arguments = "$($Commands.$_)$($Pools.($Algo).User):$($Pass)@$($Pools.($Algo).Host):$($Pools.($Algo).Port) -max-temperature 94 -nofee -devices $($Config.SelGPUCC) -api 127.0.0.1:$Port"
-        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Week}
-        API       = "bminer"
-        Port      = $Port
-        Wrap      = $false
-        URI       = $Uri    
-        User = $Pools.($Algo).User
-        Host = $Pools.($Algo).Host
-        Coin = $Pools.($Algo).Coin
+    $Algo =$_
+	$AlgoNorm = Get-Algorithm($_)
+
+    $Pools.($AlgoNorm) | foreach {
+        $Pool = $_
+        invoke-Expression -command ( $MinerCustomConfigCode )
+        If ($AbortCurrentPool) {Return}
+
+        $Pass = If ($Password -like "*,*") {$Password.ToString().replace(',','%2C')} else {$Password}
+        $Arguments = "$($Commands.$Algo)$($Pool.User):$($Pass)@$($Pool.Host):$($Pool.Port) -max-temperature 94 -nofee -devices $($Config.SelGPUCC) -api 127.0.0.1:$Port"
+
+        [PSCustomObject]@{
+            Type      = "NVIDIA"
+            Path      = $Path
+            Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week}
+            API       = "bminer"
+            Port      = $Port
+            Wrap      = $false
+            URI       = $Uri    
+            User = $Pool.User
+            Host = $Pool.Host
+            Coin = $Pool.Coin
+        }
     }
 }

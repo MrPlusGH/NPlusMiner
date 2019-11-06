@@ -173,6 +173,7 @@
     "pluck128":  "Pluck",
     "poly":  "Polytimos",
     "polytimos":  "Polytimos",
+    "power2b":  "Power2b",
     "quark":  "Quark",
     "quarkcoin":  "Quark",
     "qubit":  "Qubit",

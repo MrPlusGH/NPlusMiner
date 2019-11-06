@@ -546,6 +546,7 @@ function Get-ChildItemContent {
     )
         $ChildItems = Get-ChildItem -Recurse -Path $Path -Include $Include | ForEach-Object {
             $Name = $_.BaseName
+            $FileName = $_.Name
             $Content = @()
             if ($_.Extension -eq ".ps1") {
                 $Content = &$_.FullName
@@ -553,7 +554,7 @@ function Get-ChildItemContent {
             else {
                 Try {
                     $Content = $_ | Get-Content | ConvertFrom-Json
-                } catch { Update-Status("Invalid json: $($_)")}
+                } catch { Update-Status("Invalid json: $($Path)\$($FileName)")}
             }
             $Content | ForEach-Object {
                 [PSCustomObject]@{Name = $Name; Content = $_}
@@ -1382,4 +1383,80 @@ function Merge-PoolsConfig {
 
         $Secondary
 }
+
+Function Merge-Command {
+    param(
+        [Parameter(Mandatory = $false)]
+        [String]$Slave,
+        [Parameter(Mandatory = $false)]
+        [String]$Master,
+        [Parameter(Mandatory = $false)]
+        [String]$Type
+    )
+
+    $NoReplacePassArgs = @(
+        ",ID"
+    )
+
+    $NoReplaceCmdArgs = @(
+        "-u",
+        "--user",
+        "-ewal"
+    )
+
+    # Some RegEx guru would surely do a better job here...
+
+    if ($Master -ne "") {
+        Switch ($type) {
+            "Password" {
+                If ($Slave -and !($Slave.StartsWith(","))) {$Slave = ",$($Slave)"}
+                ($Master.split(",") | ? {$_ -ne ""} | foreach {",$($_)"}) | foreach {
+                    $MasterPassArg = $_
+                    ($_.split("=") | ? {$_.startsWith(",")} | foreach {"$($_)="}) | Foreach {
+                        If ($_ -notin $NoReplacePassArgs) {
+                            If ($Slave -match "$_ *([^,]+)" | Out-Null) {
+                                $Slave = $Slave -replace "$_ *([^,]+)",$MasterPassArg
+                            } else {
+                                $Slave = $Slave + $MasterPassArg
+                            }
+                        }
+                    }
+                }
+                $Slave.Substring(1)
+            }
+            "Command" {
+                If ($Master -and !$Master.StartsWith(" ")) {$Master = " $($Master)"}
+                If ($Slave -and !$Slave.StartsWith(" ")) {$Slave = " $($Slave)"}
+                ($Master.split(" ") | ? {$_.StartsWith("-")}) | Foreach {
+                    If ($_ -notin $NoReplaceCmdArgs) {
+                        if ($Master -match " $_ -") {
+                            If (!($Slave -match " $_ -")) {
+                                $Slave = $Slave + " $($_)"
+                            }
+                        } elseif ($Master -match " $_ *([^\s]+)") {
+                            $MasterCmdArg = $Matches[0]
+                            If ($Slave -match " $_ *([^\s]+)") {
+                                $Slave = $Slave -replace " $_ *([^\s]+)",$MasterCmdArg
+                            } else {
+                                $Slave = $Slave + " $($MasterCmdArg)"    
+                            }
+                        } elseif ($Master -match " $_*([^\s]+)") {
+                            $MasterCmdArg = $Matches[0]
+                            If ($Slave -match " $_*([^\s]+)") {
+                                $Slave = $Slave -replace " $_*([^\s]+)",$MasterCmdArg
+                            } else {
+                                $Slave = $Slave + " $($MasterCmdArg)"    
+                            }
+                        }
+                    }
+                }
+                $Slave -replace '\s+', ' '
+            }
+            
+        }
+    } else {
+        $Slave
+    }
+}
+
 

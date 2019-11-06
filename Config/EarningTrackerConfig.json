@@ -4,7 +4,6 @@
     "WriteEvery":   10,
     "Pools":  [
                   "nicehash",
-                  "miningpoolhub",
                   "zergpoolplus"
               ]
 }

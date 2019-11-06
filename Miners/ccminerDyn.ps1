@@ -10,18 +10,28 @@ $Commands = [PSCustomObject]@{
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
-	$Algo = Get-Algorithm($_)
-    [PSCustomObject]@{
-        Type      = "NVIDIA"
-        Path      = $Path
-        Arguments = "-b $($Variables.NVIDIAMinerAPITCPPort) -d $($Config.SelGPUCC) -o stratum+tcp://$($Pools.($Algo).Host):$($Pools.($Algo).Port) -a argon2d -u $($Pools.($Algo).User) -p $($Pools.($Algo).Pass)$($Commands.$_)"
-        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Day}
-        API       = "ccminer"
-        Port      = $Variables.NVIDIAMinerAPITCPPort #4068
-        Wrap      = $false
-        URI       = $Uri
-        User      = $Pools.($Algo).User
-        Host      = $Pools.($Algo).Host
-        Coin      = $Pools.($Algo).Coin
+	$Algo =$_
+	$AlgoNorm = Get-Algorithm($_)
+
+    $Pools.($AlgoNorm) | foreach {
+        $Pool = $_
+        invoke-Expression -command ( $MinerCustomConfigCode )
+        If ($AbortCurrentPool) {Return}
+
+        $Arguments = "-b $($Variables.NVIDIAMinerAPITCPPort) -d $($Config.SelGPUCC) -o stratum+tcp://$($Pool.Host):$($Pool.Port) -a argon2d -u $($Pool.User) -p $($Password)"
+
+        [PSCustomObject]@{
+            Type      = "NVIDIA"
+            Path      = $Path
+            Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Day}
+            API       = "ccminer"
+            Port      = $Variables.NVIDIAMinerAPITCPPort #4068
+            Wrap      = $false
+            URI       = $Uri
+            User      = $Pool.User
+            Host      = $Pool.Host
+            Coin      = $Pool.Coin
+        }
     }
 }

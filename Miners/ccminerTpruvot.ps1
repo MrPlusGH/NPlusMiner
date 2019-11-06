@@ -47,24 +47,34 @@ $Commands = [PSCustomObject]@{
     #"yescrypt" = "" #Yescrypt
     "sha256q"       = " -d $($Config.SelGPUCC)" #Sha256q
     #"lyra2v3"       = " -d $($Config.SelGPUCC)" #Lyra2v3
-    "blake2b"       = " -d $($Config.SelGPUCC)" #blake2b
+    "blake2b"       = ",d=12 -d $($Config.SelGPUCC)" #blake2b
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
-	$Algo = Get-Algorithm($_)
-    [PSCustomObject]@{
-        Type      = "NVIDIA"
-        Path      = $Path
-        Arguments = "--cpu-priority 5 -b $($Variables.NVIDIAMinerAPITCPPort) -N 1 -R 1 -a $_ -o stratum+tcp://$($Pools.($Algo).Host):$($Pools.($Algo).Port) -u $($Pools.($Algo).User) -p $($Pools.($Algo).Pass)$($Commands.$_)"
-        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Day}
-        API       = "ccminer"
-        Port      = $Variables.NVIDIAMinerAPITCPPort
-        Wrap      = $false
-        URI       = $Uri
-        User      = $Pools.($Algo).User
-        Host = $Pools.($Algo).Host
-        Coin = $Pools.($Algo).Coin
+	$Algo =$_
+	$AlgoNorm = Get-Algorithm($_)
+
+    $Pools.($AlgoNorm) | foreach {
+        $Pool = $_
+        invoke-Expression -command ( $MinerCustomConfigCode )
+        If ($AbortCurrentPool) {Return}
+
+        $Arguments = "--cpu-priority 5 -b $($Variables.NVIDIAMinerAPITCPPort) -N 1 -R 1 -a $AlgoNorm -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password)"
+
+        [PSCustomObject]@{
+            Type      = "NVIDIA"
+            Path      = $Path
+            Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Day}
+            API       = "ccminer"
+            Port      = $Variables.NVIDIAMinerAPITCPPort
+            Wrap      = $false
+            URI       = $Uri
+            User      = $Pool.User
+            Host = $Pool.Host
+            Coin = $Pool.Coin
+        }
     }
 }

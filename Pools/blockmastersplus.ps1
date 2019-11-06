@@ -1,11 +1,14 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 Try {
-    $Request = get-content ((split-path -parent (get-item $script:MyInvocation.MyCommand.Path).Directory) + "\BrainPlus\blockmastersplus\blockmastersplus.json") | ConvertFrom-Json 
+    $dtAlgos = New-Object System.Data.DataTable
+    if (Test-Path ((split-path -parent (get-item $script:MyInvocation.MyCommand.Path).Directory) + "\BrainPlus\blockmastersplus\blockmastersplus.xml")) {
+        $dtAlgos.ReadXml((split-path -parent (get-item $script:MyInvocation.MyCommand.Path).Directory) + "\BrainPlus\blockmastersplus\blockmastersplus.xml") | out-null
+    }
 }
 catch { return }
 
-if (-not $Request) {return}
+if (-not $dtAlgos) {return}
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 $HostSuffix = "blockmasters.co"
@@ -20,18 +23,21 @@ $Location = "US"
 	$ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
     $PoolConf = $Config.PoolsConfig.$ConfName
 
-$Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
+$dtAlgos | foreach {
+    $Pool = $_
     $PoolHost = "$($HostSuffix)"
-    $PoolPort = $Request.$_.port
-    $PoolAlgorithm = Get-Algorithm $Request.$_.name
+    $PoolPort = $Pool.port
+    $PoolAlgorithm = Get-Algorithm $Pool.algo
 
-    $Divisor = $DivisorMultiplier * [Double]$Request.$_.mbtc_mh_factor
+    $Divisor = $DivisorMultiplier * [Double]$Pool.mbtc_mh_factor
 
-    if ((Get-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))}
-    else {$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))}
+    $Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Pool.$PriceField / $Divisor * (1 - ($Pool.fees / 100)))
 
 	$PwdCurr = if ($PoolConf.PwdCurrency) {$PoolConf.PwdCurrency}else {$Config.Passwordcurrency}
     $WorkerName = If ($PoolConf.WorkerName -like "ID=*") {$PoolConf.WorkerName} else {"ID=$($PoolConf.WorkerName)"}
+
+    $PoolPassword = If ( ! $Config.PartyWhenAvailable ) {"$($WorkerName),c=$($PwdCurr)"} else { "$($WorkerName),c=$($PwdCurr),m=party.NPlusMiner" }
+    $PoolPassword = If ( $Pool.symbol ) { "$($PoolPassword),mc=$($Pool.symbol)" } else { $PoolPassword }
 
 	$Locations = "eu.", ""
 	$Locations | ForEach-Object {
@@ -39,14 +45,14 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
 		
 		switch ($Pool_Location) {
 			"eu."    {$Location = "EU"}
-			""    {$Location = "US"}
+			default    {$Location = "US"}
 		}
 		$PoolHost = "$($Pool_Location)$($HostSuffix)"
 
         if ($PoolConf.Wallet) {
             [PSCustomObject]@{
                 Algorithm     = $PoolAlgorithm
-                Info          = "$ahashpool_Coin $ahashpool_Coinname"
+                Info          = $Pool.symbol
                 Price         = $Stat.Live*$PoolConf.PricePenaltyFactor
                 StablePrice   = $Stat.Week
                 MarginOfError = $Stat.Week_Fluctuation
@@ -54,9 +60,10 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
                 Host          = $PoolHost
                 Port          = $PoolPort
                 User          = $PoolConf.Wallet
-                Pass          = "$($WorkerName),c=$($PwdCurr)"
+                Pass          = $PoolPassword
                 Location      = $Location
                 SSL           = $false
+                Coin          = $Pool.symbol
             }
         }
     }

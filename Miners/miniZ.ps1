@@ -1,33 +1,44 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-miniZ\miniZ.exe"
-$Uri = "https://github.com/Minerx117/miner-binaries/releases/download/v1.5q4beta/miniZv1.5q4beta.7z"
+$Uri = "https://github.com/Minerx117/miner-binaries/releases/download/v1.5r/miniZ_v1.5r_cuda10_win-x64.zip"
 $Commands = [PSCustomObject]@{
-    # "equihash125"  = " --algo 125,4 --pers auto" #Equihash125
-    "equihash144"  = " --algo 144,5 --pers auto" #Equihash144 (fastest)
-    "zhash"        = " --algo 144,5 --pers auto" #Zhash (fastest)
-    "equihash192"  = " --algo 192,7 --pers auto" #Equihash192 (fastest)
-    "equihash-btg" = " --algo 144,5 --pers BgoldPoW " # Equihash-btg MPH (fastest)
-    "equihash96"   = " --algo 96,5  --pers auto" #Equihash96 (ewbf faster)
-    "beam"         = " --algo 150,5 --pers auto" #Beam
-    "beamv2"       = " --par=beam --pers auto" #Beamv2
-    "equihash125"  = " --par=125,4" #Equihash125
+    "equihash144"  = " --algo 144,5 --pers auto --oc1 " #Equihash144 (fastest)
+    "zhash"        = " --algo 144,5 --pers auto " #Zhash (fastest)
+    "equihash192"  = " --algo 192,7 --pers auto --oc1 " #Equihash192 (fastest)
+    # "equihash-btg" = " --algo 144,5 --pers BgoldPoW " # Equihash-btg MPH (fastest)
+    "equihash96"   = " --algo 96,5  --pers auto --oc1 " #Equihash96 (ewbf faster)
+    # "beam"         = " --algo 150,5 --pers auto" #Beam
+    "beamv2"       = " --par=beam --pers auto " #Beamv2
+    "equihash125"  = " --par=125,4 --oc1 " #Equihash125
 }
+
 $Port = $Variables.NVIDIAMinerAPITCPPort
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
+$WinningCustomConfig = [PSCustomObject]@{}
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
-$Algo = Get-Algorithm($_)
-    [PSCustomObject]@{
-        Type      = "NVIDIA"
-        Path      = $Path
-        Arguments = "--templimit 95 --intensity 100 --latency --nocolor --tempunits C -cd $($Config.SelGPUDSTM) --telemetry $($Variables.NVIDIAMinerAPITCPPort) --url $($Pools.($Algo).User)@$($Pools.($Algo).Host):$($Pools.($Algo).Port) --pass $($Pools.($Algo).Pass)$($Commands.$_)"
-        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Week * .98} # substract 2% devfee
-        API       = "miniZ"
-        Port      = $Variables.NVIDIAMinerAPITCPPort
-        Wrap      = $false
-        URI       = $Uri    
-        User = $Pools.($Algo).User
-        Host = $Pools.($Algo).Host
-        Coin = $Pools.($Algo).Coin
-    }
+    $Algo =$_
+	$AlgoNorm = Get-Algorithm($_)
+
+    $Pools.($AlgoNorm) | foreach {
+        $Pool = $_
+        invoke-Expression -command ( $MinerCustomConfigCode )
+        If ($AbortCurrentPool) {Return}
+
+        $Arguments = "--templimit 95 --intensity 100 --latency --tempunits C -cd $($Config.SelGPUDSTM) --telemetry $($Variables.NVIDIAMinerAPITCPPort) --url $($Pool.User)@$($Pool.Host):$($Pool.Port) --pass $($Password)"
+
+        [PSCustomObject]@{
+            Type      = "NVIDIA"
+            Path      = $Path
+            Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week * .98} # substract 2% devfee
+            API       = "miniZ"
+            Port      = $Variables.NVIDIAMinerAPITCPPort
+            Wrap      = $false
+            URI       = $Uri    
+            User = $Pool.User
+            Host = $Pool.Host
+            Coin = $Pool.Coin
+        }
+    }    
 }

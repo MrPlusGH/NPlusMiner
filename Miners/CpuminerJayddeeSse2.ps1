@@ -5,7 +5,7 @@ $Uri = "https://github.com/JayDDee/cpuminer-opt/releases/download/v3.9.5/cpumine
 
 $Commands = [PSCustomObject]@{
     "allium" = "" #Allium
-    "argon2d-crds" = ",d=7 " #argon2d-crds
+    "argon2d-crds" = "" #argon2d-crds
     "argon2d-dyn" = "" #argon2d-dyn
     "argon2d4096" = "" #argon2d4096 
     #"bitcore" = "" #Bitcore
@@ -41,7 +41,7 @@ $Commands = [PSCustomObject]@{
     #"x11evo" = "" #X11evo
     #"x17" = "" #X17
     # "x16r" = "" #X16r
-    # "yescrypt" = "" #Yescrypt
+    "yescrypt" = "" #Yescrypt
     "yescryptr8" = "" #YescryptR8
     "yescryptr16" = "" #YescryptR16
     "yescryptr32" = "" #YescryptR32
@@ -56,18 +56,28 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
         default {$ThreadCount = $Variables.ProcessorCount - 2}
     }
 
-	$Algo = Get-Algorithm($_)
-    [PSCustomObject]@{
-        Type = "CPU"
-        Path = $Path
-        Arguments = "--cpu-affinity AAAA -q -t $($ThreadCount) -b $($Variables.CPUMinerAPITCPPort) -a $_ -o $($Pools.($Algo).Protocol)://$($Pools.($Algo).Host):$($Pools.($Algo).Port) -u $($Pools.($Algo).User) -p $($Pools.($Algo).Pass)$($Commands.$_)"
-        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Week}
-        API = "Ccminer"
-        Port = $Variables.CPUMinerAPITCPPort
-        Wrap = $false
-        URI = $Uri
-        User = $Pools.($Algo).User
-        Host = $Pools.($Algo).Host
-        Coin = $Pools.($Algo).Coin
+	$Algo =$_
+	$AlgoNorm = Get-Algorithm($_)
+
+    $Pools.($AlgoNorm) | foreach {
+        $Pool = $_
+        invoke-Expression -command ( $MinerCustomConfigCode )
+        If ($AbortCurrentPool) {Return}
+
+        $Arguments = "--cpu-affinity AAAA -q -t $($ThreadCount) -b $($Variables.CPUMinerAPITCPPort) -a $AlgoNorm -o $($Pool.Protocol)://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password)"
+
+        [PSCustomObject]@{
+            Type = "CPU"
+            Path = $Path
+            Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week}
+            API = "Ccminer"
+            Port = $Variables.CPUMinerAPITCPPort
+            Wrap = $false
+            URI = $Uri
+            User = $Pool.User
+            Host = $Pool.Host
+            Coin = $Pool.Coin
+        }
     }
 }

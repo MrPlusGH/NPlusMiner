@@ -221,15 +221,22 @@ Function Global:TimerUITick
             
             If ($Variables.Miners) {
                 $DisplayEstimations = [System.Collections.ArrayList]@($Variables.Miners | Select @(
+                    @{Name = "Type";Expression={$_.Type}},
                     @{Name = "Miner";Expression={$_.Name}},
                     @{Name = "Algorithm";Expression={$_.HashRates.PSObject.Properties.Name}},
+                    @{Name = "Coin"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Info)"}}},
+                    @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}},
                     @{Name = "Speed"; Expression={$_.HashRates.PSObject.Properties.Value | ForEach {if($_ -ne $null){"$($_ | ConvertTo-Hash)/s"}else{"Benchmarking"}}}},
                     @{Name = "mBTC/Day"; Expression={$_.Profits.PSObject.Properties.Value*1000 | ForEach {if($_ -ne $null){$_.ToString("N3")}else{"Benchmarking"}}}},
                     @{Name = "BTC/Day"; Expression={$_.Profits.PSObject.Properties.Value | ForEach {if($_ -ne $null){$_.ToString("N5")}else{"Benchmarking"}}}},
-                    @{Name = "BTC/GH/Day"; Expression={$_.Pools.PSObject.Properties.Value.Price | ForEach {($_*1000000000).ToString("N5")}}},
-                    @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)-$($_.Info)"}}}
+                    @{Name = "BTC/GH/Day"; Expression={$_.Pools.PSObject.Properties.Value.Price | ForEach {($_*1000000000).ToString("N5")}}}
                 ) | sort "mBTC/Day" -Descending)
-                $EstimationsDGV.DataSource = [System.Collections.ArrayList]@($DisplayEstimations)
+                If ($Config.ShowOnlyTopCoins){
+                    $EstimationsDGV.DataSource = [System.Collections.ArrayList]@($DisplayEstimations | sort "mBTC/Day" -Descending | Group "Algorithm" | % { $_.Group | select -First 1} | sort "mBTC/Day" -Descending)
+                } else {
+                    $EstimationsDGV.DataSource = [System.Collections.ArrayList]@($DisplayEstimations)
+                }
+                $EstimationsDGV.Columns["mBTC/Day"].DefaultCellStyle.BackColor = [System.Drawing.Color]::LightGray
             }
             $EstimationsDGV.ClearSelection()
 
@@ -372,16 +379,24 @@ Function Global:TimerUITick
             if ($Variables.Miners | ? {$_.HashRates.PSObject.Properties.Value -eq $null}) {$Config.UIStyle = "Full"}
             IF ($Config.UIStyle -eq "Full"){
 
-                $Variables.Miners | Sort -Descending Type,Profit | Format-Table -GroupBy Type (
-                @{Label = "Miner"; Expression={$_.Name}}, 
-                @{Label = "Algorithm"; Expression={$_.HashRates.PSObject.Properties.Name}}, 
-                @{Label = "Speed"; Expression={$_.HashRates.PSObject.Properties.Value | ForEach {if($_ -ne $null){"$($_ | ConvertTo-Hash)/s"}else{"Benchmarking"}}}; Align='right'}, 
-                @{Label = "mBTC/Day"; Expression={$_.Profits.PSObject.Properties.Value*1000 | ForEach {if($_ -ne $null){$_.ToString("N3")}else{"Benchmarking"}}}; Align='right'}, 
-                @{Label = "BTC/Day"; Expression={$_.Profits.PSObject.Properties.Value | ForEach {if($_ -ne $null){$_.ToString("N5")}else{"Benchmarking"}}}; Align='right'}, 
-                @{Label = "$($Config.Currency)/Day"; Expression={$_.Profits.PSObject.Properties.Value | ForEach {if($_ -ne $null){($_ * $Variables.Rates.($Config.Currency)).ToString("N3")}else{"Benchmarking"}}}; Align='right'}, 
-                @{Label = "BTC/GH/Day"; Expression={$_.Pools.PSObject.Properties.Value.Price | ForEach {($_*1000000000).ToString("N5")}}; Align='right'},
-                @{Label = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)-$($_.Info)"}}}
-                ) | Out-Host
+                # $Variables.Miners | Sort -Descending Type,Profit | Format-Table -GroupBy Type (
+                # @{Label = "Miner"; Expression={$_.Name}}, 
+                # @{Label = "Algorithm"; Expression={$_.HashRates.PSObject.Properties.Name}}, 
+                # @{Label = "Speed"; Expression={$_.HashRates.PSObject.Properties.Value | ForEach {if($_ -ne $null){"$($_ | ConvertTo-Hash)/s"}else{"Benchmarking"}}}; Align='right'}, 
+                # @{Label = "mBTC/Day"; Expression={$_.Profits.PSObject.Properties.Value*1000 | ForEach {if($_ -ne $null){$_.ToString("N3")}else{"Benchmarking"}}}; Align='right'}, 
+                # @{Label = "BTC/Day"; Expression={$_.Profits.PSObject.Properties.Value | ForEach {if($_ -ne $null){$_.ToString("N5")}else{"Benchmarking"}}}; Align='right'}, 
+                # @{Label = "$($Config.Currency)/Day"; Expression={$_.Profits.PSObject.Properties.Value | ForEach {if($_ -ne $null){($_ * $Variables.Rates.($Config.Currency)).ToString("N3")}else{"Benchmarking"}}}; Align='right'}, 
+                # @{Label = "BTC/GH/Day"; Expression={$_.Pools.PSObject.Properties.Value.Price | ForEach {($_*1000000000).ToString("N5")}}; Align='right'},
+                # @{Label = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)-$($_.Info)"}}}
+                # ) | Out-Host
+
+                If ($Config.ShowOnlyTopCoins){
+                    $DisplayEstimations | sort "mBTC/Day" -Descending | Group "Algorithm" | % { $_.Group | select -First 1} | sort Type,"mBTC/Day" -Descending | Format-Table -GroupBy Type | Out-Host
+                } else {
+                    $DisplayEstimations | sort Type,"mBTC/Day" -Descending | Format-Table -GroupBy Type | Out-Host
+                }
+                
+                
                     #Display active miners list
                 [Array] $processRunning = $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" }
                 Write-Host "Running:"
@@ -947,7 +962,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $EstimationsDGV.height                                      = 350
     $EstimationsDGV.location                                    = New-Object System.Drawing.Point(2,2)
     $EstimationsDGV.DataBindings.DefaultDataSourceUpdateMode    = 0
-    $EstimationsDGV.AutoSizeColumnsMode                         = "Fill"
+    $EstimationsDGV.AutoSizeColumnsMode                         = [System.Windows.Forms.DataGridViewAutoSizeColumnsMode]::Fill
     $EstimationsDGV.RowHeadersVisible                           = $False
 
     # $DblBuff = ($EstimationsDGV.GetType()).GetProperty("DoubleBuffered", ('Instance','NonPublic'))
@@ -1429,16 +1444,16 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $CheckBoxGUIMinimized.Checked               =   $Config.StartGUIMinimized
     $ConfigPageControls += $CheckBoxGUIMinimized
 
-    $CheckBoxIncludeOptionalMiners = New-Object system.Windows.Forms.CheckBox
-    $CheckBoxIncludeOptionalMiners.Tag = "IncludeOptionalMiners"
-    $CheckBoxIncludeOptionalMiners.text = "Optional Miners"
-    $CheckBoxIncludeOptionalMiners.AutoSize = $false
-    $CheckBoxIncludeOptionalMiners.width = 160
-    $CheckBoxIncludeOptionalMiners.height = 20
-    $CheckBoxIncludeOptionalMiners.location = New-Object System.Drawing.Point(560, 134)
-    $CheckBoxIncludeOptionalMiners.Font = 'Microsoft Sans Serif,10'
-    $CheckBoxIncludeOptionalMiners.Checked = $Config.IncludeOptionalMiners
-    $ConfigPageControls += $CheckBoxIncludeOptionalMiners
+    $CheckBoxShowOnlyTopCoins = New-Object system.Windows.Forms.CheckBox
+    $CheckBoxShowOnlyTopCoins.Tag = "ShowOnlyTopCoins"
+    $CheckBoxShowOnlyTopCoins.text = "Show Only TopCoins"
+    $CheckBoxShowOnlyTopCoins.AutoSize = $false
+    $CheckBoxShowOnlyTopCoins.width = 160
+    $CheckBoxShowOnlyTopCoins.height = 20
+    $CheckBoxShowOnlyTopCoins.location = New-Object System.Drawing.Point(560, 134)
+    $CheckBoxShowOnlyTopCoins.Font = 'Microsoft Sans Serif,10'
+    $CheckBoxShowOnlyTopCoins.Checked = $Config.ShowOnlyTopCoins
+    $ConfigPageControls += $CheckBoxShowOnlyTopCoins
 
     $CheckBoxParty = New-Object system.Windows.Forms.CheckBox
     $CheckBoxParty.Tag = "PartyWhenAvailable"
@@ -1453,7 +1468,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
 
     $CheckBoxPenalizeSoloInPlus = New-Object system.Windows.Forms.CheckBox
     $CheckBoxPenalizeSoloInPlus.Tag = "PenalizeSoloInPlus"
-    $CheckBoxPenalizeSoloInPlus.text = "Penalize solo in Plus"
+    $CheckBoxPenalizeSoloInPlus.text = "Penalize solo (Plus)"
     $CheckBoxPenalizeSoloInPlus.AutoSize = $false
     $CheckBoxPenalizeSoloInPlus.width = 160
     $CheckBoxPenalizeSoloInPlus.height = 20
@@ -1466,6 +1481,26 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
                 Get-ChildItem -Recurse ".\BrainPlus\" | ? {$_.Name -eq "BrainConfig.json"} | foreach {
                     $BrainPlusConf = Get-Content $_.FullName | ConvertFrom-Json
                     $BrainPlusConf | Add-Member -Force @{SoloBlocksPenalty = $CheckBoxPenalizeSoloInPlus.Checked}
+                    $BrainPlusConf | ConvertTo-Json | Out-File $_.FullName
+                    rv BrainPlusConf
+                }
+    })
+
+    $CheckBoxOrphanBlocksPenalty = New-Object system.Windows.Forms.CheckBox
+    $CheckBoxOrphanBlocksPenalty.Tag = "OrphanBlocksPenalty"
+    $CheckBoxOrphanBlocksPenalty.text = "Penalize Orphan (Plus)"
+    $CheckBoxOrphanBlocksPenalty.AutoSize = $false
+    $CheckBoxOrphanBlocksPenalty.width = 160
+    $CheckBoxOrphanBlocksPenalty.height = 20
+    $CheckBoxOrphanBlocksPenalty.location = New-Object System.Drawing.Point(560, 200)
+    $CheckBoxOrphanBlocksPenalty.Font = 'Microsoft Sans Serif,10'
+    $CheckBoxOrphanBlocksPenalty.Checked = $Config.OrphanBlocksPenalty
+    $ConfigPageControls += $CheckBoxOrphanBlocksPenalty
+
+    $CheckBoxOrphanBlocksPenalty.Add_Click( {
+                Get-ChildItem -Recurse ".\BrainPlus\" | ? {$_.Name -eq "BrainConfig.json"} | foreach {
+                    $BrainPlusConf = Get-Content $_.FullName | ConvertFrom-Json
+                    $BrainPlusConf | Add-Member -Force @{OrphanBlocksPenalty = $CheckBoxOrphanBlocksPenalty.Checked}
                     $BrainPlusConf | ConvertTo-Json | Out-File $_.FullName
                     rv BrainPlusConf
                 }
@@ -1493,24 +1528,20 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
             }
         })
     
-    $ButtonLoadDefaultPoolsAlgos                         = New-Object system.Windows.Forms.Button
-    $ButtonLoadDefaultPoolsAlgos.text                    = "Load default algos for selected pools"
-    $ButtonLoadDefaultPoolsAlgos.width                   = 250
-    $ButtonLoadDefaultPoolsAlgos.height                  = 30
-    $ButtonLoadDefaultPoolsAlgos.location                = New-Object System.Drawing.Point(358,300)
-    $ButtonLoadDefaultPoolsAlgos.Font                    = 'Microsoft Sans Serif,10'
+    $ButtonMinersCustomConfig                         = New-Object system.Windows.Forms.Button
+    $ButtonMinersCustomConfig.text                    = "Miners Custom Config (Advanced)"
+    $ButtonMinersCustomConfig.width                   = 250
+    $ButtonMinersCustomConfig.height                  = 30
+    $ButtonMinersCustomConfig.location                = New-Object System.Drawing.Point(358,300)
+    $ButtonMinersCustomConfig.Font                    = 'Microsoft Sans Serif,10'
     # Disabling button as not needed with new algo selection method
-    $ButtonLoadDefaultPoolsAlgos.Visible                 = $False
-    $ConfigPageControls += $ButtonLoadDefaultPoolsAlgos
+    $ButtonMinersCustomConfig.Visible                 = $True
+    $ConfigPageControls += $ButtonMinersCustomConfig
     
-    $ButtonLoadDefaultPoolsAlgos.Add_Click({
+    $ButtonMinersCustomConfig.Add_Click({
         try {
-            $PoolsAlgos = Invoke-WebRequest "http://tiny.cc/dc7lry" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json;$PoolsAlgos | ConvertTo-json | Out-File ".\Config\PoolsAlgos.json" } catch { $PoolsAlgos = Get-content ".\Config\PoolsAlgos.json" | Convertfrom-json}
-        If ($PoolsAlgos) {
-            $PoolsAlgos = $PoolsAlgos.PSObject.Properties | ? {$_.Name -in $Config.PoolName}
-            $PoolsAlgos = $PoolsAlgos.Value | sort -Unique
-            $TBAlgos.text = $PoolsAlgos -Join ","
-        }
+            & ".\Includes\MinerCustomConfigEditor.ps1"
+            } Catch {}
     })
     
     $ButtonWriteConfig                         = New-Object system.Windows.Forms.Button

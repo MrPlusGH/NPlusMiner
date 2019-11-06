@@ -4,8 +4,8 @@ $Path = ".\Bin\NVIDIA-CcminerKlausT\ccminer.exe"
 $Uri = "https://github.com/nemosminer/ccminer-KlausT-8.21-mod-r18-src-fix/releases/download/v3/ccminerKlausT.7z"
  
 $Commands = [PSCustomObject]@{
-    "lyra2rev3" = " -i 24 -a lyra2v3 -d $($Config.SelGPUCC)" #Lyra2rev3 
-    "lyra2v3" = " -a lyra2v3 -d $($Config.SelGPUCC)" #Lyra2v3 -i 24 max
+    # "lyra2rev3" = ",d=144 -i 24 -a lyra2v3 -d $($Config.SelGPUCC)" #Lyra2rev3 
+    "lyra2v3" = " -i 24 -a lyra2v3 -d $($Config.SelGPUCC)" #Lyra2v3 -i 24 max
     "lyra2z330" = " -a lyra2z330 -d $($Config.SelGPUCC) -t 1 --no-cpu-verify" #Lyra2z330
     # "neoscrypt" = " -a neoscrypt -d $($Config.SelGPUCC)" #NeoScrypt
     # "yescrypt" = " -a yescrypt -d $($Config.SelGPUCC)" #Yescrypt
@@ -16,7 +16,7 @@ $Commands = [PSCustomObject]@{
     #"bitcore" = "" #Bitcore
     #"blake2s" = "" #Blake2s
     #"blakecoin" = " -d $($Config.SelGPUCC)" #Blakecoin
-    #"c11" = " -d $($Config.SelGPUCC)" #C11
+    # "c11" = " -d $($Config.SelGPUCC)" #C11
     #"cryptonight" = "" #Cryptonight
     #"decred" = "" #Decred
     #"equihash" = "" #Equihash
@@ -44,18 +44,28 @@ $Commands = [PSCustomObject]@{
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
-	$Algo = Get-Algorithm($_)
-    [PSCustomObject]@{
-        Type = "NVIDIA"
-        Path = $Path
-        Arguments = "--cpu-priority 5 -b $($Variables.NVIDIAMinerAPITCPPort) -N 1 -R 1 -o stratum+tcp://$($Pools.($Algo).Host):$($Pools.($Algo).Port) -u $($Pools.($Algo).User) -p $($Pools.($Algo).Pass)$($Commands.$_)"
-        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Day}
-        API = "ccminer"
-        Port = $Variables.NVIDIAMinerAPITCPPort
-        Wrap = $false
-        URI = $Uri
-        User = $Pools.($Algo).User
-        Host = $Pools.($Algo).Host
-        Coin = $Pools.($Algo).Coin
+	$Algo =$_
+	$AlgoNorm = Get-Algorithm($_)
+
+    $Pools.($AlgoNorm) | foreach {
+        $Pool = $_
+        invoke-Expression -command ( $MinerCustomConfigCode )
+        If ($AbortCurrentPool) {Return}
+
+        $Arguments = "--cpu-priority 5 -b $($Variables.NVIDIAMinerAPITCPPort) -N 1 -R 1 -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password)"
+
+        [PSCustomObject]@{
+            Type = "NVIDIA"
+            Path = $Path
+            Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Day}
+            API = "ccminer"
+            Port = $Variables.NVIDIAMinerAPITCPPort
+            Wrap = $false
+            URI = $Uri
+            User = $Pool.User
+            Host = $Pool.Host
+            Coin = $Pool.Coin
+        }
     }
 }

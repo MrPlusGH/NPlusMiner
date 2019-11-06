@@ -16,18 +16,28 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
         default {$ThreadCount = $Variables.ProcessorCount - 2}
     }
 
-	$Algo = Get-Algorithm($_)
-    [PSCustomObject]@{
-        Type = "CPU"
-        Path = $Path
-        Arguments = "-t $($ThreadCount) -a $($Variables.CPUMinerAPITCPPort) -v -l $($Pools.($Algo).Host):$($Pools.($Algo).Port) -u $($Pools.($Algo).User) -p $($Pools.($Algo).Pass)$($Commands.$_)"
-        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Week}
-        API = "nheq"
-        Port = $Variables.CPUMinerAPITCPPort
-        Wrap = $false
-        URI = $Uri
-        User = $Pools.($Algo).User
-        Host = $Pools.($Algo).Host
-        Coin = $Pools.($Algo).Coin
+	$Algo =$_
+	$AlgoNorm = Get-Algorithm($_)
+
+    $Pools.($AlgoNorm) | foreach {
+        $Pool = $_
+        invoke-Expression -command ( $MinerCustomConfigCode )
+        If ($AbortCurrentPool) {Return}
+
+        $Arguments = "-t $($ThreadCount) -a $($Variables.CPUMinerAPITCPPort) -v -l $($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password)"
+
+        [PSCustomObject]@{
+            Type = "CPU"
+            Path = $Path
+            Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week}
+            API = "nheq"
+            Port = $Variables.CPUMinerAPITCPPort
+            Wrap = $false
+            URI = $Uri
+            User = $Pool.User
+            Host = $Pool.Host
+            Coin = $Pool.Coin
+        }
     }
 }

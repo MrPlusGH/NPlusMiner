@@ -9,11 +9,11 @@ $Commands = [PSCustomObject]@{
     "bcd"        = " -i 24" #Bcd (fastest)
     "bitcore"    = " -i 25" #Bitcore( fastest)
     "c11"        = " -i 24" #C11 (fastest)
-    #"dedal"      = "" #Dedal (fastest)
+    # "dedal"      = "" #Dedal (fastest)
     "geek"       = "" #Geekcash
     "honeycomb"  = "" #honeycomb
     "jeonghash"  = "" #Jeonghash
-    "mtp"        = "" #MTP
+    "mtp"        = " --reconnect-on-fail-shares 1 -i 25" #MTP
     "padihash"   = "" #Padihash
     "pawelhash"  = "" #Pawelhash
     "polytimos"  = " -i 25" #Poly (fastest) 
@@ -24,8 +24,7 @@ $Commands = [PSCustomObject]@{
     "tribus"     = " -i 23" #Tribus
     "veil"      = " -i 24" #Veil (fastest)
     "x16r"       = " -i 24" #X16r (fastest)
-    "x16rt"      = " -i 24" #X16rt (fastest)
-    "x16rv2"     = " -i 24" #X16rv2 ,mc=RVN
+    "x16rv2"     = " -i 24" #X16rv2 ,mc=RVN    "x16rt"      = " -i 24" #X16rt (fastest)
     "x16s"       = " -i 24" #X16s (fastest)
     "x17"        = " -i 24" #X17 (fastest)
     "x21s"       = "" #X21s (fastest)
@@ -43,18 +42,29 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
 		"Veil"	{ "x16rt" }
 		default	{ $_ }
 	}
-    $Algo = Get-Algorithm($_)
-    [PSCustomObject]@{
-        Type      = "NVIDIA"
-        Path      = $Path
-        Arguments = "--no-watchdog --no-nvml -b 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -d $($Config.SelGPUCC) -a $($MinerAlgo) -o stratum+tcp://$($Pools.($Algo).Host):$($Pools.($Algo).Port) -u $($Pools.($Algo).User) -p $($Pools.($Algo).Pass)$($Commands.$_) --quiet -r 10 --cpu-priority 4"
-        HashRates = [PSCustomObject]@{($Algo) = $Stats."$($Name)_$($Algo)_HashRate".Week * .99} # substract 1% devfee
-        API       = "ccminer"
-        Port      = $Variables.NVIDIAMinerAPITCPPort
-        Wrap      = $false
-        URI       = $Uri
-        User = $Pools.($Algo).User
-        Host = $Pools.($Algo).Host
-        Coin = $Pools.($Algo).Coin
+
+    $Algo =$_
+	$AlgoNorm = Get-Algorithm($_)
+
+    $Pools.($AlgoNorm) | foreach {
+        $Pool = $_
+        invoke-Expression -command ( $MinerCustomConfigCode )
+        If ($AbortCurrentPool) {Return}
+
+        $Arguments = "--no-watchdog --no-nvml -b 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -d $($Config.SelGPUCC) -a $($MinerAlgo) -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password) --quiet -r 10 --cpu-priority 4"
+        
+        [PSCustomObject]@{
+            Type      = "NVIDIA"
+            Path      = $Path
+            Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week * .99} # substract 1% devfee
+            API       = "ccminer"
+            Port      = $Variables.NVIDIAMinerAPITCPPort
+            Wrap      = $false
+            URI       = $Uri
+            User = $Pool.User
+            Host = $Pool.Host
+            Coin = $Pool.Coin
+        }
     }
 }
