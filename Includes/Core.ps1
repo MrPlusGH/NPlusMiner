@@ -20,8 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           Core.ps1
-version:        5.4.1
-version date:   20190809
+version:        5.9.9
+version date:   20191110
 #>
 
 Function InitApplication {
@@ -326,7 +326,66 @@ $CycleTime = Measure-Command -Expression {
             Get-ChildItemContent "Miners"
             if ($Config.IncludeOptionalMiners -and (Test-Path "OptionalMiners")) {Get-ChildItemContent "OptionalMiners"}
             if (Test-Path "CustomMiners") { Get-ChildItemContent "CustomMiners"}
-        ) | ForEach {$_.Content | Add-Member @{Name = $_.Name} -PassThru} |
+        ) | ForEach {
+                $Miner = $_.Content | Add-Member @{Name = $_.Name} -PassThru
+
+                # $Miner = $_
+                $Miner_HashRates = [PSCustomObject]@{}
+                $Miner_Pools = [PSCustomObject]@{}
+                $Miner_Pools_Comparison = [PSCustomObject]@{}
+                $Miner_Profits = [PSCustomObject]@{}
+                $Miner_Profits_Comparison = [PSCustomObject]@{}
+                $Miner_Profits_Bias = [PSCustomObject]@{}
+                $Miner_Types = $Miner.Type | Select -Unique
+                $Miner_Indexes = $Miner.Index | Select -Unique
+                $Miner.HashRates | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
+                    $LocPool = $Pools.$_ | ? {$_.Host -eq $Miner.Host -and $_.Coin -eq $Miner.Coin}
+                    $LocPoolsComp = $Pools_Comparison.$_ | ? {$_.Host -eq $Miner.Host -and $_.Coin -eq $Miner.Coin}
+                    $Miner_HashRates | Add-Member $_ ([Double]$Miner.HashRates.$_)
+                    $Miner_Pools | Add-Member $_ ([PSCustomObject]$LocPool)
+                    $Miner_Pools_Comparison | Add-Member $_ ([PSCustomObject]$LocPoolsComp | ? {$_.Host -eq $Miner.Host -and $_.Coin -eq $Miner.Coin})
+                    $Miner_Profits | Add-Member $_ ([Double]$Miner.HashRates.$_*$LocPool.Price)
+                    $Miner_Profits_Comparison | Add-Member $_ ([Double]$Miner.HashRates.$_*$LocPoolsComp.Price)
+                    $Miner_Profits_Bias | Add-Member $_ ([Double]$Miner.HashRates.$_*$LocPool.Price*(1-($Config.MarginOfError*[Math]::Pow($Variables.DecayBase,$DecayExponent))))
+                }
+                $Miner_Profit = [Double]($Miner_Profits.PSObject.Properties.Value | Measure -Sum).Sum
+                $Miner_Profit_Comparison = [Double]($Miner_Profits_Comparison.PSObject.Properties.Value | Measure -Sum).Sum
+                $Miner_Profit_Bias = [Double]($Miner_Profits_Bias.PSObject.Properties.Value | Measure -Sum).Sum
+                $Miner.HashRates | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
+                    if(-not [String]$Miner.HashRates.$_)
+                    {
+                        $Miner_HashRates.$_ = $null
+                        $Miner_Profits.$_ = $null
+                        $Miner_Profits_Comparison.$_ = $null
+                        $Miner_Profits_Bias.$_ = $null
+                        $Miner_Profit = $null
+                        $Miner_Profit_Comparison = $null
+                        $Miner_Profit_Bias = $null
+                    }
+                }
+                if($Miner_Types -eq $null){$Miner_Types = $Variables.Miners.Type | Select -Unique}
+                if($Miner_Indexes -eq $null){$Miner_Indexes = $Variables.Miners.Index | Select -Unique}
+                if($Miner_Types -eq $null){$Miner_Types = ""}
+                if($Miner_Indexes -eq $null){$Miner_Indexes = 0}
+                $Miner.HashRates = $Miner_HashRates
+                $Miner | Add-Member Pools $Miner_Pools
+                $Miner | Add-Member Profits $Miner_Profits
+                $Miner | Add-Member Profits_Comparison $Miner_Profits_Comparison
+                $Miner | Add-Member Profits_Bias $Miner_Profits_Bias
+                $Miner | Add-Member Profit $Miner_Profit
+                $Miner | Add-Member Profit_Comparison $Miner_Profit_Comparison
+                $Miner | Add-Member Profit_Bias $Miner_Profit_Bias
+                $Miner | Add-Member Profit_Bias_Orig $Miner_Profit_Bias
+                $Miner | Add-Member Type $Miner_Types -Force
+                $Miner | Add-Member Index $Miner_Indexes -Force
+                # $Miner.Path = Convert-Path $Miner.Path
+
+                $Miner_Devices = $Miner.Device | Select -Unique
+                if($Miner_Devices -eq $null){$Miner_Devices = ($Variables.Miners | Where {(Compare $Miner.Type $_.Type -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0}).Device | Select -Unique}
+                if($Miner_Devices -eq $null){$Miner_Devices = $Miner.Type}
+                $Miner | Add-Member Device $Miner_Devices -Force
+                $Miner
+            } |
             Where {$Config.Type.Count -eq 0 -or (Compare $Config.Type $_.Type -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0} | 
             Where {!($Config.Algorithm | ? {$_.StartsWith("+")}) -or (Compare (($Config.Algorithm | ? {$_.StartsWith("+")}).Replace("+", "")) $_.HashRates.PSObject.Properties.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0} | 
             Where {$Config.MinerName.Count -eq 0 -or (Compare $Config.MinerName $_.Name -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0}
@@ -356,7 +415,8 @@ $CycleTime = Measure-Command -Expression {
            $Variables.Miners = $Variables.Miners | Where { $_.Path -notin $BannedMiners.Path -and $_.Arguments -notin $BannedMiners.Arguments }
        }
 
-        $Variables.Miners = $Variables.Miners | ForEach {
+
+        $Variables.Miners | ? { (Test-Path $_.Path) -eq $false } | ForEach {
             $Miner = $_
             if((Test-Path $Miner.Path) -eq $false)
             {
@@ -391,67 +451,13 @@ $CycleTime = Measure-Command -Expression {
                 $Miner
             }
         }
+
+
+    $Variables.Miners = $Variables.Miners | ? { (Test-Path $_.Path) -eq $true }
+
         $Variables.StatusText = "Comparing miners and pools.."
         if($Variables.Miners.Count -eq 0){$Variables.StatusText = "No Miners!"}#; sleep $Config.Interval; continue}
-        $Variables.Miners | ForEach {
-            $Miner = $_
-            $Miner_HashRates = [PSCustomObject]@{}
-            $Miner_Pools = [PSCustomObject]@{}
-            $Miner_Pools_Comparison = [PSCustomObject]@{}
-            $Miner_Profits = [PSCustomObject]@{}
-            $Miner_Profits_Comparison = [PSCustomObject]@{}
-            $Miner_Profits_Bias = [PSCustomObject]@{}
-            $Miner_Types = $Miner.Type | Select -Unique
-            $Miner_Indexes = $Miner.Index | Select -Unique
-            $Miner.HashRates | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
-                $LocPool = $Pools.$_ | ? {$_.Host -eq $Miner.Host -and $_.Coin -eq $Miner.Coin}
-                $LocPoolsComp = $Pools_Comparison.$_ | ? {$_.Host -eq $Miner.Host -and $_.Coin -eq $Miner.Coin}
-                $Miner_HashRates | Add-Member $_ ([Double]$Miner.HashRates.$_)
-                $Miner_Pools | Add-Member $_ ([PSCustomObject]$LocPool)
-                $Miner_Pools_Comparison | Add-Member $_ ([PSCustomObject]$LocPoolsComp | ? {$_.Host -eq $Miner.Host -and $_.Coin -eq $Miner.Coin})
-                $Miner_Profits | Add-Member $_ ([Double]$Miner.HashRates.$_*$LocPool.Price)
-                $Miner_Profits_Comparison | Add-Member $_ ([Double]$Miner.HashRates.$_*$LocPoolsComp.Price)
-                $Miner_Profits_Bias | Add-Member $_ ([Double]$Miner.HashRates.$_*$LocPool.Price*(1-($Config.MarginOfError*[Math]::Pow($Variables.DecayBase,$DecayExponent))))
-            }
-            $Miner_Profit = [Double]($Miner_Profits.PSObject.Properties.Value | Measure -Sum).Sum
-            $Miner_Profit_Comparison = [Double]($Miner_Profits_Comparison.PSObject.Properties.Value | Measure -Sum).Sum
-            $Miner_Profit_Bias = [Double]($Miner_Profits_Bias.PSObject.Properties.Value | Measure -Sum).Sum
-            $Miner.HashRates | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
-                if(-not [String]$Miner.HashRates.$_)
-                {
-                    $Miner_HashRates.$_ = $null
-                    $Miner_Profits.$_ = $null
-                    $Miner_Profits_Comparison.$_ = $null
-                    $Miner_Profits_Bias.$_ = $null
-                    $Miner_Profit = $null
-                    $Miner_Profit_Comparison = $null
-                    $Miner_Profit_Bias = $null
-                }
-            }
-            if($Miner_Types -eq $null){$Miner_Types = $Variables.Miners.Type | Select -Unique}
-            if($Miner_Indexes -eq $null){$Miner_Indexes = $Variables.Miners.Index | Select -Unique}
-            if($Miner_Types -eq $null){$Miner_Types = ""}
-            if($Miner_Indexes -eq $null){$Miner_Indexes = 0}
-            $Miner.HashRates = $Miner_HashRates
-            $Miner | Add-Member Pools $Miner_Pools
-            $Miner | Add-Member Profits $Miner_Profits
-            $Miner | Add-Member Profits_Comparison $Miner_Profits_Comparison
-            $Miner | Add-Member Profits_Bias $Miner_Profits_Bias
-            $Miner | Add-Member Profit $Miner_Profit
-            $Miner | Add-Member Profit_Comparison $Miner_Profit_Comparison
-            $Miner | Add-Member Profit_Bias $Miner_Profit_Bias
-            $Miner | Add-Member Profit_Bias_Orig $Miner_Profit_Bias
-            $Miner | Add-Member Type $Miner_Types -Force
-            $Miner | Add-Member Index $Miner_Indexes -Force
-            $Miner.Path = Convert-Path $Miner.Path
-        }
-        $Variables.Miners | ForEach {
-            $Miner = $_ 
-            $Miner_Devices = $Miner.Device | Select -Unique
-            if($Miner_Devices -eq $null){$Miner_Devices = ($Variables.Miners | Where {(Compare $Miner.Type $_.Type -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0}).Device | Select -Unique}
-            if($Miner_Devices -eq $null){$Miner_Devices = $Miner.Type}
-            $Miner | Add-Member Device $Miner_Devices -Force
-        }
+
         # Remove miners when no estimation info from pools or 0BTC. Avoids mining when algo down at pool or benchmarking for ever
         If (($Variables.Miners | ? {($_.Pools.PSObject.Properties.Value.Price -ne $null) -and ($_.Pools.PSObject.Properties.Value.Price -gt 0)}).Count -gt 0) {$Variables.Miners = $Variables.Miners | ? {($_.Pools.PSObject.Properties.Value.Price -ne $null) -and ($_.Pools.PSObject.Properties.Value.Price -gt 0)}}
         #Don't penalize active miners. Miner could switch a little bit later and we will restore his bias in this case
@@ -475,13 +481,15 @@ $CycleTime = Measure-Command -Expression {
             $BestMiners_Combo = $BestMiners_Combo | ? {$_.type -ne "CPU"}
             $Variables.StatusText = "Miner prevents CPU mining"
         }
-        
+                
         If ($Variables.DonationRunning) {
             $BestMiners_Combo | % {
                 $_.Arguments = $_.Arguments -replace "$($Config.PoolsConfig.Default.WorkerName)","$($Config.PoolsConfig.Default.WorkerName)_$($_.Type)"
             }
         }
 
+        $Variables.StatusText = "Assigning miners.."
+        
         #Add the most profitable miners to the active list
         $BestMiners_Combo | ForEach {
             if(($Variables.ActiveMinerPrograms | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments).Count -eq 0)
