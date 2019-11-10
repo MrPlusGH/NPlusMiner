@@ -185,7 +185,6 @@ $CycleTime = Measure-Command -Expression {
                 If ($Config.Donate -lt 3) {$Config.Donate = (0,(3..8)) | Get-Random}
                 $Variables.DonateRandom = $Donation | Get-Random
                 $DevPoolsConfig = [PSCustomObject]@{default = [PSCustomObject]@{Wallet = $Variables.DonateRandom.Wallet;UserName = $Variables.DonateRandom.UserName;WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion.ToString().replace('.',''))";PricePenaltyFactor=1}}
-                Merge-PoolsConfig -Main $Config.PoolsConfig -Secondary $DevPoolsConfig | convertto-json
                 $Config | Add-Member -Force @{PoolsConfig = Merge-PoolsConfig -Main $Config.PoolsConfig -Secondary $DevPoolsConfig}
                 If ($Variables.DonateRandom.PoolsConfURL) {
                     # Get Dev Pools Config
