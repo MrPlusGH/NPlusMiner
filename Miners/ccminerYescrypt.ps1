@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-Ccmineryescrypt9\ccminer.exe"
-$Uri = "https://github.com/yuzi-co/miners/releases/download/2019.02/ccminerKlausT-8.21.3.7z"
+$Uri = "https://github.com/nemosminer/ccminerKlausTyescrypt/releases/download/v9/ccminerKlausTyescryptv9.7z"
 
 $Commands = [PSCustomObject]@{
     "yescrypt" = " -d $($Config.SelGPUCC)" #Yescrypt
