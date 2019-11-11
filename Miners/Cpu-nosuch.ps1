@@ -1,52 +1,13 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
-$Path = ".\Bin\CPU-JayDDee\cpuminer-aes-sse42.exe"
-$Uri = "https://github.com/JayDDee/cpuminer-opt/releases/download/v3.9.5/cpuminer-opt-3.9.5-windows.zip"
+$Path = ".\Bin\CPU-nosuch\cpuminer-aes-sse2.exe"
+$Uri = "https://github.com/patrykwnosuch/cpuminer-nosuch/releases/download/3.8.8.1-nosuch-m4/cpu-nosuch-m4-win64.7z"
 
 $Commands = [PSCustomObject]@{
-    "allium" = "" #Allium
-    "argon2d-crds" = "" #argon2d-crds
-    "argon2d-dyn" = "" #argon2d-dyn
-    "argon2d4096" = "" #argon2d4096 
-    #"bitcore" = "" #Bitcore
-    #"blake2s" = "" #Blake2s
-    #"blakecoin" = "" #Blakecoin
-    #"vanilla" = "" #BlakeVanilla
-    #"c11" = "" #C11
-    # "cryptonight" = "" #CryptoNight
-    #"cryptonightv7" = "" #cryptonightv7
-    #"decred" = "" #Decred
-    #"equihash" = "" #Equihash
-    #"ethash" = "" #Ethash
-    #"groestl" = "" #Groestl
-    "hmq1725" = "" #HMQ1725
-    #"hodl" = "" #Hodl
-    #"jha" = "" #JHA
-    #"keccak" = "" #Keccak
-    #"lbry" = "" #Lbry
-    #"lyra2v2" = "" #Lyra2RE2
-    "lyra2z330" = "" #lyra2z330
-    "lyra2z" = "" #Lyra2z
-    "m7m" = "" #m7m
-    #"myr-gr" = "" #MyriadGroestl
-    #"neoscrypt" = "" #NeoScrypt
-    #"nist5" = "" #Nist5
-    #"pascal" = "" #Pascal
-    #"sib" = "" #Sib
-    #"skein" = "" #Skein
-    #"skunk" = "" #Skunk
-    #"timetravel" = "" #Timetravel
-    #"tribus" = "" #Tribus
-    #"veltor" = "" #Veltor
-    #"x11evo" = "" #X11evo
-    #"x17" = "" #X17
-    # "x16r" = "" #X16r
-    "yescrypt" = "" #Yescrypt
-    "yescryptr8" = "" #YescryptR8
-    "yescryptr16" = "" #YescryptR16
-    # "yescryptr32" = "" #YescryptR32
+    "m7m" = " -a m7m" #M7m
+    "yescryptr32" = " -a yescryptr32" #YescryptR32
 }
-
+ 
 $Name = Get-Item $MyInvocation.MyCommand.Path | Select-Object -ExpandProperty BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
