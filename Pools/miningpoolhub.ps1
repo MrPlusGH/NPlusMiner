@@ -33,7 +33,7 @@ $Locations | ForEach-Object {
             Price       = $Stat.Live*$PoolConf.PricePenaltyFactor
             StablePrice = $Stat.Week
             Protocol    = 'stratum+tcp'
-            Host        = $Current.all_host_list.split(";") | Sort-Object -Descending {$Current -ilike "$Location*"} | Select-Object -First 1
+            Host        = $Current.all_host_list.split(";") | Sort-Object -Descending {$_ -ilike "$Location*"} | Select-Object -First 1
             Port        = $Current.algo_switch_port
             User        = "$($PoolConf.UserName).$($PoolConf.WorkerName.replace('ID=',''))"
             Pass        = 'x'
@@ -47,7 +47,7 @@ $Locations | ForEach-Object {
             Price       = $Stat.Live*$PoolConf.PricePenaltyFactor
             StablePrice = $Stat.Week
             Protocol    = 'stratum+ssl'
-            Host        = $Current.all_host_list.split(";") | Sort-Object -Descending {$Current -ilike "$Location*"} | Select-Object -First 1
+            Host        = $Current.all_host_list.split(";") | Sort-Object -Descending {$_ -ilike "$Location*"} | Select-Object -First 1
             Port        = $Current.algo_switch_port
             User        = "$($PoolConf.UserName).$($PoolConf.WorkerName.replace('ID=',''))"
             Pass        = 'x'
