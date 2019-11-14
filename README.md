@@ -1,4 +1,4 @@
-Copyright (c) 2018 MrPlus	(https://github.com/MrPlusGH/NPlusMiner)
+Copyright (c) 2018-2019 MrPlus	(https://github.com/MrPlusGH/NPlusMiner)
 
 Copyright (c) 2018 Nemo		(https://github.com/nemosminer/NemosMiner)
 
