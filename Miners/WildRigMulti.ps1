@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\AMD-WildRigMulti\wildrig.exe"
-$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.19.0/wildrig-multi-windows-0.19.0-preview.7z"
+$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.20.1/wildrig-multi-windows-0.20.1.7z"
 
 $Commands = [PSCustomObject]@{
     "astralhash"    = " --algo glt-astralhash" #Astralhash
@@ -15,8 +15,11 @@ $Commands = [PSCustomObject]@{
     "geek"          = " --algo geek" #GeekCash
     "hex"           = " --algo hex" #XDNA
     "hmq1725"       = " --algo hmq1725" #Hmq1725
+    "honeycomb"     = " --algo honeycomb" #Honeycomb 
     "jeonghash"     = " --algo glt-jeonghash" #Jeonghash
     "lyra2v3"       = " --algo lyra2v3"
+    "mtp"           = " --algo mtp" #Mtp
+    "mtp-trc"       = " --algo mtp-trc" #Mtp-trc
     "padihash"      = " --algo glt-padihash" #Padihash
     "pawelhash"     = " --algo glt-pawelhash" #powelhash
     "phi"           = " --algo phi" #Phi
@@ -31,11 +34,11 @@ $Commands = [PSCustomObject]@{
     "tribus"        = " --algo tribus" #Tribus
     "x16r"          = " --algo x16r" #x16r
     "x16rt"         = " --algo x16rt"
+    "x16rv2"        = " --algo x16rv2" #X16rv2
     "x16s"          = " --algo x16s" #x16s
     "x17"           = " --algo x17" #x17
     "x21s"          = " --algo x21s" #x21s
     "x22i"          = " --algo x22i" #x22i
-    "xevan"         = " --algo xevan" #Xevna
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
