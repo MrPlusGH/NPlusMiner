@@ -1435,8 +1435,8 @@ Function Merge-Command {
                             }
                         } elseif ($Master -match " $_ *([^-]+)") {
                             $MasterCmdArg = $Matches[0]
-                            If ($Slave -match " $_ *([^\s]+)") {
-                                $Slave = $Slave -replace " $_ *([^\s]+)",$MasterCmdArg
+                            If ($Slave -match " $_ *([^-]+)") {
+                                $Slave = $Slave -replace " $_ *([^-]+)",$MasterCmdArg
                             } else {
                                 $Slave = $Slave + " $($MasterCmdArg)"    
                             }
