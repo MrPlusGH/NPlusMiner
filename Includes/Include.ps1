@@ -1427,6 +1427,8 @@ Function Merge-Command {
             "Command" {
                 If ($Master -and !$Master.StartsWith(" ")) {$Master = " $($Master)"}
                 If ($Slave -and !$Slave.StartsWith(" ")) {$Slave = " $($Slave)"}
+                If ($Master -and !$Master.EndsWith(" ")) {$Master = "$($Master) "}
+                If ($Slave -and !$Slave.EndsWith(" ")) {$Slave = "$($Slave) "}
                 ($Master.split(" ") | ? {$_.StartsWith("-")}) | Foreach {
                     If ($_ -notin $NoReplaceCmdArgs) {
                         if ($Master -match " $_ -") {
