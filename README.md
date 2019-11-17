@@ -2,7 +2,8 @@ Copyright (c) 2018-2019 MrPlus	(https://github.com/MrPlusGH/NPlusMiner)
 
 Copyright (c) 2018 Nemo		(https://github.com/nemosminer/NemosMiner)
 
-![alt text](https://github.com/MrPlusGH/NPlusMiner/raw/master/Includes/NPM.png)
+<img src="https://github.com/MrPlusGH/NPlusMiner/raw/master/Includes/NPM.gif" width="256" height="256">
+
  # NPlusMiner-v5.9.9.2 aka 6.0 beta3   - NVIDIA | AMD | CPU
   
  Readme Updated 2019 November 14
