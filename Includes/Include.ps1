@@ -20,8 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           include.ps1
-version:        5.4.1
-version date:   20190809
+version:        5.9.9
+version date:   20191117
 #>
  
 # New-Item -Path function: -Name ((Get-FileHash $MyInvocation.MyCommand.path).Hash) -Value {$true} -EA SilentlyContinue | out-null
@@ -1432,6 +1432,13 @@ Function Merge-Command {
                         if ($Master -match " $_ -") {
                             If (!($Slave -match " $_ -")) {
                                 $Slave = $Slave + " $($_)"
+                            }
+                        } elseif ($Master -match " $_ *([^-]+)") {
+                            $MasterCmdArg = $Matches[0]
+                            If ($Slave -match " $_ *([^\s]+)") {
+                                $Slave = $Slave -replace " $_ *([^\s]+)",$MasterCmdArg
+                            } else {
+                                $Slave = $Slave + " $($MasterCmdArg)"    
                             }
                         } elseif ($Master -match " $_ *([^\s]+)") {
                             $MasterCmdArg = $Matches[0]
