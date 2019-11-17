@@ -242,7 +242,7 @@ $CycleTime = Measure-Command -Expression {
 				Where {$_.SSL -EQ $Config.SSL -and ($Config.PoolName.Count -eq 0 -or ($_.Name -in $Config.PoolName)) -and (!$Config.Algorithm -or ((!($Config.Algorithm | ? {$_ -like "+*"}) -or $_.Algorithm -in ($Config.Algorithm | ? {$_ -like "+*"}).Replace("+","")) -and (!($Config.Algorithm | ? {$_ -like "-*"}) -or $_.Algorithm -notin ($Config.Algorithm | ? {$_ -like "-*"}).Replace("-",""))) )}
             }
                 if ($AllPools.Count -eq 0) {
-				$Variables.StatusText = "! Error contacting pool retrying in 30 seconds.."
+				$Variables.StatusText = "Waiting for pool data. retrying in 30 seconds.."
 				Sleep 30
 			}
 		} While ($AllPools.Count -eq 0)
