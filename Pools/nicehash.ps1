@@ -10,6 +10,7 @@ catch { return }
 if (-not $Request) {return}
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
+$Fees = 5
 
 # Placed here for Perf (Disk reads)
 	$ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
@@ -26,7 +27,7 @@ $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
         $Divisor = $DivisorMultiplier * [Double]$_.Algodetails.marketFactor
         $Divisor = 100000000
 
-        $Stat = Set-Stat -Name "$($Name)_$($NiceHash_Algorithm)_Profit" -Value ([Double]$_.paying  / $Divisor)
+        $Stat = Set-Stat -Name "$($Name)_$($NiceHash_Algorithm)_Profit" -Value ([Double]$_.paying  / $Divisor * (1 - ($Fees / 100)))
 
 $Locations = "eu", "usa", "hk", "jp", "in", "br"
 $Locations | ForEach-Object {
