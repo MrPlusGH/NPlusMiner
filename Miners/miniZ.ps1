@@ -6,7 +6,8 @@ $Commands = [PSCustomObject]@{
     "equihash144"  = " --algo 144,5 --pers auto --oc1 " #Equihash144 (fastest)
     "zhash"        = " --algo 144,5 --pers auto " #Zhash (fastest)
     "equihash192"  = " --algo 192,7 --pers auto --oc1 " #Equihash192 (fastest)
-    # "equihash-btg" = " --algo 144,5 --pers BgoldPoW " # Equihash-btg MPH (fastest)
+    "equihash-btg" = " --algo 144,5 --pers BgoldPoW " # Equihash-btg MPH (fastest)
+    "equihash-zcl" = " --par=192,7 --pers ZcashPoW" # Equihash-ZCL MPH
     "equihash96"   = " --algo 96,5  --pers auto --oc1 " #Equihash96 (ewbf faster)
     # "beam"         = " --algo 150,5 --pers auto" #Beam
     "beamv2"       = " --par=beam --pers auto " #Beamv2
