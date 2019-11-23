@@ -55,6 +55,16 @@ Function GetNextColor {
     $R+$G+$B
 }
 
+function Get-ColorPalette {
+    param($StartColor,$EndColor,$n)$x=$StartColor -split '(..)' -ne '' 
+    $StartColor
+    ++$n..1|%{
+        $j=$_
+        -join($x=$x|%{
+            "{0:x2}"-f(+"0x$_"-[int]((+"0x$_"-"0x$(($EndColor -split '(..)' -ne '')[$i++%3])")/$j))
+        })
+    }
+}
 
 [void][Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms.DataVisualization")
 $scriptpath = Split-Path -parent $MyInvocation.MyCommand.Definition
@@ -92,9 +102,10 @@ Switch ($Chart) {
            $chartarea.AxisX.MajorGrid.Enabled = $False
            $chartarea.AxisY.MajorGrid.Enabled = $True
            $chartarea.AxisY.MajorGrid.LineColor = "#FFFFFF"
+           $chartarea.AxisY.MajorGrid.LineColor = "#777E7E"
            $chartarea.AxisY.labelAutoFitStyle = $chartarea.AxisY.labelAutoFitStyle - 4
            # $chartarea.AxisY.IntervalAutoMode = 0
-           $chartarea.AxisY.Interval = [math]::Round(($datasource | group date | % {($_.group.DailyEarnings | measure -sum).sum} | measure -maximum).maximum *1000 / 4, 2)
+           $chartarea.AxisY.Interval = [math]::Round(($datasource | group date | % {($_.group.DailyEarnings | measure -sum).sum} | measure -maximum).maximum *1000 / 4, 1)
            $chart1.ChartAreas.Add($chartarea)
          
            $legend = New-Object system.Windows.Forms.DataVisualization.Charting.Legend
@@ -114,10 +125,10 @@ Switch ($Chart) {
            $chart1.Series["Total"].chartarea = "ChartArea1"
            # $chart1.Series[$Pool].Legend = "Legend1"
            # $chart1.Series[$Pool].color = "#E3B64C"
-           $chart1.Series["Total"].color = "#FFFFFF"
+           $chart1.Series["Total"].color = "#f2a900"
            # $chart1.Series[$Pool].color = [System.Drawing.Color]::FromArgb($A,247,147,26)
            $chart1.Series["Total"].label = "#VALY{N3}"
-           # $chart1.Series[$Pool].LabelStyle.ForeColor = "#000000"
+           $chart1.Series["Total"].LabelForeColor = "#FFFFFF"
            $chart1.Series["Total"].ToolTip = "#VALX: #VALY mBTC" # - Total: #TOTAL mBTC";
            # $datasource | select Date,DaySum -Unique | ForEach-Object {$chart1.Series["Total"].Points.addxy( $_.Date , ("{0:N3}" -f ([Decimal]$_.DaySUm*1000))) | Out-Null }
            $datasource | select Date,DaySum -Unique | ForEach-Object {$chart1.Series["Total"].Points.addxy( $_.Date , (([Decimal]$_.DaySUm*1000))) | Out-Null }
@@ -196,7 +207,8 @@ Switch ($Chart) {
     }
     "DayPoolSplit" {
            $datasource = If (Test-Path ".\logs\DailyEarnings.csv" ) {Import-Csv ".\logs\DailyEarnings.csv" | ? {$_.date -ge (Get-Date).date.AddDays(-1).ToString("MM/dd/yyyy")}}
-           $datasource = $dataSource | ? {$_.DailyEarnings -gt 0} | sort DailyEarnings -Descending
+           $dataSource | % {$_.DailyEarnings = [Decimal]$_.DailyEarnings}
+           $datasource = $dataSource | ? {$_.DailyEarnings -gt 0} | sort DailyEarnings #-Descending
          
            $chart1 = New-object System.Windows.Forms.DataVisualization.Charting.Chart
            $chart1.Width = $Width
@@ -216,9 +228,10 @@ Switch ($Chart) {
            $chartarea.AxisX.MajorGrid.Enabled = $False
            $chartarea.AxisY.MajorGrid.Enabled = $True
            $chartarea.AxisY.MajorGrid.LineColor = "#FFFFFF"
+           $chartarea.AxisY.MajorGrid.LineColor = "#777E7E"
            $chartarea.AxisY.labelAutoFitStyle = $chartarea.AxisY.labelAutoFitStyle - 4
            # $chartarea.AxisY.IntervalAutoMode = 0
-           $chartarea.AxisY.Interval = [math]::Round(($datasource | group date | % {($_.group.DailyEarnings | measure -sum).sum} | measure -maximum).maximum *1000 / 4, 2)
+           $chartarea.AxisY.Interval = [math]::Round(($datasource | group date | % {($_.group.DailyEarnings | measure -sum).sum} | measure -maximum).maximum *1000 / 4, 1)
            $chart1.ChartAreas.Add($chartarea)
          
         # legend 
@@ -229,21 +242,24 @@ Switch ($Chart) {
         # $BaseColor = "424B54"
         $BaseColor = "FFFFFF"
         # $BaseColor = "F7931A"
-        $Color = $BaseColor
-        $A=255
+        # $StartColor = "FFFFFF"
+        $StartColor = "FFFFFF"
+        $EndColor = "f2a900"
+        $i=0
+        $Colors = Get-ColorPalette $StartColor $EndColor ($datasource.Pool | select -Unique).count
         Foreach ($Pool in ($datasource.Pool | select -Unique)) {
-            $A=$A-20
-            $Color = GetNextColor -BaseColorHex $Color -Factor -20
+           $i++
 
            [void]$chart1.Series.Add($Pool)
            $chart1.Series[$Pool].ChartType = "StackedColumn"
            $chart1.Series[$Pool].BorderWidth  = 1
-           $chart1.Series[$Pool].BorderColor  = "#FFFFFF"
+           # $chart1.Series[$Pool].BorderColor  = "#2B3232"
+           $chart1.Series[$Pool].BorderColor  = [System.Drawing.Color]::Transparent
            # $chart1.Series[$Pool].IsVisibleInLegend = $true
            $chart1.Series[$Pool].chartarea = "ChartArea1"
            # $chart1.Series[$Pool].Legend = "Legend1"
            # $chart1.Series[$Pool].color = "#E3B64C"
-           $chart1.Series[$Pool].color = "#$($Color)"
+           $chart1.Series[$Pool].color = "#$($Colors[$i])"
            # $chart1.Series[$Pool].color = "#FFFFFF"
            # $chart1.Series[$Pool].color = [System.Drawing.Color]::FromArgb($A,247,147,26)
            # $chart1.Series[$Pool].label = "#SERIESNAME: #VALY mBTC"
