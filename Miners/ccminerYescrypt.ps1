@@ -27,7 +27,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
-        $Arguments = "--cpu-priority 5 -b $($Variables.NVIDIAMinerAPITCPPort) -N 1 -R 1 -a $AlgoNorm -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password)"
+        $Arguments = "--cpu-priority 5 -b $($Variables.NVIDIAMinerAPITCPPort) -N 1 -R 1 --no-cpu-verify -a $AlgoNorm -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password)"
 
         [PSCustomObject]@{
             Type = "NVIDIA"
