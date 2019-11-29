@@ -1259,18 +1259,18 @@ Function Autoupdate {
             Start-Process ".\Utils\7z" "a $($BackupFileName) .\* -x!*.zip" -Wait -WindowStyle hidden
             If (!(test-path .\$BackupFileName)) {Update-Status("Backup failed"); return}
             
-            # Pre update specific actions if any
-            # Use PreUpdateActions.ps1 in new release to place code
-            If (Test-Path ".\$UpdateFileName\PreUpdateActions.ps1") {
-                Invoke-Expression (get-content ".\$UpdateFileName\PreUpdateActions.ps1" -Raw)
-            }
-            
             # Empty OptionalMiners - Get rid of Obsolete ones
             ls .\OptionalMiners\ | % {Remove-Item -Recurse -Force $_.FullName}
             
             # unzip in child folder excluding config
             Update-Status("Unzipping update...")
             Start-Process ".\Utils\7z" "x $($UpdateFileName).zip -o.\ -y -spe -xr!config" -Wait -WindowStyle hidden
+            
+            # Pre update specific actions if any
+            # Use PreUpdateActions.ps1 in new release to place code
+            If (Test-Path ".\$UpdateFileName\PreUpdateActions.ps1") {
+                Invoke-Expression (get-content ".\$UpdateFileName\PreUpdateActions.ps1" -Raw)
+            }
             
             # copy files 
             Update-Status("Copying files...")
