@@ -1,25 +1,12 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-zealotenemy\z-enemy.exe"
-$Uri = "https://github.com/Minerx117/ZEnemy-Miner/releases/download/v2.0.0/ZEnemy200cuda10.7z"
+$Uri = "https://github.com/z-enemy/z-enemy/releases/download/ver-2.3/z-enemy-2.3-win-cuda10.0.zip"
 
 $Commands = [PSCustomObject]@{
     "aeriumx" = " -i 23" #AeriumX(fastest)
-    #"bcd"     = "" #Bcd(trex faster)
-    #"phi"        = "" #Phi (CryptoDredge faster)
-    #"phi2"       = "" #Phi2 (CryptoDredge faster)
-    #"poly"       = "" #Polytimos(fastest) 
-    #"bitcore"    = "" #Bitcore (trex faster)
-    #"x16r"       = "" #X16r (trex faster)
-    #"x16s"       = "" #X16s (trex faster)
-    #"sonoa"      = "" #SonoA (trex faster)
-    #"skunk"      = "" #Skunk (CryptoDredge faster)
-    #"timetravel" = "" #Timetravel (trex faster)
-    #"tribus"     = "" #Tribus (not profitable atm)
-    #"c11"        = "" #C11 (trex faster)
-    "xevan"   = " -i 22" #Xevan (fastest)
-    #"x17"        = "" #X17(trex faster)
     "hex" = " -i 24" #Hex (fastest)
+    "xevan"   = " -i 22" #Xevan (fastest)
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
