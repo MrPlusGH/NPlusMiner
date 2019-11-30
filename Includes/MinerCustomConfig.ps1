@@ -27,6 +27,7 @@ version date:   20191108
     $Combinations = $MinerCustomConfig | group algo,Pool,miner,coin
     $CustomCommands = [PSCustomObject]@{}
     $DontUseCustom = $False
+    $DevCommand = ""
     $WinningCustomConfig = $null
     $CurrentCombination = $null
     If ($Pool.Algorithm) {$CustomCommands | Add-Member -Force @{($Pool.Algorithm) = $Commands.($Algo)}}
