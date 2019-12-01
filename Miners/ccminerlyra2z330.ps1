@@ -1,6 +1,6 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
-$Path = ".\Bin\NVIDIA-ccminerlyra2z330v3\ccminer.exe"
+$Path = ".\Bin\NVIDIA-ccminerlyra2z330\ccminer.exe"
 $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/ccminerLyra2z330/ccminerlyra2z330v3.zip"
  
 $Commands = [PSCustomObject]@{
