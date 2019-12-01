@@ -4,7 +4,7 @@ $Path = ".\Bin\NVIDIA-ccminerlyra2z330\ccminer.exe"
 $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/ccminerLyra2z330/ccminerlyra2z330v3.zip"
  
 $Commands = [PSCustomObject]@{
-    "lyra2z330" = " --no-cpu-verify " #lyra2z330
+    "lyra2z330" = " -i 12.5 --no-cpu-verify " #lyra2z330
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
