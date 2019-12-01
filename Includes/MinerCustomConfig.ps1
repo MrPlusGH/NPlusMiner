@@ -70,7 +70,7 @@ version date:   20191108
             }
         }
         $CustomPasswordAdds = $null
-        $CustomCommandAdds = $null
+        $CustomCmdAdds = $null
     }
 
     If ($WinningCustomConfig.IncludeCoins -and $Pool.Coin -notin $WinningCustomConfig.IncludeCoins) {$AbortCurrentPool = $true ; return}
