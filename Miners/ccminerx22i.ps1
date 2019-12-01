@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-ccminerx22i\ccminer.exe"
-$Uri = "https://github.com/nemosminer/ccminer-x22i/releases/download/v2.3.1.1/ccminerx22i2311.7z"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/ccminerx22i/ccminerx22i2311.7z"
 
 $Commands = [PSCustomObject]@{
     #"x22i" = " -N 1 -d $($Config.SelGPUCC)" #X22i

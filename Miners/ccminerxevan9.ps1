@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-ccminerxevan9\ccminer_x86.exe"
-$Uri = "https://github.com/nemosminer/ccminer-xevan/releases/download/ccminer-xevan/ccminer_x86.7z"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/ccminerxevan9/ccminer_x86.7z"
 
 $Commands = [PSCustomObject]@{
     # "xevan" = " -N 1 -d $($Config.SelGPUCC) " #Xevan(fastest on most 10series cards/enemyzealot1.18x32 faster on 1080ti's)

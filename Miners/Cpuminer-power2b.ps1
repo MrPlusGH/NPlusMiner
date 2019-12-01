@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\CPU-Power2b\cpuminer.exe"
-$Uri = "https://github.com/Minerx117/miner-binaries/releases/download/v1.0.0/cpuminer-opt-power2b-v1.0.0-w64.7z"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/Cpuminer-power2b/cpuminer-opt-power2b-v1.0.0-w64.7z"
 
 $Commands = [PSCustomObject]@{
     # "power2b" = "" #power2b

@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-Alexis78\ccminer.exe"
-$Uri = "https://github.com/nemosminer/ccminerAlexis78/releases/download/Alexis78-v1.5/ccminerAlexis78v1.5.7z"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/ccminerAlexis78/ccminerAlexis78v1.5.7z"
 
 $Commands = [PSCustomObject]@{
     "keccak" = " -N 1 -m 2 -i 29 -d $($Config.SelGPUCC)" #Keccak

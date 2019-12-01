@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\CPU-rplant\cpuminer-sse42.exe"
-$Uri = "https://github.com/rplant8/cpuminer-opt-rplant/releases/download/4.0.23/cpuminer-opt-win.zip"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/Cpu-rplant/cpuminer-opt-win.zip"
 
 $Commands = [PSCustomObject]@{
     "yescryptR8G" = "" #YescryptR8

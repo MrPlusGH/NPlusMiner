@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-Gminer\miner.exe"
-$Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/1.81/gminer_1_81_windows64.zip"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/GMiner/gminer_1_81_windows64.zip"
 $Commands = [PSCustomObject]@{
     "cuckoocycle"    = " --devices $($Config.SelGPUDSTM) --algo aeternity --pers auto" #Aeternity 
     "equihash96"   = " --devices $($Config.SelGPUDSTM) --algo 96_5 --pers auto" #Equihash96 (fastest)

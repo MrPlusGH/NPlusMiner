@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-Tpruvot\ccminer-x64.exe"
-$Uri = "https://github.com/tpruvot/ccminer/releases/download/2.3.1-tpruvot/ccminer-2.3.1-cuda10.7z"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/ccminerTpruvot/ccminer-2.3.1-cuda10.7z"
 
 $Commands = [PSCustomObject]@{
     "allium"     = " -d $($Config.SelGPUCC)" #Allium

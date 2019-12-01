@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-TTMiner\TT-Miner.exe"
-$Uri = "https://tradeproject.de/download/Miner/TT-Miner-3.0.5.zip"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/TTMiner/TT-Miner-3.0.5.zip"
  
 $Commands = [PSCustomObject]@{
     "progpow"  = " -a PROGPOW "

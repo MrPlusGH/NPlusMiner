@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-ccminerlyra2z330v3\ccminer.exe"
-$Uri = "https://github.com/Minerx117/ccminer8.21r9-lyra2z330/releases/download/v3/ccminerlyra2z330v3.zip"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/ccminerLyra2z330/ccminerlyra2z330v3.zip"
  
 $Commands = [PSCustomObject]@{
     "lyra2z330" = " --no-cpu-verify " #lyra2z330

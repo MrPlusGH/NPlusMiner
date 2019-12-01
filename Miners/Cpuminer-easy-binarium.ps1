@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\CPU-bubasikBinarium\cpuminer-aes-sse42.exe"
-$Uri = "https://github.com/bubasik/cpuminer-easy-binarium/releases/download/1.0/cpuminer-easy-binarium-win_x64.zip"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/Cpuminer-easy-binarium/cpuminer-easy-binarium-win_x64.zip"
 
 $Commands = [PSCustomObject]@{
     "binarium-v1" = "" #binarium-v1

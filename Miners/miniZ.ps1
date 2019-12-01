@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-miniZ\miniZ.exe"
-$Uri = "https://github.com/Minerx117/miner-binaries/releases/download/v1.5s/miniZ_v1.5s_cuda10_win-x64.zip"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/miniZ/miniZ_v1.5s_cuda10_win-x64.zip"
 $Commands = [PSCustomObject]@{
     "beamv2"       = " --par=beam --pers auto " #Beamv2
     "equihash-btg" = " --algo 144,5 --pers BgoldPoW " # Equihash-btg MPH (fastest)

@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\CPU-RFv2\cpuminer.exe"
-$Uri = "https://github.com/MicroBitcoinOrg/Cpuminer/releases/download/1.3.7/cpuminer_Windows.zip"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/CPU-RFv2/cpuminer-win.zip"
 
 $Commands = [PSCustomObject]@{
     "rfv2" = "" #rfv2
