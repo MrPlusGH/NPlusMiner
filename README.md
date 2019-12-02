@@ -233,16 +233,15 @@ Fee:
 If you have Windows 8, or 8.1, please update PowerShell:
 https://www.microsoft.com/en-us/download/details.aspx?id=50395
 
-CCMiner may need 'MSVCR120.dll' if you don't already have it:
-https://www.microsoft.com/en-gb/download/details.aspx?id=40784
+Some miners may need 'Visual C++ 2013' if you don't already have it: (install both x86 & x64) Visual C++ Redistributable for Visual Studio 2012/2013: https://www.microsoft.com/en-US/download/details.aspx?id=40784
 
-CCMiner may need 'VCRUNTIME140.DLL' if you don't already have it:
-https://www.microsoft.com/en-us/download/details.aspx?id=48145
+Some miners may need 'Visual C++ 2015' if you don't already have it: (install both x86 & x64) Visual C++ Redistributable for Visual Studio 2014/2015: https://www.microsoft.com/en-US/download/details.aspx?id=48145
+
+Some miners may need 'Visual C++ 2015 update 3' if you don't already have it: (install both x86 & x64) Visual C++ Redistributable for Visual Studio 2015 update 3: https://www.microsoft.com/en-us/download/details.aspx?id=53587
 
 running multiple cards its recommended to increase Virtual Memory 64gb is optimal
 
-Requires Nvidia driver 431.86
-https://www.geforce.com/drivers
+Requires Nvidia driver 431.86: https://www.geforce.com/drivers
 
 Made For & Tested with 6x1070 6x1070ti 6x1080 6x1080ti 9x1660ti 6x2060 6x2070 6x2080 6x2080ti(users have reported up to 12cards working have not tested myself) Some miners do not support more that 9 cards
 
