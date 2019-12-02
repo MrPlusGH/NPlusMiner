@@ -137,10 +137,12 @@ Switch ($Chart) {
            $datasource | select Date,DaySum -Unique | ForEach-Object {$chart1.Series["Total"].Points.addxy( $_.Date , (([Decimal]$_.DaySum*1000))) | Out-Null }
 
            $Chart1.Series | foreach {$_.CustomProperties = "DrawSideBySide=True"}
-           $Chart1.Series["Total"].Points | ForEach-Object {
-                # $PSItem.Color = "#$($Colors[((($datasource | sort DaySum -Unique).DaySum | % {[math]::Round($_*1000, 3)} | sort -Unique)).IndexOf([math]::Round(($PSItem.YValues[0]), 3))])"
-                $PSItem.Color = "#$($Colors[[Int](100 * ($PSItem.YValues[0]) / (($datasource | group date | % {($_.group.DailyEarnings | measure -sum).sum} | measure -maximum).maximum * 1000))])"
-            }
+           Try{
+               $Chart1.Series["Total"].Points | ForEach-Object {
+                    # $PSItem.Color = "#$($Colors[((($datasource | sort DaySum -Unique).DaySum | % {[math]::Round($_*1000, 3)} | sort -Unique)).IndexOf([math]::Round(($PSItem.YValues[0]), 3))])"
+                    $PSItem.Color = "#$($Colors[[Int](100 * ($PSItem.YValues[0]) / (($datasource | group date | % {($_.group.DailyEarnings | measure -sum).sum} | measure -maximum).maximum * 1000))])"
+                }
+            } Catch {}
     }
     "Front7DaysEarningsWithPoolSplit" {
            $datasource = If (Test-Path ".\logs\DailyEarnings.csv" ) {Import-Csv ".\logs\DailyEarnings.csv" | ? {[DateTime]$_.date -ge (Get-Date).AddDays(-7)}}
