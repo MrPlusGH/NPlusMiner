@@ -23,6 +23,8 @@ version:        5.9.9
 version date:   20191108
 #>
 
+    $AbortCurrentPool = $False
+    $DontUseCustom = $False
     $MinerCustomConfig = $MinerCustomConfig | ? {$_.Enabled}
     $Combinations = $MinerCustomConfig | group algo,Pool,miner,coin
     $CustomCommands = [PSCustomObject]@{}
