@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-zealotenemy\z-enemy.exe"
-$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/zealotenemy/ZEnemy200cuda10.7z"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/zealotenemy/z-enemy-2.3-win-cuda10.0.zip"
 
 $Commands = [PSCustomObject]@{
     "aeriumx" = " -i 23" #AeriumX(fastest)
