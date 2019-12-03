@@ -238,7 +238,7 @@ $CycleTime = Measure-Command -Expression {
         $PoolFilter = @()
         $Config.PoolName | foreach {$PoolFilter+=($_+=".*")}
         Do {
-			$AllPools = if(Test-Path "Pools"){Get-ChildItemContent "Pools" -Include $PoolFilter | ForEach {$_.Content | Add-Member @{Name = $_.Name} -PassThru} | 
+			$AllPools = if(Test-Path "Pools"){Get-ChildItemContent "Pools" -Include $PoolFilter | ? {$_.Content -ne $Null} | ForEach {$_.Content | Add-Member @{Name = $_.Name} -PassThru} | 
 				Where {$_.SSL -EQ $Config.SSL -and ($Config.PoolName.Count -eq 0 -or ($_.Name -in $Config.PoolName)) -and (!$Config.Algorithm -or ((!($Config.Algorithm | ? {$_ -like "+*"}) -or $_.Algorithm -in ($Config.Algorithm | ? {$_ -like "+*"}).Replace("+","")) -and (!($Config.Algorithm | ? {$_ -like "-*"}) -or $_.Algorithm -notin ($Config.Algorithm | ? {$_ -like "-*"}).Replace("-",""))) )}
             }
                 if ($AllPools.Count -eq 0) {
