@@ -6,7 +6,7 @@ $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersB
 $Commands = [PSCustomObject]@{
     # "cryptonightr"        = " -a cryptonight/r --nicehash" #cryptonight/r
     # "cryptonight-monero"  = " -a cryptonight/r" #cryptonight/r
-    "randomxmonero"       = " -a rx/0 --nicehash" #RandomX
+    "randomxmonero"         = " -a rx/0 --nicehash" #RandomX
 }
  
 $ThreadCount = $ThreadCount = $Variables.ProcessorCount - 2
@@ -23,7 +23,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
-        $Arguments = "-a $AlgoNorm -t $($ThreadCount) -o stratum+tcp://$($Pools.$Algo.Host):$($Pools.$Algo.Port) -u $($Pools.$Algo.User) -p $($Pools.$Algo.Pass)$($Commands.$_) --keepalive --http-port=$($Variables.CPUMinerAPITCPPort) --donate-level 0"
+        $Arguments = "-a $AlgoNorm -t $($ThreadCount) -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Pool.Pass)$($Commands.$_) --keepalive --http-port=$($Variables.CPUMinerAPITCPPort) --donate-level 0"
 
         [PSCustomObject]@{
             Type = "CPU"
