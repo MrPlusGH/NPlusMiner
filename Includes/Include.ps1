@@ -1414,7 +1414,7 @@ Function Merge-Command {
                     $MasterPassArg = $_
                     ($_.split("=") | ? {$_.startsWith(",")} | foreach {"$($_)="}) | Foreach {
                         If ($_ -notin $NoReplacePassArgs) {
-                            If ($Slave -match "$_ *([^,]+)" | Out-Null) {
+                            If ($Slave -match "$_ *([^,]+)") {
                                 $Slave = $Slave -replace "$_ *([^,]+)",$MasterPassArg
                             } else {
                                 $Slave = $Slave + $MasterPassArg
