@@ -7,7 +7,7 @@ $Commands = [PSCustomObject]@{
     # "cryptonightr"        = " -a cryptonight/r --nicehash" #cryptonight/r
     # "cryptonight-monero"  = " -a cryptonight/r" #cryptonight/r
     "randomxmonero"         = " -a rx/0 --nicehash" #RandomX
-    "cryptonightv7"         = " -a cn/rto --nicehash" #cryptonightv7
+    "cryptonightv7"         = " -a cn/1 --nicehash" #cryptonightv7
 }
  
 $ThreadCount = $ThreadCount = $Variables.ProcessorCount - 2
@@ -21,12 +21,6 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
 
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_
-        
-        If ($Pool.Host -like "*nicehash*") {
-            $Commands."cryptonightv7" = " -a cn/rto --nicehash"
-        } else {
-            $Commands."cryptonightv7" = " -a cn/1 --nicehash"
-        }
 
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}

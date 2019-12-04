@@ -23,9 +23,9 @@ $Fees = 5
         $NiceHash_Algorithm = Get-Algorithm $_.Algorithm
         $NiceHash_Coin = ""
 
-        $DivisorMultiplier = 1000000000
+        $DivisorMultiplier = 100000
         $Divisor = $DivisorMultiplier * [Double]$_.Algodetails.marketFactor
-        $Divisor = 100000000
+        # $Divisor = 100000000
 
         $Stat = Set-Stat -Name "$($Name)_$($NiceHash_Algorithm)_Profit" -Value ([Double]$_.paying  / $Divisor * (1 - ($Fees / 100)))
 
