@@ -6,7 +6,7 @@ Copyright (c) 2018 Nemo		(https://github.com/Minerx117/NemosMiner)
 <img src="https://github.com/MrPlusGH/NPlusMiner/raw/master/Includes/NPM.gif" width="128" height="128">
 </p>
 
- # NPlusMiner-v6.0.3   - NVIDIA | AMD | CPU
+ # NPlusMiner-v6.0.4   - NVIDIA | AMD | CPU
   
  Readme Updated 2019 December 04
  
