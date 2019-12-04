@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\CPU-JayDDee\cpuminer-aes-sse42.exe"
-$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/CpuminerJayddeeSse2/cpuminer-opt-3.9.5-windows.zip"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/CpuminerJayddeeSse2/cpuminer-opt-3.10.0-windows.zip"
 
 $Commands = [PSCustomObject]@{
     "allium" = "" #Allium
