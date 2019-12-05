@@ -36,7 +36,7 @@ $dtAlgos | foreach {
 	$PwdCurr = if ($PoolConf.PwdCurrency) {$PoolConf.PwdCurrency}else {$Config.Passwordcurrency}
     $WorkerName = If ($PoolConf.WorkerName -like "ID=*") {$PoolConf.WorkerName} else {"ID=$($PoolConf.WorkerName)"}
 
-    $PoolPassword = If ( ! $Config.PartyWhenAvailable ) {"$($WorkerName),c=$($PwdCurr)"} else { "$($WorkerName),c=$($PwdCurr),m=party.NPlusMiner" }
+    $PoolPassword = If ( ! $Config.PartyWhenAvailable ) {"$($WorkerName),c=$($PwdCurr)"} else { "$($WorkerName),c=$($PwdCurr),m=PARTY.NPlusMiner" }
     $PoolPassword = If ( $Pool.symbol ) { "$($PoolPassword),mc=$($Pool.symbol)" } else { $PoolPassword }
 
 	$Locations = "eu.", ""
