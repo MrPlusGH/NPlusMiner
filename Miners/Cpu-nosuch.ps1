@@ -6,7 +6,7 @@ $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersB
 
 $Commands = [PSCustomObject]@{
     "m7m" = " -a m7m" #M7m
-    "yescryptr32" = " -a yescryptr32" #YescryptR32
+    "yescryptr32" = ",d=0.24 -a yescryptr32" #YescryptR32
 }
  
 $Name = Get-Item $MyInvocation.MyCommand.Path | Select-Object -ExpandProperty BaseName
