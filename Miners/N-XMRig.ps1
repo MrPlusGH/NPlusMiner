@@ -8,6 +8,7 @@ $Commands = [PSCustomObject]@{
     # "cryptonight-monero"  = " -a cryptonight/r" #cryptonight/r
     "randomxmonero"         = " -a rx/0 --nicehash" #RandomX
     "cryptonightv7"         = " -a cn/1 --nicehash" #cryptonightv7
+    "cryptonight_gpu"         = " -a cn/gpu --nicehash" #cryptonightGPU
 }
  
 $Port = $Variables.NVIDIAMinerAPITCPPort #2222
