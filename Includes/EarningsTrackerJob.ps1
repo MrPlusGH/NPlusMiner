@@ -46,6 +46,9 @@ $StartTime = Get-Date
 $LastAPIUpdateTime = Get-Date
 
 while ($true) {
+# Set decimal separator so CSV files look good.
+    [System.Threading.Thread]::CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator = "."
+    [System.Threading.Thread]::CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator = "."
 
 #Read Config (ie. Pools to track)
     $EarningsTrackerConfig = Get-content ".\config\EarningTrackerConfig.json" | ConvertFrom-JSON
