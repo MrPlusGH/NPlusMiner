@@ -232,7 +232,7 @@ Function Global:TimerUITick
                     @{Name = "BTC/GH/Day"; Expression={$_.Pools.PSObject.Properties.Value.Price | ForEach {($_*1000000000).ToString("N5")}}}
                 ) | sort "mBTC/Day" -Descending)
                 If ($Config.ShowOnlyTopCoins){
-                    $EstimationsDGV.DataSource = [System.Collections.ArrayList]@($DisplayEstimations | sort "mBTC/Day" -Descending | Group "Algorithm" | % { $_.Group | select -First 1} | sort "mBTC/Day" -Descending)
+                    $EstimationsDGV.DataSource = [System.Collections.ArrayList]@($DisplayEstimations | sort "mBTC/Day" -Descending | Group "Type","Algorithm" | % { $_.Group | select -First 1} | sort "mBTC/Day" -Descending)
                 } else {
                     $EstimationsDGV.DataSource = [System.Collections.ArrayList]@($DisplayEstimations)
                 }
@@ -391,7 +391,7 @@ Function Global:TimerUITick
                 # ) | Out-Host
 
                 If ($Config.ShowOnlyTopCoins){
-                    $DisplayEstimations | sort "mBTC/Day" -Descending | Group "Algorithm" | % { $_.Group | select -First 1} | sort Type,"mBTC/Day" -Descending | Format-Table -GroupBy Type | Out-Host
+                    $DisplayEstimations | sort "mBTC/Day" -Descending | Group "Type","Algorithm" | % { $_.Group | select -First 1} | sort Type,"mBTC/Day" -Descending | Format-Table -GroupBy Type | Out-Host
                 } else {
                     $DisplayEstimations | sort Type,"mBTC/Day" -Descending | Format-Table -GroupBy Type | Out-Host
                 }
