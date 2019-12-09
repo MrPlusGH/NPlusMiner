@@ -1425,22 +1425,31 @@ Function Merge-Command {
                 $Slave.Substring(1)
             }
             "Command" {
-                If ($Master -and !$Master.StartsWith(" ")) {$Master = " $($Master)"}
-                If ($Slave -and !$Slave.StartsWith(" ")) {$Slave = " $($Slave)"}
-                If ($Master -and !$Master.EndsWith(" ")) {$Master = "$($Master) "}
-                If ($Slave -and !$Slave.EndsWith(" ")) {$Slave = "$($Slave) "}
                 ($Master.split(" ") | ? {$_.StartsWith("-")}) | Foreach {
+                    If ($Master -and !$Master.StartsWith(" ")) {$Master = " $($Master)"}
+                    If ($Slave -and !$Slave.StartsWith(" ")) {$Slave = " $($Slave)"}
+                    If ($Master -and !$Master.EndsWith(" ")) {$Master = "$($Master) "}
+                    If ($Slave -and !$Slave.EndsWith(" ")) {$Slave = "$($Slave) "}
+                    $Matches = $null
+                    $MasterCmdArg = $null
                     If ($_ -notin $NoReplaceCmdArgs) {
                         if ($Master -match " $_ -") {
                             If (!($Slave -match " $_ -")) {
                                 $Slave = $Slave + " $($_)"
                             }
-                        } elseif ($Master -match " $_ *([^-]+)") {
+                        # } elseif ($Master -match " $_ *([^-]+)") {
+                            # $MasterCmdArg = $Matches[0]
+                            # If ($Slave -match " $_ *([^-]+)") {
+                                # $Slave = $Slave -replace " $_ *([^-]+)",$MasterCmdArg
+                            # } else {
+                                # $Slave = $Slave + " $($MasterCmdArg)"    
+                            # }
+                        } elseif ($Master -match " $_ *([^( -)])+") {
                             $MasterCmdArg = $Matches[0]
-                            If ($Slave -match " $_ *([^-]+)") {
-                                $Slave = $Slave -replace " $_ *([^-]+)",$MasterCmdArg
+                            If ($Slave -match " $_ *([^( -)])+") {
+                                $Slave = $Slave -replace " $_ *([^( -)])+",$MasterCmdArg
                             } else {
-                                $Slave = $Slave + " $($MasterCmdArg)"    
+                                $Slave = $Slave + " $($MasterCmdArg)"  
                             }
                         } elseif ($Master -match " $_ *([^\s]+)") {
                             $MasterCmdArg = $Matches[0]
@@ -1449,10 +1458,10 @@ Function Merge-Command {
                             } else {
                                 $Slave = $Slave + " $($MasterCmdArg)"    
                             }
-                        } elseif ($Master -match " $_*([^\s]+)") {
+                        } elseif ($Master -match " $_ ") {
                             $MasterCmdArg = $Matches[0]
-                            If ($Slave -match " $_*([^\s]+)") {
-                                $Slave = $Slave -replace " $_*([^\s]+)",$MasterCmdArg
+                            If ($Slave -match " $_ ") {
+                                $Slave = $Slave -replace " $_ ",$MasterCmdArg
                             } else {
                                 $Slave = $Slave + " $($MasterCmdArg)"    
                             }
