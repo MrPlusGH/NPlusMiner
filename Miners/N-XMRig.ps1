@@ -8,7 +8,8 @@ $Commands = [PSCustomObject]@{
     # "cryptonight-monero"  = " -a cryptonight/r" #cryptonight/r
     "randomxmonero"         = " -a rx/0 --nicehash" #RandomX
     "cryptonightv7"         = " -a cn/1 --nicehash" #cryptonightv7
-    "cryptonight_gpu"         = " -a cn/gpu --nicehash" #cryptonightGPU
+    "cryptonight_gpu"       = " -a cn/gpu --nicehash" #cryptonightGPU
+    "cryptonight_saber"     = " -a cn-heavy/0 --nicehash" #cryptonightGPU
 }
  
 $Port = $Variables.NVIDIAMinerAPITCPPort #2222
@@ -20,11 +21,13 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
 
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_
+        
+        If ($_.Coin = "TUBE") {$Commands.$Algo = " -a cn-heavy/tube --nicehash"}
 
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
-        $Arguments = "-a $AlgoNorm -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Pool.Pass)$($Commands.$_) --keepalive --http-port=$($Variables.NVIDIAMinerAPITCPPort) --donate-level 1 --no-cpu --cuda --cuda-loader=xmrig-cuda.dll --cuda-devices=$($Config.SelGPUCC) --no-nvml"
+        $Arguments = " -a $AlgoNorm -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Pool.Pass)$($Commands.$_) --keepalive --http-port=$($Variables.NVIDIAMinerAPITCPPort) --donate-level 1 --no-cpu --cuda --cuda-loader=xmrig-cuda.dll --cuda-devices=$($Config.SelGPUCC) --no-nvml "
 
         [PSCustomObject]@{
             Type = "NVIDIA"
