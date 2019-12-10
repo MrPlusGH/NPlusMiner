@@ -4,7 +4,7 @@ $Path = ".\Bin\NVIDIA-TTMiner\TT-Miner.exe"
 $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/TTMiner/TT-Miner-3.0.5.zip"
  
 $Commands = [PSCustomObject]@{
-    "progpow"  = " -a PROGPOW "
+    #"progpow"  = " -a PROGPOW "
     #"mtp"      = " -a MTP " #(Supports NiceHash) 
 }
  
