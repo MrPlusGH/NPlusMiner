@@ -3,10 +3,10 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\\Bin\\NVIDIA-Phoenix\\PhoenixMiner.exe"
-$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/Phoenix/PhoenixMiner_4.6c_Windows.7z"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/Phoenix/PhoenixMiner_4.8c_Windows.7z"
 $Commands = [PSCustomObject]@{
     #"ethash" = " -di $($($Config.SelGPUCC).Replace(',',''))" #Ethash(fastest)
-    # "progpow" = " -coin bci -di $($($Config.SelGPUCC).Replace(',',''))" #Progpow 
+    "progpow" = " -coin bci -di $($($Config.SelGPUCC).Replace(',',''))" #Progpow 
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
@@ -26,7 +26,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
             Type = "NVIDIA"
             Path = $Path
             Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
-            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week * .9935} # substract 1% devfee
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week * .99} # substract 1% devfee
             API = "ethminer"
             Port = $Variables.NVIDIAMinerAPITCPPort #3333
             Wrap = $false
