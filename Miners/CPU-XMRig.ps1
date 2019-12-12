@@ -8,8 +8,10 @@ $Commands = [PSCustomObject]@{
     # "cryptonight-monero"  = " -a cryptonight/r" #cryptonight/r
     "randomxmonero"         = " -a rx/0 --nicehash" #RandomX
     "randomx"               = " -a rx/0 --nicehash" #RandomX
-    "cryptonight_heavyx"    = " -a cn/double --nicehash" #cryptonight_heavyx
     "cryptonightv7"         = " -a cn/1 --nicehash" #cryptonightv7
+    "cryptonight_gpu"       = " -a cn/gpu --nicehash" #cryptonightGPU
+    "cryptonight_heavyx"    = " -a cn/double --nicehash" #cryptonight_heavyx
+    "cryptonight_saber"     = " -a cn-heavy/0 --nicehash" #cryptonightGPU
 }
  
 $ThreadCount = $ThreadCount = $Variables.ProcessorCount - 2
