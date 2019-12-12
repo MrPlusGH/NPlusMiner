@@ -26,6 +26,8 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_
 
+	If ($_.Coin -eq "TUBE") {$Commands.$Algo = " -a cn-heavy/tube --nicehash"}
+
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
