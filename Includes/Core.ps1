@@ -282,7 +282,7 @@ $CycleTime = Measure-Command -Expression {
                 $NewMiner =  &$_.path | select -first 1
                 $NewMiner | Add-Member -Force @{Name = (Get-Item $_.Path).BaseName}
                 If ($NewMiner.Path -and (Test-Path (Split-Path $NewMiner.Path))) {
-                    $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" -and $_.Path -eq (Resolve-Path $NewMiner.Path)} | ForEach {
+                    $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" -and (Resolve-Path $_.Path).Path -eq (Resolve-Path $NewMiner.Path).Path} | ForEach {
                             if($_.Process -eq $null)
                             {
                                 $_.Status = "Failed"
