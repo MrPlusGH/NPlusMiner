@@ -3,10 +3,10 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLo
 $Path = ".\Bin\NVIDIA-Gminer\miner.exe"
 $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/GMiner/gminer_1_85_windows64.zip"
 $Commands = [PSCustomObject]@{
-    "cuckoocycle"    = " --devices $($Config.SelGPUDSTM) --algo aeternity --pers auto" #Aeternity 
-    "equihash96"   = " --devices $($Config.SelGPUDSTM) --algo 96_5 --pers auto" #Equihash96 (fastest)
-    "grincuckaroo29"  = " --devices $($Config.SelGPUDSTM) --algo cuckaroo29 --pers auto" #Grincuckaroo29 (fastest)
-    "grincuckarood29"  = " --devices $($Config.SelGPUDSTM) --algo grin29 --pers auto" #Grincuckaroo29 (fastest)
+    "cuckoocycle"    = " --algo aeternity --pers auto" #Aeternity 
+    "equihash96"   = " --algo 96_5 --pers auto" #Equihash96 (fastest)
+    "grincuckaroo29"  = " --algo cuckaroo29 --pers auto" #Grincuckaroo29 (fastest)
+    "grincuckarood29"  = " --algo grin29 --pers auto" #Grincuckaroo29 (fastest)
     # "beam"         = " --devices $($Config.SelGPUDSTM) --algo 150_5 --pers Beam-PoW" #Equihash150 (fastest)
     # "beamv2"       = " --devices $($Config.SelGPUDSTM) -a beamhashII" #Equihash150 (NiceHash)
     # "equihash-btg" = " --devices $($Config.SelGPUDSTM) --algo 144_5 --pers BgoldPoW" # Equihash-btg (fastest)
@@ -30,7 +30,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
-        $Arguments = "-t 95 --watchdog 0 --api $($Variables.NVIDIAMinerAPITCPPort) --server $($Pool.Host) --port $($Pool.Port) --user $($Pool.User) --pass $($Password)"
+        $Arguments = " --devices $($Config.SelGPUDSTM) -t 95 --watchdog 0 --api $($Variables.NVIDIAMinerAPITCPPort) --server $($Pool.Host) --port $($Pool.Port) --user $($Pool.User) --pass $($Password)"
         
         [PSCustomObject]@{
             Type      = "NVIDIA"
