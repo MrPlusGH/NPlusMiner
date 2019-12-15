@@ -43,7 +43,8 @@ version date:   20191108
     #Apply user Args
     # Test custom config for Algo, coin, Miner, Coin
     #PrioritizedCombinations | highest at bottom
-    @(
+
+    $OrderedCombinations = @(
         "$($Pool.Algorithm), , , ",
         "$($Pool.Algorithm), $($Pool.Name), , ",
         "$($Pool.Algorithm), , $($Name), ",
@@ -51,28 +52,25 @@ version date:   20191108
         "$($Pool.Algorithm), $($Pool.Name), , $($Pool.Coin)"
         "$($Pool.Algorithm), , , $($Pool.Coin)"
         "$($Pool.Algorithm), $($Pool.Name), $($Name), $($Pool.Coin)"
-    ) | foreach {
-        if ($_ -in $Combinations.name) {
-            $CurrentCombination = $_
-            $WinningCustomConfig = ($Combinations | ? {$_.name -eq $CurrentCombination}).group[0]
-
-            If ($WinningCustomConfig.code) {
-                $WinningCustomConfig.code | Invoke-Expression
-                # Can't get return or continue to work in context correctly when inserted in custom code.
-                # Workaround with variable. So users have a way to not apply custom config based on conditions.
-                If ($DontUseCustom) {Return}
-            }
-            If ($WinningCustomConfig.CustomPasswordAdds) {
-                $CustomPasswordAdds = $WinningCustomConfig.CustomPasswordAdds.Trim()
-                $Password = Merge-Command -Slave $Password -Master $CustomPasswordAdds -Type "Password"
-            }
-            If ($WinningCustomConfig.CustomCommandAdds) {
-                $CustomCmdAdds = $WinningCustomConfig.CustomCommandAdds.Trim()
-                $CustomCmdAdds = Merge-Command -Slave $DevCommand -Master $CustomCmdAdds -Type "Command"
-            }
+    ) 
+    $WinningCustomConfig = ($Combinations | ? {$_.Name -like (Compare-Object $OrderedCombinations $Combinations.Name -IncludeEqual -ExcludeDifferent -PassThru | select -Last 1)}).Group
+    if ($WinningCustomConfig) {
+        If ($WinningCustomConfig.code) {
+            $WinningCustomConfig.code | Invoke-Expression
+            # Can't get return or continue to work in context correctly when inserted in custom code.
+            # Workaround with variable. So users have a way to not apply custom config based on conditions.
+            If ($DontUseCustom) {Return}
         }
-        $CustomPasswordAdds = $null
+        If ($WinningCustomConfig.CustomPasswordAdds) {
+            $CustomPasswordAdds = $WinningCustomConfig.CustomPasswordAdds.Trim()
+            $Password = Merge-Command -Slave $Password -Master $CustomPasswordAdds -Type "Password"
+        }
+        If ($WinningCustomConfig.CustomCommandAdds) {
+            $CustomCmdAdds = $WinningCustomConfig.CustomCommandAdds.Trim()
+            $CustomCmdAdds = Merge-Command -Slave $DevCommand -Master $CustomCmdAdds -Type "Command"
+        }
     }
+    $CustomPasswordAdds = $null
 
     If ($WinningCustomConfig.IncludeCoins -and $Pool.Coin -notin $WinningCustomConfig.IncludeCoins) {$AbortCurrentPool = $true ; return}
     If ($WinningCustomConfig.ExcludeCoins -and $Pool.Coin -in $WinningCustomConfig.ExcludeCoins) {$AbortCurrentPool = $true ; return}
