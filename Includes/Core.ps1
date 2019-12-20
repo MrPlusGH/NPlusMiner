@@ -171,14 +171,16 @@ $CycleTime = Measure-Command -Expression {
                 }
             }
         }
-
+        
         #Activate or deactivate donation
-        if((Get-Date).AddDays(-1).AddMinutes($Config.Donate) -ge $Variables.LastDonated -and $Variables.DonateRandom.wallet -eq $Null){
+        # if((Get-Date).AddDays(-1).AddMinutes($Config.Donate) -ge $Variables.LastDonated -and $Variables.DonateRandom.wallet -eq $Null){
+        if((Get-Date).AddDays(-1) -ge $Variables.LastDonated -and $Variables.DonateRandom.wallet -eq $Null){
             # Get donation addresses randomly from agreed developers list
             # This will fairly distribute donations to Developers
             # Developers list and wallets is publicly available at: http://tiny.cc/r355qy 
             $Variables.StatusText = "ENTERING DONATION"
-            $Variables | Add-Member -Force @{ DonationRunning = $True }
+            $Variables | Add-Member -Force @{ DonationStart = $True }
+            $Variables | Add-Member -Force @{ DonationRunning = $False }
             $Config.PartyWhenAvailable = $False
             try {$Donation = Invoke-WebRequest "http://tiny.cc/r355qy" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$Donation = @([PSCustomObject]@{Name = "mrplus";Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy";UserName = "mrplus"},[PSCustomObject]@{Name = "nemo";Wallet = "1QGADhdMRpp9Pk5u5zG1TrHKRrdK5R81TE";UserName = "nemo"})}
             if ($Donation -ne $null) {
@@ -186,6 +188,7 @@ $CycleTime = Measure-Command -Expression {
                 $Variables.DonateRandom = $Donation | Get-Random
                 $DevPoolsConfig = [PSCustomObject]@{default = [PSCustomObject]@{Wallet = $Variables.DonateRandom.Wallet;UserName = $Variables.DonateRandom.UserName;WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion.ToString().replace('.',''))";PricePenaltyFactor=1}}
                 $Config | Add-Member -Force @{PoolsConfig = Merge-PoolsConfig -Main $Config.PoolsConfig -Secondary $DevPoolsConfig}
+                If ($Variables.DonateRandom.Donate) {$Config.Donate = $Variables.DonateRandom.Donate}
                 If ($Variables.DonateRandom.PoolsConfURL) {
                     # Get Dev Pools Config
                     try {
@@ -204,8 +207,9 @@ $CycleTime = Measure-Command -Expression {
                 }
             }
         }
-        if(((Get-Date).AddDays(-1) -ge $Variables.LastDonated -and $Variables.DonateRandom.Wallet -ne $Null) -or (! $Config.PoolsConfig)){
-            If ($Variables.DonationRunning) {$Variables.StatusText = "EXITING DONATION"}
+        if(((Get-Date).AddDays(-1) -ge $Variables.LastDonated.AddMinutes($Config.Donate) -and $Variables.DonateRandom.Wallet -ne $Null) -or (! $Config.PoolsConfig)){
+            If ($Variables.DonationStart -or $Variables.DonationRunning) {$Variables.StatusText = "EXITING DONATION"}
+            $Variables | Add-Member -Force @{ DonationStart = $False }
             $Variables | Add-Member -Force @{ DonationRunning = $False }
             $ConfigLoad = Get-Content $Config.ConfigFile | ConvertFrom-json
             $ConfigLoad | % {$_.psobject.properties | sort Name | % {$Config | Add-Member -Force @{$_.Name = $_.Value}}}
@@ -396,7 +400,7 @@ $CycleTime = Measure-Command -Expression {
 
     # 5.2.1
     # Exclude non benchmarked during donation.
-    If ($Variables.DonationRunning) {
+    If ($Variables.DonationStart -or $Variables.DonationRunning) {
         $Variables.Miners = $Variables.Miners | ? {$_.HashRates.Psobject.properties.value}
     }
 
@@ -481,7 +485,7 @@ $CycleTime = Measure-Command -Expression {
             $Variables.StatusText = "Miner prevents CPU mining"
         }
                 
-        If ($Variables.DonationRunning) {
+        If ($Variables.DonationStart -or $Variables.DonationRunning) {
             $BestMiners_Combo | % {
                 $_.Arguments = $_.Arguments -replace "$($Config.PoolsConfig.Default.WorkerName)","$($Config.PoolsConfig.Default.WorkerName)_$($_.Type)"
             }
@@ -490,133 +494,140 @@ $CycleTime = Measure-Command -Expression {
         $Variables.StatusText = "Assigning miners.."
         
         #Add the most profitable miners to the active list
-        $BestMiners_Combo | ForEach {
-            if(($Variables.ActiveMinerPrograms | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments).Count -eq 0)
-            {
-                $Variables.ActiveMinerPrograms += [PSCustomObject]@{
-                    Type = $_.Type
-                    Name = $_.Name
-                    Path = $_.Path
-                    Arguments = $_.Arguments
-                    Wrap = $_.Wrap
-                    Process = $null
-                    API = $_.API
-                    Port = $_.Port
-                    Algorithms = $_.HashRates.PSObject.Properties.Name
-                    New = $false
-                    Active = [TimeSpan]0
-                    TotalActive = [TimeSpan]0
-                    Activated = 0
-                    FailedCount = 0
-                    Status = "Idle"
-                    HashRate = 0
-                    Benchmarked = 0
-                    Hashrate_Gathered = ($_.HashRates.PSObject.Properties.Value -ne $null)
-                    User = $_.User
-                    Host = $_.Host
-                    Coin = $_.Coin
+        # Prevent switching during donation
+        If (! $Variables.DonationRunning) {
+            $BestMiners_Combo | ForEach {
+                if(($Variables.ActiveMinerPrograms | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments).Count -eq 0)
+                {
+                    $Variables.ActiveMinerPrograms += [PSCustomObject]@{
+                        Type = $_.Type
+                        Name = $_.Name
+                        Path = $_.Path
+                        Arguments = $_.Arguments
+                        Wrap = $_.Wrap
+                        Process = $null
+                        API = $_.API
+                        Port = $_.Port
+                        Algorithms = $_.HashRates.PSObject.Properties.Name
+                        New = $false
+                        Active = [TimeSpan]0
+                        TotalActive = [TimeSpan]0
+                        Activated = 0
+                        FailedCount = 0
+                        Status = "Idle"
+                        HashRate = 0
+                        Benchmarked = 0
+                        Hashrate_Gathered = ($_.HashRates.PSObject.Properties.Value -ne $null)
+                        User = $_.User
+                        Host = $_.Host
+                        Coin = $_.Coin
+                    }
                 }
             }
-        }
-        #Stop or start miners in the active list depending on if they are the most profitable
-        # We have to stop processes first or the port would be busy
-        $Variables.ActiveMinerPrograms | ForEach {
-            [Array]$filtered = ($BestMiners_Combo | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments)
-            if($filtered.Count -eq 0)
-            {
-                if($_.Process -eq $null)
+            #Stop or start miners in the active list depending on if they are the most profitable
+            # We have to stop processes first or the port would be busy
+            $Variables.ActiveMinerPrograms | ForEach {
+                [Array]$filtered = ($BestMiners_Combo | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments)
+                if($filtered.Count -eq 0)
                 {
-                    $_.Status = "Failed"
-                    $_.FailedCount++
+                    if($_.Process -eq $null)
+                    {
+                        $_.Status = "Failed"
+                        $_.FailedCount++
+                    }
+                    elseif ($_.Process.HasExited -eq $false) {
+                        $_.Process.CloseMainWindow() | Out-Null
+                        Sleep 1
+                        # simply "Kill with power"
+                        Stop-Process $_.Process -Force | Out-Null
+                        # Try to kill any process with the same path, in case it is still running but the process handle is incorrect
+                        $KillPath = $_.Path
+                        Get-Process | Where-Object {$_.Path -eq $KillPath} | Stop-Process -Force
+                        Write-Host -ForegroundColor Yellow "closing miner"
+                        Sleep 1
+                        $_.Status = "Idle"
+                    }
+                    #Restore Bias for non-active miners
+                    $Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit_Bias_Orig}
                 }
-                elseif ($_.Process.HasExited -eq $false) {
-					$_.Process.CloseMainWindow() | Out-Null
-                    Sleep 1
-                    # simply "Kill with power"
-                    Stop-Process $_.Process -Force | Out-Null
-                    # Try to kill any process with the same path, in case it is still running but the process handle is incorrect
-                    $KillPath = $_.Path
-                    Get-Process | Where-Object {$_.Path -eq $KillPath} | Stop-Process -Force
-                    Write-Host -ForegroundColor Yellow "closing miner"
-                    Sleep 1
-                    $_.Status = "Idle"
-                }
-                #Restore Bias for non-active miners
-                $Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit_Bias_Orig}
             }
-        }
-        $newMiner = $false
-        $CurrentMinerHashrate_Gathered =$false 
-        $newMiner = $false
-        $CurrentMinerHashrate_Gathered =$false 
-        $Variables.ActiveMinerPrograms | ForEach {
-            [Array]$filtered = ($BestMiners_Combo | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments)
-            if($filtered.Count -gt 0)
-            {
-                if($_.Process -eq $null -or $_.Process.HasExited -ne $false)
+            $newMiner = $false
+            $CurrentMinerHashrate_Gathered =$false 
+            $newMiner = $false
+            $CurrentMinerHashrate_Gathered =$false 
+            $Variables.ActiveMinerPrograms | ForEach {
+                [Array]$filtered = ($BestMiners_Combo | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments)
+                if($filtered.Count -gt 0)
                 {
-                    # Migrate previous version of .\log\switching.log (Add Coin)
-                    # Move to app init
-                    If (Test-Path ".\Logs\switching.log") {
-                        If (!(Get-Content ".\Logs\switching.log" -First 1).Contains("coin")) {
-                            $tmp = @()
-                            Import-Csv .\Logs\switching.log | % {$tmp += [PsCustomObject][Ordered]@{date=$_.date;Type=$_.Type;algo=$_.Algo;coin=$_.Coin;wallet=$_.wallet;username=$_.UserName;Host=$_.host}}
-                            $tmp | export-csv .\Logs\switching.log -NoTypeInformation -Force
-                            rv tmp
+                    if($_.Process -eq $null -or $_.Process.HasExited -ne $false)
+                    {
+                        # Migrate previous version of .\log\switching.log (Add Coin)
+                        # Move to app init
+                        If (Test-Path ".\Logs\switching.log") {
+                            If (!(Get-Content ".\Logs\switching.log" -First 1).Contains("coin")) {
+                                $tmp = @()
+                                Import-Csv .\Logs\switching.log | % {$tmp += [PsCustomObject][Ordered]@{date=$_.date;Type=$_.Type;algo=$_.Algo;coin=$_.Coin;wallet=$_.wallet;username=$_.UserName;Host=$_.host}}
+                                $tmp | export-csv .\Logs\switching.log -NoTypeInformation -Force
+                                rv tmp
+                            }
                         }
-                    }
-                    # Log switching information to .\log\switching.log
-                    [pscustomobject]@{date=(get-date);Type=$_.Type;algo=$_.Algorithms;coin=$_.Coin;wallet=$_.User;username=$Config.UserName;Host=$_.host} | export-csv .\Logs\switching.log -Append -NoTypeInformation -Force
+                        # Log switching information to .\log\switching.log
+                        [pscustomobject]@{date=(get-date);Type=$_.Type;algo=$_.Algorithms;coin=$_.Coin;wallet=$_.User;username=$Config.UserName;Host=$_.host} | export-csv .\Logs\switching.log -Append -NoTypeInformation -Force
+                        If ($Variables.DonationStart) {
+                            $Variables | Add-Member -Force @{ DonationStart = $False }
+                            $Variables | Add-Member -Force @{ DonationRunning = $True }
+                        }
 
-                    # Launch prerun if exists
-                    If ($_.Type -eq "AMD" -and (Test-Path ".\Prerun\AMDPrerun.bat")) {
-                        Start-Process ".\Prerun\AMDPrerun.bat" -WorkingDirectory ".\Prerun" -WindowStyle hidden
-                    }
-                    If ($_.Type -eq "NVIDIA" -and (Test-Path ".\Prerun\NVIDIAPrerun.bat")) {
-                        Start-Process ".\Prerun\NVIDIAPrerun.bat" -WorkingDirectory ".\Prerun" -WindowStyle hidden
-                    }
-                    If ($_.Type -eq "CPU" -and (Test-Path ".\Prerun\CPUPrerun.bat")) {
-                        Start-Process ".\Prerun\CPUPrerun.bat" -WorkingDirectory ".\Prerun" -WindowStyle hidden
-                    }
-                    If ($_.Type -ne "CPU") {
-                        $PrerunName = ".\Prerun\"+$_.Algorithms+".bat"
-                        $DefaultPrerunName = ".\Prerun\default.bat"
-                                If (Test-Path $PrerunName) {
-                            $Variables.StatusText = "Launching Prerun: $PrerunName"
-                            Start-Process $PrerunName -WorkingDirectory ".\Prerun" -WindowStyle hidden
-                            Sleep 2
-                        } else {
-                            If (Test-Path $DefaultPrerunName) {
-                                $Variables.StatusText = "Launching Prerun: $DefaultPrerunName"
-                                Start-Process $DefaultPrerunName -WorkingDirectory ".\Prerun" -WindowStyle hidden
+                        # Launch prerun if exists
+                        If ($_.Type -eq "AMD" -and (Test-Path ".\Prerun\AMDPrerun.bat")) {
+                            Start-Process ".\Prerun\AMDPrerun.bat" -WorkingDirectory ".\Prerun" -WindowStyle hidden
+                        }
+                        If ($_.Type -eq "NVIDIA" -and (Test-Path ".\Prerun\NVIDIAPrerun.bat")) {
+                            Start-Process ".\Prerun\NVIDIAPrerun.bat" -WorkingDirectory ".\Prerun" -WindowStyle hidden
+                        }
+                        If ($_.Type -eq "CPU" -and (Test-Path ".\Prerun\CPUPrerun.bat")) {
+                            Start-Process ".\Prerun\CPUPrerun.bat" -WorkingDirectory ".\Prerun" -WindowStyle hidden
+                        }
+                        If ($_.Type -ne "CPU") {
+                            $PrerunName = ".\Prerun\"+$_.Algorithms+".bat"
+                            $DefaultPrerunName = ".\Prerun\default.bat"
+                                    If (Test-Path $PrerunName) {
+                                $Variables.StatusText = "Launching Prerun: $PrerunName"
+                                Start-Process $PrerunName -WorkingDirectory ".\Prerun" -WindowStyle hidden
                                 Sleep 2
-                                }
+                            } else {
+                                If (Test-Path $DefaultPrerunName) {
+                                    $Variables.StatusText = "Launching Prerun: $DefaultPrerunName"
+                                    Start-Process $DefaultPrerunName -WorkingDirectory ".\Prerun" -WindowStyle hidden
+                                    Sleep 2
+                                    }
+                            }
                         }
-                    }
 
-                    Sleep $Config.Delay #Wait to prevent BSOD
-                    $Variables.StatusText = "Starting miner"
-                    $Variables.DecayStart = Get-Date
-                    $_.New = $true
-                    $_.Activated++
-                    # if($_.Process -ne $null){$_.TotalActive += $_.Process.ExitTime-$_.Process.StartTime}
-                    if($_.Process -ne $null){$_.Active = [TimeSpan]0}
-					
-                    if($_.Wrap){$_.Process = Start-Process -FilePath "PowerShell" -ArgumentList "-executionpolicy bypass -command . '$(Convert-Path ".\Includes\Wrapper.ps1")' -ControllerProcessID $PID -Id '$($_.Port)' -FilePath '$($_.Path)' -ArgumentList '$($_.Arguments)' -WorkingDirectory '$(Split-Path $_.Path)'" -PassThru}
-                    else{$_.Process = Start-SubProcess -FilePath $_.Path -ArgumentList $_.Arguments -WorkingDirectory (Split-Path $_.Path)}
-                    if($_.Process -eq $null){$_.Status = "Failed";$_.FailedCount++}
-                    else {
-                        $_.Status = "Running"
-                        $newMiner = $true
-                        #Newely started miner should looks better than other in the first run too
-                        $Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit * (1 + $Config.ActiveMinerGainPct / 100)}
+                        Sleep $Config.Delay #Wait to prevent BSOD
+                        $Variables.StatusText = "Starting miner"
+                        $Variables.DecayStart = Get-Date
+                        $_.New = $true
+                        $_.Activated++
+                        # if($_.Process -ne $null){$_.TotalActive += $_.Process.ExitTime-$_.Process.StartTime}
+                        if($_.Process -ne $null){$_.Active = [TimeSpan]0}
+                        
+                        if($_.Wrap){$_.Process = Start-Process -FilePath "PowerShell" -ArgumentList "-executionpolicy bypass -command . '$(Convert-Path ".\Includes\Wrapper.ps1")' -ControllerProcessID $PID -Id '$($_.Port)' -FilePath '$($_.Path)' -ArgumentList '$($_.Arguments)' -WorkingDirectory '$(Split-Path $_.Path)'" -PassThru}
+                        else{$_.Process = Start-SubProcess -FilePath $_.Path -ArgumentList $_.Arguments -WorkingDirectory (Split-Path $_.Path)}
+                        if($_.Process -eq $null){$_.Status = "Failed";$_.FailedCount++}
+                        else {
+                            $_.Status = "Running"
+                            $newMiner = $true
+                            #Newely started miner should looks better than other in the first run too
+                            $Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit * (1 + $Config.ActiveMinerGainPct / 100)}
+                        }
+                    } else {
+                        $now = Get-Date
+                        $_.TotalActive = $_.TotalActive + ( $Now - $_.Process.StartTime ) - $_.Active
+                        $_.Active = $Now - $_.Process.StartTime
                     }
-                } else {
-                    $now = Get-Date
-                    $_.TotalActive = $_.TotalActive + ( $Now - $_.Process.StartTime ) - $_.Active
-                    $_.Active = $Now - $_.Process.StartTime
+                    $CurrentMinerHashrate_Gathered = $_.Hashrate_Gathered
                 }
-                $CurrentMinerHashrate_Gathered = $_.Hashrate_Gathered
             }
         }
         #Do nothing for a few seconds as to not overload the APIs
@@ -641,7 +652,7 @@ $CycleTime = Measure-Command -Expression {
         $Variables.TimeToSleep = $Config.Interval
         }
         # Prevent switching during donation
-        If ( $Variables.DonationRunning ) { If ($Config.Interval -ge ($Config.Donate * 60)) {$Variables.TimeToSleep = $Config.Interval} else {$Variables.TimeToSleep = $Config.Donate * 60 }}
+        # If ( $Variables.DonationRunning ) { If ($Config.Interval -ge ($Config.Donate * 60)) {$Variables.TimeToSleep = $Config.Interval} else {$Variables.TimeToSleep = $Config.Donate * 60 }}
         #Save current hash rates
         $Variables.ActiveMinerPrograms | ForEach {
             if($_.Process -eq $null -or $_.Process.HasExited)
