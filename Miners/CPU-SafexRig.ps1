@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\CPU-SafexRig\safex-rig.exe"
-$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/CPU-SafexRig/CPU-SafexRig.zip"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/CPU-SafexRig/CPU-SafexRig-0.1.zip"
 
 $Commands = [PSCustomObject]@{
     "randomsfx"               = " -a rx/sfx --nicehash" #RandomX
