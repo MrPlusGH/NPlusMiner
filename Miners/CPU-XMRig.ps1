@@ -1,13 +1,14 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\CPU-XMRig\xmrig.exe"
-$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/CPU-XMRig/xmrig-5.2.0-msvc2017-cuda10_1-win64.7z"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/CPU-XMRig/xmrig-5.4.0-msvc-win64.zip"
 
 $Commands = [PSCustomObject]@{
     # "cryptonightr"        = " -a cryptonight/r --nicehash" #cryptonight/r
     # "cryptonight-monero"  = " -a cryptonight/r" #cryptonight/r
     "randomxmonero"         = " -a rx/0 --nicehash" #RandomX
     "randomx"               = " -a rx/0 --nicehash" #RandomX
+    "randomsfx"             = " -a rx/sfx --nicehash" #RandomX
     "cryptonightv7"         = " -a cn/1 --nicehash" #cryptonightv7
     "cryptonight_gpu"       = " -a cn/gpu --nicehash" #cryptonightGPU
     "cryptonight_heavyx"    = " -a cn/double --nicehash" #cryptonight_heavyx
@@ -31,7 +32,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
-        $Arguments = "-a $AlgoNorm -t $($ThreadCount) -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Pool.Pass)$($Commands.$_) --keepalive --http-port=$($Variables.CPUMinerAPITCPPort) --donate-level 1"
+        $Arguments = "-a $AlgoNorm -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Pool.Pass)$($Commands.$_) --keepalive --http-port=$($Variables.CPUMinerAPITCPPort) --donate-level 1"
 
         [PSCustomObject]@{
             Type = "CPU"
