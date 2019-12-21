@@ -581,6 +581,25 @@ function Get-ChildItemContent {
         }
     $ChildItems
 }
+
+function Get-SubScriptContent {
+    param(
+        [Parameter(Mandatory = $true)]
+        [String]$Path,
+        [Parameter(Mandatory = $false)]
+        [Array]$Include = @()
+    )
+        $Content = @()
+        $ChildItems = Get-ChildItem -Recurse -Path $Path -Include $Include | ForEach-Object {
+            $Name = $_.BaseName
+            $FileName = $_.Name
+            if ($_.Extension -eq ".ps1") {
+               &$_.FullName | ForEach-Object {$Content += [PSCustomObject]@{Name = $Name; Content = $_}}
+            }
+        }
+    $Content
+}
+
 function Invoke_TcpRequest {
      
     param(
@@ -1163,12 +1182,17 @@ function Get-Algorithm {
         [Parameter(Mandatory = $true)]
         [String]$Algorithm
     )
+
+    If ((-not $Variables.Algorithms) -or (Get-Date).AddMinutes(-2) -ge $Variables.Algorithms.UpdatedCache ){
+        $Variables | Add-Member @{ Algorithms = Get-Content ".\Includes\Algorithms.txt" | ConvertFrom-Json } -Force
+        $Variables.Algorithms  | Add-Member @{ UpdatedCache = get-date } -Force
+    }
     
     $Algorithms = Get-Content ".\Includes\Algorithms.txt" | ConvertFrom-Json
 
     $Algorithm = (Get-Culture).TextInfo.ToTitleCase(($Algorithm -replace "-", " " -replace "_", " ")) -replace " "
 
-    if ($Algorithms.$Algorithm) {$Algorithms.$Algorithm}
+    if ($Variables.Algorithms.$Algorithm) {$Variables.Algorithms.$Algorithm}
     else {$Algorithm}
 }
 
