@@ -48,11 +48,18 @@ Easy configuration, easy start in two steps:
 Fee:
 
       There is a 8 minutes per day fee (0.5%).
-      Devs are doing their best to make NPlusminer your best tool. We have a fair fee distribution system to contributors.
+      Devs are doing their best to make NPlusminer your best tool.
+      We have a fair fee distribution system to contributors.
 
 *****
 
 ## Features list
+
+   AI
+   
+      NPlusMiner provides deep data analysis to lead to the best mining decisions.
+      BrainPlus is the Core brain computing these calculations and criteria.
+      Not only this does analyze prices, but aglos/coins performances or orphans rate as well.
 
    GUI
    
@@ -119,6 +126,7 @@ Fee:
 
    BrainPlus - ahashpoolplus / zergpoolplus / zpoolplus / blazepoolplus / BlockMastersPlus / PhiPhiPoolPlus / StarPoolPlus / HashRefineryPlus
    
+      Did we say AI ;)
       Uses calculations based on 24hractual and currentestimate ahashpool prices to get more realistic estimate.
       Includes some trust index based on past 1hr currentestimate variation from 24hr.
       AND is NOT sensible to spikes.
@@ -129,7 +137,7 @@ Fee:
 
       24hr - uses last 24hour Actual API too request profit
          -Low switching rate
-      plus - uses advanced calculations to maximize profit
+      plus - uses advanced calculations to maximize profit (AI)
          -**Best switching rate**
       normal - uses current estimate API too request profit
          -High switching rate
