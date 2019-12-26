@@ -13,6 +13,7 @@ $Commands = [PSCustomObject]@{
     "cryptonight_gpu"       = " -a cn/gpu --nicehash" #cryptonightGPU
     "cryptonight_heavyx"    = " -a cn/double --nicehash" #cryptonight_heavyx
     "cryptonight_saber"     = " -a cn-heavy/0 --nicehash" #cryptonightGPU
+    "cryptonight_fast"      = " -a cn/half --nicehash" #cryptonightFast
 }
  
 $Port = $Variables.AMDMinerAPITCPPort #2222
