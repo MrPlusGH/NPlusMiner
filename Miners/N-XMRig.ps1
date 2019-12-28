@@ -14,6 +14,7 @@ $Commands = [PSCustomObject]@{
     "cryptonight_heavyx"    = " -a cn/double --nicehash" #cryptonight_heavyx
     "cryptonight_saber"     = " -a cn-heavy/0 --nicehash" #cryptonightGPU
     "cryptonight_fast"      = " -a cn/half --nicehash" #cryptonightFast
+    "cryptonight_haven"      = " -a cn-heavy/xhv --nicehash" #cryptonightFast
 }
  
 $Port = $Variables.NVIDIAMinerAPITCPPort #2222
