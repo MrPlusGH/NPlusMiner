@@ -11,6 +11,7 @@ $Commands = [PSCustomObject]@{
     "randomsfx"             = " -a rx/sfx --nicehash" #RandomX
     "cryptonightv7"         = " -a cn/1 --nicehash" #cryptonightv7
     "cryptonight_gpu"       = " -a cn/gpu --nicehash" #cryptonightGPU
+    "cryptonight_heavy"     = " -a cn-heavy/0 --nicehash" #cryptonight_heavyx
     "cryptonight_heavyx"    = " -a cn/double --nicehash" #cryptonight_heavyx
     "cryptonight_saber"     = " -a cn-heavy/0 --nicehash" #cryptonightGPU
     "cryptonight_fast"      = " -a cn/half --nicehash" #cryptonightFast
