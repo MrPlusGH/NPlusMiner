@@ -35,6 +35,7 @@ $Commands = [PSCustomObject]@{
     "cryptonight_gpu" = " --intensity 8 -a cngpu" # CryptonightGPU
     "cryptonight_xeq" = " --intensity 8 -a cngpu" # CryptonightGPU (XEQ Zergpool)
     "cryptonight_saber" = " --intensity 8 -a cnsaber" # CryptonightSaber
+    "cryptonight_conceal" = " --intensity 8 -a cnconceal" # Cryptonight_Conceal
     #"tribus"            = " --intensity 8 -a tribus" #Tribus (not profitable)
     #"x16r"              = " --intensity 8 -a x16r" #x16r (trex fastest)
     #"x16s"              = " --intensity 8 -a x16s" #X16s (trex faster)
