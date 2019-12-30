@@ -495,7 +495,7 @@ $CycleTime = Measure-Command -Expression {
         
         #Add the most profitable miners to the active list
         # Prevent switching during donation
-        If (! $Variables.DonationRunning) {
+        If (! $Variables.DonationRunning -or ($Variables.ActiveMinerPrograms | ? {$_.Process -eq $null -or $_.Process.HasExited -ne $false})) {
             $BestMiners_Combo | ForEach {
                 if(($Variables.ActiveMinerPrograms | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments).Count -eq 0)
                 {
