@@ -215,7 +215,7 @@ Switch ($Chart) {
             $Chart1.Series | foreach {$_.CustomProperties = "DrawSideBySide=True"}
     }
     "DayPoolSplit" {
-           $datasource = If (Test-Path ".\logs\DailyEarnings.csv" ) {Import-Csv ".\logs\DailyEarnings.csv" | ? {$_.date -ge (Get-Date).date.AddDays(-1).ToString("MM/dd/yyyy")}}
+           $datasource = If (Test-Path ".\logs\DailyEarnings.csv" ) {Import-Csv ".\logs\DailyEarnings.csv" | ? {[datetime]$_.date -ge [datetime](Get-Date).date.AddDays(-1).ToString("MM/dd/yyyy")}}
            $dataSource | % {$_.DailyEarnings = [Decimal]$_.DailyEarnings}
            $datasource = $dataSource | ? {$_.DailyEarnings -gt 0} | sort DailyEarnings #-Descending
          
