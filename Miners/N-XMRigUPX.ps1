@@ -1,8 +1,8 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
-$Path = ".\Bin\CPU-XMRigUPX\xmrig.exe"
-$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/CPU-XMRigUPX/xmrig-upx-v0.2.0-win64.zip"
-
+$Path = ".\Bin\NVIDIA-XMRigUPX\xmrig-nvidia.exe"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/N-XMRigUPX/xmrig-nvidia-2.14.4_with-upx2-cuda10_1-win64.zip"
+ 
 $Commands = [PSCustomObject]@{
     # "cryptonightr"        = " -a cryptonight/r --nicehash" #cryptonight/r
     # "cryptonight-monero"  = " -a cryptonight/r" #cryptonight/r
@@ -18,7 +18,7 @@ $Commands = [PSCustomObject]@{
     # "cryptonight_saber"     = " -a cn-heavy/0 --nicehash" #cryptonightGPU
     # "cryptonight_fast"      = " -a cn/half --nicehash" #cryptonightFast
     # "cryptonight_haven"      = " -a cn-heavy/xhv --nicehash" #cryptonightFast
-    "cryptonight_upx"      = " -a cryptonight-upx/2 --nicehash" #cryptonightFast
+    "cryptonight_upx"      = " -a cn-upx2 --nicehash" #cryptonightFast
 }
  
 $ThreadCount = $ThreadCount = $Variables.ProcessorCount - 2
@@ -41,7 +41,7 @@ $Commands.PSObject.Properties.Name | % {
         $Arguments = "-a $AlgoNorm -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Pool.Pass)$($Commands.$_) --keepalive --api-port=$($Variables.CPUMinerAPITCPPort) --donate-level 1"
 
         [PSCustomObject]@{
-            Type = "CPU"
+            Type = "NVIDIA"
             Path = $Path
             Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
             HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week * .99} # substract 1% devfee
