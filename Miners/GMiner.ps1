@@ -4,6 +4,7 @@ $Path = ".\Bin\NVIDIA-Gminer\miner.exe"
 $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/GMiner/gminer_1_85_windows64.zip"
 $Commands = [PSCustomObject]@{
     "cuckoocycle"    = " --algo aeternity --pers auto" #Aeternity 
+    "ethash"          = " --algo ethash --proto stratum" #Ethash
     "equihash96"   = " --algo 96_5 --pers auto" #Equihash96 (fastest)
     "grincuckaroo29"  = " --algo cuckaroo29 --pers auto" #Grincuckaroo29 (fastest)
     "grincuckarood29"  = " --algo grin29 --pers auto" #Grincuckaroo29 (fastest)
