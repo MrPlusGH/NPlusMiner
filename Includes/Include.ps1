@@ -1545,20 +1545,20 @@ Function Invoke-ProxiedWebRequest {
     }
     if ($Request.Content.Length -eq 0 -or ($Request.StatusCode -ne 200 -and $Request.StatusCode -ne 305) -and -not $OutFile) {
         If ($Request.Content.Length -eq 0 -or $Request.StatusCode -eq 200) {
-            $Variables.StatusText = "Proxy Request NoContent - Trying Direct: $($URi)"
+            # $Variables.StatusText = "Proxy Request NoContent - Trying Direct: $($URi)"
         } else {
-            $Variables.StatusText = "Proxy Request Failed - Trying Direct: $($URi)"
+            # $Variables.StatusText = "Proxy Request Failed - Trying Direct: $($URi)"
         }
         Try {
             $Request = Invoke-WebRequest $URi -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} -ErrorAction SilentlyContinue
         } Catch {
-            $Variables.StatusText = "Direct Request Failed: $($URi)"
+            # $Variables.StatusText = "Direct Request Failed: $($URi)"
         }
         if ($Request.Content.Length -eq 0 -or $Request.StatusCode -ne 200 -and -not $OutFile) {
             If ($Request.Content.Length -eq 0 -or $Request.StatusCode -eq 204) {
-                $Variables.StatusText = "Direct Request NoContent: $($URi)"
+                # $Variables.StatusText = "Direct Request NoContent: $($URi)"
             } else {
-                $Variables.StatusText = "Direct Request Failed: $($URi)"
+                # $Variables.StatusText = "Direct Request Failed: $($URi)"
             }
         }
     }

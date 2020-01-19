@@ -39071,17 +39071,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>BIN</coin>
-    <time>1579263071</time>
-    <height>397076</height>
-    <amount>15.66964287</amount>
-    <category>immature</category>
-    <difficulty>0.174481</difficulty>
-    <difficulty_user>5.614166</difficulty_user>
-    <symbol>BIN</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>GLT-allium</coin>
     <time>1579263400</time>
     <height>1013542</height>
@@ -46947,17 +46936,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>BTCP</coin>
-    <time>1579339730</time>
-    <height>669741</height>
-    <amount>0.390625</amount>
-    <category>immature</category>
-    <difficulty>36.318535411645</difficulty>
-    <difficulty_user>39.2383866</difficulty_user>
-    <symbol>BTCP</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>ABS</coin>
     <time>1579342334</time>
     <height>555078</height>
@@ -49445,17 +49423,6 @@
   </Blocks>
   <Blocks>
     <coin>TLR</coin>
-    <time>1579351737</time>
-    <height>809681</height>
-    <amount>3.5</amount>
-    <category>generate</category>
-    <difficulty>0.958016</difficulty>
-    <difficulty_user>1.051165</difficulty_user>
-    <symbol>TLR</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>TLR</coin>
     <time>1579351815</time>
     <height>809686</height>
     <amount>3.5</amount>
@@ -50335,17 +50302,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>XVG</coin>
-    <time>1579355292</time>
-    <height>3761354</height>
-    <amount>400</amount>
-    <category>immature</category>
-    <difficulty>4402.670324</difficulty>
-    <difficulty_user>6698.742728</difficulty_user>
-    <symbol>XVG</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>GLT-x13</coin>
     <time>1579355486</time>
     <height>1014987</height>
@@ -50794,17 +50750,6 @@
     <difficulty>1.938905</difficulty>
     <difficulty_user>6.938584</difficulty_user>
     <symbol>TLR</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>XVG</coin>
-    <time>1579356945</time>
-    <height>3761400</height>
-    <amount>400</amount>
-    <category>immature</category>
-    <difficulty>4406.098467</difficulty>
-    <difficulty_user>7952.781119</difficulty_user>
-    <symbol>XVG</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -57712,17 +57657,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>ESP</coin>
-    <time>1579380765</time>
-    <height>876171</height>
-    <amount>5000</amount>
-    <category>immature</category>
-    <difficulty>57.929291</difficulty>
-    <difficulty_user>128.971233</difficulty_user>
-    <symbol>ESP</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>GLT-yescrypt</coin>
     <time>1579380756</time>
     <height>1015540</height>
@@ -58400,17 +58334,6 @@
     <category>immature</category>
     <difficulty>54.465344</difficulty>
     <difficulty_user>65.682763</difficulty_user>
-    <symbol>WXC</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>WXC</coin>
-    <time>1579383527</time>
-    <height>497594</height>
-    <amount>0.052</amount>
-    <category>immature</category>
-    <difficulty>53.046824</difficulty>
-    <difficulty_user>89.388013</difficulty_user>
     <symbol>WXC</symbol>
     <type>Shared</type>
   </Blocks>
@@ -67157,17 +67080,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>MEK</coin>
-    <time>1579404414</time>
-    <height>13014</height>
-    <amount>1.75</amount>
-    <category>immature</category>
-    <difficulty>164.863064</difficulty>
-    <difficulty_user>196.224488</difficulty_user>
-    <symbol>MEK</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>BOLI</coin>
     <time>1579406583</time>
     <height>632399</height>
@@ -67341,17 +67253,6 @@
     <difficulty>1088539.7861522</difficulty>
     <difficulty_user>-0.00009447</difficulty_user>
     <symbol>XRC</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>MEK</coin>
-    <time>1579405373</time>
-    <height>13016</height>
-    <amount>1.75</amount>
-    <category>immature</category>
-    <difficulty>147.197305</difficulty>
-    <difficulty_user>2129.080844</difficulty_user>
-    <symbol>MEK</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -67814,17 +67715,6 @@
     <difficulty>1369817.345071</difficulty>
     <difficulty_user>2094167.03719</difficulty_user>
     <symbol>AXE</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>MEK</coin>
-    <time>1579406333</time>
-    <height>13022</height>
-    <amount>1.75</amount>
-    <category>immature</category>
-    <difficulty>125.789778</difficulty>
-    <difficulty_user>127.733442</difficulty_user>
-    <symbol>MEK</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -71224,17 +71114,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>SOV</coin>
-    <time>1579412253</time>
-    <height>359281</height>
-    <amount>10</amount>
-    <category>immature</category>
-    <difficulty>3.580232</difficulty>
-    <difficulty_user>11.401495</difficulty_user>
-    <symbol>SOV</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>XRC</coin>
     <time>1579412230</time>
     <height>66920</height>
@@ -71408,28 +71287,6 @@
     <difficulty>3.020227</difficulty>
     <difficulty_user>3.970284</difficulty_user>
     <symbol>XGCS</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>SPK</coin>
-    <time>1579412627</time>
-    <height>433030</height>
-    <amount>3.6</amount>
-    <category>immature</category>
-    <difficulty>0.374689</difficulty>
-    <difficulty_user>0.955246</difficulty_user>
-    <symbol>SPK</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>SPK</coin>
-    <time>1579412619</time>
-    <height>433029</height>
-    <amount>3.6</amount>
-    <category>immature</category>
-    <difficulty>0.358752</difficulty>
-    <difficulty_user>0.967389</difficulty_user>
-    <symbol>SPK</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -72731,17 +72588,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>PRIV</coin>
-    <time>1579414335</time>
-    <height>1064157</height>
-    <amount>3.5</amount>
-    <category>immature</category>
-    <difficulty>768.872769</difficulty>
-    <difficulty_user>5298.473036</difficulty_user>
-    <symbol>PRIV</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>GIN</coin>
     <time>1579414330</time>
     <height>474765</height>
@@ -72761,17 +72607,6 @@
     <difficulty>3.819977</difficulty>
     <difficulty_user>8.714019</difficulty_user>
     <symbol>SOV</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>VECO</coin>
-    <time>1579414302</time>
-    <height>326452</height>
-    <amount>8</amount>
-    <category>immature</category>
-    <difficulty>0.001375</difficulty>
-    <difficulty_user>0.003325</difficulty_user>
-    <symbol>VECO</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -73915,17 +73750,6 @@
     <category>immature</category>
     <difficulty>1292.424701</difficulty>
     <difficulty_user>1861.387089</difficulty_user>
-    <symbol>FLO</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>FLO</coin>
-    <time>1579415757</time>
-    <height>3884278</height>
-    <amount>6.25</amount>
-    <category>immature</category>
-    <difficulty>1330.120045</difficulty>
-    <difficulty_user>10111.776098</difficulty_user>
     <symbol>FLO</symbol>
     <type>Shared</type>
   </Blocks>
@@ -77591,17 +77415,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>CMK</coin>
-    <time>1579419441</time>
-    <height>356094</height>
-    <amount>7.2</amount>
-    <category>immature</category>
-    <difficulty>3380.931238</difficulty>
-    <difficulty_user>27007.782194</difficulty_user>
-    <symbol>CMK</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>LOG</coin>
     <time>1579419441</time>
     <height>1139427</height>
@@ -80220,17 +80033,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>BSD</coin>
-    <time>1579421977</time>
-    <height>744967</height>
-    <amount>5.0000268</amount>
-    <category>immature</category>
-    <difficulty>7.417588</difficulty>
-    <difficulty_user>29.130058</difficulty_user>
-    <symbol>BSD</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>GLT-equi144</coin>
     <time>1579421976</time>
     <height>1016176</height>
@@ -80756,17 +80558,6 @@
     <difficulty>936733.634612</difficulty>
     <difficulty_user>1795999.55957</difficulty_user>
     <symbol>AXE</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>BSD</coin>
-    <time>1579422417</time>
-    <height>744970</height>
-    <amount>5</amount>
-    <category>immature</category>
-    <difficulty>5.842663</difficulty>
-    <difficulty_user>7.080691</difficulty_user>
-    <symbol>BSD</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -82079,17 +81870,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>BSD</coin>
-    <time>1579423581</time>
-    <height>744974</height>
-    <amount>5</amount>
-    <category>immature</category>
-    <difficulty>7.403127</difficulty>
-    <difficulty_user>49.149218</difficulty_user>
-    <symbol>BSD</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>GIO</coin>
     <time>1579423573</time>
     <height>1489786</height>
@@ -82141,17 +81921,6 @@
     <category>immature</category>
     <difficulty>178.872197</difficulty>
     <difficulty_user>250.747364</difficulty_user>
-    <symbol>XSH-scrypt</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>XSH-scrypt</coin>
-    <time>1579423721</time>
-    <height>1793344</height>
-    <amount>62</amount>
-    <category>immature</category>
-    <difficulty>171.766609</difficulty>
-    <difficulty_user>383.881127</difficulty_user>
     <symbol>XSH-scrypt</symbol>
     <type>Shared</type>
   </Blocks>
@@ -85742,28 +85511,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>BZL</coin>
-    <time>1579426730</time>
-    <height>1114903</height>
-    <amount>0.8</amount>
-    <category>generate</category>
-    <difficulty>25.199447</difficulty>
-    <difficulty_user>415.954724</difficulty_user>
-    <symbol>BZL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>BZL</coin>
-    <time>1579426710</time>
-    <height>1114900</height>
-    <amount>0.8</amount>
-    <category>generate</category>
-    <difficulty>35.042746</difficulty>
-    <difficulty_user>48.931651</difficulty_user>
-    <symbol>BZL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>KING</coin>
     <time>1579426707</time>
     <height>105312</height>
@@ -86248,28 +85995,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>BTA</coin>
-    <time>1579427108</time>
-    <height>1456556</height>
-    <amount>0.00099</amount>
-    <category>immature</category>
-    <difficulty>0.012997</difficulty>
-    <difficulty_user>0.144783</difficulty_user>
-    <symbol>BTA</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>BTA</coin>
-    <time>1579427088</time>
-    <height>1456555</height>
-    <amount>0.00024</amount>
-    <category>immature</category>
-    <difficulty>0.013726</difficulty>
-    <difficulty_user>0.049183</difficulty_user>
-    <symbol>BTA</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>BCA</coin>
     <time>1579427079</time>
     <height>688483</height>
@@ -86399,17 +86124,6 @@
     <difficulty>2615447.388846</difficulty>
     <difficulty_user>83014982.223907</difficulty_user>
     <symbol>DGB</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>BZL</coin>
-    <time>1579427258</time>
-    <height>1114912</height>
-    <amount>0.8</amount>
-    <category>generate</category>
-    <difficulty>37.612539</difficulty>
-    <difficulty_user>68.291487</difficulty_user>
-    <symbol>BZL</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -86897,39 +86611,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>BZL</coin>
-    <time>1579427665</time>
-    <height>1114919</height>
-    <amount>0.8</amount>
-    <category>generate</category>
-    <difficulty>13.805425</difficulty>
-    <difficulty_user>14.277477</difficulty_user>
-    <symbol>BZL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>BZL</coin>
-    <time>1579427663</time>
-    <height>1114918</height>
-    <amount>0.8</amount>
-    <category>generate</category>
-    <difficulty>6.749314</difficulty>
-    <difficulty_user>8.482948</difficulty_user>
-    <symbol>BZL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>BZL</coin>
-    <time>1579427655</time>
-    <height>1114917</height>
-    <amount>0.8</amount>
-    <category>generate</category>
-    <difficulty>7.349252</difficulty>
-    <difficulty_user>8.979579</difficulty_user>
-    <symbol>BZL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>PHC</coin>
     <time>1579427653</time>
     <height>1312591</height>
@@ -86949,17 +86630,6 @@
     <difficulty>0.190123</difficulty>
     <difficulty_user>0.227687</difficulty_user>
     <symbol>PHC</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>BZL</coin>
-    <time>1579427648</time>
-    <height>1114916</height>
-    <amount>0.8</amount>
-    <category>generate</category>
-    <difficulty>6.859299</difficulty>
-    <difficulty_user>10.050282</difficulty_user>
-    <symbol>BZL</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -87557,17 +87227,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>VDL</coin>
-    <time>1579428012</time>
-    <height>632268</height>
-    <amount>4.80000687</amount>
-    <category>immature</category>
-    <difficulty>36.050553379165</difficulty>
-    <difficulty_user>98.4104301</difficulty_user>
-    <symbol>VDL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>FLO</coin>
     <time>1579428011</time>
     <height>3884495</height>
@@ -87653,17 +87312,6 @@
     <difficulty>111.079213</difficulty>
     <difficulty_user>217.540944</difficulty_user>
     <symbol>ESP</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>BTA-lyra2z</coin>
-    <time>1579428127</time>
-    <height>1456561</height>
-    <amount>0.00024</amount>
-    <category>immature</category>
-    <difficulty>0.000578</difficulty>
-    <difficulty_user>0.002082</difficulty_user>
-    <symbol>BTA-lyra2z</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -87843,17 +87491,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>BTA-lyra2z</coin>
-    <time>1579428138</time>
-    <height>1456562</height>
-    <amount>0.00099</amount>
-    <category>immature</category>
-    <difficulty>0.001047</difficulty>
-    <difficulty_user>0.002808</difficulty_user>
-    <symbol>BTA-lyra2z</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>VDL</coin>
     <time>1579428411</time>
     <height>632273</height>
@@ -88027,17 +87664,6 @@
     <difficulty>44.987853</difficulty>
     <difficulty_user>50.654357</difficulty_user>
     <symbol>PHL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>VDL</coin>
-    <time>1579428227</time>
-    <height>632271</height>
-    <amount>4.8</amount>
-    <category>immature</category>
-    <difficulty>35.040469345408</difficulty>
-    <difficulty_user>220.070282</difficulty_user>
-    <symbol>VDL</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -88283,17 +87909,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>MTNS</coin>
-    <time>1579428687</time>
-    <height>154696</height>
-    <amount>37.5</amount>
-    <category>immature</category>
-    <difficulty>5185.131865</difficulty>
-    <difficulty_user>5731.061618</difficulty_user>
-    <symbol>MTNS</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>XVG</coin>
     <time>1579428686</time>
     <height>3763551</height>
@@ -88368,17 +87983,6 @@
     <difficulty>1.788277</difficulty>
     <difficulty_user>2.449785</difficulty_user>
     <symbol>ZOC</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>MTNS</coin>
-    <time>1579428652</time>
-    <height>154695</height>
-    <amount>37.5</amount>
-    <category>immature</category>
-    <difficulty>4952.648096</difficulty>
-    <difficulty_user>12431.322951</difficulty_user>
-    <symbol>MTNS</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -88558,17 +88162,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>SONO</coin>
-    <time>1579428848</time>
-    <height>1239685</height>
-    <amount>1.5</amount>
-    <category>immature</category>
-    <difficulty>0.265254</difficulty>
-    <difficulty_user>1.236036</difficulty_user>
-    <symbol>SONO</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>XSR</coin>
     <time>1579428843</time>
     <height>198620</height>
@@ -88701,17 +88294,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>SONO</coin>
-    <time>1579428720</time>
-    <height>1239682</height>
-    <amount>1.5</amount>
-    <category>immature</category>
-    <difficulty>0.267523</difficulty>
-    <difficulty_user>0.568276</difficulty_user>
-    <symbol>SONO</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>BELL</coin>
     <time>1579428717</time>
     <height>708646</height>
@@ -88731,17 +88313,6 @@
     <difficulty>35.300479755759</difficulty>
     <difficulty_user>63.4878591</difficulty_user>
     <symbol>VDL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>SONO</coin>
-    <time>1579428706</time>
-    <height>1239681</height>
-    <amount>1.5</amount>
-    <category>immature</category>
-    <difficulty>0.271025</difficulty>
-    <difficulty_user>0.273813</difficulty_user>
-    <symbol>SONO</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -91649,17 +91220,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>MTNS</coin>
-    <time>1579430909</time>
-    <height>154710</height>
-    <amount>37.5</amount>
-    <category>immature</category>
-    <difficulty>4620.93656</difficulty>
-    <difficulty_user>12519.06484</difficulty_user>
-    <symbol>MTNS</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>SAP</coin>
     <time>1579430909</time>
     <height>300380</height>
@@ -92825,17 +92385,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>CRP</coin>
-    <time>1579431527</time>
-    <height>1965533</height>
-    <amount>21</amount>
-    <category>immature</category>
-    <difficulty>0.001799</difficulty>
-    <difficulty_user>0.00596</difficulty_user>
-    <symbol>CRP</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>XSH</coin>
     <time>1579431512</time>
     <height>1793514</height>
@@ -92877,17 +92426,6 @@
     <difficulty>163.554793</difficulty>
     <difficulty_user>868.104509</difficulty_user>
     <symbol>MEK</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>CRP</coin>
-    <time>1579431467</time>
-    <height>1965532</height>
-    <amount>21</amount>
-    <category>immature</category>
-    <difficulty>0.001744</difficulty>
-    <difficulty_user>0.011907</difficulty_user>
-    <symbol>CRP</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -93881,17 +93419,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>FXTC-x11</coin>
-    <time>1579432368</time>
-    <height>628489</height>
-    <amount>0.00102591</amount>
-    <category>immature</category>
-    <difficulty>10.022067</difficulty>
-    <difficulty_user>27.497446</difficulty_user>
-    <symbol>FXTC-x11</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>BELL</coin>
     <time>1579432363</time>
     <height>708710</height>
@@ -94695,17 +94222,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>MBGL</coin>
-    <time>1579433141</time>
-    <height>301194</height>
-    <amount>3.9375</amount>
-    <category>immature</category>
-    <difficulty>105.631068</difficulty>
-    <difficulty_user>286.784045</difficulty_user>
-    <symbol>MBGL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>XSH</coin>
     <time>1579433138</time>
     <height>1793546</height>
@@ -94956,17 +94472,6 @@
     <difficulty>977.199839</difficulty>
     <difficulty_user>3663.904622</difficulty_user>
     <symbol>GLT-bitcore</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>MBGL</coin>
-    <time>1579432950</time>
-    <height>301193</height>
-    <amount>3.9375</amount>
-    <category>immature</category>
-    <difficulty>104.827173</difficulty>
-    <difficulty_user>127.832728</difficulty_user>
-    <symbol>MBGL</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -97885,17 +97390,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>TUX</coin>
-    <time>1579435246</time>
-    <height>789507</height>
-    <amount>33.5</amount>
-    <category>immature</category>
-    <difficulty>2.109909</difficulty>
-    <difficulty_user>4.062262</difficulty_user>
-    <symbol>TUX</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>BZL</coin>
     <time>1579435245</time>
     <height>1115083</height>
@@ -98465,17 +97959,6 @@
     <difficulty>0.023554346798625</difficulty>
     <difficulty_user>43328.1129</difficulty_user>
     <symbol>GLT-equi96</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>TUX</coin>
-    <time>1579435454</time>
-    <height>789509</height>
-    <amount>33.5</amount>
-    <category>immature</category>
-    <difficulty>2.095006</difficulty>
-    <difficulty_user>5.006874</difficulty_user>
-    <symbol>TUX</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -99642,17 +99125,6 @@
     <difficulty>31.184748135781</difficulty>
     <difficulty_user>2908.86459</difficulty_user>
     <symbol>VDL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>TTN</coin>
-    <time>1579436027</time>
-    <height>145032</height>
-    <amount>30</amount>
-    <category>immature</category>
-    <difficulty>23.378417</difficulty>
-    <difficulty_user>190.635375</difficulty_user>
-    <symbol>TTN</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -103110,17 +102582,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>EMD</coin>
-    <time>1579438027</time>
-    <height>9248767</height>
-    <amount>0.1</amount>
-    <category>generate</category>
-    <difficulty>7.537829</difficulty>
-    <difficulty_user>28.171217</difficulty_user>
-    <symbol>EMD</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>ELI</coin>
     <time>1579438023</time>
     <height>947532</height>
@@ -103198,17 +102659,6 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
-    <coin>EMD</coin>
-    <time>1579437988</time>
-    <height>9248766</height>
-    <amount>0.1</amount>
-    <category>generate</category>
-    <difficulty>7.349332</difficulty>
-    <difficulty_user>39.506419</difficulty_user>
-    <symbol>EMD</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
     <coin>RIL</coin>
     <time>1579437987</time>
     <height>198349</height>
@@ -103228,17 +102678,6 @@
     <difficulty>33.568651461197</difficulty>
     <difficulty_user>83.201372</difficulty_user>
     <symbol>VDL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>EMD</coin>
-    <time>1579437979</time>
-    <height>9248765</height>
-    <amount>0.1</amount>
-    <category>generate</category>
-    <difficulty>7.318628</difficulty>
-    <difficulty_user>10.132917</difficulty_user>
-    <symbol>EMD</symbol>
     <type>Shared</type>
   </Blocks>
   <Blocks>
@@ -106014,6 +105453,1194 @@
     <type>Shared</type>
   </Blocks>
   <Blocks>
+    <coin>VECO</coin>
+    <time>1579439322</time>
+    <height>326657</height>
+    <amount>8</amount>
+    <category>immature</category>
+    <difficulty>0.001523</difficulty>
+    <difficulty_user>0.003698</difficulty_user>
+    <symbol>VECO</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>PHL</coin>
+    <time>1579439312</time>
+    <height>449234</height>
+    <amount>0.60013914</amount>
+    <category>immature</category>
+    <difficulty>44.845951</difficulty>
+    <difficulty_user>53.9077</difficulty_user>
+    <symbol>PHL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>VOT</coin>
+    <time>1579439306</time>
+    <height>519333</height>
+    <amount>62.5</amount>
+    <category>immature</category>
+    <difficulty>168025.0903695</difficulty>
+    <difficulty_user>14414.6009</difficulty_user>
+    <symbol>VOT</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>VOT</coin>
+    <time>1579439270</time>
+    <height>519331</height>
+    <amount>62.5</amount>
+    <category>immature</category>
+    <difficulty>167939.93643307</difficulty>
+    <difficulty_user>12091.1862</difficulty_user>
+    <symbol>VOT</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>MTNS</coin>
+    <time>1579439270</time>
+    <height>154808</height>
+    <amount>37.5</amount>
+    <category>immature</category>
+    <difficulty>7897.711285</difficulty>
+    <difficulty_user>11596.752207</difficulty_user>
+    <symbol>MTNS</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>KMD</coin>
+    <time>1579439248</time>
+    <height>1712196</height>
+    <amount>3</amount>
+    <category>immature</category>
+    <difficulty>139750422.73097</difficulty>
+    <difficulty_user>866655.103</difficulty_user>
+    <symbol>KMD</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>ELI</coin>
+    <time>1579439235</time>
+    <height>947554</height>
+    <amount>5</amount>
+    <category>immature</category>
+    <difficulty>0.000799</difficulty>
+    <difficulty_user>0.000829</difficulty_user>
+    <symbol>ELI</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>MTNS</coin>
+    <time>1579439234</time>
+    <height>154807</height>
+    <amount>37.5</amount>
+    <category>immature</category>
+    <difficulty>7882.419435</difficulty>
+    <difficulty_user>42372.912798</difficulty_user>
+    <symbol>MTNS</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>TZC</coin>
+    <time>1579439216</time>
+    <height>1220065</height>
+    <amount>100</amount>
+    <category>immature</category>
+    <difficulty>6.6467992516836</difficulty>
+    <difficulty_user>0.000502332705</difficulty_user>
+    <symbol>TZC</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>CRP</coin>
+    <time>1579439215</time>
+    <height>1965790</height>
+    <amount>21</amount>
+    <category>immature</category>
+    <difficulty>0.002814</difficulty>
+    <difficulty_user>0.005496</difficulty_user>
+    <symbol>CRP</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>TZC</coin>
+    <time>1579439207</time>
+    <height>1220064</height>
+    <amount>100.008632</amount>
+    <category>immature</category>
+    <difficulty>6.3292277697464</difficulty>
+    <difficulty_user>0.000158238904</difficulty_user>
+    <symbol>TZC</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>GXX</coin>
+    <time>1579439185</time>
+    <height>613132</height>
+    <amount>1.5</amount>
+    <category>immature</category>
+    <difficulty>0.007623</difficulty>
+    <difficulty_user>0.012799</difficulty_user>
+    <symbol>GXX</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>TUX</coin>
+    <time>1579439183</time>
+    <height>789569</height>
+    <amount>33.5</amount>
+    <category>immature</category>
+    <difficulty>2.498498</difficulty>
+    <difficulty_user>6.911756</difficulty_user>
+    <symbol>TUX</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>XSH-scrypt</coin>
+    <time>1579439180</time>
+    <height>1793652</height>
+    <amount>62</amount>
+    <category>immature</category>
+    <difficulty>201.745572</difficulty>
+    <difficulty_user>285.040629</difficulty_user>
+    <symbol>XSH-scrypt</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BELL</coin>
+    <time>1579439172</time>
+    <height>708836</height>
+    <amount>10</amount>
+    <category>immature</category>
+    <difficulty>0.002103</difficulty>
+    <difficulty_user>0.002324</difficulty_user>
+    <symbol>BELL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>MBGL</coin>
+    <time>1579439169</time>
+    <height>301233</height>
+    <amount>3.9375</amount>
+    <category>immature</category>
+    <difficulty>108.060674</difficulty>
+    <difficulty_user>214.617145</difficulty_user>
+    <symbol>MBGL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>EMC2</coin>
+    <time>1579439165</time>
+    <height>2654386</height>
+    <amount>1.95</amount>
+    <category>generate</category>
+    <difficulty>466.830653</difficulty>
+    <difficulty_user>7997.487207</difficulty_user>
+    <symbol>EMC2</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>SONO</coin>
+    <time>1579439160</time>
+    <height>1239916</height>
+    <amount>1.5</amount>
+    <category>immature</category>
+    <difficulty>0.426111</difficulty>
+    <difficulty_user>3.326555</difficulty_user>
+    <symbol>SONO</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>STAK</coin>
+    <time>1579439153</time>
+    <height>874476</height>
+    <amount>3.8</amount>
+    <category>immature</category>
+    <difficulty>556.728678</difficulty>
+    <difficulty_user>2497.751117</difficulty_user>
+    <symbol>STAK</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>XSH-scrypt</coin>
+    <time>1579439150</time>
+    <height>1793651</height>
+    <amount>62</amount>
+    <category>immature</category>
+    <difficulty>196.414723</difficulty>
+    <difficulty_user>199.59548</difficulty_user>
+    <symbol>XSH-scrypt</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>STAK</coin>
+    <time>1579439145</time>
+    <height>874475</height>
+    <amount>3.8</amount>
+    <category>immature</category>
+    <difficulty>567.19069</difficulty>
+    <difficulty_user>3337.35429</difficulty_user>
+    <symbol>STAK</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>CRP</coin>
+    <time>1579439391</time>
+    <height>1965797</height>
+    <amount>21</amount>
+    <category>immature</category>
+    <difficulty>0.003434</difficulty>
+    <difficulty_user>0.007112</difficulty_user>
+    <symbol>CRP</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>VOT</coin>
+    <time>1579439389</time>
+    <height>519335</height>
+    <amount>62.5</amount>
+    <category>immature</category>
+    <difficulty>165925.12919298</difficulty>
+    <difficulty_user>851505.195</difficulty_user>
+    <symbol>VOT</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>VOT</coin>
+    <time>1579439379</time>
+    <height>519334</height>
+    <amount>62.5</amount>
+    <category>immature</category>
+    <difficulty>166522.20707604</difficulty>
+    <difficulty_user>12665.1341</difficulty_user>
+    <symbol>VOT</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>MBGL</coin>
+    <time>1579439376</time>
+    <height>301234</height>
+    <amount>3.9375</amount>
+    <category>immature</category>
+    <difficulty>108.673848</difficulty>
+    <difficulty_user>222.578921</difficulty_user>
+    <symbol>MBGL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>NAH</coin>
+    <time>1579439374</time>
+    <height>387325</height>
+    <amount>25</amount>
+    <category>immature</category>
+    <difficulty>44.34513</difficulty>
+    <difficulty_user>44.634731</difficulty_user>
+    <symbol>NAH</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>EMD</coin>
+    <time>1579439373</time>
+    <height>9248836</height>
+    <amount>0.1</amount>
+    <category>generate</category>
+    <difficulty>7.805238</difficulty>
+    <difficulty_user>22.083556</difficulty_user>
+    <symbol>EMD</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>ELI</coin>
+    <time>1579439363</time>
+    <height>947557</height>
+    <amount>5</amount>
+    <category>immature</category>
+    <difficulty>0.000869</difficulty>
+    <difficulty_user>0.000892</difficulty_user>
+    <symbol>ELI</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>TUX</coin>
+    <time>1579439360</time>
+    <height>789573</height>
+    <amount>33.5</amount>
+    <category>immature</category>
+    <difficulty>2.41018</difficulty>
+    <difficulty_user>2.59556</difficulty_user>
+    <symbol>TUX</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>XMY-argon2d</coin>
+    <time>1579439355</time>
+    <height>2993497</height>
+    <amount>250</amount>
+    <category>immature</category>
+    <difficulty>0.38253</difficulty>
+    <difficulty_user>0.427046</difficulty_user>
+    <symbol>XMY-argon2d</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>EMD</coin>
+    <time>1579439352</time>
+    <height>9248834</height>
+    <amount>0.1</amount>
+    <category>generate</category>
+    <difficulty>7.806857</difficulty>
+    <difficulty_user>13.053633</difficulty_user>
+    <symbol>EMD</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>EMD</coin>
+    <time>1579439349</time>
+    <height>9248833</height>
+    <amount>0.1</amount>
+    <category>generate</category>
+    <difficulty>7.9737</difficulty>
+    <difficulty_user>9.290889</difficulty_user>
+    <symbol>EMD</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>LCC</coin>
+    <time>1579439340</time>
+    <height>1875299</height>
+    <amount>125.0000314</amount>
+    <category>immature</category>
+    <difficulty>68798581.194536</difficulty>
+    <difficulty_user>221778892.757641</difficulty_user>
+    <symbol>LCC</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>XSR</coin>
+    <time>1579439340</time>
+    <height>198696</height>
+    <amount>4</amount>
+    <category>immature</category>
+    <difficulty>5.066154</difficulty>
+    <difficulty_user>7.881726</difficulty_user>
+    <symbol>XSR</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>GEX</coin>
+    <time>1579439338</time>
+    <height>361999</height>
+    <amount>2.401</amount>
+    <category>immature</category>
+    <difficulty>12.923934</difficulty>
+    <difficulty_user>42.278294</difficulty_user>
+    <symbol>GEX</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>VECO</coin>
+    <time>1579439337</time>
+    <height>326658</height>
+    <amount>8</amount>
+    <category>immature</category>
+    <difficulty>0.001437</difficulty>
+    <difficulty_user>0.00159</difficulty_user>
+    <symbol>VECO</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>LTFN</coin>
+    <time>1579439457</time>
+    <height>1747705</height>
+    <amount>12.50784637</amount>
+    <category>immature</category>
+    <difficulty>0.00024413713253701</difficulty>
+    <difficulty_user>-0.00004351</difficulty_user>
+    <symbol>LTFN</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>NAH</coin>
+    <time>1579439452</time>
+    <height>387331</height>
+    <amount>25</amount>
+    <category>immature</category>
+    <difficulty>44.118431</difficulty>
+    <difficulty_user>158.166524</difficulty_user>
+    <symbol>NAH</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>EMD</coin>
+    <time>1579439451</time>
+    <height>9248840</height>
+    <amount>0.1</amount>
+    <category>generate</category>
+    <difficulty>7.958427</difficulty>
+    <difficulty_user>8.84936</difficulty_user>
+    <symbol>EMD</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>NAH</coin>
+    <time>1579439446</time>
+    <height>387330</height>
+    <amount>25</amount>
+    <category>immature</category>
+    <difficulty>44.134215</difficulty>
+    <difficulty_user>70.876237</difficulty_user>
+    <symbol>NAH</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>VOT</coin>
+    <time>1579439445</time>
+    <height>519339</height>
+    <amount>62.5</amount>
+    <category>immature</category>
+    <difficulty>167205.99299917</difficulty>
+    <difficulty_user>17284.4785</difficulty_user>
+    <symbol>VOT</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>TUX</coin>
+    <time>1579439441</time>
+    <height>789575</height>
+    <amount>33.5</amount>
+    <category>immature</category>
+    <difficulty>2.383267</difficulty>
+    <difficulty_user>4.928925</difficulty_user>
+    <symbol>TUX</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>NAH</coin>
+    <time>1579439440</time>
+    <height>387329</height>
+    <amount>25</amount>
+    <category>immature</category>
+    <difficulty>44.183614</difficulty>
+    <difficulty_user>162.528012</difficulty_user>
+    <symbol>NAH</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>LBC</coin>
+    <time>1579439439</time>
+    <height>701940</height>
+    <amount>300.05337842</amount>
+    <category>immature</category>
+    <difficulty>7149326.032642</difficulty>
+    <difficulty_user>7781873.019707</difficulty_user>
+    <symbol>LBC</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>PHL</coin>
+    <time>1579439432</time>
+    <height>449235</height>
+    <amount>0.60009276</amount>
+    <category>immature</category>
+    <difficulty>44.238605</difficulty>
+    <difficulty_user>143.708989</difficulty_user>
+    <symbol>PHL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>VOT</coin>
+    <time>1579439431</time>
+    <height>519338</height>
+    <amount>62.5</amount>
+    <category>immature</category>
+    <difficulty>168246.35978117</difficulty>
+    <difficulty_user>18342.7494</difficulty_user>
+    <symbol>VOT</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>TZC</coin>
+    <time>1579439430</time>
+    <height>1220070</height>
+    <amount>100.023891</amount>
+    <category>immature</category>
+    <difficulty>8.4902698451738</difficulty>
+    <difficulty_user>-0.00013271</difficulty_user>
+    <symbol>TZC</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>LBC</coin>
+    <time>1579439412</time>
+    <height>701939</height>
+    <amount>302.25691179</amount>
+    <category>immature</category>
+    <difficulty>10723954.183386</difficulty>
+    <difficulty_user>15562895.395024</difficulty_user>
+    <symbol>LBC</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>EMD</coin>
+    <time>1579439402</time>
+    <height>9248838</height>
+    <amount>0.1</amount>
+    <category>generate</category>
+    <difficulty>7.814927</difficulty>
+    <difficulty_user>8.631564</difficulty_user>
+    <symbol>EMD</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>GXX</coin>
+    <time>1579439401</time>
+    <height>613134</height>
+    <amount>1.5</amount>
+    <category>immature</category>
+    <difficulty>0.007614</difficulty>
+    <difficulty_user>0.010131</difficulty_user>
+    <symbol>GXX</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>TZC</coin>
+    <time>1579439399</time>
+    <height>1220069</height>
+    <amount>100</amount>
+    <category>immature</category>
+    <difficulty>8.0846234692211</difficulty>
+    <difficulty_user>-0.00004575</difficulty_user>
+    <symbol>TZC</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>VOT</coin>
+    <time>1579439399</time>
+    <height>519337</height>
+    <amount>62.5</amount>
+    <category>immature</category>
+    <difficulty>167288.67328369</difficulty>
+    <difficulty_user>22526.7744</difficulty_user>
+    <symbol>VOT</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>NAH</coin>
+    <time>1579439397</time>
+    <height>387327</height>
+    <amount>25.000226</amount>
+    <category>immature</category>
+    <difficulty>43.562828</difficulty>
+    <difficulty_user>54.314885</difficulty_user>
+    <symbol>NAH</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>VOT</coin>
+    <time>1579439395</time>
+    <height>519336</height>
+    <amount>62.5</amount>
+    <category>immature</category>
+    <difficulty>164993.16725405</difficulty>
+    <difficulty_user>15337.358</difficulty_user>
+    <symbol>VOT</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>EMD</coin>
+    <time>1579439395</time>
+    <height>9248837</height>
+    <amount>0.1</amount>
+    <category>generate</category>
+    <difficulty>7.798199</difficulty>
+    <difficulty_user>12.23182</difficulty_user>
+    <symbol>EMD</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>DGB-Scrypt</coin>
+    <time>1579439392</time>
+    <height>10160390</height>
+    <amount>622.30674281</amount>
+    <category>generate</category>
+    <difficulty>31374.151783</difficulty>
+    <difficulty_user>84212.851414</difficulty_user>
+    <symbol>DGB-Scrypt</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>MTNS</coin>
+    <time>1579441734</time>
+    <height>154834</height>
+    <amount>37.5</amount>
+    <category>immature</category>
+    <difficulty>6153.745073</difficulty>
+    <difficulty_user>16252.911712</difficulty_user>
+    <symbol>MTNS</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>SPK</coin>
+    <time>1579441728</time>
+    <height>433206</height>
+    <amount>3.6</amount>
+    <category>immature</category>
+    <difficulty>0.690897</difficulty>
+    <difficulty_user>0.86529</difficulty_user>
+    <symbol>SPK</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>XSH-scrypt</coin>
+    <time>1579441711</time>
+    <height>1793720</height>
+    <amount>62</amount>
+    <category>immature</category>
+    <difficulty>233.136378</difficulty>
+    <difficulty_user>328.089888</difficulty_user>
+    <symbol>XSH-scrypt</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>GRS</coin>
+    <time>1579441662</time>
+    <height>2928535</height>
+    <amount>5</amount>
+    <category>immature</category>
+    <difficulty>677834.821182</difficulty>
+    <difficulty_user>1305957.812451</difficulty_user>
+    <symbol>GRS</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BZL</coin>
+    <time>1579441656</time>
+    <height>1115214</height>
+    <amount>0.8</amount>
+    <category>immature</category>
+    <difficulty>57.058862</difficulty>
+    <difficulty_user>83.896038</difficulty_user>
+    <symbol>BZL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>VECO</coin>
+    <time>1579441655</time>
+    <height>326673</height>
+    <amount>8</amount>
+    <category>immature</category>
+    <difficulty>0.001355</difficulty>
+    <difficulty_user>0.024616</difficulty_user>
+    <symbol>VECO</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>FLO</coin>
+    <time>1579441650</time>
+    <height>3884761</height>
+    <amount>6.25</amount>
+    <category>immature</category>
+    <difficulty>1218.405971</difficulty>
+    <difficulty_user>1914.664919</difficulty_user>
+    <symbol>FLO</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BZL</coin>
+    <time>1579441645</time>
+    <height>1115213</height>
+    <amount>0.8</amount>
+    <category>immature</category>
+    <difficulty>26.62739</difficulty>
+    <difficulty_user>37.856813</difficulty_user>
+    <symbol>BZL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BZL</coin>
+    <time>1579441625</time>
+    <height>1115210</height>
+    <amount>0.8</amount>
+    <category>immature</category>
+    <difficulty>56.892651</difficulty>
+    <difficulty_user>70.781832</difficulty_user>
+    <symbol>BZL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>FXTC-x11</coin>
+    <time>1579441623</time>
+    <height>628626</height>
+    <amount>0.00087056</amount>
+    <category>immature</category>
+    <difficulty>26.409222</difficulty>
+    <difficulty_user>29.47238</difficulty_user>
+    <symbol>FXTC-x11</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>TUX</coin>
+    <time>1579441622</time>
+    <height>789610</height>
+    <amount>33.5</amount>
+    <category>immature</category>
+    <difficulty>2.325844</difficulty>
+    <difficulty_user>5.992986</difficulty_user>
+    <symbol>TUX</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>MEK</coin>
+    <time>1579441614</time>
+    <height>13247</height>
+    <amount>1.75</amount>
+    <category>immature</category>
+    <difficulty>127.364489</difficulty>
+    <difficulty_user>219.38223</difficulty_user>
+    <symbol>MEK</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>TTN</coin>
+    <time>1579441607</time>
+    <height>145130</height>
+    <amount>30</amount>
+    <category>immature</category>
+    <difficulty>25.349235</difficulty>
+    <difficulty_user>80.419044</difficulty_user>
+    <symbol>TTN</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>MTNS</coin>
+    <time>1579441606</time>
+    <height>154831</height>
+    <amount>37.5</amount>
+    <category>immature</category>
+    <difficulty>6288.271132</difficulty>
+    <difficulty_user>54753.486704</difficulty_user>
+    <symbol>MTNS</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>SOV</coin>
+    <time>1579441602</time>
+    <height>359514</height>
+    <amount>10</amount>
+    <category>immature</category>
+    <difficulty>3.477657</difficulty>
+    <difficulty_user>4.499721</difficulty_user>
+    <symbol>SOV</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BTCP</coin>
+    <time>1579441601</time>
+    <height>670426</height>
+    <amount>0.390625</amount>
+    <category>immature</category>
+    <difficulty>42.709624452437</difficulty>
+    <difficulty_user>75.5743025</difficulty_user>
+    <symbol>BTCP</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>SONO</coin>
+    <time>1579441600</time>
+    <height>1239943</height>
+    <amount>1.5</amount>
+    <category>immature</category>
+    <difficulty>0.333025</difficulty>
+    <difficulty_user>0.392799</difficulty_user>
+    <symbol>SONO</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>MBGL</coin>
+    <time>1579441592</time>
+    <height>301246</height>
+    <amount>3.9375</amount>
+    <category>immature</category>
+    <difficulty>93.387959</difficulty>
+    <difficulty_user>166.182315</difficulty_user>
+    <symbol>MBGL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>MEK</coin>
+    <time>1579441591</time>
+    <height>13246</height>
+    <amount>1.75</amount>
+    <category>immature</category>
+    <difficulty>122.944159</difficulty>
+    <difficulty_user>501.254434</difficulty_user>
+    <symbol>MEK</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>TLR</coin>
+    <time>1579441578</time>
+    <height>811589</height>
+    <amount>3.5</amount>
+    <category>immature</category>
+    <difficulty>2.150044</difficulty>
+    <difficulty_user>3.453217</difficulty_user>
+    <symbol>TLR</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BSD</coin>
+    <time>1579441550</time>
+    <height>745070</height>
+    <amount>5</amount>
+    <category>immature</category>
+    <difficulty>9.153367</difficulty>
+    <difficulty_user>9.272522</difficulty_user>
+    <symbol>BSD</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>SONO</coin>
+    <time>1579441548</time>
+    <height>1239942</height>
+    <amount>1.5</amount>
+    <category>immature</category>
+    <difficulty>0.336859</difficulty>
+    <difficulty_user>1.235722</difficulty_user>
+    <symbol>SONO</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>EMD</coin>
+    <time>1579441541</time>
+    <height>9248940</height>
+    <amount>0.1</amount>
+    <category>immature</category>
+    <difficulty>7.649148</difficulty>
+    <difficulty_user>9.128915</difficulty_user>
+    <symbol>EMD</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>CRP</coin>
+    <time>1579441527</time>
+    <height>1965865</height>
+    <amount>21</amount>
+    <category>immature</category>
+    <difficulty>0.002933</difficulty>
+    <difficulty_user>0.005108</difficulty_user>
+    <symbol>CRP</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>VDL</coin>
+    <time>1579441524</time>
+    <height>632493</height>
+    <amount>4.8</amount>
+    <category>immature</category>
+    <difficulty>37.923003156072</difficulty>
+    <difficulty_user>54.6887919</difficulty_user>
+    <symbol>VDL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>VDL</coin>
+    <time>1579441523</time>
+    <height>632492</height>
+    <amount>4.8</amount>
+    <category>immature</category>
+    <difficulty>37.518319107393</difficulty>
+    <difficulty_user>138.139439</difficulty_user>
+    <symbol>VDL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>EMD</coin>
+    <time>1579441522</time>
+    <height>9248938</height>
+    <amount>0.1</amount>
+    <category>immature</category>
+    <difficulty>7.415628</difficulty>
+    <difficulty_user>41.664785</difficulty_user>
+    <symbol>EMD</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>TUX</coin>
+    <time>1579441522</time>
+    <height>789608</height>
+    <amount>33.5</amount>
+    <category>immature</category>
+    <difficulty>2.316184</difficulty>
+    <difficulty_user>2.975347</difficulty_user>
+    <symbol>TUX</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>CMK</coin>
+    <time>1579441518</time>
+    <height>356261</height>
+    <amount>7.2</amount>
+    <category>immature</category>
+    <difficulty>8285.989432</difficulty>
+    <difficulty_user>29707.013543</difficulty_user>
+    <symbol>CMK</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BIN</coin>
+    <time>1579441501</time>
+    <height>398205</height>
+    <amount>15.66965449</amount>
+    <category>immature</category>
+    <difficulty>0.140171</difficulty>
+    <difficulty_user>0.283176</difficulty_user>
+    <symbol>BIN</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>EMD</coin>
+    <time>1579441485</time>
+    <height>9248935</height>
+    <amount>0.1</amount>
+    <category>immature</category>
+    <difficulty>7.302503</difficulty>
+    <difficulty_user>15.916457</difficulty_user>
+    <symbol>EMD</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BZL</coin>
+    <time>1579441484</time>
+    <height>1115207</height>
+    <amount>0.8</amount>
+    <category>immature</category>
+    <difficulty>26.549856</difficulty>
+    <difficulty_user>35.370192</difficulty_user>
+    <symbol>BZL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>MEK</coin>
+    <time>1579441475</time>
+    <height>13245</height>
+    <amount>1.75</amount>
+    <category>immature</category>
+    <difficulty>120.453181</difficulty>
+    <difficulty_user>196.94893</difficulty_user>
+    <symbol>MEK</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BZL</coin>
+    <time>1579441473</time>
+    <height>1115206</height>
+    <amount>0.8</amount>
+    <category>immature</category>
+    <difficulty>33.03982</difficulty>
+    <difficulty_user>72.275808</difficulty_user>
+    <symbol>BZL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>XVG</coin>
+    <time>1579441471</time>
+    <height>3763935</height>
+    <amount>400</amount>
+    <category>immature</category>
+    <difficulty>8952.02016</difficulty>
+    <difficulty_user>15572.467035</difficulty_user>
+    <symbol>XVG</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BZL</coin>
+    <time>1579441467</time>
+    <height>1115205</height>
+    <amount>0.8</amount>
+    <category>immature</category>
+    <difficulty>19.089652</difficulty>
+    <difficulty_user>20.747177</difficulty_user>
+    <symbol>BZL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>PRIV</coin>
+    <time>1579441459</time>
+    <height>1064677</height>
+    <amount>3.5</amount>
+    <category>immature</category>
+    <difficulty>868.245223</difficulty>
+    <difficulty_user>2270.187291</difficulty_user>
+    <symbol>PRIV</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BTA</coin>
+    <time>1579441457</time>
+    <height>1456664</height>
+    <amount>0.00099</amount>
+    <category>immature</category>
+    <difficulty>0.019527</difficulty>
+    <difficulty_user>0.023946</difficulty_user>
+    <symbol>BTA</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BTA</coin>
+    <time>1579441454</time>
+    <height>1456663</height>
+    <amount>0.00099</amount>
+    <category>immature</category>
+    <difficulty>0.019476</difficulty>
+    <difficulty_user>0.327353</difficulty_user>
+    <symbol>BTA</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>SONO</coin>
+    <time>1579441449</time>
+    <height>1239941</height>
+    <amount>1.5</amount>
+    <category>immature</category>
+    <difficulty>0.348943</difficulty>
+    <difficulty_user>0.715235</difficulty_user>
+    <symbol>SONO</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>WXC</coin>
+    <time>1579441446</time>
+    <height>498413</height>
+    <amount>0.052</amount>
+    <category>immature</category>
+    <difficulty>47.758828</difficulty>
+    <difficulty_user>79.456051</difficulty_user>
+    <symbol>WXC</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>MTNS</coin>
+    <time>1579441445</time>
+    <height>154828</height>
+    <amount>37.5</amount>
+    <category>immature</category>
+    <difficulty>6124.20916</difficulty>
+    <difficulty_user>143571.669847</difficulty_user>
+    <symbol>MTNS</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BSD</coin>
+    <time>1579441439</time>
+    <height>745068</height>
+    <amount>5</amount>
+    <category>immature</category>
+    <difficulty>3.202217</difficulty>
+    <difficulty_user>7.941583</difficulty_user>
+    <symbol>BSD</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BTA-lyra2z</coin>
+    <time>1579441438</time>
+    <height>1456661</height>
+    <amount>0.00024</amount>
+    <category>immature</category>
+    <difficulty>0.000709</difficulty>
+    <difficulty_user>0.008024</difficulty_user>
+    <symbol>BTA-lyra2z</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>CRP</coin>
+    <time>1579441432</time>
+    <height>1965862</height>
+    <amount>21</amount>
+    <category>immature</category>
+    <difficulty>0.00299</difficulty>
+    <difficulty_user>0.022233</difficulty_user>
+    <symbol>CRP</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BZL</coin>
+    <time>1579441426</time>
+    <height>1115204</height>
+    <amount>0.8</amount>
+    <category>immature</category>
+    <difficulty>18.665435</difficulty>
+    <difficulty_user>66.462963</difficulty_user>
+    <symbol>BZL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>SPK</coin>
+    <time>1579441425</time>
+    <height>433199</height>
+    <amount>3.6</amount>
+    <category>immature</category>
+    <difficulty>0.52389</difficulty>
+    <difficulty_user>0.633273</difficulty_user>
+    <symbol>SPK</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>ESP</coin>
+    <time>1579441418</time>
+    <height>876307</height>
+    <amount>5000</amount>
+    <category>immature</category>
+    <difficulty>58.04594</difficulty>
+    <difficulty_user>91.519365</difficulty_user>
+    <symbol>ESP</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BSD</coin>
+    <time>1579441410</time>
+    <height>745067</height>
+    <amount>5</amount>
+    <category>immature</category>
+    <difficulty>6.079988</difficulty>
+    <difficulty_user>8.137005</difficulty_user>
+    <symbol>BSD</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>BTA-lyra2z</coin>
+    <time>1579441410</time>
+    <height>1456660</height>
+    <amount>0.00024</amount>
+    <category>immature</category>
+    <difficulty>0.000624</difficulty>
+    <difficulty_user>0.009018</difficulty_user>
+    <symbol>BTA-lyra2z</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>MBGL</coin>
+    <time>1579441403</time>
+    <height>301245</height>
+    <amount>3.9375</amount>
+    <category>immature</category>
+    <difficulty>96.108339</difficulty>
+    <difficulty_user>105.782347</difficulty_user>
+    <symbol>MBGL</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
+    <coin>XVG</coin>
+    <time>1579441401</time>
+    <height>3763928</height>
+    <amount>400.1</amount>
+    <category>immature</category>
+    <difficulty>16810.317975</difficulty>
+    <difficulty_user>21559.67284</difficulty_user>
+    <symbol>XVG</symbol>
+    <type>Shared</type>
+  </Blocks>
+  <Blocks>
     <coin>ZER</coin>
     <time>1579441372</time>
     <height>765753</height>
@@ -107404,7 +108031,7 @@
     <time>1579440764</time>
     <height>9248901</height>
     <amount>0.1</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>7.438587</difficulty>
     <difficulty_user>58.774541</difficulty_user>
     <symbol>EMD</symbol>
@@ -107426,7 +108053,7 @@
     <time>1579440761</time>
     <height>9248900</height>
     <amount>0.1</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>7.538425</difficulty>
     <difficulty_user>7.984391</difficulty_user>
     <symbol>EMD</symbol>
@@ -107690,7 +108317,7 @@
     <time>1579440605</time>
     <height>9248894</height>
     <amount>0.1</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>7.354107</difficulty>
     <difficulty_user>74.072082</difficulty_user>
     <symbol>EMD</symbol>
@@ -107701,7 +108328,7 @@
     <time>1579440603</time>
     <height>9248893</height>
     <amount>0.1</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>7.29065</difficulty>
     <difficulty_user>19.746418</difficulty_user>
     <symbol>EMD</symbol>
@@ -107712,7 +108339,7 @@
     <time>1579440601</time>
     <height>9248892</height>
     <amount>0.1</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>7.037115</difficulty>
     <difficulty_user>7.474946</difficulty_user>
     <symbol>EMD</symbol>
@@ -107723,7 +108350,7 @@
     <time>1579440597</time>
     <height>9248891</height>
     <amount>0.1</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>7.494428</difficulty>
     <difficulty_user>16.982933</difficulty_user>
     <symbol>EMD</symbol>
@@ -107778,7 +108405,7 @@
     <time>1579440554</time>
     <height>443029</height>
     <amount>1</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>0.534809</difficulty>
     <difficulty_user>1.354462</difficulty_user>
     <symbol>DYN</symbol>
@@ -108361,7 +108988,7 @@
     <time>1579440211</time>
     <height>1115181</height>
     <amount>0.8</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>48.460032</difficulty>
     <difficulty_user>80.31984</difficulty_user>
     <symbol>BZL</symbol>
@@ -109109,7 +109736,7 @@
     <time>1579439938</time>
     <height>10160438</height>
     <amount>622.29372281</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>442769337.575385</difficulty>
     <difficulty_user>36683263618.31878</difficulty_user>
     <symbol>DGB-sha</symbol>
@@ -109835,7 +110462,7 @@
     <time>1579439575</time>
     <height>1139591</height>
     <amount>0.8775078</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>2351.051982</difficulty>
     <difficulty_user>8210.179468</difficulty_user>
     <symbol>LOG</symbol>
@@ -109879,7 +110506,7 @@
     <time>1579439544</time>
     <height>1139590</height>
     <amount>0.87750857</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>2351.051982</difficulty>
     <difficulty_user>24476.984542</difficulty_user>
     <symbol>LOG</symbol>
@@ -109982,622 +110609,6 @@
     <difficulty>44.433097</difficulty>
     <difficulty_user>55.614595</difficulty_user>
     <symbol>NAH</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>LTFN</coin>
-    <time>1579439457</time>
-    <height>1747705</height>
-    <amount>12.50784637</amount>
-    <category>immature</category>
-    <difficulty>0.00024413713253701</difficulty>
-    <difficulty_user>-0.00004351</difficulty_user>
-    <symbol>LTFN</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>NAH</coin>
-    <time>1579439452</time>
-    <height>387331</height>
-    <amount>25</amount>
-    <category>immature</category>
-    <difficulty>44.118431</difficulty>
-    <difficulty_user>158.166524</difficulty_user>
-    <symbol>NAH</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>EMD</coin>
-    <time>1579439451</time>
-    <height>9248840</height>
-    <amount>0.1</amount>
-    <category>generate</category>
-    <difficulty>7.958427</difficulty>
-    <difficulty_user>8.84936</difficulty_user>
-    <symbol>EMD</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>NAH</coin>
-    <time>1579439446</time>
-    <height>387330</height>
-    <amount>25</amount>
-    <category>immature</category>
-    <difficulty>44.134215</difficulty>
-    <difficulty_user>70.876237</difficulty_user>
-    <symbol>NAH</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>VOT</coin>
-    <time>1579439445</time>
-    <height>519339</height>
-    <amount>62.5</amount>
-    <category>immature</category>
-    <difficulty>167205.99299917</difficulty>
-    <difficulty_user>17284.4785</difficulty_user>
-    <symbol>VOT</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>TUX</coin>
-    <time>1579439441</time>
-    <height>789575</height>
-    <amount>33.5</amount>
-    <category>immature</category>
-    <difficulty>2.383267</difficulty>
-    <difficulty_user>4.928925</difficulty_user>
-    <symbol>TUX</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>NAH</coin>
-    <time>1579439440</time>
-    <height>387329</height>
-    <amount>25</amount>
-    <category>immature</category>
-    <difficulty>44.183614</difficulty>
-    <difficulty_user>162.528012</difficulty_user>
-    <symbol>NAH</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>LBC</coin>
-    <time>1579439439</time>
-    <height>701940</height>
-    <amount>300.05337842</amount>
-    <category>immature</category>
-    <difficulty>7149326.032642</difficulty>
-    <difficulty_user>7781873.019707</difficulty_user>
-    <symbol>LBC</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>PHL</coin>
-    <time>1579439432</time>
-    <height>449235</height>
-    <amount>0.60009276</amount>
-    <category>immature</category>
-    <difficulty>44.238605</difficulty>
-    <difficulty_user>143.708989</difficulty_user>
-    <symbol>PHL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>VOT</coin>
-    <time>1579439431</time>
-    <height>519338</height>
-    <amount>62.5</amount>
-    <category>immature</category>
-    <difficulty>168246.35978117</difficulty>
-    <difficulty_user>18342.7494</difficulty_user>
-    <symbol>VOT</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>TZC</coin>
-    <time>1579439430</time>
-    <height>1220070</height>
-    <amount>100.023891</amount>
-    <category>immature</category>
-    <difficulty>8.4902698451738</difficulty>
-    <difficulty_user>-0.00013271</difficulty_user>
-    <symbol>TZC</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>LBC</coin>
-    <time>1579439412</time>
-    <height>701939</height>
-    <amount>302.25691179</amount>
-    <category>immature</category>
-    <difficulty>10723954.183386</difficulty>
-    <difficulty_user>15562895.395024</difficulty_user>
-    <symbol>LBC</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>EMD</coin>
-    <time>1579439402</time>
-    <height>9248838</height>
-    <amount>0.1</amount>
-    <category>generate</category>
-    <difficulty>7.814927</difficulty>
-    <difficulty_user>8.631564</difficulty_user>
-    <symbol>EMD</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>GXX</coin>
-    <time>1579439401</time>
-    <height>613134</height>
-    <amount>1.5</amount>
-    <category>immature</category>
-    <difficulty>0.007614</difficulty>
-    <difficulty_user>0.010131</difficulty_user>
-    <symbol>GXX</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>TZC</coin>
-    <time>1579439399</time>
-    <height>1220069</height>
-    <amount>100</amount>
-    <category>immature</category>
-    <difficulty>8.0846234692211</difficulty>
-    <difficulty_user>-0.00004575</difficulty_user>
-    <symbol>TZC</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>VOT</coin>
-    <time>1579439399</time>
-    <height>519337</height>
-    <amount>62.5</amount>
-    <category>immature</category>
-    <difficulty>167288.67328369</difficulty>
-    <difficulty_user>22526.7744</difficulty_user>
-    <symbol>VOT</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>NAH</coin>
-    <time>1579439397</time>
-    <height>387327</height>
-    <amount>25.000226</amount>
-    <category>immature</category>
-    <difficulty>43.562828</difficulty>
-    <difficulty_user>54.314885</difficulty_user>
-    <symbol>NAH</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>VOT</coin>
-    <time>1579439395</time>
-    <height>519336</height>
-    <amount>62.5</amount>
-    <category>immature</category>
-    <difficulty>164993.16725405</difficulty>
-    <difficulty_user>15337.358</difficulty_user>
-    <symbol>VOT</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>EMD</coin>
-    <time>1579439395</time>
-    <height>9248837</height>
-    <amount>0.1</amount>
-    <category>generate</category>
-    <difficulty>7.798199</difficulty>
-    <difficulty_user>12.23182</difficulty_user>
-    <symbol>EMD</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>DGB-Scrypt</coin>
-    <time>1579439392</time>
-    <height>10160390</height>
-    <amount>622.30674281</amount>
-    <category>generate</category>
-    <difficulty>31374.151783</difficulty>
-    <difficulty_user>84212.851414</difficulty_user>
-    <symbol>DGB-Scrypt</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>CRP</coin>
-    <time>1579439391</time>
-    <height>1965797</height>
-    <amount>21</amount>
-    <category>immature</category>
-    <difficulty>0.003434</difficulty>
-    <difficulty_user>0.007112</difficulty_user>
-    <symbol>CRP</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>VOT</coin>
-    <time>1579439389</time>
-    <height>519335</height>
-    <amount>62.5</amount>
-    <category>immature</category>
-    <difficulty>165925.12919298</difficulty>
-    <difficulty_user>851505.195</difficulty_user>
-    <symbol>VOT</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>VOT</coin>
-    <time>1579439379</time>
-    <height>519334</height>
-    <amount>62.5</amount>
-    <category>immature</category>
-    <difficulty>166522.20707604</difficulty>
-    <difficulty_user>12665.1341</difficulty_user>
-    <symbol>VOT</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>MBGL</coin>
-    <time>1579439376</time>
-    <height>301234</height>
-    <amount>3.9375</amount>
-    <category>immature</category>
-    <difficulty>108.673848</difficulty>
-    <difficulty_user>222.578921</difficulty_user>
-    <symbol>MBGL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>NAH</coin>
-    <time>1579439374</time>
-    <height>387325</height>
-    <amount>25</amount>
-    <category>immature</category>
-    <difficulty>44.34513</difficulty>
-    <difficulty_user>44.634731</difficulty_user>
-    <symbol>NAH</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>EMD</coin>
-    <time>1579439373</time>
-    <height>9248836</height>
-    <amount>0.1</amount>
-    <category>generate</category>
-    <difficulty>7.805238</difficulty>
-    <difficulty_user>22.083556</difficulty_user>
-    <symbol>EMD</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>ELI</coin>
-    <time>1579439363</time>
-    <height>947557</height>
-    <amount>5</amount>
-    <category>immature</category>
-    <difficulty>0.000869</difficulty>
-    <difficulty_user>0.000892</difficulty_user>
-    <symbol>ELI</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>TUX</coin>
-    <time>1579439360</time>
-    <height>789573</height>
-    <amount>33.5</amount>
-    <category>immature</category>
-    <difficulty>2.41018</difficulty>
-    <difficulty_user>2.59556</difficulty_user>
-    <symbol>TUX</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>XMY-argon2d</coin>
-    <time>1579439355</time>
-    <height>2993497</height>
-    <amount>250</amount>
-    <category>immature</category>
-    <difficulty>0.38253</difficulty>
-    <difficulty_user>0.427046</difficulty_user>
-    <symbol>XMY-argon2d</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>EMD</coin>
-    <time>1579439352</time>
-    <height>9248834</height>
-    <amount>0.1</amount>
-    <category>generate</category>
-    <difficulty>7.806857</difficulty>
-    <difficulty_user>13.053633</difficulty_user>
-    <symbol>EMD</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>EMD</coin>
-    <time>1579439349</time>
-    <height>9248833</height>
-    <amount>0.1</amount>
-    <category>generate</category>
-    <difficulty>7.9737</difficulty>
-    <difficulty_user>9.290889</difficulty_user>
-    <symbol>EMD</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>LCC</coin>
-    <time>1579439340</time>
-    <height>1875299</height>
-    <amount>125.0000314</amount>
-    <category>immature</category>
-    <difficulty>68798581.194536</difficulty>
-    <difficulty_user>221778892.757641</difficulty_user>
-    <symbol>LCC</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>XSR</coin>
-    <time>1579439340</time>
-    <height>198696</height>
-    <amount>4</amount>
-    <category>immature</category>
-    <difficulty>5.066154</difficulty>
-    <difficulty_user>7.881726</difficulty_user>
-    <symbol>XSR</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>GEX</coin>
-    <time>1579439338</time>
-    <height>361999</height>
-    <amount>2.401</amount>
-    <category>immature</category>
-    <difficulty>12.923934</difficulty>
-    <difficulty_user>42.278294</difficulty_user>
-    <symbol>GEX</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>VECO</coin>
-    <time>1579439337</time>
-    <height>326658</height>
-    <amount>8</amount>
-    <category>immature</category>
-    <difficulty>0.001437</difficulty>
-    <difficulty_user>0.00159</difficulty_user>
-    <symbol>VECO</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>VECO</coin>
-    <time>1579439322</time>
-    <height>326657</height>
-    <amount>8</amount>
-    <category>immature</category>
-    <difficulty>0.001523</difficulty>
-    <difficulty_user>0.003698</difficulty_user>
-    <symbol>VECO</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>PHL</coin>
-    <time>1579439312</time>
-    <height>449234</height>
-    <amount>0.60013914</amount>
-    <category>immature</category>
-    <difficulty>44.845951</difficulty>
-    <difficulty_user>53.9077</difficulty_user>
-    <symbol>PHL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>VOT</coin>
-    <time>1579439306</time>
-    <height>519333</height>
-    <amount>62.5</amount>
-    <category>immature</category>
-    <difficulty>168025.0903695</difficulty>
-    <difficulty_user>14414.6009</difficulty_user>
-    <symbol>VOT</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>VOT</coin>
-    <time>1579439270</time>
-    <height>519331</height>
-    <amount>62.5</amount>
-    <category>immature</category>
-    <difficulty>167939.93643307</difficulty>
-    <difficulty_user>12091.1862</difficulty_user>
-    <symbol>VOT</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>MTNS</coin>
-    <time>1579439270</time>
-    <height>154808</height>
-    <amount>37.5</amount>
-    <category>immature</category>
-    <difficulty>7897.711285</difficulty>
-    <difficulty_user>11596.752207</difficulty_user>
-    <symbol>MTNS</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>KMD</coin>
-    <time>1579439248</time>
-    <height>1712196</height>
-    <amount>3</amount>
-    <category>immature</category>
-    <difficulty>139750422.73097</difficulty>
-    <difficulty_user>866655.103</difficulty_user>
-    <symbol>KMD</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>ELI</coin>
-    <time>1579439235</time>
-    <height>947554</height>
-    <amount>5</amount>
-    <category>immature</category>
-    <difficulty>0.000799</difficulty>
-    <difficulty_user>0.000829</difficulty_user>
-    <symbol>ELI</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>MTNS</coin>
-    <time>1579439234</time>
-    <height>154807</height>
-    <amount>37.5</amount>
-    <category>immature</category>
-    <difficulty>7882.419435</difficulty>
-    <difficulty_user>42372.912798</difficulty_user>
-    <symbol>MTNS</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>TZC</coin>
-    <time>1579439216</time>
-    <height>1220065</height>
-    <amount>100</amount>
-    <category>immature</category>
-    <difficulty>6.6467992516836</difficulty>
-    <difficulty_user>0.000502332705</difficulty_user>
-    <symbol>TZC</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>CRP</coin>
-    <time>1579439215</time>
-    <height>1965790</height>
-    <amount>21</amount>
-    <category>immature</category>
-    <difficulty>0.002814</difficulty>
-    <difficulty_user>0.005496</difficulty_user>
-    <symbol>CRP</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>TZC</coin>
-    <time>1579439207</time>
-    <height>1220064</height>
-    <amount>100.008632</amount>
-    <category>immature</category>
-    <difficulty>6.3292277697464</difficulty>
-    <difficulty_user>0.000158238904</difficulty_user>
-    <symbol>TZC</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>GXX</coin>
-    <time>1579439185</time>
-    <height>613132</height>
-    <amount>1.5</amount>
-    <category>immature</category>
-    <difficulty>0.007623</difficulty>
-    <difficulty_user>0.012799</difficulty_user>
-    <symbol>GXX</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>TUX</coin>
-    <time>1579439183</time>
-    <height>789569</height>
-    <amount>33.5</amount>
-    <category>immature</category>
-    <difficulty>2.498498</difficulty>
-    <difficulty_user>6.911756</difficulty_user>
-    <symbol>TUX</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>XSH-scrypt</coin>
-    <time>1579439180</time>
-    <height>1793652</height>
-    <amount>62</amount>
-    <category>immature</category>
-    <difficulty>201.745572</difficulty>
-    <difficulty_user>285.040629</difficulty_user>
-    <symbol>XSH-scrypt</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>BELL</coin>
-    <time>1579439172</time>
-    <height>708836</height>
-    <amount>10</amount>
-    <category>immature</category>
-    <difficulty>0.002103</difficulty>
-    <difficulty_user>0.002324</difficulty_user>
-    <symbol>BELL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>MBGL</coin>
-    <time>1579439169</time>
-    <height>301233</height>
-    <amount>3.9375</amount>
-    <category>immature</category>
-    <difficulty>108.060674</difficulty>
-    <difficulty_user>214.617145</difficulty_user>
-    <symbol>MBGL</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>EMC2</coin>
-    <time>1579439165</time>
-    <height>2654386</height>
-    <amount>1.95</amount>
-    <category>generate</category>
-    <difficulty>466.830653</difficulty>
-    <difficulty_user>7997.487207</difficulty_user>
-    <symbol>EMC2</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>SONO</coin>
-    <time>1579439160</time>
-    <height>1239916</height>
-    <amount>1.5</amount>
-    <category>immature</category>
-    <difficulty>0.426111</difficulty>
-    <difficulty_user>3.326555</difficulty_user>
-    <symbol>SONO</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>STAK</coin>
-    <time>1579439153</time>
-    <height>874476</height>
-    <amount>3.8</amount>
-    <category>immature</category>
-    <difficulty>556.728678</difficulty>
-    <difficulty_user>2497.751117</difficulty_user>
-    <symbol>STAK</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>XSH-scrypt</coin>
-    <time>1579439150</time>
-    <height>1793651</height>
-    <amount>62</amount>
-    <category>immature</category>
-    <difficulty>196.414723</difficulty>
-    <difficulty_user>199.59548</difficulty_user>
-    <symbol>XSH-scrypt</symbol>
-    <type>Shared</type>
-  </Blocks>
-  <Blocks>
-    <coin>STAK</coin>
-    <time>1579439145</time>
-    <height>874475</height>
-    <amount>3.8</amount>
-    <category>immature</category>
-    <difficulty>567.19069</difficulty>
-    <difficulty_user>3337.35429</difficulty_user>
-    <symbol>STAK</symbol>
     <type>Shared</type>
   </Blocks>
 </NewDataSet>
