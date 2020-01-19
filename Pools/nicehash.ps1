@@ -25,7 +25,7 @@ $Fees = 5
 
         $DivisorMultiplier = 100000
         $Divisor = $DivisorMultiplier * [Double]$_.Algodetails.marketFactor
-        # $Divisor = 100000000
+        $Divisor = 100000000
 
         $Stat = Set-Stat -Name "$($Name)_$($NiceHash_Algorithm)_Profit" -Value ([Double]$_.paying  / $Divisor * (1 - ($Fees / 100)))
 
