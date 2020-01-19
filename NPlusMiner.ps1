@@ -465,7 +465,7 @@ Function Form_Load
 
     $MainForm.Text = "$($Branding.ProductLable) $($Variables.CurrentVersion)"
     $LabelBTCD.Text = "$($Branding.ProductLable) $($Variables.CurrentVersion)"
-    $MainForm.Number = 0
+    $MainForm.Number = 0 
     $TimerUI.Add_Tick({
         # Timer never disposes objects until it is disposed
         # $MainForm.Number = $MainForm.Number + 1
