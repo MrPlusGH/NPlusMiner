@@ -1,10 +1,11 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-Gminer\miner.exe"
-$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/GMiner/gminer_1_85_windows64.zip"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/GMiner/gminer_1_95_windows64.zip"
 $Commands = [PSCustomObject]@{
     "cuckoocycle"    = " --algo aeternity --pers auto" #Aeternity 
-    "ethash"          = " --algo ethash --proto stratum" #Ethash
+    "eaglesong"       = " --algo eaglesong" #eaglesong
+    # "ethash"          = " --algo ethash --proto stratum" #Ethash
     "equihash96"   = " --algo 96_5 --pers auto" #Equihash96 (fastest)
     "grincuckaroo29"  = " --algo cuckaroo29 --pers auto" #Grincuckaroo29 (fastest)
     "grincuckarood29"  = " --algo grin29 --pers auto" #Grincuckaroo29 (fastest)
@@ -12,17 +13,18 @@ $Commands = [PSCustomObject]@{
     # "beamv2"       = " --devices $($Config.SelGPUDSTM) -a beamhashII" #Equihash150 (NiceHash)
     # "equihash-btg" = " --devices $($Config.SelGPUDSTM) --algo 144_5 --pers BgoldPoW" # Equihash-btg (fastest)
     # "equihash125"    = " --devices $($Config.SelGPUDSTM) --algo 125_4 --pers auto" #Equihash125
-    # "equihash144"  = " --devices $($Config.SelGPUDSTM) --algo 144_5 --pers auto" #Equihash144 (fastest)
+    # "equihash144"      = " --devices $($Config.SelGPUDSTM) --algo 144_5 --pers auto" #Equihash144 (fastest)
     # "equihash192"  = " --devices $($Config.SelGPUDSTM) --algo 192_7 --pers auto" #Equihash192 (fastest)
     # "grincuckatoo31"  = " --devices $($Config.SelGPUDSTM) --algo grin31 --pers auto" #Cuckatoo31 requires 7.4GB VRam, will work on 8GB cards under Linux and Windows 7, will not work under Windows 10
     # "zhash"        = " --devices $($Config.SelGPUDSTM) --algo 144_5 --pers auto" #Zhash (fastest)
+    "cuckaroom"       = " --algo grin29" #Cuckaroom 
 }
-
+ 
 $Port = $Variables.NVIDIAMinerAPITCPPort
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 $WinningCustomConfig = [PSCustomObject]@{}
 
-$Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
+$Commands.PSObject.Properties.Name | ForEach-Object {
 	$Algo =$_
 	$AlgoNorm = Get-Algorithm($_)
 
