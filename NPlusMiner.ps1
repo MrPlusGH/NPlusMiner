@@ -482,7 +482,7 @@ Function Form_Load
             # $TimerUI.Add_Tick({TimerUITick})
             # Sleep 1
             # $TimerUI.Start()
-        }
+        # }
         TimerUITick
         # $TimerUI.Start()
     })
