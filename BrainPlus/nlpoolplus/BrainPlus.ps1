@@ -1,6 +1,6 @@
 <#
 This file is part of NPlusMiner
-Copyright (c) 2018-2019 MrPlus
+Copyright (c) 2018-2020 MrPlus
 
 NPlusMiner is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -148,11 +148,11 @@ $CurDate = Get-Date
 $RetryInterval = 0
 
 try{
-    $AlgoData = Invoke-WebRequest $Config.PoolStatusUri -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json
-    $CoinsData = Invoke-WebRequest $Config.PoolCurrenciesUri -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
+    $AlgoData = Invoke-ProxiedWebRequest $Config.PoolStatusUri -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json
+    $CoinsData = Invoke-ProxiedWebRequest $Config.PoolCurrenciesUri -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
     If ($Config.SoloBlocksPenaltyMode -eq "Sample" -or $Config.OrphanBlocksPenalty) {
         # Need to update in case of type change (Orphans)
-        (Invoke-WebRequest $Config.PoolBlocksUri | ConvertFrom-Json) | ? {$_.category -ne "new"} | foreach {
+        (Invoke-ProxiedWebRequest $Config.PoolBlocksUri | ConvertFrom-Json) | ? {$_.category -ne "new"} | foreach {
             if (!$_.symbol) {$_ | Add-Member -Force @{symbol = $_.Coin}}
             if (!$_.type) {$_ | Add-Member -Force @{type = "Shared"}}
             Try{

@@ -69,7 +69,8 @@ Function Global:RegisterLoaded ($File) {
 }
     
 Function Global:IsLoaded ($File) {
-    $Hash = (Get-FileHash (Resolve-Path $File).Path).hash
+    # $Variables.StatusText = "IsLoaded CALL - $($file) - $((Get-PSCallStack).Command[1])"
+    $Hash = $Variables.FilesHash.Where({$_.File -eq (Resolve-Path $File).Path}).Hash
     If (Test-Path function::$Hash) {
         $True
     }
@@ -282,11 +283,11 @@ Function Start-Mining {
                     # Update the UI every 30 seconds, and the Last 1/6/24hr and text window every 2 minutes
                     for ($i = 0; $i -lt 4; $i++) {
                         if ($i -eq 3) {
-                            $Variables | Add-Member -Force @{EndLoop = $True}
+                            $Variables.EndLoop = $True
                             Update-Monitoring
                         }
                         else {
-                            $Variables | Add-Member -Force @{EndLoop = $False}
+                            $Variables.EndLoop = $False
                         }
 
                         $Variables.StatusText = "Mining paused"
@@ -589,12 +590,13 @@ function Get-SubScriptContent {
         [Parameter(Mandatory = $false)]
         [Array]$Include = @()
     )
-        $Content = @()
+        [System.Collections.ArrayList]$Content = @()
         $ChildItems = Get-ChildItem -Recurse -Path $Path -Include $Include | ForEach-Object {
             $Name = $_.BaseName
             $FileName = $_.Name
             if ($_.Extension -eq ".ps1") {
-               &$_.FullName | ForEach-Object {$Content += [PSCustomObject]@{Name = $Name; Content = $_}}
+                &$_.FullName | ForEach-Object {$Content.Add([PSCustomObject]@{Name = $Name; Content = $_}) > $null }
+               # &$_.FullName | ForEach-Object {$Content += [PSCustomObject]@{Name = $Name; Content = $_} }
             }
         }
     $Content
@@ -765,6 +767,13 @@ function Get-HashRate {
                 $Data = $Request | ConvertFrom-Json
                 $HashRate = [Double]($Data.devices.speed | Measure-Object -Sum).Sum
             }
+            "gminerdual" {
+                $Message = @{id = 1; method = "getstat" } | ConvertTo-Json -Compress
+                $Request = Invoke_httpRequest $Server $Port "/stat" 5
+                $Data = $Request | ConvertFrom-Json
+                $HashRate = [Double]($Data.devices.speed2 | Measure-Object -Sum).Sum
+                $HashRate_Dual = [Double]($Data.devices.speed | Measure-Object -Sum).Sum
+            }
             "claymore" {
 
                 $Request = Invoke_httpRequest $Server $Port "" 5
@@ -874,6 +883,15 @@ function Get-HashRate {
                 if ($Request) {
                     $Data = $Request | ConvertFrom-Json
                     $HashRate = [double]$Data.miner.total_hashrate_raw
+                }
+            }
+
+            "NBMinerdual" {
+                $Request = Invoke_httpRequest $Server $Port "/api/v1/status" 5
+                if ($Request) {
+                    $Data = $Request | ConvertFrom-Json
+                    $HashRate = [double]$Data.miner.total_hashrate_raw
+                    $HashRate_Dual = [double]$Data.miner.total_hashrate2_raw
                 }
             }
 
@@ -1156,6 +1174,7 @@ function Expand-WebRequest {
         [Parameter(Mandatory = $true)]
         [String]$Path
     )
+    [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
 
     $FolderName_Old = ([IO.FileInfo](Split-Path $Uri -Leaf)).BaseName
     $FolderName_New = Split-Path $Path -Leaf
@@ -1164,8 +1183,7 @@ function Expand-WebRequest {
     if (Test-Path $FileName) {Remove-Item $FileName}
     if (Test-Path "$(Split-Path $Path)\$FolderName_New") {Remove-Item "$(Split-Path $Path)\$FolderName_New" -Recurse -Force}
     if (Test-Path "$(Split-Path $Path)\$FolderName_Old") {Remove-Item "$(Split-Path $Path)\$FolderName_Old" -Recurse -Force}
-
-    Invoke-WebRequest $Uri -OutFile $FileName -TimeoutSec 15 -UseBasicParsing
+    Invoke-WebRequest -Uri $Uri -OutFile $FileName -TimeoutSec 15 -UseBasicParsing
     Start-Process ".\Utils\7z" "x $FileName -o$(Split-Path $Path)\$FolderName_Old -y -spe" -Wait
     if (Get-ChildItem "$(Split-Path $Path)\$FolderName_Old" | Where-Object PSIsContainer -EQ $false) {
         Rename-Item "$(Split-Path $Path)\$FolderName_Old" "$FolderName_New"
@@ -1434,9 +1452,9 @@ Function Merge-Command {
         Switch ($type) {
             "Password" {
                 If ($Slave -and !($Slave.StartsWith(","))) {$Slave = ",$($Slave)"}
-                ($Master.split(",") | ? {$_ -ne ""} | foreach {",$($_)"}) | foreach {
+                ($Master.split(",").Where({$_ -ne ""}) | foreach {",$($_)"}) | foreach {
                     $MasterPassArg = $_
-                    ($_.split("=") | ? {$_.startsWith(",")} | foreach {"$($_)="}) | Foreach {
+                    ($_.split("=").Where({$_.startsWith(",")}) | foreach {"$($_)="}) | Foreach {
                         If ($_ -notin $NoReplacePassArgs) {
                             If ($Slave -match "$_ *([^,]+)") {
                                 $Slave = $Slave -replace "$_ *([^,]+)",$MasterPassArg
@@ -1449,7 +1467,7 @@ Function Merge-Command {
                 $Slave.Substring(1)
             }
             "Command" {
-                ($Master.split(" ") | ? {$_.StartsWith("-")}) | Foreach {
+                ($Master.split(" ").Where({$_.StartsWith("-")})) | Foreach {
                     If ($Master -and !$Master.StartsWith(" ")) {$Master = " $($Master)"}
                     If ($Slave -and !$Slave.StartsWith(" ")) {$Slave = " $($Slave)"}
                     If ($Master -and !$Master.EndsWith(" ")) {$Master = "$($Master) "}
@@ -1501,4 +1519,50 @@ Function Merge-Command {
     }
 }
 
-
+Function Invoke-ProxiedWebRequest {
+    param(
+        [Parameter(Mandatory = $false)]
+        [String]$URi,
+        [Parameter(Mandatory = $false)]
+        [switch]$UseBasicParsing,
+        [Parameter(Mandatory = $false)]
+        [PSCustomObject]$Headers,
+        [Parameter(Mandatory = $false)]
+        [Int]$TimeoutSec = 15,
+        # [Parameter(Mandatory = $false)]
+        # [String]$OutFile,
+        [Parameter(Mandatory = $false)]
+        [switch]$ByPassServer
+    )
+    $Request = $null
+    If ($Config.Server_Client -and $Variables.ServerRunning -and -not $ByPassServer -and -not $OutFile) {
+        Try {
+            $ProxyURi = "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Proxy/?url=$($URi)"
+            $Request = Invoke-WebRequest $ProxyURi -Credential $Variables.ServerClientCreds -TimeoutSec $TimeoutSec -UseBasicParsing -Headers $Headers -ErrorAction SilentlyContinue
+        } Catch {
+            # $Variables.StatusText = "Proxy Request Failed - Trying Direct: $($URi)"
+        }
+    }
+    if ($Request.Content.Length -eq 0 -or ($Request.StatusCode -ne 200 -and $Request.StatusCode -ne 305) -and -not $OutFile) {
+        If ($Request.Content.Length -eq 0 -or $Request.StatusCode -eq 200) {
+            $Variables.StatusText = "Proxy Request NoContent - Trying Direct: $($URi)"
+        } else {
+            $Variables.StatusText = "Proxy Request Failed - Trying Direct: $($URi)"
+        }
+        Try {
+            $Request = Invoke-WebRequest $URi -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} -ErrorAction SilentlyContinue
+        } Catch {
+            $Variables.StatusText = "Direct Request Failed: $($URi)"
+        }
+        if ($Request.Content.Length -eq 0 -or $Request.StatusCode -ne 200 -and -not $OutFile) {
+            If ($Request.Content.Length -eq 0 -or $Request.StatusCode -eq 204) {
+                $Variables.StatusText = "Direct Request NoContent: $($URi)"
+            } else {
+                $Variables.StatusText = "Direct Request Failed: $($URi)"
+            }
+        }
+    }
+    
+    $Request
+    
+}

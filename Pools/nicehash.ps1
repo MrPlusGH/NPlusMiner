@@ -1,8 +1,8 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 try {
-    $Request = Invoke-WebRequest "https://api2.nicehash.com/main/api/v2/public/simplemultialgo/info/" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
-    $RequestAlgodetails = Invoke-WebRequest "https://api2.nicehash.com/main/api/v2/mining/algorithms/" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
+    $Request = Invoke-ProxiedWebRequest "https://api2.nicehash.com/main/api/v2/public/simplemultialgo/info/" | ConvertFrom-Json 
+    $RequestAlgodetails = Invoke-ProxiedWebRequest "https://api2.nicehash.com/main/api/v2/mining/algorithms/" | ConvertFrom-Json 
     $Request.miningAlgorithms | foreach {$Algo = $_.Algorithm ; $_ | Add-Member -force @{algodetails = $RequestAlgodetails.miningAlgorithms | ? {$_.Algorithm -eq $Algo}}}
 }
 catch { return }

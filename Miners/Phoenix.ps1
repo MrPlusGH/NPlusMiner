@@ -5,13 +5,13 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLo
 $Path = ".\\Bin\\NVIDIA-Phoenix\\PhoenixMiner.exe"
 $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/Phoenix/PhoenixMiner_4.8c_Windows.7z"
 $Commands = [PSCustomObject]@{
-    #"ethash" = " -di $($($Config.SelGPUCC).Replace(',',''))" #Ethash(fastest)
+    # "ethash" = " -di $($($Config.SelGPUCC).Replace(',',''))" #Ethash(fastest)
     "progpow" = " -coin bci -di $($($Config.SelGPUCC).Replace(',',''))" #Progpow 
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
-$Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
+$Commands.PSObject.Properties.Name | ForEach-Object {
     $Algo =$_
 	$AlgoNorm = Get-Algorithm($_)
 

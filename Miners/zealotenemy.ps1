@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-zealotenemy\z-enemy.exe"
-$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/zealotenemy/z-enemy-2.3-win-cuda10.0.zip"
+$Uri = "https://github.com/Minerx117/miner-binaries/releases/download/2.4/z-enemy-2.4-win-cuda10.0.zip"
 
 $Commands = [PSCustomObject]@{
     "aeriumx" = " -i 23" #AeriumX(fastest)
@@ -24,7 +24,7 @@ $Commands = [PSCustomObject]@{
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
-$Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
+$Commands.PSObject.Properties.Name | ForEach-Object {
     $Algo = Get-Algorithm($_)
     [PSCustomObject]@{
         Type      = "NVIDIA"
@@ -35,8 +35,8 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         Port      = $Variables.NVIDIAMinerAPITCPPort
         Wrap      = $false
         URI       = $Uri
-        User      = $Pools.($Algo).User
-        Host = $Pools.($Algo).Host
-        Coin = $Pools.($Algo).Coin
+        User      = $Pool.($Algo).User
+        Host = $Pool.($Algo).Host
+        Coin = $Pool.($Algo).Coin
     }
 }

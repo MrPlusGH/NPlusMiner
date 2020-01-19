@@ -2,13 +2,16 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLo
  
 $Path = ".\Bin\NVIDIA-Ethminer\ethminer.exe"
 $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/EthMiner/ethminer-0.19.0-alpha.0-cuda10.0-windows-amd64.zip"
+
+Return
+
 $Commands = [PSCustomObject]@{
-    #"ethash" = "" #Ethash(fastest)
+    # "ethash" = "" #Ethash(fastest)
 }
 $Port = $Variables.NVIDIAMinerAPITCPPort
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
-$Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
+$Commands.PSObject.Properties.Name | ForEach-Object {
 	$Algo =$_
 	$AlgoNorm = Get-Algorithm($_)
 

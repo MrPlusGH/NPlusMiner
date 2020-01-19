@@ -3,6 +3,8 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLo
 $Path = ".\Bin\CryptoNight-FireIce\xmr-stak.exe"
 $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/N-xmrstak/xmr-stak-win64-2.10.2.7z"
 
+Return
+
 $Name = Get-Item $MyInvocation.MyCommand.Path | Select-Object -ExpandProperty BaseName
 $Port = 3335
 
@@ -15,7 +17,7 @@ $Commands = [PSCustomObject]@{
     # "cryptonight_r"     = "" #Cryptonight_r (Monero)
 }
 
-$Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
+$Commands.PSObject.Properties.Name | ForEach-Object {
     $Algo =$_
 	$AlgoNorm = Get-Algorithm($_)
 
