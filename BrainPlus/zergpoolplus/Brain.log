@@ -1,0 +1,68 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20200119143126
+Username: WIN-PBHSNT030AC\Administrator
+RunAs User: WIN-PBHSNT030AC\Administrator
+Configuration Name: 
+Machine: WIN-PBHSNT030AC (Microsoft Windows NT 10.0.17763.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -version 5.0 -executionpolicy bypass -windowstyle normal -file .\NPlusMiner.ps1
+Process ID: 9232
+PSVersion: 5.1.17763.771
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.17763.771
+BuildVersion: 10.0.17763.771
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+
+Path
+----
+D:\NPlusMiner\BrainPlus\zergpoolplus
+
+
+Exception calling "ReadXml" with "1" argument(s): "Failed to enable constraints. One or more rows contain values 
+violating non-null, unique, or foreign-key constraints."
+At line:134 char:26
++     $dtBlocks.ReadXml("$($pwd)\Blocks.xml") | out-null
++                          ~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ConstraintException
+4425
+13311
+51 -- 01/19/2020 13:30:00 -- 01/19/2020 14:31:27 -- 01/19/2020 14:31:27 -- 62.4641861566667 -- 107 -- 11.2696306
+52 -- 01/19/2020 13:30:00 -- 01/19/2020 14:32:00 -- 01/19/2020 14:32:00 -- 61.9953006083333 -- 107 -- 11.8358602
+52 -- 01/19/2020 13:31:00 -- 01/19/2020 14:33:00 -- 01/19/2020 14:33:00 -- 63.0031532333333 -- 107 -- 12.500994
+51 -- 01/19/2020 13:33:00 -- 01/19/2020 14:34:01 -- 01/19/2020 14:34:01 -- 63.0109753666667 -- 107 -- 12.447673
+52 -- 01/19/2020 13:33:00 -- 01/19/2020 14:35:00 -- 01/19/2020 14:35:00 -- 62.0088641983333 -- 107 -- 16.8439812
+52 -- 01/19/2020 13:34:00 -- 01/19/2020 14:36:00 -- 01/19/2020 14:36:00 -- 63.0050155416667 -- 107 -- 12.0172603
+52 -- 01/19/2020 13:35:00 -- 01/19/2020 14:37:00 -- 01/19/2020 14:37:00 -- 62.9897411233333 -- 107 -- 12.7033699
+52 -- 01/19/2020 13:36:00 -- 01/19/2020 14:38:00 -- 01/19/2020 14:38:00 -- 62.99934375 -- 107 -- 12.8589256
+52 -- 01/19/2020 13:37:00 -- 01/19/2020 14:39:00 -- 01/19/2020 14:39:00 -- 62.998448305 -- 107 -- 13.5182443
+52 -- 01/19/2020 13:38:00 -- 01/19/2020 14:40:00 -- 01/19/2020 14:40:00 -- 62.9967273383333 -- 107 -- 14.8333783
+52 -- 01/19/2020 13:39:00 -- 01/19/2020 14:41:00 -- 01/19/2020 14:41:00 -- 63.0010940733333 -- 107 -- 12.1764612
+52 -- 01/19/2020 13:40:00 -- 01/19/2020 14:42:00 -- 01/19/2020 14:42:00 -- 62.9958692166667 -- 107 -- 15.3231582
+51 -- 01/19/2020 13:42:00 -- 01/19/2020 14:43:01 -- 01/19/2020 14:43:01 -- 63.0056953483333 -- 107 -- 13.8053694
+52 -- 01/19/2020 13:42:00 -- 01/19/2020 14:44:00 -- 01/19/2020 14:44:00 -- 61.9926512616667 -- 107 -- 13.6078337
+52 -- 01/19/2020 13:43:00 -- 01/19/2020 14:45:00 -- 01/19/2020 14:45:00 -- 63.0022851816667 -- 107 -- 14.6527659
+52 -- 01/19/2020 13:44:00 -- 01/19/2020 14:46:00 -- 01/19/2020 14:46:00 -- 62.9912835633333 -- 107 -- 12.4030341
+Add-Member : Cannot bind argument to parameter 'InputObject' because it is null.
+At line:168 char:35
++ ...          if (!$_.symbol) {$_ | Add-Member -Force @{symbol = $_.Coin}}
++                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidData: (:) [Add-Member], ParameterBindingValidationException
+    + FullyQualifiedErrorId : 
+ParameterArgumentValidationErrorNullNotAllowed,Microsoft.PowerShell.Commands.AddMemberCommand
+Add-Member : Cannot bind argument to parameter 'InputObject' because it is null.
+At line:169 char:33
++             if (!$_.type) {$_ | Add-Member -Force @{type = "Shared"}}
++                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidData: (:) [Add-Member], ParameterBindingValidationException
+    + FullyQualifiedErrorId : 
+ParameterArgumentValidationErrorNullNotAllowed,Microsoft.PowerShell.Commands.AddMemberCommand
+52 -- 01/19/2020 13:45:00 -- 01/19/2020 14:47:00 -- 01/19/2020 14:47:00 -- 63.013915735 -- 108 -- 12.5144406
+52 -- 01/19/2020 13:46:00 -- 01/19/2020 14:48:00 -- 01/19/2020 14:48:00 -- 63.0059987083333 -- 108 -- 13.0613606
+52 -- 01/19/2020 13:47:00 -- 01/19/2020 14:49:00 -- 01/19/2020 14:49:00 -- 63.0054569433333 -- 108 -- 12.682242
+52 -- 01/19/2020 13:48:00 -- 01/19/2020 14:50:00 -- 01/19/2020 14:50:00 -- 63.0067161033333 -- 108 -- 12.457169
+52 -- 01/19/2020 13:49:00 -- 01/19/2020 14:51:00 -- 01/19/2020 14:51:00 -- 63.0040422416667 -- 108 -- 14.1494138

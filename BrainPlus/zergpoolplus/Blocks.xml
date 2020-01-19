@@ -1376,18 +1376,6 @@
     <type>shared</type>
     <finder>3AK83bmF8...</finder>
   </Blocks>
-  <Blocks>
-    <symbol>ONION</symbol>
-    <time>1579175781</time>
-    <height>1683574</height>
-    <amount>2.0001</amount>
-    <category>immature</category>
-    <difficulty>20606.85708254</difficulty>
-    <difficulty_user>44431.815993</difficulty_user>
-    <algo>x13</algo>
-    <type>shared</type>
-    <finder>DqQXXfEDR...</finder>
-  </Blocks>
   <Blocks />
   <Blocks>
     <symbol>CRS</symbol>
@@ -1509,18 +1497,6 @@
     <algo>x22i</algo>
     <type>shared</type>
     <finder>1MmTAL2eR...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GLT-nist5</symbol>
-    <time>1579180234</time>
-    <height>1012143</height>
-    <amount>30</amount>
-    <category>immature</category>
-    <difficulty>14078.875499902</difficulty>
-    <difficulty_user>30026.357998</difficulty_user>
-    <algo>nist5</algo>
-    <type>shared</type>
-    <finder>3AXMoiPe9...</finder>
   </Blocks>
   <Blocks>
     <symbol>GLT-blake2s</symbol>
@@ -2492,18 +2468,6 @@
     <finder>3FVevw8FN...</finder>
   </Blocks>
   <Blocks />
-  <Blocks>
-    <symbol>XSG</symbol>
-    <time>1579203916</time>
-    <height>1078137</height>
-    <amount>6.00030391</amount>
-    <category>immature</category>
-    <difficulty>131.02363975728</difficulty>
-    <difficulty_user>446.34148494</difficulty_user>
-    <algo>equihash144</algo>
-    <type>shared</type>
-    <finder>1A7bbmciu...</finder>
-  </Blocks>
   <Blocks>
     <symbol>ONION</symbol>
     <time>1579203823</time>
@@ -5560,18 +5524,6 @@
     <finder>32G8ZgcJM...</finder>
   </Blocks>
   <Blocks>
-    <symbol>TNET</symbol>
-    <time>1579292328</time>
-    <height>1148379</height>
-    <amount>0.6260672</amount>
-    <category>immature</category>
-    <difficulty>1876.0075898146</difficulty>
-    <difficulty_user>68002.297575</difficulty_user>
-    <algo>blake2b</algo>
-    <type>shared</type>
-    <finder>1LDdYJsse...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>SXC</symbol>
     <time>1579292475</time>
     <height>3631337</height>
@@ -6978,18 +6930,6 @@
     <algo>hmq1725</algo>
     <type>shared</type>
     <finder>1JsBf3Jbc...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>NBR</symbol>
-    <time>1579335485</time>
-    <height>301565</height>
-    <amount>165.778</amount>
-    <category>immature</category>
-    <difficulty>37900000</difficulty>
-    <difficulty_user>158939159</difficulty_user>
-    <algo>cryptonight_heavy</algo>
-    <type>solo</type>
-    <finder>D9ZbMAQft...</finder>
   </Blocks>
   <Blocks>
     <symbol>SAP</symbol>
@@ -8747,18 +8687,6 @@
     <finder>3B1ErLKRH...</finder>
   </Blocks>
   <Blocks>
-    <symbol>XVG-myr-gr</symbol>
-    <time>1579357450</time>
-    <height>3761421</height>
-    <amount>400</amount>
-    <category>immature</category>
-    <difficulty>6712709.643025</difficulty>
-    <difficulty_user>10101107.427921</difficulty_user>
-    <algo>myr-gr</algo>
-    <type>shared</type>
-    <finder>1ARKjgEz9...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>GLT-yespower</symbol>
     <time>1579357425</time>
     <height>1015051</height>
@@ -9405,18 +9333,6 @@
     <algo>padihash</algo>
     <type>shared</type>
     <finder>3QnpitXHv...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GLT-pawelhash</symbol>
-    <time>1579362697</time>
-    <height>1015216</height>
-    <amount>30</amount>
-    <category>immature</category>
-    <difficulty>6.6583455339131</difficulty>
-    <difficulty_user>16.175171</difficulty_user>
-    <algo>pawelhash</algo>
-    <type>shared</type>
-    <finder>bitcoinca...</finder>
   </Blocks>
   <Blocks>
     <symbol>HELP</symbol>
@@ -12133,18 +12049,6 @@
     <algo>quark</algo>
     <type>shared</type>
     <finder>3FVevw8FN...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GRS</symbol>
-    <time>1579375910</time>
-    <height>2927495</height>
-    <amount>5</amount>
-    <category>immature</category>
-    <difficulty>653923.29081672</difficulty>
-    <difficulty_user>1526068.001134</difficulty_user>
-    <algo>groestl</algo>
-    <type>shared</type>
-    <finder>bc1qnmf73...</finder>
   </Blocks>
   <Blocks />
   <Blocks>
@@ -17743,18 +17647,6 @@
     <finder>16B5Fhz4A...</finder>
   </Blocks>
   <Blocks>
-    <symbol>GMC</symbol>
-    <time>1579399721</time>
-    <height>385099</height>
-    <amount>5.10000187</amount>
-    <category>immature</category>
-    <difficulty>0.39747570931234</difficulty>
-    <difficulty_user>0.870087</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>shared</type>
-    <finder>1G53uKzuz...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>CMM</symbol>
     <time>1579399824</time>
     <height>529333</height>
@@ -17779,18 +17671,6 @@
     <finder>DSozMNQLY...</finder>
   </Blocks>
   <Blocks>
-    <symbol>GMC</symbol>
-    <time>1579399756</time>
-    <height>385100</height>
-    <amount>5.1</amount>
-    <category>immature</category>
-    <difficulty>0.44009804579948</difficulty>
-    <difficulty_user>1.689348</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>shared</type>
-    <finder>1G53uKzuz...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>XSH-x17</symbol>
     <time>1579399740</time>
     <height>1792810</height>
@@ -17801,18 +17681,6 @@
     <algo>x17</algo>
     <type>shared</type>
     <finder>1LXHNZbmV...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GMC</symbol>
-    <time>1579399900</time>
-    <height>385101</height>
-    <amount>5.10000703</amount>
-    <category>immature</category>
-    <difficulty>0.47470211147731</difficulty>
-    <difficulty_user>2.247439</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>shared</type>
-    <finder>1G53uKzuz...</finder>
   </Blocks>
   <Blocks>
     <symbol>CRM</symbol>
@@ -17966,18 +17834,6 @@
     <category>immature</category>
     <difficulty>0.47143412079533</difficulty>
     <difficulty_user>6.605034</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>shared</type>
-    <finder>1G53uKzuz...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GMC</symbol>
-    <time>1579399934</time>
-    <height>385102</height>
-    <amount>5.1</amount>
-    <category>immature</category>
-    <difficulty>0.47949164447306</difficulty>
-    <difficulty_user>0.68797</difficulty_user>
     <algo>neoscrypt</algo>
     <type>shared</type>
     <finder>1G53uKzuz...</finder>
@@ -23675,18 +23531,6 @@
     <finder>1BxotRUiH...</finder>
   </Blocks>
   <Blocks>
-    <symbol>MBC</symbol>
-    <time>1579415288</time>
-    <height>145998</height>
-    <amount>5234.3594</amount>
-    <category>immature</category>
-    <difficulty>0.028160970660768</difficulty>
-    <difficulty_user>15368.6082</difficulty_user>
-    <algo>power2b</algo>
-    <type>party.partara</type>
-    <finder>LPvtbemfK...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>VEIL</symbol>
     <time>1579415288</time>
     <height>536580</height>
@@ -24154,18 +23998,6 @@
     <algo>argon2d4096</algo>
     <type>shared</type>
     <finder>4vXgd1xqr...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MBC</symbol>
-    <time>1579416110</time>
-    <height>146012</height>
-    <amount>5234.3346</amount>
-    <category>immature</category>
-    <difficulty>0.028559662173646</difficulty>
-    <difficulty_user>2685.887216</difficulty_user>
-    <algo>power2b</algo>
-    <type>party.NPlusMiner</type>
-    <finder>33zdskJwX...</finder>
   </Blocks>
   <Blocks>
     <symbol>TUBE</symbol>
@@ -26459,18 +26291,6 @@
     <finder>bc1qtywp6...</finder>
   </Blocks>
   <Blocks>
-    <symbol>DYN</symbol>
-    <time>1579420274</time>
-    <height>443011</height>
-    <amount>1</amount>
-    <category>immature</category>
-    <difficulty>0.78668747374107</difficulty>
-    <difficulty_user>0.953345</difficulty_user>
-    <algo>argon2d-dyn</algo>
-    <type>shared</type>
-    <finder>1NKdbEoRe...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>OMEGA</symbol>
     <time>1579420273</time>
     <height>810748</height>
@@ -26481,18 +26301,6 @@
     <algo>x11</algo>
     <type>shared</type>
     <finder>1H84tCQjK...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>DYN</symbol>
-    <time>1579420434</time>
-    <height>443014</height>
-    <amount>1</amount>
-    <category>immature</category>
-    <difficulty>0.96737766624843</difficulty>
-    <difficulty_user>1.949002</difficulty_user>
-    <algo>argon2d-dyn</algo>
-    <type>shared</type>
-    <finder>15vXozdWW...</finder>
   </Blocks>
   <Blocks>
     <symbol>IMGC</symbol>
@@ -26639,18 +26447,6 @@
     <finder>3Nhqo9X38...</finder>
   </Blocks>
   <Blocks>
-    <symbol>DYN</symbol>
-    <time>1579420545</time>
-    <height>443015</height>
-    <amount>1</amount>
-    <category>immature</category>
-    <difficulty>1.0191434436427</difficulty>
-    <difficulty_user>1.294723</difficulty_user>
-    <algo>argon2d-dyn</algo>
-    <type>shared</type>
-    <finder>15vXozdWW...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>LTFN</symbol>
     <time>1579420524</time>
     <height>1747609</height>
@@ -26711,18 +26507,6 @@
     <finder>bc1qtywp6...</finder>
   </Blocks>
   <Blocks>
-    <symbol>DYN</symbol>
-    <time>1579420611</time>
-    <height>443016</height>
-    <amount>1</amount>
-    <category>immature</category>
-    <difficulty>1.0990457663218</difficulty>
-    <difficulty_user>1.309797</difficulty_user>
-    <algo>argon2d-dyn</algo>
-    <type>shared</type>
-    <finder>3JdysY3n3...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>XVG-scrypt</symbol>
     <time>1579420611</time>
     <height>3763301</height>
@@ -26733,18 +26517,6 @@
     <algo>scrypt</algo>
     <type>shared</type>
     <finder>DDiUmHuim...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>DYN</symbol>
-    <time>1579420671</time>
-    <height>443017</height>
-    <amount>1</amount>
-    <category>immature</category>
-    <difficulty>1.15960364505</difficulty>
-    <difficulty_user>1.685305</difficulty_user>
-    <algo>argon2d-dyn</algo>
-    <type>shared</type>
-    <finder>bc1qqc5uf...</finder>
   </Blocks>
   <Blocks>
     <symbol>OMEGA</symbol>
@@ -26769,18 +26541,6 @@
     <algo>hmq1725</algo>
     <type>shared</type>
     <finder>3EotesZeZ...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>SMART</symbol>
-    <time>1579420783</time>
-    <height>1422767</height>
-    <amount>25.2</amount>
-    <category>immature</category>
-    <difficulty>173520.62136297</difficulty>
-    <difficulty_user>197800.334716</difficulty_user>
-    <algo>keccak</algo>
-    <type>shared</type>
-    <finder>DF3ahbqp6...</finder>
   </Blocks>
   <Blocks>
     <symbol>XVG-myr-gr</symbol>
@@ -27345,18 +27105,6 @@
     <algo>scrypt</algo>
     <type>shared</type>
     <finder>LgxpaxsHx...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>SMART</symbol>
-    <time>1579421916</time>
-    <height>1422804</height>
-    <amount>25.2</amount>
-    <category>immature</category>
-    <difficulty>181201.68353715</difficulty>
-    <difficulty_user>428597.836299</difficulty_user>
-    <algo>keccak</algo>
-    <type>shared</type>
-    <finder>12Cj3xi7o...</finder>
   </Blocks>
   <Blocks>
     <symbol>CHA</symbol>
@@ -29132,18 +28880,6 @@
     <algo>scrypt</algo>
     <type>shared</type>
     <finder>DAcPD4D5X...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>FLO</symbol>
-    <time>1579423983</time>
-    <height>3884422</height>
-    <amount>6.25</amount>
-    <category>immature</category>
-    <difficulty>1087.1330519294</difficulty>
-    <difficulty_user>5226.044649</difficulty_user>
-    <algo>scrypt</algo>
-    <type>party.</type>
-    <finder>39u94VCu3...</finder>
   </Blocks>
   <Blocks>
     <symbol>IOTS</symbol>
@@ -31140,17 +30876,6 @@
     <finder>1HBXPKmov...</finder>
   </Blocks>
   <Blocks>
-    <symbol>TLR</symbol>
-    <time>1579428697</time>
-    <height>811312</height>
-    <category>questioned</category>
-    <difficulty>2.416362</difficulty>
-    <difficulty_user>3.086704</difficulty_user>
-    <algo>lyra2z</algo>
-    <type>shared</type>
-    <finder>XoHNeBjhW...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>ESP</symbol>
     <time>1579427156</time>
     <height>876266</height>
@@ -32220,18 +31945,6 @@
     <finder>34bZ7sDAx...</finder>
   </Blocks>
   <Blocks>
-    <symbol>TLR</symbol>
-    <time>1579428269</time>
-    <height>811281</height>
-    <amount>3.5004455</amount>
-    <category>generate</category>
-    <difficulty>2.3031095416256</difficulty>
-    <difficulty_user>6.6187</difficulty_user>
-    <algo>lyra2z</algo>
-    <type>party.Sei8sam!78</type>
-    <finder>XoHNeBjhW...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>BSD</symbol>
     <time>1579428268</time>
     <height>744992</height>
@@ -32604,18 +32317,6 @@
     <finder>DXgwPw4WF...</finder>
   </Blocks>
   <Blocks>
-    <symbol>TLR</symbol>
-    <time>1579428796</time>
-    <height>811318</height>
-    <amount>3.5</amount>
-    <category>generate</category>
-    <difficulty>2.4411134716697</difficulty>
-    <difficulty_user>2.525738</difficulty_user>
-    <algo>lyra2z</algo>
-    <type>party.Sei8sam!78</type>
-    <finder>XoHNeBjhW...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>GLT-honeycomb</symbol>
     <time>1579428794</time>
     <height>1016358</height>
@@ -32638,18 +32339,6 @@
     <algo>equihash144</algo>
     <type>shared</type>
     <finder>B6dzZZ3uB...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MTNS</symbol>
-    <time>1579428785</time>
-    <height>154699</height>
-    <amount>37.5</amount>
-    <category>immature</category>
-    <difficulty>8739.7781124089</difficulty>
-    <difficulty_user>10439.585592</difficulty_user>
-    <algo>skein</algo>
-    <type>shared</type>
-    <finder>3MWiLBJy1...</finder>
   </Blocks>
   <Blocks>
     <symbol>KING</symbol>
@@ -32676,18 +32365,6 @@
     <finder>LLFxhf8cH...</finder>
   </Blocks>
   <Blocks>
-    <symbol>MTNS</symbol>
-    <time>1579428750</time>
-    <height>154698</height>
-    <amount>37.5</amount>
-    <category>immature</category>
-    <difficulty>6344.1702610401</difficulty>
-    <difficulty_user>7474.401593</difficulty_user>
-    <algo>skein</algo>
-    <type>shared</type>
-    <finder>3FVevw8FN...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>GLT-tribus</symbol>
     <time>1579428973</time>
     <height>1016364</height>
@@ -32698,18 +32375,6 @@
     <algo>tribus</algo>
     <type>shared</type>
     <finder>3NTf91gHA...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MTNS</symbol>
-    <time>1579428962</time>
-    <height>154700</height>
-    <amount>37.5</amount>
-    <category>immature</category>
-    <difficulty>9078.8829442043</difficulty>
-    <difficulty_user>592666.142715</difficulty_user>
-    <algo>skein</algo>
-    <type>shared</type>
-    <finder>3FVevw8FN...</finder>
   </Blocks>
   <Blocks>
     <symbol>XRD</symbol>
@@ -32772,18 +32437,6 @@
     <finder>DjRwRMpKk...</finder>
   </Blocks>
   <Blocks>
-    <symbol>TLR</symbol>
-    <time>1579428864</time>
-    <height>811323</height>
-    <amount>3.5</amount>
-    <category>generate</category>
-    <difficulty>2.467069027659</difficulty>
-    <difficulty_user>2.944283</difficulty_user>
-    <algo>lyra2z</algo>
-    <type>shared</type>
-    <finder>LLVayswBg...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>GLT-x11</symbol>
     <time>1579429107</time>
     <height>1016370</height>
@@ -32818,18 +32471,6 @@
     <algo>neoscrypt</algo>
     <type>solo</type>
     <finder>GJrD4gCSd...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TLR</symbol>
-    <time>1579429087</time>
-    <height>811327</height>
-    <amount>3.5</amount>
-    <category>generate</category>
-    <difficulty>2.4303519332404</difficulty>
-    <difficulty_user>7.003539</difficulty_user>
-    <algo>lyra2z</algo>
-    <type>party.Sei8sam!78</type>
-    <finder>XoHNeBjhW...</finder>
   </Blocks>
   <Blocks>
     <symbol>NTBC</symbol>
@@ -32902,18 +32543,6 @@
     <algo>equihash144</algo>
     <type>shared</type>
     <finder>B6dzZZ3uB...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TLR</symbol>
-    <time>1579429018</time>
-    <height>811326</height>
-    <amount>3.5</amount>
-    <category>generate</category>
-    <difficulty>2.4405815106271</difficulty>
-    <difficulty_user>3.474601</difficulty_user>
-    <algo>lyra2z</algo>
-    <type>party.Sei8sam!78</type>
-    <finder>XoHNeBjhW...</finder>
   </Blocks>
   <Blocks>
     <symbol>GLT-neoscrypt</symbol>
@@ -33012,18 +32641,6 @@
     <finder>LLFxhf8cH...</finder>
   </Blocks>
   <Blocks>
-    <symbol>TLR</symbol>
-    <time>1579429139</time>
-    <height>811328</height>
-    <amount>3.5</amount>
-    <category>generate</category>
-    <difficulty>2.4099007121987</difficulty>
-    <difficulty_user>7.367552</difficulty_user>
-    <algo>lyra2z</algo>
-    <type>shared</type>
-    <finder>3MXuYJYqp...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>GMC</symbol>
     <time>1579429116</time>
     <height>385320</height>
@@ -33048,18 +32665,6 @@
     <finder>GJrD4gCSd...</finder>
   </Blocks>
   <Blocks>
-    <symbol>TLR</symbol>
-    <time>1579429357</time>
-    <height>811336</height>
-    <amount>3.5</amount>
-    <category>generate</category>
-    <difficulty>2.3659625500954</difficulty>
-    <difficulty_user>4.191983</difficulty_user>
-    <algo>lyra2z</algo>
-    <type>party.Sei8sam!78</type>
-    <finder>XoHNeBjhW...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>NTBC</symbol>
     <time>1579429347</time>
     <height>994046</height>
@@ -33082,18 +32687,6 @@
     <algo>sib</algo>
     <type>solo</type>
     <finder>3NQP895Fg...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TLR</symbol>
-    <time>1579429325</time>
-    <height>811335</height>
-    <amount>3.5</amount>
-    <category>generate</category>
-    <difficulty>2.3542189550931</difficulty>
-    <difficulty_user>10.974405</difficulty_user>
-    <algo>lyra2z</algo>
-    <type>shared</type>
-    <finder>LLVayswBg...</finder>
   </Blocks>
   <Blocks>
     <symbol>KZC</symbol>
@@ -33310,18 +32903,6 @@
     <algo>power2b</algo>
     <type>party.NPlusMiner</type>
     <finder>33zdskJwX...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>DMS</symbol>
-    <time>1579429874</time>
-    <height>115998</height>
-    <amount>17.1</amount>
-    <category>immature</category>
-    <difficulty>0.0085252118489452</difficulty>
-    <difficulty_user>605.184384</difficulty_user>
-    <algo>yescryptR32</algo>
-    <type>shared</type>
-    <finder>DUGoELuJa...</finder>
   </Blocks>
   <Blocks>
     <symbol>NSD</symbol>
@@ -33741,18 +33322,6 @@
     <algo>x11</algo>
     <type>shared</type>
     <finder>1BdbC8BVo...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MEK</symbol>
-    <time>1579430550</time>
-    <height>13178</height>
-    <amount>1.75</amount>
-    <category>immature</category>
-    <difficulty>172.14553961707</difficulty>
-    <difficulty_user>232.450903</difficulty_user>
-    <algo>x17</algo>
-    <type>solo</type>
-    <finder>3LhgAxfW4...</finder>
   </Blocks>
   <Blocks>
     <symbol>XZC</symbol>
@@ -34728,18 +34297,6 @@
     <finder>bc1qtywp6...</finder>
   </Blocks>
   <Blocks>
-    <symbol>DEM</symbol>
-    <time>1579432066</time>
-    <height>2645020</height>
-    <amount>50.001</amount>
-    <category>immature</category>
-    <difficulty>4072776.3557834</difficulty>
-    <difficulty_user>5108691.087133</difficulty_user>
-    <algo>sha256</algo>
-    <type>solo</type>
-    <finder>1P8FsASe9...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>HUSH</symbol>
     <time>1579432062</time>
     <height>160361</height>
@@ -34992,18 +34549,6 @@
     <finder>Fmk6UfVcg...</finder>
   </Blocks>
   <Blocks>
-    <symbol>GXX</symbol>
-    <time>1579432335</time>
-    <height>613094</height>
-    <amount>1.5</amount>
-    <category>immature</category>
-    <difficulty>0.0078258165609969</difficulty>
-    <difficulty_user>4063.714042</difficulty_user>
-    <algo>lyra2z330</algo>
-    <type>shared</type>
-    <finder>163MgYLXF...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>VLS-sha256</symbol>
     <time>1579432321</time>
     <height>315150</height>
@@ -35062,30 +34607,6 @@
     <algo>xevan</algo>
     <type>shared</type>
     <finder>1EyHTqx2h...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>SCRIBE</symbol>
-    <time>1579432444</time>
-    <height>483602</height>
-    <amount>2.52</amount>
-    <category>immature</category>
-    <difficulty>650.1382593395</difficulty>
-    <difficulty_user>894.047446</difficulty_user>
-    <algo>lyra2v2</algo>
-    <type>solo</type>
-    <finder>RGFkeEk8k...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GXX</symbol>
-    <time>1579432421</time>
-    <height>613095</height>
-    <amount>1.5</amount>
-    <category>immature</category>
-    <difficulty>0.0078361978172718</difficulty>
-    <difficulty_user>649.434297</difficulty_user>
-    <algo>lyra2z330</algo>
-    <type>shared</type>
-    <finder>1B6shJSkD...</finder>
   </Blocks>
   <Blocks>
     <symbol>SAFE</symbol>
@@ -35496,18 +35017,6 @@
     <finder>1C4tZueAf...</finder>
   </Blocks>
   <Blocks>
-    <symbol>GXX</symbol>
-    <time>1579432906</time>
-    <height>613097</height>
-    <amount>1.5</amount>
-    <category>immature</category>
-    <difficulty>0.0077852957165014</difficulty>
-    <difficulty_user>84373.46908</difficulty_user>
-    <algo>lyra2z330</algo>
-    <type>party.superminer</type>
-    <finder>LMFj74sNV...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>XVG-lyra2v2</symbol>
     <time>1579432896</time>
     <height>3763672</height>
@@ -35879,17 +35388,6 @@
     <finder>39zzv1GF4...</finder>
   </Blocks>
   <Blocks>
-    <symbol>BZL</symbol>
-    <time>1579435111</time>
-    <height>1115080</height>
-    <category>questioned</category>
-    <difficulty>21.6627</difficulty>
-    <difficulty_user>24.14747</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>qzsccwzrn...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>PGN</symbol>
     <time>1579433534</time>
     <height>876976</height>
@@ -36213,18 +35711,6 @@
     <finder>1KBYgPLtL...</finder>
   </Blocks>
   <Blocks>
-    <symbol>SCIFI</symbol>
-    <time>1579433964</time>
-    <height>705812</height>
-    <amount>10</amount>
-    <category>immature</category>
-    <difficulty>90.04476218</difficulty>
-    <difficulty_user>377.833383</difficulty_user>
-    <algo>scrypt</algo>
-    <type>solo</type>
-    <finder>D7BeYkWMi...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>GLT-tribus</symbol>
     <time>1579433954</time>
     <height>1016457</height>
@@ -36247,18 +35733,6 @@
     <algo>scrypt</algo>
     <type>solo</type>
     <finder>LUsnwqx12...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GXX</symbol>
-    <time>1579433913</time>
-    <height>613101</height>
-    <amount>1.5</amount>
-    <category>immature</category>
-    <difficulty>0.0076875703828829</difficulty>
-    <difficulty_user>8384.759309</difficulty_user>
-    <algo>lyra2z330</algo>
-    <type>shared</type>
-    <finder>163MgYLXF...</finder>
   </Blocks>
   <Blocks>
     <symbol>TZC</symbol>
@@ -36415,18 +35889,6 @@
     <algo>x11</algo>
     <type>shared</type>
     <finder>bc1qtywp6...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>SCIFI</symbol>
-    <time>1579434090</time>
-    <height>705813</height>
-    <amount>10</amount>
-    <category>immature</category>
-    <difficulty>92.78060434</difficulty>
-    <difficulty_user>93.104413</difficulty_user>
-    <algo>scrypt</algo>
-    <type>solo</type>
-    <finder>LLFxhf8cH...</finder>
   </Blocks>
   <Blocks>
     <symbol>TOUR</symbol>
@@ -36777,30 +36239,6 @@
     <finder>38TvqeDZr...</finder>
   </Blocks>
   <Blocks>
-    <symbol>BZL</symbol>
-    <time>1579434679</time>
-    <height>1115071</height>
-    <amount>0.8</amount>
-    <category>immature</category>
-    <difficulty>67.00732901</difficulty>
-    <difficulty_user>160.932956</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>1Eci1SFv5...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TUX</symbol>
-    <time>1579434590</time>
-    <height>789493</height>
-    <amount>33.5</amount>
-    <category>immature</category>
-    <difficulty>2.0025751719477</difficulty>
-    <difficulty_user>14.236462</difficulty_user>
-    <algo>allium</algo>
-    <type>shared</type>
-    <finder>36ANNZwL2...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>BOLI</symbol>
     <time>1579434581</time>
     <height>632557</height>
@@ -36909,18 +36347,6 @@
     <finder>RGFkeEk8k...</finder>
   </Blocks>
   <Blocks>
-    <symbol>TUX</symbol>
-    <time>1579434740</time>
-    <height>789495</height>
-    <amount>33.6</amount>
-    <category>immature</category>
-    <difficulty>1.9612449498728</difficulty>
-    <difficulty_user>2.047469</difficulty_user>
-    <algo>allium</algo>
-    <type>shared</type>
-    <finder>MTN2NMwCU...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>PHL</symbol>
     <time>1579434733</time>
     <height>449151</height>
@@ -36931,18 +36357,6 @@
     <algo>x16r</algo>
     <type>shared</type>
     <finder>LKTQ3jRuf...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>BZL</symbol>
-    <time>1579434731</time>
-    <height>1115072</height>
-    <amount>0.800408</amount>
-    <category>generate</category>
-    <difficulty>81.49575203</difficulty>
-    <difficulty_user>96.922256</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>1Eci1SFv5...</finder>
   </Blocks>
   <Blocks>
     <symbol>START</symbol>
@@ -36991,18 +36405,6 @@
     <algo>equihash144</algo>
     <type>shared</type>
     <finder>B6dzZZ3uB...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>NES</symbol>
-    <time>1579434852</time>
-    <height>128713</height>
-    <amount>0</amount>
-    <category>orphan</category>
-    <difficulty>22.491725</difficulty>
-    <difficulty_user>64.101846</difficulty_user>
-    <algo>x13</algo>
-    <type>shared</type>
-    <finder>193YGE26i...</finder>
   </Blocks>
   <Blocks>
     <symbol>CMK</symbol>
@@ -37077,18 +36479,6 @@
     <finder>1P8FsASe9...</finder>
   </Blocks>
   <Blocks>
-    <symbol>CPU</symbol>
-    <time>1579434954</time>
-    <height>281740</height>
-    <amount>50</amount>
-    <category>immature</category>
-    <difficulty>0.0036982432173762</difficulty>
-    <difficulty_user>362.875579</difficulty_user>
-    <algo>cpupower</algo>
-    <type>shared</type>
-    <finder>1wn9maqtP...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>START</symbol>
     <time>1579434949</time>
     <height>2071384</height>
@@ -37125,18 +36515,6 @@
     <finder>35AHYtreM...</finder>
   </Blocks>
   <Blocks>
-    <symbol>ANON</symbol>
-    <time>1579434942</time>
-    <height>115748</height>
-    <amount>6.53155</amount>
-    <category>immature</category>
-    <difficulty>414739.23004876</difficulty>
-    <difficulty_user>54.22786623</difficulty_user>
-    <algo>equihash192</algo>
-    <type>solo</type>
-    <finder>17CoUEzXx...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>START</symbol>
     <time>1579434926</time>
     <height>2071383</height>
@@ -37159,18 +36537,6 @@
     <algo>equihash144</algo>
     <type>shared</type>
     <finder>LLFxhf8cH...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>BITC</symbol>
-    <time>1579434912</time>
-    <height>726074</height>
-    <amount>19.35</amount>
-    <category>immature</category>
-    <difficulty>624.54619537241</difficulty>
-    <difficulty_user>1029.555944</difficulty_user>
-    <algo>x16rv2</algo>
-    <type>shared</type>
-    <finder>14wVQP9kk...</finder>
   </Blocks>
   <Blocks>
     <symbol>BZL</symbol>
@@ -37196,18 +36562,6 @@
     <finder>qpzdujecc...</finder>
   </Blocks>
   <Blocks>
-    <symbol>TUX</symbol>
-    <time>1579435084</time>
-    <height>789500</height>
-    <amount>33.5</amount>
-    <category>immature</category>
-    <difficulty>1.8388563090996</difficulty>
-    <difficulty_user>2.671551</difficulty_user>
-    <algo>allium</algo>
-    <type>shared</type>
-    <finder>1ASWCBgsv...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>MEK</symbol>
     <time>1579435076</time>
     <height>13207</height>
@@ -37218,18 +36572,6 @@
     <algo>x17</algo>
     <type>solo</type>
     <finder>3LhgAxfW4...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>CPU</symbol>
-    <time>1579435053</time>
-    <height>281743</height>
-    <amount>50</amount>
-    <category>immature</category>
-    <difficulty>0.0037780940073497</difficulty>
-    <difficulty_user>252.063475</difficulty_user>
-    <algo>cpupower</algo>
-    <type>solo</type>
-    <finder>166LLqvTb...</finder>
   </Blocks>
   <Blocks>
     <symbol>XVG-scrypt</symbol>
@@ -37436,18 +36778,6 @@
     <finder>1NoL86jtg...</finder>
   </Blocks>
   <Blocks>
-    <symbol>BZL</symbol>
-    <time>1579435256</time>
-    <height>1115084</height>
-    <amount>0.8</amount>
-    <category>generate</category>
-    <difficulty>30.20383179</difficulty>
-    <difficulty_user>58.053978</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>3KUfQacq3...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>NES</symbol>
     <time>1579435253</time>
     <height>128717</height>
@@ -37592,18 +36922,6 @@
     <finder>XoHNeBjhW...</finder>
   </Blocks>
   <Blocks>
-    <symbol>BITC</symbol>
-    <time>1579435352</time>
-    <height>726084</height>
-    <amount>19.35</amount>
-    <category>immature</category>
-    <difficulty>857.388010986</difficulty>
-    <difficulty_user>2736.967648</difficulty_user>
-    <algo>x16rv2</algo>
-    <type>shared</type>
-    <finder>1L6LGf72R...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>NES</symbol>
     <time>1579435346</time>
     <height>128720</height>
@@ -37638,18 +36956,6 @@
     <algo>x11</algo>
     <type>shared</type>
     <finder>1BdbC8BVo...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>BZL</symbol>
-    <time>1579435323</time>
-    <height>1115086</height>
-    <amount>0.8</amount>
-    <category>generate</category>
-    <difficulty>75.50964745</difficulty>
-    <difficulty_user>244.838475</difficulty_user>
-    <algo>tribus</algo>
-    <type>solo</type>
-    <finder>1KQVdDKXJ...</finder>
   </Blocks>
   <Blocks>
     <symbol>DMS</symbol>
@@ -37698,18 +37004,6 @@
     <algo>equihash192</algo>
     <type>shared</type>
     <finder>1BtbzwMgc...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>BITC</symbol>
-    <time>1579435433</time>
-    <height>726085</height>
-    <amount>19.35</amount>
-    <category>immature</category>
-    <difficulty>940.53694390987</difficulty>
-    <difficulty_user>1960.855376</difficulty_user>
-    <algo>x16rv2</algo>
-    <type>party.vash</type>
-    <finder>3NtCyPCmY...</finder>
   </Blocks>
   <Blocks>
     <symbol>BTH</symbol>
@@ -38466,18 +37760,6 @@
     <finder>1KR8iwjSW...</finder>
   </Blocks>
   <Blocks>
-    <symbol>BITC</symbol>
-    <time>1579435808</time>
-    <height>726088</height>
-    <amount>19.35</amount>
-    <category>immature</category>
-    <difficulty>864.0963206762</difficulty>
-    <difficulty_user>7061.359255</difficulty_user>
-    <algo>x16rv2</algo>
-    <type>shared</type>
-    <finder>1L6LGf72R...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>GLT-xevan</symbol>
     <time>1579436013</time>
     <height>1016479</height>
@@ -38632,18 +37914,6 @@
     <algo>equihash192</algo>
     <type>shared</type>
     <finder>1BtbzwMgc...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TTN</symbol>
-    <time>1579436045</time>
-    <height>145033</height>
-    <amount>30</amount>
-    <category>immature</category>
-    <difficulty>23.47639551041</difficulty>
-    <difficulty_user>95.163793</difficulty_user>
-    <algo>x21s</algo>
-    <type>shared</type>
-    <finder>35cu7vCZ3...</finder>
   </Blocks>
   <Blocks>
     <symbol>J</symbol>
@@ -38958,18 +38228,6 @@
     <finder>DDvh66NrA...</finder>
   </Blocks>
   <Blocks>
-    <symbol>UTIP</symbol>
-    <time>1579436308</time>
-    <height>489170</height>
-    <amount>13.13371337</amount>
-    <category>generate</category>
-    <difficulty>1099.09080719</difficulty>
-    <difficulty_user>1919.094859</difficulty_user>
-    <algo>x13</algo>
-    <type>shared</type>
-    <finder>1BxotRUiH...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>SCRIBE</symbol>
     <time>1579436301</time>
     <height>483650</height>
@@ -39016,18 +38274,6 @@
     <algo>x11</algo>
     <type>shared</type>
     <finder>bc1qtywp6...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>UTIP</symbol>
-    <time>1579436249</time>
-    <height>489168</height>
-    <amount>13.13371337</amount>
-    <category>generate</category>
-    <difficulty>1315.41966216</difficulty>
-    <difficulty_user>1660.81595</difficulty_user>
-    <algo>x13</algo>
-    <type>shared</type>
-    <finder>373MmgvVZ...</finder>
   </Blocks>
   <Blocks>
     <symbol>SOV</symbol>
@@ -39651,18 +38897,6 @@
     <finder>1HajevWFE...</finder>
   </Blocks>
   <Blocks>
-    <symbol>UTIP</symbol>
-    <time>1579436791</time>
-    <height>489181</height>
-    <amount>13.13371337</amount>
-    <category>generate</category>
-    <difficulty>874.46182413</difficulty>
-    <difficulty_user>1197.208619</difficulty_user>
-    <algo>x13</algo>
-    <type>shared</type>
-    <finder>ATaxmVSD4...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>YTN</symbol>
     <time>1579436777</time>
     <height>566035</height>
@@ -39721,18 +38955,6 @@
     <algo>scrypt</algo>
     <type>shared</type>
     <finder>1Cw2JmyNd...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>BCI</symbol>
-    <time>1579436905</time>
-    <height>75189</height>
-    <amount>10.26</amount>
-    <category>immature</category>
-    <difficulty>15131634.837467</difficulty>
-    <difficulty_user>0</difficulty_user>
-    <algo>progpow</algo>
-    <type>shared</type>
-    <finder>1MAujfKUa...</finder>
   </Blocks>
   <Blocks>
     <symbol>SCIFI</symbol>
@@ -39879,18 +39101,6 @@
     <finder>352v4uJ21...</finder>
   </Blocks>
   <Blocks>
-    <symbol>BCI</symbol>
-    <time>1579436990</time>
-    <height>75190</height>
-    <amount>10.26</amount>
-    <category>immature</category>
-    <difficulty>15274580.458448</difficulty>
-    <difficulty_user>0</difficulty_user>
-    <algo>progpow</algo>
-    <type>shared</type>
-    <finder>bc1qgydhl...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>FLO</symbol>
     <time>1579436988</time>
     <height>3884674</height>
@@ -39913,18 +39123,6 @@
     <algo>cpupower</algo>
     <type>solo</type>
     <finder>3B1ErLKRH...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GRLC</symbol>
-    <time>1579436956</time>
-    <height>1534382</height>
-    <amount>12.5</amount>
-    <category>immature</category>
-    <difficulty>3.9049023550968</difficulty>
-    <difficulty_user>22.691552</difficulty_user>
-    <algo>allium</algo>
-    <type>shared</type>
-    <finder>XgNbWufdT...</finder>
   </Blocks>
   <Blocks>
     <symbol>CPU</symbol>
@@ -40107,18 +39305,6 @@
     <finder>1Ddgfe8KM...</finder>
   </Blocks>
   <Blocks>
-    <symbol>BCI</symbol>
-    <time>1579437080</time>
-    <height>75191</height>
-    <amount>10.26</amount>
-    <category>immature</category>
-    <difficulty>15434539.426133</difficulty>
-    <difficulty_user>0</difficulty_user>
-    <algo>progpow</algo>
-    <type>shared</type>
-    <finder>3AdrcC58o...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>NVC</symbol>
     <time>1579437072</time>
     <height>557321</height>
@@ -40153,18 +39339,6 @@
     <algo>x16rv2</algo>
     <type>shared</type>
     <finder>1CncqXqJB...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GRLC</symbol>
-    <time>1579437064</time>
-    <height>1534388</height>
-    <amount>12.5</amount>
-    <category>immature</category>
-    <difficulty>3.9248766937286</difficulty>
-    <difficulty_user>4.241902</difficulty_user>
-    <algo>allium</algo>
-    <type>shared</type>
-    <finder>MTN2NMwCU...</finder>
   </Blocks>
   <Blocks>
     <symbol>XGCS</symbol>
@@ -40215,18 +39389,6 @@
     <finder>1HvJ9GzCy...</finder>
   </Blocks>
   <Blocks>
-    <symbol>UTIP</symbol>
-    <time>1579437251</time>
-    <height>489198</height>
-    <amount>0</amount>
-    <category>orphan</category>
-    <difficulty>893.910067</difficulty>
-    <difficulty_user>1170.093599</difficulty_user>
-    <algo>x13</algo>
-    <type>shared</type>
-    <finder>1BxotRUiH...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>VOT</symbol>
     <time>1579437246</time>
     <height>519306</height>
@@ -40237,18 +39399,6 @@
     <algo>equihash</algo>
     <type>shared</type>
     <finder>1Ja9qdRyM...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>UTIP</symbol>
-    <time>1579437232</time>
-    <height>489196</height>
-    <amount>13.13371337</amount>
-    <category>generate</category>
-    <difficulty>1362.14845696</difficulty>
-    <difficulty_user>2137.462387</difficulty_user>
-    <algo>x13</algo>
-    <type>shared</type>
-    <finder>373MmgvVZ...</finder>
   </Blocks>
   <Blocks>
     <symbol>GUN</symbol>
@@ -40574,18 +39724,6 @@
     <finder>PruQTvA3j...</finder>
   </Blocks>
   <Blocks>
-    <symbol>SCRIV</symbol>
-    <time>1579437510</time>
-    <height>1845606</height>
-    <amount>14.69664</amount>
-    <category>immature</category>
-    <difficulty>227.69105492447</difficulty>
-    <difficulty_user>567.34329</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>D7RKRX6Bv...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>XGCS</symbol>
     <time>1579437505</time>
     <height>709020</height>
@@ -40896,18 +40034,6 @@
     <finder>1BxotRUiH...</finder>
   </Blocks>
   <Blocks>
-    <symbol>SCRIV</symbol>
-    <time>1579437575</time>
-    <height>1845611</height>
-    <amount>14.69664</amount>
-    <category>immature</category>
-    <difficulty>201.38474096125</difficulty>
-    <difficulty_user>243.33602</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>15wxkcahH...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>BZL</symbol>
     <time>1579437574</time>
     <height>1115138</height>
@@ -40920,30 +40046,6 @@
     <finder>1NbWMDo6T...</finder>
   </Blocks>
   <Blocks>
-    <symbol>SCRIV</symbol>
-    <time>1579437555</time>
-    <height>1845609</height>
-    <amount>14.69664</amount>
-    <category>immature</category>
-    <difficulty>201.29292347563</difficulty>
-    <difficulty_user>460.914006</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>bc1qj8grt...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>SCRIV</symbol>
-    <time>1579437550</time>
-    <height>1845608</height>
-    <amount>14.69664</amount>
-    <category>immature</category>
-    <difficulty>207.38154983374</difficulty>
-    <difficulty_user>457.249183</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>1K6noCG7e...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>BZL</symbol>
     <time>1579437546</time>
     <height>1115135</height>
@@ -40954,18 +40056,6 @@
     <algo>tribus</algo>
     <type>shared</type>
     <finder>1CotJHuzQ...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>SCRIV</symbol>
-    <time>1579437540</time>
-    <height>1845607</height>
-    <amount>14.69664</amount>
-    <category>immature</category>
-    <difficulty>224.07522171172</difficulty>
-    <difficulty_user>641.789041</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>3MRj3VVrx...</finder>
   </Blocks>
   <Blocks>
     <symbol>VOT</symbol>
@@ -41086,30 +40176,6 @@
     <algo>x21s</algo>
     <type>shared</type>
     <finder>35cu7vCZ3...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>SCRIV</symbol>
-    <time>1579437606</time>
-    <height>1845614</height>
-    <amount>14.69664</amount>
-    <category>immature</category>
-    <difficulty>198.72969995617</difficulty>
-    <difficulty_user>759.803459</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>1K6noCG7e...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>SCRIV</symbol>
-    <time>1579437592</time>
-    <height>1845612</height>
-    <amount>14.69664</amount>
-    <category>immature</category>
-    <difficulty>199.16851664985</difficulty>
-    <difficulty_user>275.722299</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>3MRj3VVrx...</finder>
   </Blocks>
   <Blocks>
     <symbol>BZL</symbol>
@@ -41700,18 +40766,6 @@
     <finder>1Ja9qdRyM...</finder>
   </Blocks>
   <Blocks>
-    <symbol>GRLC</symbol>
-    <time>1579437894</time>
-    <height>1534405</height>
-    <amount>12.5</amount>
-    <category>immature</category>
-    <difficulty>5.0883634004555</difficulty>
-    <difficulty_user>96.954533</difficulty_user>
-    <algo>allium</algo>
-    <type>shared</type>
-    <finder>bitcoinca...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>BZX</symbol>
     <time>1579438378</time>
     <height>227876</height>
@@ -41818,18 +40872,6 @@
     <algo>scrypt</algo>
     <type>solo</type>
     <finder>LLWEc7bCW...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>SONO</symbol>
-    <time>1579438332</time>
-    <height>1239894</height>
-    <amount>1.5</amount>
-    <category>immature</category>
-    <difficulty>0.31195407</difficulty>
-    <difficulty_user>0.337376</difficulty_user>
-    <algo>sonoa</algo>
-    <type>shared</type>
-    <finder>1LXHNZbmV...</finder>
   </Blocks>
   <Blocks>
     <symbol>ANON</symbol>
@@ -41964,18 +41006,6 @@
     <finder>3M6EJN7bQ...</finder>
   </Blocks>
   <Blocks>
-    <symbol>GENX</symbol>
-    <time>1579438250</time>
-    <height>741673</height>
-    <amount>350</amount>
-    <category>immature</category>
-    <difficulty>266.668379318</difficulty>
-    <difficulty_user>22.55814367</difficulty_user>
-    <algo>equihash192</algo>
-    <type>solo</type>
-    <finder>SizpRjck4...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>XSR</symbol>
     <time>1579438248</time>
     <height>198679</height>
@@ -42046,18 +41076,6 @@
     <algo>yescryptR32</algo>
     <type>shared</type>
     <finder>3GRXKv25A...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>SONO</symbol>
-    <time>1579438232</time>
-    <height>1239892</height>
-    <amount>1.5</amount>
-    <category>immature</category>
-    <difficulty>0.30482388</difficulty>
-    <difficulty_user>0.340167</difficulty_user>
-    <algo>sonoa</algo>
-    <type>shared</type>
-    <finder>1LXHNZbmV...</finder>
   </Blocks>
   <Blocks>
     <symbol>CPU</symbol>
@@ -42456,18 +41474,6 @@
     <finder>1PeHvNvBc...</finder>
   </Blocks>
   <Blocks>
-    <symbol>GENX</symbol>
-    <time>1579438104</time>
-    <height>741671</height>
-    <amount>350</amount>
-    <category>immature</category>
-    <difficulty>267.69037476444</difficulty>
-    <difficulty_user>25.28873423</difficulty_user>
-    <algo>equihash192</algo>
-    <type>solo</type>
-    <finder>SizpRjck4...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>XGCS</symbol>
     <time>1579438099</time>
     <height>709026</height>
@@ -42514,18 +41520,6 @@
     <algo>xevan</algo>
     <type>solo</type>
     <finder>i6oxRNwke...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>ELI</symbol>
-    <time>1579438083</time>
-    <height>947534</height>
-    <amount>5</amount>
-    <category>immature</category>
-    <difficulty>0.00057137521343199</difficulty>
-    <difficulty_user>312.601065</difficulty_user>
-    <algo>yescryptR16</algo>
-    <type>shared</type>
-    <finder>1PeHvNvBc...</finder>
   </Blocks>
   <Blocks>
     <symbol>KONJ</symbol>
@@ -42718,18 +41712,6 @@
     <algo>jeonghash</algo>
     <type>shared</type>
     <finder>3EotesZeZ...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>KOTO</symbol>
-    <time>1579438478</time>
-    <height>1099830</height>
-    <amount>48.5</amount>
-    <category>immature</category>
-    <difficulty>22058.023446182</difficulty>
-    <difficulty_user>3392.249801</difficulty_user>
-    <algo>yescryptR8G</algo>
-    <type>shared</type>
-    <finder>1NxerLLaK...</finder>
   </Blocks>
   <Blocks>
     <symbol>GRLC</symbol>
@@ -42934,18 +41916,6 @@
     <algo>lyra2z</algo>
     <type>party.Sei8sam!78</type>
     <finder>XoHNeBjhW...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>KOTO</symbol>
-    <time>1579438418</time>
-    <height>1099828</height>
-    <amount>48.50018</amount>
-    <category>immature</category>
-    <difficulty>22006.796060515</difficulty>
-    <difficulty_user>11589.686446</difficulty_user>
-    <algo>yescryptR8G</algo>
-    <type>shared</type>
-    <finder>1PZQ7wnSj...</finder>
   </Blocks>
   <Blocks>
     <symbol>SMART</symbol>
@@ -43162,18 +42132,6 @@
     <algo>x11</algo>
     <type>shared</type>
     <finder>bc1qtywp6...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>KOTO</symbol>
-    <time>1579438576</time>
-    <height>1099833</height>
-    <amount>48.50009</amount>
-    <category>immature</category>
-    <difficulty>20820.485730318</difficulty>
-    <difficulty_user>35890.760228</difficulty_user>
-    <algo>yescryptR8G</algo>
-    <type>shared</type>
-    <finder>1Brwzf32N...</finder>
   </Blocks>
   <Blocks>
     <symbol>DEM</symbol>
@@ -43968,30 +42926,6 @@
     <finder>1Ja9qdRyM...</finder>
   </Blocks>
   <Blocks>
-    <symbol>ZER</symbol>
-    <time>1579438873</time>
-    <height>765731</height>
-    <amount>7.83</amount>
-    <category>immature</category>
-    <difficulty>170265.48385375</difficulty>
-    <difficulty_user>767.88181727</difficulty_user>
-    <algo>equihash192</algo>
-    <type>shared</type>
-    <finder>3A6JZvpGe...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>ZER</symbol>
-    <time>1579438864</time>
-    <height>765730</height>
-    <amount>7.83</amount>
-    <category>immature</category>
-    <difficulty>167768.09092768</difficulty>
-    <difficulty_user>845.67703207</difficulty_user>
-    <algo>equihash192</algo>
-    <type>shared</type>
-    <finder>LSop3geTH...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>PHC</symbol>
     <time>1579438859</time>
     <height>1312759</height>
@@ -44220,17 +43154,6 @@
     <finder>18ERoYXHC...</finder>
   </Blocks>
   <Blocks>
-    <symbol>D</symbol>
-    <time>1579440556</time>
-    <height>2844618</height>
-    <category>questioned</category>
-    <difficulty>2603.870282</difficulty>
-    <difficulty_user>3194.230545</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>1K6noCG7e...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>GUN</symbol>
     <time>1579439080</time>
     <height>1387382</height>
@@ -44325,18 +43248,6 @@
     <algo>equihash192</algo>
     <type>shared</type>
     <finder>15zyQpSGf...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>BELL</symbol>
-    <time>1579439022</time>
-    <height>708834</height>
-    <amount>10</amount>
-    <category>immature</category>
-    <difficulty>0.0020543784106412</difficulty>
-    <difficulty_user>214.164317</difficulty_user>
-    <algo>yespower</algo>
-    <type>solo</type>
-    <finder>LZr1TDz4F...</finder>
   </Blocks>
   <Blocks>
     <symbol>PXC</symbol>
@@ -44550,18 +43461,6 @@
     <category>immature</category>
     <difficulty>0.14842907746804</difficulty>
     <difficulty_user>0.182878</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>shared</type>
-    <finder>1G53uKzuz...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VIOG</symbol>
-    <time>1579439121</time>
-    <height>408445</height>
-    <amount>0.83571433</amount>
-    <category>immature</category>
-    <difficulty>0.14612203034593</difficulty>
-    <difficulty_user>0.445927</difficulty_user>
     <algo>neoscrypt</algo>
     <type>shared</type>
     <finder>1G53uKzuz...</finder>
@@ -44807,18 +43706,6 @@
     <finder>1MRnC5r9o...</finder>
   </Blocks>
   <Blocks>
-    <symbol>RITO</symbol>
-    <time>1579439208</time>
-    <height>594577</height>
-    <amount>671</amount>
-    <category>immature</category>
-    <difficulty>156.89079245142</difficulty>
-    <difficulty_user>489.449135</difficulty_user>
-    <algo>x21s</algo>
-    <type>shared</type>
-    <finder>bc1qqc5uf...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>TZC</symbol>
     <time>1579439203</time>
     <height>1220063</height>
@@ -45047,18 +43934,6 @@
     <finder>1G53uKzuz...</finder>
   </Blocks>
   <Blocks>
-    <symbol>VDL</symbol>
-    <time>1579439274</time>
-    <height>632451</height>
-    <amount>4.8</amount>
-    <category>immature</category>
-    <difficulty>33.171330355552</difficulty>
-    <difficulty_user>89.51262818</difficulty_user>
-    <algo>equihash192</algo>
-    <type>shared</type>
-    <finder>1LMsSzcAy...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>CPU</symbol>
     <time>1579439272</time>
     <height>281816</height>
@@ -45143,18 +44018,6 @@
     <finder>39iJ7RVFJ...</finder>
   </Blocks>
   <Blocks>
-    <symbol>BELL</symbol>
-    <time>1579439397</time>
-    <height>708837</height>
-    <amount>10</amount>
-    <category>immature</category>
-    <difficulty>0.0020726414741078</difficulty>
-    <difficulty_user>539.822987</difficulty_user>
-    <algo>yespower</algo>
-    <type>shared</type>
-    <finder>Xnt1enZyA...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>KOTO</symbol>
     <time>1579439391</time>
     <height>1099855</height>
@@ -45215,42 +44078,6 @@
     <finder>1PZQ7wnSj...</finder>
   </Blocks>
   <Blocks>
-    <symbol>RITO</symbol>
-    <time>1579439363</time>
-    <height>594578</height>
-    <amount>671.002106</amount>
-    <category>immature</category>
-    <difficulty>156.5905972615</difficulty>
-    <difficulty_user>1128.333383</difficulty_user>
-    <algo>x21s</algo>
-    <type>shared</type>
-    <finder>1LXHNZbmV...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MMO</symbol>
-    <time>1579439448</time>
-    <height>1000204</height>
-    <amount>1</amount>
-    <category>immature</category>
-    <difficulty>29.90902657</difficulty>
-    <difficulty_user>77.52831</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>ltc1qdpst...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VDL</symbol>
-    <time>1579439447</time>
-    <height>632453</height>
-    <amount>4.8</amount>
-    <category>immature</category>
-    <difficulty>32.427519794037</difficulty>
-    <difficulty_user>353.60234043</difficulty_user>
-    <algo>equihash192</algo>
-    <type>shared</type>
-    <finder>35AHYtreM...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>LINC</symbol>
     <time>1579439440</time>
     <height>255951</height>
@@ -45261,18 +44088,6 @@
     <algo>neoscrypt</algo>
     <type>shared</type>
     <finder>12r55arYj...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VDL</symbol>
-    <time>1579439438</time>
-    <height>632452</height>
-    <amount>4.80020676</amount>
-    <category>immature</category>
-    <difficulty>33.917951480899</difficulty>
-    <difficulty_user>196.97931294</difficulty_user>
-    <algo>equihash192</algo>
-    <type>shared</type>
-    <finder>3BZKKja3q...</finder>
   </Blocks>
   <Blocks>
     <symbol>ELI</symbol>
@@ -45335,18 +44150,6 @@
     <finder>3AmhuUvg6...</finder>
   </Blocks>
   <Blocks>
-    <symbol>BELL</symbol>
-    <time>1579439419</time>
-    <height>708838</height>
-    <amount>10</amount>
-    <category>immature</category>
-    <difficulty>0.0019312006348165</difficulty>
-    <difficulty_user>808.940373</difficulty_user>
-    <algo>yespower</algo>
-    <type>shared</type>
-    <finder>LehcsSfUK...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>UTIP</symbol>
     <time>1579439417</time>
     <height>489269</height>
@@ -45395,18 +44198,6 @@
     <finder>3CbxZQHLr...</finder>
   </Blocks>
   <Blocks>
-    <symbol>TROLL</symbol>
-    <time>1579439501</time>
-    <height>3372239</height>
-    <amount>17</amount>
-    <category>immature</category>
-    <difficulty>24.53134162</difficulty>
-    <difficulty_user>200.400074</difficulty_user>
-    <algo>scrypt</algo>
-    <type>solo</type>
-    <finder>LLWEc7bCW...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>CXC</symbol>
     <time>1579439500</time>
     <height>62745</height>
@@ -45429,18 +44220,6 @@
     <algo>x11</algo>
     <type>shared</type>
     <finder>13gPqc6Di...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VDL</symbol>
-    <time>1579439495</time>
-    <height>632454</height>
-    <amount>4.8</amount>
-    <category>immature</category>
-    <difficulty>32.53215088784</difficulty>
-    <difficulty_user>65.83147495</difficulty_user>
-    <algo>equihash192</algo>
-    <type>party.123456789</type>
-    <finder>1HzLUNt9r...</finder>
   </Blocks>
   <Blocks>
     <symbol>VIOG</symbol>
@@ -45513,18 +44292,6 @@
     <algo>x16r</algo>
     <type>shared</type>
     <finder>35Nuw87xn...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>CBS</symbol>
-    <time>1579439471</time>
-    <height>432286</height>
-    <amount>2.7</amount>
-    <category>immature</category>
-    <difficulty>0.023607011608447</difficulty>
-    <difficulty_user>0.055611</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>solo</type>
-    <finder>DMK37uFYT...</finder>
   </Blocks>
   <Blocks>
     <symbol>BZX</symbol>
@@ -45633,18 +44400,6 @@
     <algo>neoscrypt</algo>
     <type>shared</type>
     <finder>1G53uKzuz...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>CBS</symbol>
-    <time>1579439582</time>
-    <height>432287</height>
-    <amount>2.7</amount>
-    <category>immature</category>
-    <difficulty>0.023123987763182</difficulty>
-    <difficulty_user>0.080807</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>solo</type>
-    <finder>DMK37uFYT...</finder>
   </Blocks>
   <Blocks>
     <symbol>BTH</symbol>
@@ -45875,18 +44630,6 @@
     <finder>13wbdHFqb...</finder>
   </Blocks>
   <Blocks>
-    <symbol>VDL</symbol>
-    <time>1579439625</time>
-    <height>632456</height>
-    <amount>4.8001</amount>
-    <category>immature</category>
-    <difficulty>32.676569153682</difficulty>
-    <difficulty_user>55.78057546</difficulty_user>
-    <algo>equihash192</algo>
-    <type>shared</type>
-    <finder>174xGU8o4...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>SCRIBE</symbol>
     <time>1579439623</time>
     <height>483678</height>
@@ -45897,18 +44640,6 @@
     <algo>lyra2v2</algo>
     <type>solo</type>
     <finder>RGFkeEk8k...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MMO</symbol>
-    <time>1579439621</time>
-    <height>1000208</height>
-    <amount>1</amount>
-    <category>generate</category>
-    <difficulty>24.53474972</difficulty>
-    <difficulty_user>26.143066</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>ltc1qdpst...</finder>
   </Blocks>
   <Blocks>
     <symbol>SIB</symbol>
@@ -46007,18 +44738,6 @@
     <finder>1LuxyeUoL...</finder>
   </Blocks>
   <Blocks>
-    <symbol>CBS</symbol>
-    <time>1579439602</time>
-    <height>432288</height>
-    <amount>2.7</amount>
-    <category>immature</category>
-    <difficulty>0.024836413551393</difficulty>
-    <difficulty_user>0.038213</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>solo</type>
-    <finder>DMK37uFYT...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>BITC</symbol>
     <time>1579439601</time>
     <height>726144</height>
@@ -46029,18 +44748,6 @@
     <algo>x16rv2</algo>
     <type>shared</type>
     <finder>1L6LGf72R...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VDL</symbol>
-    <time>1579439599</time>
-    <height>632455</height>
-    <amount>4.8001</amount>
-    <category>immature</category>
-    <difficulty>33.402611584917</difficulty>
-    <difficulty_user>34.91543867</difficulty_user>
-    <algo>equihash192</algo>
-    <type>shared</type>
-    <finder>1LMsSzcAy...</finder>
   </Blocks>
   <Blocks>
     <symbol>ZER</symbol>
@@ -46113,30 +44820,6 @@
     <finder>3Kr5MKDCx...</finder>
   </Blocks>
   <Blocks>
-    <symbol>VIRIDI</symbol>
-    <time>1579439833</time>
-    <height>358438</height>
-    <amount>0.05</amount>
-    <category>immature</category>
-    <difficulty>22.63556478412</difficulty>
-    <difficulty_user>56.333662</difficulty_user>
-    <algo>hex</algo>
-    <type>shared</type>
-    <finder>aEz4RkjNu...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MMO</symbol>
-    <time>1579439830</time>
-    <height>1000209</height>
-    <amount>1</amount>
-    <category>generate</category>
-    <difficulty>20.02188724</difficulty>
-    <difficulty_user>25.255101</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>ltc1qdpst...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>DVT</symbol>
     <time>1579439822</time>
     <height>150910</height>
@@ -46147,18 +44830,6 @@
     <algo>sha256</algo>
     <type>shared</type>
     <finder>1CncqXqJB...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TROLL</symbol>
-    <time>1579439819</time>
-    <height>3372249</height>
-    <amount>0</amount>
-    <category>orphan</category>
-    <difficulty>29.414685</difficulty>
-    <difficulty_user>29.973582</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>LLWEc7bCW...</finder>
   </Blocks>
   <Blocks>
     <symbol>NES</symbol>
@@ -46173,18 +44844,6 @@
     <finder>DXgwPw4WF...</finder>
   </Blocks>
   <Blocks>
-    <symbol>TROLL</symbol>
-    <time>1579439818</time>
-    <height>3372248</height>
-    <amount>17</amount>
-    <category>immature</category>
-    <difficulty>24.3339372</difficulty>
-    <difficulty_user>1108.440836</difficulty_user>
-    <algo>scrypt</algo>
-    <type>solo</type>
-    <finder>LLWEc7bCW...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>VRSC</symbol>
     <time>1579439812</time>
     <height>848631</height>
@@ -46195,18 +44854,6 @@
     <algo>verushash</algo>
     <type>shared</type>
     <finder>RS143Mone...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TROLL</symbol>
-    <time>1579439811</time>
-    <height>3372247</height>
-    <amount>17</amount>
-    <category>immature</category>
-    <difficulty>21.60556644</difficulty>
-    <difficulty_user>25.217121</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>15gi1RP4x...</finder>
   </Blocks>
   <Blocks>
     <symbol>DVT</symbol>
@@ -46243,30 +44890,6 @@
     <algo>tribus</algo>
     <type>shared</type>
     <finder>3KW1nqGde...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VIRIDI</symbol>
-    <time>1579439789</time>
-    <height>358437</height>
-    <amount>0.05</amount>
-    <category>immature</category>
-    <difficulty>22.607563721626</difficulty>
-    <difficulty_user>42.732667</difficulty_user>
-    <algo>hex</algo>
-    <type>solo</type>
-    <finder>VXCvNz8qm...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TROLL</symbol>
-    <time>1579439788</time>
-    <height>3372246</height>
-    <amount>17</amount>
-    <category>immature</category>
-    <difficulty>19.90328903</difficulty>
-    <difficulty_user>22.504765</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>1HajevWFE...</finder>
   </Blocks>
   <Blocks>
     <symbol>RYO</symbol>
@@ -46324,18 +44947,6 @@
     <category>immature</category>
     <difficulty>1391.7036235347</difficulty>
     <difficulty_user>2737.962054</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>LRmUkaa8Z...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TROLL</symbol>
-    <time>1579439754</time>
-    <height>3372243</height>
-    <amount>17</amount>
-    <category>immature</category>
-    <difficulty>19.5414043</difficulty>
-    <difficulty_user>20.081754</difficulty_user>
     <algo>scrypt</algo>
     <type>shared</type>
     <finder>LRmUkaa8Z...</finder>
@@ -46521,22 +45132,2629 @@
     <finder>BBDJDfkZm...</finder>
   </Blocks>
   <Blocks>
+    <symbol>VOT</symbol>
+    <time>1579439921</time>
+    <height>519346</height>
+    <amount>62.50030687</amount>
+    <category>immature</category>
+    <difficulty>191914.08634735</difficulty>
+    <difficulty_user>16976.82562966</difficulty_user>
+    <algo>equihash</algo>
+    <type>solo</type>
+    <finder>1Jqb9NZjz...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>ZER</symbol>
+    <time>1579439920</time>
+    <height>765743</height>
+    <amount>7.8303</amount>
+    <category>immature</category>
+    <difficulty>188129.81044044</difficulty>
+    <difficulty_user>826.68519938</difficulty_user>
+    <algo>equihash192</algo>
+    <type>shared</type>
+    <finder>18M5BujbT...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GENX</symbol>
+    <time>1579439919</time>
+    <height>741696</height>
+    <amount>350</amount>
+    <category>immature</category>
+    <difficulty>242.90864075983</difficulty>
+    <difficulty_user>22.27762286</difficulty_user>
+    <algo>equihash192</algo>
+    <type>solo</type>
+    <finder>SizpRjck4...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TUBE</symbol>
+    <time>1579439906</time>
+    <height>515953</height>
+    <amount>367.10612607</amount>
+    <category>immature</category>
+    <difficulty>399616333</difficulty>
+    <difficulty_user>440184330</difficulty_user>
+    <algo>cryptonight_saber</algo>
+    <type>shared</type>
+    <finder>1Cjq5f4AS...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MEK</symbol>
+    <time>1579439903</time>
+    <height>13235</height>
+    <amount>1.75</amount>
+    <category>immature</category>
+    <difficulty>129.90089197225</difficulty>
+    <difficulty_user>251.484892</difficulty_user>
+    <algo>x17</algo>
+    <type>shared</type>
+    <finder>1E3LiXZTp...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VDL</symbol>
+    <time>1579439898</time>
+    <height>632458</height>
+    <amount>4.8002</amount>
+    <category>immature</category>
+    <difficulty>32.519759966603</difficulty>
+    <difficulty_user>34.55815193</difficulty_user>
+    <algo>equihash192</algo>
+    <type>shared</type>
+    <finder>3BZKKja3q...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>CRP</symbol>
+    <time>1579439897</time>
+    <height>1965812</height>
+    <amount>21</amount>
+    <category>immature</category>
+    <difficulty>0.0020534226405333</difficulty>
+    <difficulty_user>253.416761</difficulty_user>
+    <algo>yespower</algo>
+    <type>shared</type>
+    <finder>LehcsSfUK...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>ARION</symbol>
+    <time>1579439896</time>
+    <height>410254</height>
+    <amount>2.25</amount>
+    <category>immature</category>
+    <difficulty>5544.892398224</difficulty>
+    <difficulty_user>7844.901805</difficulty_user>
+    <algo>x11</algo>
+    <type>shared</type>
+    <finder>bc1qtywp6...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MTNS</symbol>
+    <time>1579439895</time>
+    <height>154814</height>
+    <amount>37.5</amount>
+    <category>immature</category>
+    <difficulty>7373.0953288356</difficulty>
+    <difficulty_user>7763.944253</difficulty_user>
+    <algo>skein</algo>
+    <type>shared</type>
+    <finder>3FVevw8FN...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MBC</symbol>
+    <time>1579439895</time>
+    <height>146397</height>
+    <amount>5233.6513</amount>
+    <category>immature</category>
+    <difficulty>0.025868990448191</difficulty>
+    <difficulty_user>2479.197807</difficulty_user>
+    <algo>power2b</algo>
+    <type>shared</type>
+    <finder>3M7WjojzX...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SCIFI</symbol>
+    <time>1579439895</time>
+    <height>705859</height>
+    <amount>10</amount>
+    <category>immature</category>
+    <difficulty>79.14780393</difficulty>
+    <difficulty_user>122.915505</difficulty_user>
+    <algo>scrypt</algo>
+    <type>solo</type>
+    <finder>LLFxhf8cH...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>NTBC</symbol>
+    <time>1579439884</time>
+    <height>994162</height>
+    <amount>4756.0107051</amount>
+    <category>immature</category>
+    <difficulty>83.293830274205</difficulty>
+    <difficulty_user>139.227267</difficulty_user>
+    <algo>scrypt</algo>
+    <type>solo</type>
+    <finder>NLsJBu1kQ...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>CBS</symbol>
+    <time>1579439884</time>
+    <height>432293</height>
+    <amount>2.7</amount>
+    <category>immature</category>
+    <difficulty>0.028189921828725</difficulty>
+    <difficulty_user>0.03474</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>solo</type>
+    <finder>DMK37uFYT...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>EMC2</symbol>
+    <time>1579439883</time>
+    <height>2654440</height>
+    <amount>1.95043875</amount>
+    <category>generate</category>
+    <difficulty>453.1129476584</difficulty>
+    <difficulty_user>2123.412392</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>qpzdujecc...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VIOG</symbol>
+    <time>1579439878</time>
+    <height>408456</height>
+    <amount>0.83571433</amount>
+    <category>immature</category>
+    <difficulty>0.4730163771139</difficulty>
+    <difficulty_user>0.508595</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>shared</type>
+    <finder>1G53uKzuz...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>RITO</symbol>
+    <time>1579439864</time>
+    <height>594590</height>
+    <amount>671</amount>
+    <category>immature</category>
+    <difficulty>155.82557005526</difficulty>
+    <difficulty_user>815.432141</difficulty_user>
+    <algo>x21s</algo>
+    <type>shared</type>
+    <finder>LiCBftVUd...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GENX</symbol>
+    <time>1579439856</time>
+    <height>741693</height>
+    <amount>350</amount>
+    <category>immature</category>
+    <difficulty>232.21057439446</difficulty>
+    <difficulty_user>23.94241446</difficulty_user>
+    <algo>equihash192</algo>
+    <type>solo</type>
+    <finder>SizpRjck4...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>CBS</symbol>
+    <time>1579439854</time>
+    <height>432292</height>
+    <amount>2.7</amount>
+    <category>immature</category>
+    <difficulty>0.02880929071601</difficulty>
+    <difficulty_user>0.905617</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>solo</type>
+    <finder>DMK37uFYT...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TROLL</symbol>
+    <time>1579440065</time>
+    <height>3372256</height>
+    <amount>17</amount>
+    <category>immature</category>
+    <difficulty>31.22636891</difficulty>
+    <difficulty_user>69.005151</difficulty_user>
+    <algo>scrypt</algo>
+    <type>solo</type>
+    <finder>LLWEc7bCW...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>XSH-blake2s</symbol>
+    <time>1579440059</time>
+    <height>1793691</height>
+    <amount>62</amount>
+    <category>orphan</category>
+    <difficulty>1110869.0386467</difficulty>
+    <difficulty_user>1976639.458721</difficulty_user>
+    <algo>blake2s</algo>
+    <type>shared</type>
+    <finder>1MsbFriBV...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TTN</symbol>
+    <time>1579440036</time>
+    <height>145110</height>
+    <amount>30</amount>
+    <category>immature</category>
+    <difficulty>24.673342520108</difficulty>
+    <difficulty_user>99.328497</difficulty_user>
+    <algo>x21s</algo>
+    <type>party.gigergiger</type>
+    <finder>1DnnC39Nn...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>EMC2</symbol>
+    <time>1579440030</time>
+    <height>2654443</height>
+    <amount>1.95</amount>
+    <category>generate</category>
+    <difficulty>426.50396583282</difficulty>
+    <difficulty_user>1277.65211</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>LRmUkaa8Z...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MMO</symbol>
+    <time>1579440027</time>
+    <height>1000215</height>
+    <amount>1</amount>
+    <category>immature</category>
+    <difficulty>20.60550382</difficulty>
+    <difficulty_user>26.315577</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>ltc1qdpst...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GRLC</symbol>
+    <time>1579440026</time>
+    <height>1534455</height>
+    <amount>12.5</amount>
+    <category>immature</category>
+    <difficulty>4.5172152433828</difficulty>
+    <difficulty_user>13.088384</difficulty_user>
+    <algo>allium</algo>
+    <type>shared</type>
+    <finder>36ANNZwL2...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>CRP</symbol>
+    <time>1579440023</time>
+    <height>1965820</height>
+    <amount>21</amount>
+    <category>immature</category>
+    <difficulty>0.0033033885250661</difficulty>
+    <difficulty_user>350.613962</difficulty_user>
+    <algo>yespower</algo>
+    <type>shared</type>
+    <finder>1NoL86jtg...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GENX</symbol>
+    <time>1579440022</time>
+    <height>741698</height>
+    <amount>350</amount>
+    <category>immature</category>
+    <difficulty>249.89892159199</difficulty>
+    <difficulty_user>39.16441648</difficulty_user>
+    <algo>equihash192</algo>
+    <type>solo</type>
+    <finder>SizpRjck4...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TTN</symbol>
+    <time>1579440019</time>
+    <height>145109</height>
+    <amount>30</amount>
+    <category>immature</category>
+    <difficulty>24.535790281891</difficulty>
+    <difficulty_user>27.642503</difficulty_user>
+    <algo>x21s</algo>
+    <type>shared</type>
+    <finder>35cu7vCZ3...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>PGN</symbol>
+    <time>1579440009</time>
+    <height>877083</height>
+    <amount>4750</amount>
+    <category>immature</category>
+    <difficulty>7656.4241631221</difficulty>
+    <difficulty_user>7832.131169</difficulty_user>
+    <algo>x21s</algo>
+    <type>shared</type>
+    <finder>PN7h8s7tk...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>CRP</symbol>
+    <time>1579440004</time>
+    <height>1965818</height>
+    <amount>21</amount>
+    <category>immature</category>
+    <difficulty>0.0027055749830899</difficulty>
+    <difficulty_user>405.404647</difficulty_user>
+    <algo>yespower</algo>
+    <type>shared</type>
+    <finder>LehcsSfUK...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>ARION</symbol>
+    <time>1579440000</time>
+    <height>410257</height>
+    <amount>2.25</amount>
+    <category>immature</category>
+    <difficulty>5447.7282136624</difficulty>
+    <difficulty_user>83683.703945</difficulty_user>
+    <algo>x11</algo>
+    <type>shared</type>
+    <finder>bc1qtywp6...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BZX</symbol>
+    <time>1579439995</time>
+    <height>227886</height>
+    <amount>11</amount>
+    <category>immature</category>
+    <difficulty>8.9046420274417</difficulty>
+    <difficulty_user>913.831408</difficulty_user>
+    <algo>lyra2z</algo>
+    <type>party.Sei8sam!78</type>
+    <finder>XoHNeBjhW...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MMO</symbol>
+    <time>1579439990</time>
+    <height>1000214</height>
+    <amount>1</amount>
+    <category>immature</category>
+    <difficulty>17.66185422</difficulty>
+    <difficulty_user>227.453839</difficulty_user>
+    <algo>scrypt</algo>
+    <type>solo</type>
+    <finder>Xmihn2LUC...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TZC</symbol>
+    <time>1579439989</time>
+    <height>1220083</height>
+    <amount>100.008632</amount>
+    <category>immature</category>
+    <difficulty>16.04448129542</difficulty>
+    <difficulty_user>17.627294</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>shared</type>
+    <finder>1xMDMB1B1...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GLT-myr-gr</symbol>
+    <time>1579439986</time>
+    <height>1016509</height>
+    <amount>30.00005448</amount>
+    <category>immature</category>
+    <difficulty>78160.177616015</difficulty>
+    <difficulty_user>115266.902</difficulty_user>
+    <algo>myr-gr</algo>
+    <type>shared</type>
+    <finder>1ARKjgEz9...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>CBS</symbol>
+    <time>1579439986</time>
+    <height>432294</height>
+    <amount>2.7</amount>
+    <category>immature</category>
+    <difficulty>0.028219637353869</difficulty>
+    <difficulty_user>0.132688</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>solo</type>
+    <finder>DMK37uFYT...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>DYN</symbol>
+    <time>1579439981</time>
+    <height>443028</height>
+    <amount>1</amount>
+    <category>immature</category>
+    <difficulty>0.62949657563853</difficulty>
+    <difficulty_user>1.728768</difficulty_user>
+    <algo>argon2d-dyn</algo>
+    <type>shared</type>
+    <finder>DS6ZGfA1r...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BTH</symbol>
+    <time>1579439980</time>
+    <height>628644</height>
+    <amount>25</amount>
+    <category>immature</category>
+    <difficulty>134.47121919061</difficulty>
+    <difficulty_user>581.47188888</difficulty_user>
+    <algo>equihash144</algo>
+    <type>shared</type>
+    <finder>BESDALMmk...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SONO</symbol>
+    <time>1579439977</time>
+    <height>1239924</height>
+    <amount>1.5</amount>
+    <category>immature</category>
+    <difficulty>0.38377302</difficulty>
+    <difficulty_user>5.026993</difficulty_user>
+    <algo>sonoa</algo>
+    <type>shared</type>
+    <finder>XuBMvesno...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>XSH-myr-gr</symbol>
+    <time>1579439975</time>
+    <height>1793684</height>
+    <amount>62</amount>
+    <category>immature</category>
+    <difficulty>54687.044922074</difficulty>
+    <difficulty_user>70609.636545</difficulty_user>
+    <algo>myr-gr</algo>
+    <type>shared</type>
+    <finder>3F6XyWJqR...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MOON</symbol>
+    <time>1579439969</time>
+    <height>1770967</height>
+    <amount>3421</amount>
+    <category>immature</category>
+    <difficulty>148.27316193691</difficulty>
+    <difficulty_user>161.457313</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>LRmUkaa8Z...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>RITO</symbol>
+    <time>1579439969</time>
+    <height>594593</height>
+    <amount>671</amount>
+    <category>immature</category>
+    <difficulty>157.53014084507</difficulty>
+    <difficulty_user>2039.26358</difficulty_user>
+    <algo>x21s</algo>
+    <type>shared</type>
+    <finder>a529YTA3Z...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SCIFI</symbol>
+    <time>1579439965</time>
+    <height>705861</height>
+    <amount>10</amount>
+    <category>immature</category>
+    <difficulty>82.73519447</difficulty>
+    <difficulty_user>151.982741</difficulty_user>
+    <algo>scrypt</algo>
+    <type>solo</type>
+    <finder>D7BeYkWMi...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>ABS</symbol>
+    <time>1579439964</time>
+    <height>555467</height>
+    <amount>3.00002572</amount>
+    <category>generate</category>
+    <difficulty>1381.0097840109</difficulty>
+    <difficulty_user>3838.823932</difficulty_user>
+    <algo>lyra2v2</algo>
+    <type>solo</type>
+    <finder>M9dnBVxFT...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>YTN</symbol>
+    <time>1579439957</time>
+    <height>566054</height>
+    <amount>50</amount>
+    <category>immature</category>
+    <difficulty>0.00623818</difficulty>
+    <difficulty_user>1176.134514</difficulty_user>
+    <algo>yespowerR16</algo>
+    <type>solo</type>
+    <finder>1D4Cq9fQm...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>LINC</symbol>
+    <time>1579439954</time>
+    <height>255952</height>
+    <amount>11.78890625</amount>
+    <category>immature</category>
+    <difficulty>0.75</difficulty>
+    <difficulty_user>1.361987</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>shared</type>
+    <finder>1CkMSXn9T...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>DVT</symbol>
+    <time>1579439953</time>
+    <height>150912</height>
+    <amount>653</amount>
+    <category>immature</category>
+    <difficulty>23764126.711479</difficulty>
+    <difficulty_user>113791320.049435</difficulty_user>
+    <algo>sha256</algo>
+    <type>party.Biomine</type>
+    <finder>bc1qjk3zp...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MMO</symbol>
+    <time>1579439945</time>
+    <height>1000212</height>
+    <amount>1</amount>
+    <category>immature</category>
+    <difficulty>17.71792348</difficulty>
+    <difficulty_user>36.25882</difficulty_user>
+    <algo>scrypt</algo>
+    <type>solo</type>
+    <finder>Xmihn2LUC...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>XMY-argon2d4096</symbol>
+    <time>1579439942</time>
+    <height>2993501</height>
+    <amount>250</amount>
+    <category>immature</category>
+    <difficulty>0.35367354207817</difficulty>
+    <difficulty_user>8.383598</difficulty_user>
+    <algo>argon2d4096</algo>
+    <type>shared</type>
+    <finder>1PZQ7wnSj...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>CRP</symbol>
+    <time>1579439940</time>
+    <height>1965814</height>
+    <amount>21</amount>
+    <category>immature</category>
+    <difficulty>0.0026159955624476</difficulty>
+    <difficulty_user>684.183181</difficulty_user>
+    <algo>yespower</algo>
+    <type>shared</type>
+    <finder>LehcsSfUK...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GEX</symbol>
+    <time>1579439934</time>
+    <height>362004</height>
+    <amount>2.4</amount>
+    <category>immature</category>
+    <difficulty>8.1273601106839</difficulty>
+    <difficulty_user>8.175877</difficulty_user>
+    <algo>phi2</algo>
+    <type>shared</type>
+    <finder>XsLwrEsmi...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>ARION</symbol>
+    <time>1579439926</time>
+    <height>410256</height>
+    <amount>2.25</amount>
+    <category>immature</category>
+    <difficulty>5458.6540519518</difficulty>
+    <difficulty_user>10487.268316</difficulty_user>
+    <algo>x11</algo>
+    <type>shared</type>
+    <finder>13gPqc6Di...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>XMY-argon2d4096</symbol>
+    <time>1579439922</time>
+    <height>2993500</height>
+    <amount>250</amount>
+    <category>immature</category>
+    <difficulty>0.36781873695081</difficulty>
+    <difficulty_user>0.74504</difficulty_user>
+    <algo>argon2d4096</algo>
+    <type>shared</type>
+    <finder>4vXgd1xqr...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>DVT</symbol>
+    <time>1579439922</time>
+    <height>150911</height>
+    <amount>653</amount>
+    <category>immature</category>
+    <difficulty>23609509.352802</difficulty>
+    <difficulty_user>215483576.943198</difficulty_user>
+    <algo>sha256</algo>
+    <type>party.Biomine</type>
+    <finder>bc1qjk3zp...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>EMC2</symbol>
+    <time>1579439921</time>
+    <height>2654441</height>
+    <amount>1.9619457</amount>
+    <category>generate</category>
+    <difficulty>445.68605052732</difficulty>
+    <difficulty_user>589.348378</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>LRmUkaa8Z...</finder>
+  </Blocks>
+  <Blocks />
+  <Blocks>
+    <symbol>NES</symbol>
+    <time>1579440189</time>
+    <height>128783</height>
+    <amount>0.005</amount>
+    <category>immature</category>
+    <difficulty>29.20820624</difficulty>
+    <difficulty_user>45.160103</difficulty_user>
+    <algo>x13</algo>
+    <type>solo</type>
+    <finder>1HvJ9GzCy...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VDL</symbol>
+    <time>1579440189</time>
+    <height>632461</height>
+    <amount>4.8</amount>
+    <category>immature</category>
+    <difficulty>28.267884849691</difficulty>
+    <difficulty_user>28.46885127</difficulty_user>
+    <algo>equihash192</algo>
+    <type>party.123456789</type>
+    <finder>1HzLUNt9r...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>NVC</symbol>
+    <time>1579440186</time>
+    <height>557330</height>
+    <amount>5.16</amount>
+    <category>immature</category>
+    <difficulty>12866.34500568</difficulty>
+    <difficulty_user>94399.893422</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>122JqhJiN...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VDL</symbol>
+    <time>1579440186</time>
+    <height>632460</height>
+    <amount>4.8</amount>
+    <category>immature</category>
+    <difficulty>28.676753359465</difficulty>
+    <difficulty_user>33.8890281</difficulty_user>
+    <algo>equihash192</algo>
+    <type>party.KMnFaisal</type>
+    <finder>RDshY1jnW...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GENX</symbol>
+    <time>1579440183</time>
+    <height>741699</height>
+    <amount>350</amount>
+    <category>immature</category>
+    <difficulty>247.07982091838</difficulty>
+    <difficulty_user>123.8974583</difficulty_user>
+    <algo>equihash192</algo>
+    <type>solo</type>
+    <finder>SizpRjck4...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>IMGC</symbol>
+    <time>1579440177</time>
+    <height>286171</height>
+    <amount>2.32142865</amount>
+    <category>immature</category>
+    <difficulty>11079.64306997</difficulty>
+    <difficulty_user>27380.957643</difficulty_user>
+    <algo>x11</algo>
+    <type>shared</type>
+    <finder>35WgRWqgB...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>EMC2</symbol>
+    <time>1579440177</time>
+    <height>2654446</height>
+    <amount>1.95</amount>
+    <category>generate</category>
+    <difficulty>487.7306820164</difficulty>
+    <difficulty_user>821.613799</difficulty_user>
+    <algo>scrypt</algo>
+    <type>solo</type>
+    <finder>LNn4Z8q5q...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SONO</symbol>
+    <time>1579440168</time>
+    <height>1239927</height>
+    <amount>1.5</amount>
+    <category>immature</category>
+    <difficulty>0.41803012</difficulty>
+    <difficulty_user>1.43809</difficulty_user>
+    <algo>sonoa</algo>
+    <type>solo</type>
+    <finder>193YGE26i...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>CBS</symbol>
+    <time>1579440164</time>
+    <height>432295</height>
+    <amount>2.7</amount>
+    <category>immature</category>
+    <difficulty>0.027518105010953</difficulty>
+    <difficulty_user>0.058903</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>solo</type>
+    <finder>DMK37uFYT...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TROLL</symbol>
+    <time>1579440159</time>
+    <height>3372260</height>
+    <amount>17</amount>
+    <category>immature</category>
+    <difficulty>29.66936887</difficulty>
+    <difficulty_user>64.713966</difficulty_user>
+    <algo>scrypt</algo>
+    <type>solo</type>
+    <finder>LLWEc7bCW...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>RITO</symbol>
+    <time>1579440158</time>
+    <height>594594</height>
+    <amount>671</amount>
+    <category>immature</category>
+    <difficulty>157.86514105049</difficulty>
+    <difficulty_user>171.900581</difficulty_user>
+    <algo>x21s</algo>
+    <type>shared</type>
+    <finder>PLqsYkeM8...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>FLO</symbol>
+    <time>1579440157</time>
+    <height>3884735</height>
+    <amount>6.25</amount>
+    <category>immature</category>
+    <difficulty>1302.9921145179</difficulty>
+    <difficulty_user>7394.454624</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>LRmUkaa8Z...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MMO</symbol>
+    <time>1579440154</time>
+    <height>1000219</height>
+    <amount>1</amount>
+    <category>immature</category>
+    <difficulty>27.94292481</difficulty>
+    <difficulty_user>85.747444</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>ltc1qdpst...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BITC</symbol>
+    <time>1579440146</time>
+    <height>726150</height>
+    <amount>19.35</amount>
+    <category>immature</category>
+    <difficulty>605.16760989961</difficulty>
+    <difficulty_user>4307.099698</difficulty_user>
+    <algo>x16rv2</algo>
+    <type>shared</type>
+    <finder>1CncqXqJB...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>KONJ</symbol>
+    <time>1579440144</time>
+    <height>184106</height>
+    <amount>0</amount>
+    <category>orphan</category>
+    <difficulty>0.911944</difficulty>
+    <difficulty_user>3.721498</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>shared</type>
+    <finder>KsSbxeUdp...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GRLC</symbol>
+    <time>1579440140</time>
+    <height>1534460</height>
+    <amount>12.5</amount>
+    <category>immature</category>
+    <difficulty>5.0584297212174</difficulty>
+    <difficulty_user>12.334434</difficulty_user>
+    <algo>allium</algo>
+    <type>shared</type>
+    <finder>XgNbWufdT...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>ANON</symbol>
+    <time>1579440127</time>
+    <height>115787</height>
+    <amount>6.53125</amount>
+    <category>immature</category>
+    <difficulty>430871.99595578</difficulty>
+    <difficulty_user>84.42141556</difficulty_user>
+    <algo>equihash192</algo>
+    <type>solo</type>
+    <finder>17CoUEzXx...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>CPU</symbol>
+    <time>1579440125</time>
+    <height>281824</height>
+    <amount>50</amount>
+    <category>immature</category>
+    <difficulty>0.0040665283668509</difficulty>
+    <difficulty_user>297.108156</difficulty_user>
+    <algo>cpupower</algo>
+    <type>shared</type>
+    <finder>1DPhven15...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MMO</symbol>
+    <time>1579440124</time>
+    <height>1000218</height>
+    <amount>1</amount>
+    <category>immature</category>
+    <difficulty>23.95107271</difficulty>
+    <difficulty_user>26.405008</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>ltc1qdpst...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>XGCS</symbol>
+    <time>1579440122</time>
+    <height>709060</height>
+    <amount>0.4</amount>
+    <category>immature</category>
+    <difficulty>3.0386635861568</difficulty>
+    <difficulty_user>42.4095</difficulty_user>
+    <algo>x16r</algo>
+    <type>shared</type>
+    <finder>35Nuw87xn...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GLT-blake2s</symbol>
+    <time>1579440111</time>
+    <height>1016510</height>
+    <amount>30</amount>
+    <category>immature</category>
+    <difficulty>2060476.2459615</difficulty>
+    <difficulty_user>2787251.139447</difficulty_user>
+    <algo>blake2s</algo>
+    <type>shared</type>
+    <finder>32JitweY5...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BELL</symbol>
+    <time>1579440110</time>
+    <height>708847</height>
+    <amount>10</amount>
+    <category>immature</category>
+    <difficulty>0.001831906383504</difficulty>
+    <difficulty_user>291.974837</difficulty_user>
+    <algo>yespower</algo>
+    <type>shared</type>
+    <finder>LehcsSfUK...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>NES</symbol>
+    <time>1579440109</time>
+    <height>128782</height>
+    <amount>0.005</amount>
+    <category>immature</category>
+    <difficulty>22.55519495</difficulty>
+    <difficulty_user>22.970086</difficulty_user>
+    <algo>x13</algo>
+    <type>shared</type>
+    <finder>1312BgMHB...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>ARION</symbol>
+    <time>1579440101</time>
+    <height>410258</height>
+    <amount>2.25</amount>
+    <category>immature</category>
+    <difficulty>5249.5798528862</difficulty>
+    <difficulty_user>7006.858542</difficulty_user>
+    <algo>x11</algo>
+    <type>shared</type>
+    <finder>bc1qtywp6...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VDL</symbol>
+    <time>1579440100</time>
+    <height>632459</height>
+    <amount>4.8002</amount>
+    <category>immature</category>
+    <difficulty>30.181495350136</difficulty>
+    <difficulty_user>57.92462349</difficulty_user>
+    <algo>equihash192</algo>
+    <type>shared</type>
+    <finder>3BZKKja3q...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>NES</symbol>
+    <time>1579440099</time>
+    <height>128781</height>
+    <amount>0.005</amount>
+    <category>immature</category>
+    <difficulty>17.66821546</difficulty>
+    <difficulty_user>777.059298</difficulty_user>
+    <algo>x13</algo>
+    <type>shared</type>
+    <finder>1BxotRUiH...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>YTN</symbol>
+    <time>1579440096</time>
+    <height>566055</height>
+    <amount>50.0002</amount>
+    <category>immature</category>
+    <difficulty>0.00597912</difficulty>
+    <difficulty_user>618.199537</difficulty_user>
+    <algo>yespowerR16</algo>
+    <type>solo</type>
+    <finder>1D4Cq9fQm...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BELL</symbol>
+    <time>1579440088</time>
+    <height>708846</height>
+    <amount>10</amount>
+    <category>immature</category>
+    <difficulty>0.0018520245523603</difficulty>
+    <difficulty_user>480.470914</difficulty_user>
+    <algo>yespower</algo>
+    <type>shared</type>
+    <finder>LehcsSfUK...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>KOTO</symbol>
+    <time>1579440080</time>
+    <height>1099871</height>
+    <amount>48.5</amount>
+    <category>immature</category>
+    <difficulty>29817.227016609</difficulty>
+    <difficulty_user>33433.800464</difficulty_user>
+    <algo>yescryptR8G</algo>
+    <type>shared</type>
+    <finder>1cmf1Gb2G...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TROLL</symbol>
+    <time>1579440078</time>
+    <height>3372257</height>
+    <amount>17</amount>
+    <category>immature</category>
+    <difficulty>25.44373081</difficulty>
+    <difficulty_user>48.359914</difficulty_user>
+    <algo>scrypt</algo>
+    <type>solo</type>
+    <finder>LLWEc7bCW...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GXX</symbol>
+    <time>1579440076</time>
+    <height>613140</height>
+    <amount>1.5</amount>
+    <category>immature</category>
+    <difficulty>0.0076528681877971</difficulty>
+    <difficulty_user>5982.805997</difficulty_user>
+    <algo>lyra2z330</algo>
+    <type>shared</type>
+    <finder>1B6shJSkD...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SCRIV</symbol>
+    <time>1579440074</time>
+    <height>1845690</height>
+    <amount>14.69664</amount>
+    <category>immature</category>
+    <difficulty>200.07107507006</difficulty>
+    <difficulty_user>352.466374</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>15wxkcahH...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>XSH-myr-gr</symbol>
+    <time>1579440067</time>
+    <height>1793691</height>
+    <amount>62</amount>
+    <category>immature</category>
+    <difficulty>60004.774784844</difficulty>
+    <difficulty_user>68295.619865</difficulty_user>
+    <algo>myr-gr</algo>
+    <type>shared</type>
+    <finder>32G8ZgcJM...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>FLO</symbol>
+    <time>1579440065</time>
+    <height>3884723</height>
+    <amount>6.25</amount>
+    <category>immature</category>
+    <difficulty>1298.2731393386</difficulty>
+    <difficulty_user>1691.517506</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>DAcPD4D5X...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>DYN</symbol>
+    <time>1579441789</time>
+    <height>443038</height>
+    <amount>1</amount>
+    <category>immature</category>
+    <difficulty>0.16957726652883</difficulty>
+    <difficulty_user>0.608621</difficulty_user>
+    <algo>argon2d-dyn</algo>
+    <type>shared</type>
+    <finder>3HVkLa4hu...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GENX</symbol>
+    <time>1579441786</time>
+    <height>741721</height>
+    <amount>350</amount>
+    <category>immature</category>
+    <difficulty>221.72138816937</difficulty>
+    <difficulty_user>60.93243585</difficulty_user>
+    <algo>equihash192</algo>
+    <type>solo</type>
+    <finder>SizpRjck4...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BZL</symbol>
+    <time>1579441782</time>
+    <height>1115217</height>
+    <amount>0.8</amount>
+    <category>immature</category>
+    <difficulty>53.51792601</difficulty>
+    <difficulty_user>128.960774</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>qzsccwzrn...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BZL</symbol>
+    <time>1579441781</time>
+    <height>1115216</height>
+    <amount>0.8</amount>
+    <category>immature</category>
+    <difficulty>151.03900898</difficulty>
+    <difficulty_user>352.791866</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>1BxotRUiH...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SCRIV</symbol>
+    <time>1579441781</time>
+    <height>1845746</height>
+    <amount>14.69664</amount>
+    <category>immature</category>
+    <difficulty>177.30506647503</difficulty>
+    <difficulty_user>2308.508107</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>D7RKRX6Bv...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BELL</symbol>
+    <time>1579441781</time>
+    <height>708876</height>
+    <amount>10</amount>
+    <category>immature</category>
+    <difficulty>0.0018594637526149</difficulty>
+    <difficulty_user>262.972262</difficulty_user>
+    <algo>yespower</algo>
+    <type>shared</type>
+    <finder>1KUy1J3ET...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>CBS</symbol>
+    <time>1579441781</time>
+    <height>432308</height>
+    <amount>2.7</amount>
+    <category>immature</category>
+    <difficulty>0.029201123041283</difficulty>
+    <difficulty_user>0.041511</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>solo</type>
+    <finder>DMK37uFYT...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BITC</symbol>
+    <time>1579441775</time>
+    <height>726179</height>
+    <amount>19.35</amount>
+    <category>immature</category>
+    <difficulty>763.53469717912</difficulty>
+    <difficulty_user>1322.052896</difficulty_user>
+    <algo>x16rv2</algo>
+    <type>shared</type>
+    <finder>16rJWXRw8...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>DIME</symbol>
+    <time>1579441763</time>
+    <height>3813650</height>
+    <amount>8192</amount>
+    <category>immature</category>
+    <difficulty>1797273.8367685</difficulty>
+    <difficulty_user>7426.141161</difficulty_user>
+    <algo>quark</algo>
+    <type>shared</type>
+    <finder>3LTfsHcG4...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BCI</symbol>
+    <time>1579441761</time>
+    <height>75214</height>
+    <amount>10.26</amount>
+    <category>immature</category>
+    <difficulty>20209816.384089</difficulty>
+    <difficulty_user>0</difficulty_user>
+    <algo>progpow</algo>
+    <type>shared</type>
+    <finder>3Ciw8CaQz...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>STPX</symbol>
+    <time>1579441753</time>
+    <height>508400</height>
+    <amount>30.42</amount>
+    <category>immature</category>
+    <difficulty>1325.8087494883</difficulty>
+    <difficulty_user>3989.731265</difficulty_user>
+    <algo>x11</algo>
+    <type>shared</type>
+    <finder>RGCFs7KmM...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SONO</symbol>
+    <time>1579441746</time>
+    <height>1239945</height>
+    <amount>1.5</amount>
+    <category>immature</category>
+    <difficulty>0.32394638</difficulty>
+    <difficulty_user>89.342887</difficulty_user>
+    <algo>sonoa</algo>
+    <type>solo</type>
+    <finder>193YGE26i...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VIOG</symbol>
+    <time>1579441744</time>
+    <height>408465</height>
+    <amount>0.83571433</amount>
+    <category>immature</category>
+    <difficulty>0.37609971936711</difficulty>
+    <difficulty_user>0.809682</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>shared</type>
+    <finder>1G53uKzuz...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MTNS</symbol>
+    <time>1579441744</time>
+    <height>154835</height>
+    <amount>37.5</amount>
+    <category>immature</category>
+    <difficulty>7156.2254920747</difficulty>
+    <difficulty_user>16207.492506</difficulty_user>
+    <algo>skein</algo>
+    <type>shared</type>
+    <finder>3FVevw8FN...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VIRIDI</symbol>
+    <time>1579441740</time>
+    <height>358470</height>
+    <amount>0.05</amount>
+    <category>immature</category>
+    <difficulty>22.392598158883</difficulty>
+    <difficulty_user>219.420259</difficulty_user>
+    <algo>hex</algo>
+    <type>party.vash</type>
+    <finder>3NtCyPCmY...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>DYN</symbol>
+    <time>1579441737</time>
+    <height>443037</height>
+    <amount>1</amount>
+    <category>immature</category>
+    <difficulty>0.19178823839277</difficulty>
+    <difficulty_user>0.240988</difficulty_user>
+    <algo>argon2d-dyn</algo>
+    <type>shared</type>
+    <finder>1K1o1AW6c...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>DYN</symbol>
+    <time>1579441732</time>
+    <height>443036</height>
+    <amount>1</amount>
+    <category>immature</category>
+    <difficulty>0.20811302599865</difficulty>
+    <difficulty_user>0.436025</difficulty_user>
+    <algo>argon2d-dyn</algo>
+    <type>solo</type>
+    <finder>382EQFFmg...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BCI</symbol>
+    <time>1579441732</time>
+    <height>75213</height>
+    <amount>10.26</amount>
+    <category>immature</category>
+    <difficulty>19996632.666958</difficulty>
+    <difficulty_user>0</difficulty_user>
+    <algo>progpow</algo>
+    <type>shared</type>
+    <finder>15BNATMeu...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VIRIDI</symbol>
+    <time>1579441726</time>
+    <height>358469</height>
+    <amount>0.05</amount>
+    <category>immature</category>
+    <difficulty>23.291434473682</difficulty>
+    <difficulty_user>56.394018</difficulty_user>
+    <algo>hex</algo>
+    <type>party.vash</type>
+    <finder>3NtCyPCmY...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>ELI</symbol>
+    <time>1579441717</time>
+    <height>947588</height>
+    <amount>5</amount>
+    <category>immature</category>
+    <difficulty>0.0004776251476276</difficulty>
+    <difficulty_user>31.550349</difficulty_user>
+    <algo>yescryptR16</algo>
+    <type>shared</type>
+    <finder>1PeHvNvBc...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>XVG-myr-gr</symbol>
+    <time>1579441715</time>
+    <height>3763949</height>
+    <amount>400</amount>
+    <category>immature</category>
+    <difficulty>7425707.796253</difficulty>
+    <difficulty_user>11925007.814272</difficulty_user>
+    <algo>myr-gr</algo>
+    <type>shared</type>
+    <finder>32G8ZgcJM...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>XSG</symbol>
+    <time>1579441715</time>
+    <height>1082072</height>
+    <amount>6.0001</amount>
+    <category>immature</category>
+    <difficulty>133.34552560805</difficulty>
+    <difficulty_user>442.90629075</difficulty_user>
+    <algo>equihash144</algo>
+    <type>shared</type>
+    <finder>3JbNySpWR...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TLR</symbol>
+    <time>1579441712</time>
+    <height>811596</height>
+    <amount>3.5</amount>
+    <category>immature</category>
+    <difficulty>2.0793998741227</difficulty>
+    <difficulty_user>11.466668</difficulty_user>
+    <algo>lyra2z</algo>
+    <type>party.Sei8sam!78</type>
+    <finder>XoHNeBjhW...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BCI</symbol>
+    <time>1579441710</time>
+    <height>75212</height>
+    <amount>10.26</amount>
+    <category>immature</category>
+    <difficulty>19789680.349898</difficulty>
+    <difficulty_user>0</difficulty_user>
+    <algo>progpow</algo>
+    <type>shared</type>
+    <finder>1G53uKzuz...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>DIME</symbol>
+    <time>1579441709</time>
+    <height>3813649</height>
+    <amount>8192</amount>
+    <category>immature</category>
+    <difficulty>1835942.990422</difficulty>
+    <difficulty_user>8143.77486</difficulty_user>
+    <algo>quark</algo>
+    <type>solo</type>
+    <finder>D9FTMCzDH...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GXX</symbol>
+    <time>1579441708</time>
+    <height>613148</height>
+    <amount>1.5</amount>
+    <category>immature</category>
+    <difficulty>0.0074765214296145</difficulty>
+    <difficulty_user>7547.038817</difficulty_user>
+    <algo>lyra2z330</algo>
+    <type>shared</type>
+    <finder>1B6shJSkD...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SCRIV</symbol>
+    <time>1579441706</time>
+    <height>1845742</height>
+    <amount>14.69664</amount>
+    <category>immature</category>
+    <difficulty>186.7676003028</difficulty>
+    <difficulty_user>2254.213111</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>122JqhJiN...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BELL</symbol>
+    <time>1579441706</time>
+    <height>708874</height>
+    <amount>10</amount>
+    <category>immature</category>
+    <difficulty>0.0018882109942025</difficulty>
+    <difficulty_user>309.399534</difficulty_user>
+    <algo>yespower</algo>
+    <type>shared</type>
+    <finder>LehcsSfUK...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>D</symbol>
+    <time>1579441705</time>
+    <height>2844672</height>
+    <amount>2</amount>
+    <category>immature</category>
+    <difficulty>2467.6805513</difficulty>
+    <difficulty_user>3742.743297</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>3KW1nqGde...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>CBS</symbol>
+    <time>1579441705</time>
+    <height>432307</height>
+    <amount>2.7</amount>
+    <category>immature</category>
+    <difficulty>0.029244345914627</difficulty>
+    <difficulty_user>0.053334</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>solo</type>
+    <finder>DMK37uFYT...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MMO</symbol>
+    <time>1579441704</time>
+    <height>1000247</height>
+    <amount>1</amount>
+    <category>immature</category>
+    <difficulty>26.23950152</difficulty>
+    <difficulty_user>29.045471</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>ltc1qdpst...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TUX</symbol>
+    <time>1579441700</time>
+    <height>789612</height>
+    <amount>33.5</amount>
+    <category>immature</category>
+    <difficulty>2.3856436155335</difficulty>
+    <difficulty_user>2.552751</difficulty_user>
+    <algo>allium</algo>
+    <type>shared</type>
+    <finder>XgNbWufdT...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>D</symbol>
+    <time>1579441696</time>
+    <height>2844671</height>
+    <amount>2</amount>
+    <category>immature</category>
+    <difficulty>2303.16807345</difficulty>
+    <difficulty_user>7343.85435</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>1NNzoUZT5...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SONO</symbol>
+    <time>1579441695</time>
+    <height>1239944</height>
+    <amount>1.5</amount>
+    <category>immature</category>
+    <difficulty>0.32828726</difficulty>
+    <difficulty_user>0.807868</difficulty_user>
+    <algo>sonoa</algo>
+    <type>solo</type>
+    <finder>193YGE26i...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>FLO</symbol>
+    <time>1579441691</time>
+    <height>3884766</height>
+    <amount>6.25</amount>
+    <category>immature</category>
+    <difficulty>1165.7946558425</difficulty>
+    <difficulty_user>1720.491384</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>LRmUkaa8Z...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GXX</symbol>
+    <time>1579441689</time>
+    <height>613147</height>
+    <amount>1.5</amount>
+    <category>immature</category>
+    <difficulty>0.0074525791484716</difficulty>
+    <difficulty_user>979.776213</difficulty_user>
+    <algo>lyra2z330</algo>
+    <type>shared</type>
+    <finder>1B6shJSkD...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VIRIDI</symbol>
+    <time>1579441689</time>
+    <height>358468</height>
+    <amount>0.05</amount>
+    <category>immature</category>
+    <difficulty>23.024716942291</difficulty>
+    <difficulty_user>24.033113</difficulty_user>
+    <algo>hex</algo>
+    <type>shared</type>
+    <finder>VPCVBfwBf...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MTNS</symbol>
+    <time>1579441682</time>
+    <height>154832</height>
+    <amount>37.5</amount>
+    <category>immature</category>
+    <difficulty>6174.5618907962</difficulty>
+    <difficulty_user>16050.280388</difficulty_user>
+    <algo>skein</algo>
+    <type>shared</type>
+    <finder>3FVevw8FN...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>D</symbol>
+    <time>1579441682</time>
+    <height>2844669</height>
+    <amount>2</amount>
+    <category>immature</category>
+    <difficulty>4043.33743482</difficulty>
+    <difficulty_user>21207.25173</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>dgb1quaww...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>DYN</symbol>
+    <time>1579441678</time>
+    <height>443035</height>
+    <amount>1</amount>
+    <category>immature</category>
+    <difficulty>0.23855805877407</difficulty>
+    <difficulty_user>0.486259</difficulty_user>
+    <algo>argon2d-dyn</algo>
+    <type>shared</type>
+    <finder>32ohNtT8u...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SCRIV</symbol>
+    <time>1579441671</time>
+    <height>1845740</height>
+    <amount>14.69664</amount>
+    <category>immature</category>
+    <difficulty>160.4207265182</difficulty>
+    <difficulty_user>1116.52261</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>bc1qj8grt...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TLR</symbol>
+    <time>1579441667</time>
+    <height>811595</height>
+    <amount>3.5</amount>
+    <category>immature</category>
+    <difficulty>2.104865642456</difficulty>
+    <difficulty_user>2.921314</difficulty_user>
+    <algo>lyra2z</algo>
+    <type>party.Sei8sam!78</type>
+    <finder>XoHNeBjhW...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>D</symbol>
+    <time>1579441663</time>
+    <height>2844668</height>
+    <amount>2</amount>
+    <category>immature</category>
+    <difficulty>3234.66812073</difficulty>
+    <difficulty_user>4437.021413</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>dgb1quaww...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MBC</symbol>
+    <time>1579441657</time>
+    <height>146430</height>
+    <amount>5236.9663</amount>
+    <category>immature</category>
+    <difficulty>0.026626941255771</difficulty>
+    <difficulty_user>5299.641235</difficulty_user>
+    <algo>power2b</algo>
+    <type>shared</type>
+    <finder>MTzUCREZF...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GXX</symbol>
+    <time>1579441653</time>
+    <height>613146</height>
+    <amount>1.5</amount>
+    <category>immature</category>
+    <difficulty>0.0074760847424216</difficulty>
+    <difficulty_user>649.142419</difficulty_user>
+    <algo>lyra2z330</algo>
+    <type>shared</type>
+    <finder>163MgYLXF...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>XZC</symbol>
+    <time>1579441653</time>
+    <height>233927</height>
+    <amount>14.00125718</amount>
+    <category>immature</category>
+    <difficulty>7233.5431193031</difficulty>
+    <difficulty_user>9534.71803992753</difficulty_user>
+    <algo>mtp</algo>
+    <type>shared</type>
+    <finder>3LXg75vGc...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TLR</symbol>
+    <time>1579441647</time>
+    <height>811593</height>
+    <amount>3.5</amount>
+    <category>immature</category>
+    <difficulty>2.1141992947275</difficulty>
+    <difficulty_user>2.443752</difficulty_user>
+    <algo>lyra2z</algo>
+    <type>party.Sei8sam!78</type>
+    <finder>XoHNeBjhW...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TUX</symbol>
+    <time>1579441645</time>
+    <height>789611</height>
+    <amount>33.5</amount>
+    <category>immature</category>
+    <difficulty>2.3038628966919</difficulty>
+    <difficulty_user>7.003245</difficulty_user>
+    <algo>allium</algo>
+    <type>shared</type>
+    <finder>MTN2NMwCU...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MMO</symbol>
+    <time>1579441636</time>
+    <height>1000245</height>
+    <amount>1</amount>
+    <category>immature</category>
+    <difficulty>30.15459276</difficulty>
+    <difficulty_user>47.87759</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>ltc1qdpst...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>DIME</symbol>
+    <time>1579441636</time>
+    <height>3813648</height>
+    <amount>8192</amount>
+    <category>immature</category>
+    <difficulty>1918919.5543269</difficulty>
+    <difficulty_user>12719.104571</difficulty_user>
+    <algo>quark</algo>
+    <type>shared</type>
+    <finder>3LTfsHcG4...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VDL</symbol>
+    <time>1579441627</time>
+    <height>632495</height>
+    <amount>4.8</amount>
+    <category>immature</category>
+    <difficulty>39.371231179364</difficulty>
+    <difficulty_user>40.29947169</difficulty_user>
+    <algo>equihash192</algo>
+    <type>shared</type>
+    <finder>3BZKKja3q...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>DEM</symbol>
+    <time>1579441626</time>
+    <height>2645190</height>
+    <amount>50</amount>
+    <category>immature</category>
+    <difficulty>5173849.9391087</difficulty>
+    <difficulty_user>9498332.59881</difficulty_user>
+    <algo>sha256</algo>
+    <type>solo</type>
+    <finder>3B6Gyvv56...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VIRIDI</symbol>
+    <time>1579441621</time>
+    <height>358467</height>
+    <amount>0.05</amount>
+    <category>immature</category>
+    <difficulty>20.409529741514</difficulty>
+    <difficulty_user>25.416221</difficulty_user>
+    <algo>hex</algo>
+    <type>solo</type>
+    <finder>VXCvNz8qm...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GLT-pawelhash</symbol>
+    <time>1579441615</time>
+    <height>1016540</height>
+    <amount>30.00000314</amount>
+    <category>immature</category>
+    <difficulty>8.1439655775011</difficulty>
+    <difficulty_user>12.002865</difficulty_user>
+    <algo>pawelhash</algo>
+    <type>shared</type>
+    <finder>16YxVzKZW...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SCRIBE</symbol>
+    <time>1579441611</time>
+    <height>483703</height>
+    <amount>2.52</amount>
+    <category>immature</category>
+    <difficulty>1287.5131332341</difficulty>
+    <difficulty_user>2810.364263</difficulty_user>
+    <algo>lyra2v2</algo>
+    <type>solo</type>
+    <finder>RGFkeEk8k...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TUX</symbol>
+    <time>1579441608</time>
+    <height>789609</height>
+    <amount>33.5</amount>
+    <category>immature</category>
+    <difficulty>2.3554604215157</difficulty>
+    <difficulty_user>4.262967</difficulty_user>
+    <algo>allium</algo>
+    <type>shared</type>
+    <finder>XgNbWufdT...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>CPU</symbol>
+    <time>1579441599</time>
+    <height>281853</height>
+    <amount>50</amount>
+    <category>immature</category>
+    <difficulty>0.0040571832852592</difficulty>
+    <difficulty_user>396.848352</difficulty_user>
+    <algo>cpupower</algo>
+    <type>solo</type>
+    <finder>166LLqvTb...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>KOTO</symbol>
+    <time>1579441599</time>
+    <height>1099893</height>
+    <amount>48.50009</amount>
+    <category>immature</category>
+    <difficulty>28084.683837503</difficulty>
+    <difficulty_user>12595.658918</difficulty_user>
+    <algo>yescryptR8G</algo>
+    <type>shared</type>
+    <finder>3QnpitXHv...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>D</symbol>
+    <time>1579441599</time>
+    <height>2844667</height>
+    <amount>2</amount>
+    <category>immature</category>
+    <difficulty>2587.73449659</difficulty>
+    <difficulty_user>69618.524913</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>XkTjv2FhE...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>ANON</symbol>
+    <time>1579441596</time>
+    <height>115799</height>
+    <amount>6.53126892</amount>
+    <category>immature</category>
+    <difficulty>450166.90463869</difficulty>
+    <difficulty_user>70.97538136</difficulty_user>
+    <algo>equihash192</algo>
+    <type>shared</type>
+    <finder>1DEpZur5x...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VDL</symbol>
+    <time>1579441596</time>
+    <height>632494</height>
+    <amount>4.8002</amount>
+    <category>immature</category>
+    <difficulty>39.273710025109</difficulty>
+    <difficulty_user>70.30150125</difficulty_user>
+    <algo>equihash192</algo>
+    <type>shared</type>
+    <finder>1N5iUhoVD...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TLR</symbol>
+    <time>1579441592</time>
+    <height>811592</height>
+    <amount>3.5</amount>
+    <category>immature</category>
+    <difficulty>2.1259836832232</difficulty>
+    <difficulty_user>30.439174</difficulty_user>
+    <algo>lyra2z</algo>
+    <type>party.Sei8sam!78</type>
+    <finder>XoHNeBjhW...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>DYN</symbol>
+    <time>1579441587</time>
+    <height>443034</height>
+    <amount>1</amount>
+    <category>immature</category>
+    <difficulty>0.27310460362639</difficulty>
+    <difficulty_user>0.440075</difficulty_user>
+    <algo>argon2d-dyn</algo>
+    <type>shared</type>
+    <finder>DK1NvxkWr...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TLR</symbol>
+    <time>1579441585</time>
+    <height>811591</height>
+    <amount>3.5</amount>
+    <category>immature</category>
+    <difficulty>2.1183963788303</difficulty>
+    <difficulty_user>4.028142</difficulty_user>
+    <algo>lyra2z</algo>
+    <type>party.Sei8sam!78</type>
+    <finder>XoHNeBjhW...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>CRP</symbol>
+    <time>1579441584</time>
+    <height>1965866</height>
+    <amount>21</amount>
+    <category>immature</category>
+    <difficulty>0.003150566049056</difficulty>
+    <difficulty_user>235.143741</difficulty_user>
+    <algo>yespower</algo>
+    <type>shared</type>
+    <finder>EVAvUoJiE...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TLR</symbol>
+    <time>1579441584</time>
+    <height>811590</height>
+    <amount>3.5</amount>
+    <category>immature</category>
+    <difficulty>2.1289766763749</difficulty>
+    <difficulty_user>24.770993</difficulty_user>
+    <algo>lyra2z</algo>
+    <type>party.Sei8sam!78</type>
+    <finder>XoHNeBjhW...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SCIFI</symbol>
+    <time>1579441582</time>
+    <height>705878</height>
+    <amount>10</amount>
+    <category>immature</category>
+    <difficulty>88.98733372</difficulty>
+    <difficulty_user>95.012441</difficulty_user>
+    <algo>scrypt</algo>
+    <type>solo</type>
+    <finder>LLFxhf8cH...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BELL</symbol>
+    <time>1579441579</time>
+    <height>708873</height>
+    <amount>10</amount>
+    <category>immature</category>
+    <difficulty>0.0018961409517143</difficulty>
+    <difficulty_user>142.020236</difficulty_user>
+    <algo>yespower</algo>
+    <type>shared</type>
+    <finder>LehcsSfUK...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VIRIDI</symbol>
+    <time>1579441573</time>
+    <height>358465</height>
+    <amount>0.05</amount>
+    <category>immature</category>
+    <difficulty>20.828679758751</difficulty>
+    <difficulty_user>35.712966</difficulty_user>
+    <algo>hex</algo>
+    <type>shared</type>
+    <finder>1ASWCBgsv...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>D</symbol>
+    <time>1579441563</time>
+    <height>2844665</height>
+    <amount>2</amount>
+    <category>immature</category>
+    <difficulty>1897.67173549</difficulty>
+    <difficulty_user>3297.63794</difficulty_user>
+    <algo>tribus</algo>
+    <type>solo</type>
+    <finder>dgb1qcfau...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>UTIP</symbol>
+    <time>1579441557</time>
+    <height>489339</height>
+    <amount>13.13371337</amount>
+    <category>immature</category>
+    <difficulty>2006.84152832</difficulty>
+    <difficulty_user>4054.147673</difficulty_user>
+    <algo>x13</algo>
+    <type>shared</type>
+    <finder>1BxotRUiH...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VIRIDI</symbol>
+    <time>1579441557</time>
+    <height>358464</height>
+    <amount>0.05</amount>
+    <category>immature</category>
+    <difficulty>21.096354120822</difficulty>
+    <difficulty_user>51.784193</difficulty_user>
+    <algo>hex</algo>
+    <type>shared</type>
+    <finder>Xkn1Eq6zs...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TROLL</symbol>
+    <time>1579441547</time>
+    <height>3372301</height>
+    <amount>17</amount>
+    <category>immature</category>
+    <difficulty>23.81629455</difficulty>
+    <difficulty_user>24.342441</difficulty_user>
+    <algo>scrypt</algo>
+    <type>solo</type>
+    <finder>Xmihn2LUC...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MTNS</symbol>
+    <time>1579441539</time>
+    <height>154830</height>
+    <amount>37.5</amount>
+    <category>immature</category>
+    <difficulty>6184.0925662483</difficulty>
+    <difficulty_user>9388.873367</difficulty_user>
+    <algo>skein</algo>
+    <type>solo</type>
+    <finder>XjQTYj1tC...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TROLL</symbol>
+    <time>1579441538</time>
+    <height>3372300</height>
+    <amount>17</amount>
+    <category>immature</category>
+    <difficulty>21.57899949</difficulty>
+    <difficulty_user>43.885961</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>LRmUkaa8Z...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BITC</symbol>
+    <time>1579441526</time>
+    <height>726177</height>
+    <amount>19.35</amount>
+    <category>immature</category>
+    <difficulty>743.73606826666</difficulty>
+    <difficulty_user>1002.417066</difficulty_user>
+    <algo>x16rv2</algo>
+    <type>shared</type>
+    <finder>1NaE33E4u...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>CBS</symbol>
+    <time>1579441523</time>
+    <height>432306</height>
+    <amount>2.7</amount>
+    <category>immature</category>
+    <difficulty>0.031241597876515</difficulty>
+    <difficulty_user>0.058154</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>shared</type>
+    <finder>GHw93ygSM...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SCIFI</symbol>
+    <time>1579441521</time>
+    <height>705877</height>
+    <amount>10</amount>
+    <category>immature</category>
+    <difficulty>90.12263842</difficulty>
+    <difficulty_user>351.55598</difficulty_user>
+    <algo>scrypt</algo>
+    <type>solo</type>
+    <finder>Xmihn2LUC...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>DMS</symbol>
+    <time>1579441519</time>
+    <height>116023</height>
+    <amount>16.8</amount>
+    <category>immature</category>
+    <difficulty>0.0085847068951695</difficulty>
+    <difficulty_user>612.093764</difficulty_user>
+    <algo>yescryptR32</algo>
+    <type>shared</type>
+    <finder>1PZQ7wnSj...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VDL</symbol>
+    <time>1579441518</time>
+    <height>632491</height>
+    <amount>4.8</amount>
+    <category>immature</category>
+    <difficulty>37.099698680202</difficulty>
+    <difficulty_user>38.5618438</difficulty_user>
+    <algo>equihash192</algo>
+    <type>shared</type>
+    <finder>1LMsSzcAy...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TLR</symbol>
+    <time>1579441515</time>
+    <height>811586</height>
+    <amount>3.5</amount>
+    <category>immature</category>
+    <difficulty>2.1548791103129</difficulty>
+    <difficulty_user>5.693448</difficulty_user>
+    <algo>lyra2z</algo>
+    <type>party.Sei8sam!78</type>
+    <finder>XoHNeBjhW...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BELL</symbol>
+    <time>1579441502</time>
+    <height>708872</height>
+    <amount>10</amount>
+    <category>immature</category>
+    <difficulty>0.0018762952406605</difficulty>
+    <difficulty_user>135.022452</difficulty_user>
+    <algo>yespower</algo>
+    <type>shared</type>
+    <finder>1NoL86jtg...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>NBR</symbol>
+    <time>1579441501</time>
+    <height>302017</height>
+    <amount>165.7062</amount>
+    <category>immature</category>
+    <difficulty>38800000</difficulty>
+    <difficulty_user>76948639</difficulty_user>
+    <algo>cryptonight_heavy</algo>
+    <type>solo</type>
+    <finder>D9ZbMAQft...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>UTIP</symbol>
+    <time>1579441500</time>
+    <height>489336</height>
+    <amount>13.13371337</amount>
+    <category>immature</category>
+    <difficulty>1879.42265616</difficulty>
+    <difficulty_user>2242.666165</difficulty_user>
+    <algo>x13</algo>
+    <type>shared</type>
+    <finder>DXgwPw4WF...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BELL</symbol>
+    <time>1579441500</time>
+    <height>708871</height>
+    <amount>10</amount>
+    <category>immature</category>
+    <difficulty>0.0020164317573156</difficulty>
+    <difficulty_user>137.23673</difficulty_user>
+    <algo>yespower</algo>
+    <type>shared</type>
+    <finder>LehcsSfUK...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TROLL</symbol>
+    <time>1579441499</time>
+    <height>3372298</height>
+    <amount>17</amount>
+    <category>immature</category>
+    <difficulty>26.22174361</difficulty>
+    <difficulty_user>41.179694</difficulty_user>
+    <algo>scrypt</algo>
+    <type>solo</type>
+    <finder>Xmihn2LUC...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BITC</symbol>
+    <time>1579441495</time>
+    <height>726176</height>
+    <amount>19.35</amount>
+    <category>immature</category>
+    <difficulty>743.735939476</difficulty>
+    <difficulty_user>2654.920832</difficulty_user>
+    <algo>x16rv2</algo>
+    <type>shared</type>
+    <finder>1L6LGf72R...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>RITO</symbol>
+    <time>1579441486</time>
+    <height>594621</height>
+    <amount>671</amount>
+    <category>immature</category>
+    <difficulty>160.19861352482</difficulty>
+    <difficulty_user>169.417943</difficulty_user>
+    <algo>x21s</algo>
+    <type>shared</type>
+    <finder>PT8xvxYS1...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MMO</symbol>
+    <time>1579441482</time>
+    <height>1000243</height>
+    <amount>1.0001</amount>
+    <category>immature</category>
+    <difficulty>34.55810955</difficulty>
+    <difficulty_user>189.929483</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>ltc1qdpst...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GRS</symbol>
+    <time>1579441481</time>
+    <height>2928531</height>
+    <amount>5</amount>
+    <category>immature</category>
+    <difficulty>647482.28649768</difficulty>
+    <difficulty_user>6679745.025572</difficulty_user>
+    <algo>groestl</algo>
+    <type>shared</type>
+    <finder>1GrLpXbWM...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TLR</symbol>
+    <time>1579441480</time>
+    <height>811584</height>
+    <amount>3.5</amount>
+    <category>immature</category>
+    <difficulty>2.1869705933422</difficulty>
+    <difficulty_user>155.429593</difficulty_user>
+    <algo>lyra2z</algo>
+    <type>party.Sei8sam!78</type>
+    <finder>XoHNeBjhW...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VDL</symbol>
+    <time>1579441475</time>
+    <height>632490</height>
+    <amount>4.8</amount>
+    <category>immature</category>
+    <difficulty>35.820899601378</difficulty>
+    <difficulty_user>39.64497648</difficulty_user>
+    <algo>equihash192</algo>
+    <type>shared</type>
+    <finder>3BZKKja3q...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BZL</symbol>
+    <time>1579441473</time>
+    <height>1115206</height>
+    <amount>0</amount>
+    <category>orphan</category>
+    <difficulty>33.03982</difficulty>
+    <difficulty_user>81.090292</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>MLGjgefaj...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BITC</symbol>
+    <time>1579441473</time>
+    <height>726175</height>
+    <amount>19.35</amount>
+    <category>immature</category>
+    <difficulty>829.96606626894</difficulty>
+    <difficulty_user>1819.745731</difficulty_user>
+    <algo>x16rv2</algo>
+    <type>shared</type>
+    <finder>1L6LGf72R...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>CPU</symbol>
+    <time>1579441472</time>
+    <height>281849</height>
+    <amount>50.08203721</amount>
+    <category>immature</category>
+    <difficulty>0.0041118586165633</difficulty>
+    <difficulty_user>999.650774</difficulty_user>
+    <algo>cpupower</algo>
+    <type>solo</type>
+    <finder>3PBXGcmEJ...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VIRIDI</symbol>
+    <time>1579441465</time>
+    <height>358463</height>
+    <amount>0.05</amount>
+    <category>immature</category>
+    <difficulty>21.462503534023</difficulty>
+    <difficulty_user>94.243511</difficulty_user>
+    <algo>hex</algo>
+    <type>shared</type>
+    <finder>Xkn1Eq6zs...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>RITO</symbol>
+    <time>1579441463</time>
+    <height>594620</height>
+    <amount>671</amount>
+    <category>immature</category>
+    <difficulty>160.83441981747</difficulty>
+    <difficulty_user>319.760219</difficulty_user>
+    <algo>x21s</algo>
+    <type>shared</type>
+    <finder>1GGksQQTq...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>UTIP</symbol>
+    <time>1579441463</time>
+    <height>489334</height>
+    <amount>13.13371337</amount>
+    <category>immature</category>
+    <difficulty>1623.1971555</difficulty>
+    <difficulty_user>4416.094014</difficulty_user>
+    <algo>x13</algo>
+    <type>shared</type>
+    <finder>ATaxmVSD4...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>ZER</symbol>
+    <time>1579441461</time>
+    <height>765754</height>
+    <amount>7.83</amount>
+    <category>immature</category>
+    <difficulty>189846.59856669</difficulty>
+    <difficulty_user>759.76462192</difficulty_user>
+    <algo>equihash192</algo>
+    <type>shared</type>
+    <finder>1CNCdSFXA...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>D</symbol>
+    <time>1579441459</time>
+    <height>2844659</height>
+    <amount>2</amount>
+    <category>immature</category>
+    <difficulty>1275.23410805</difficulty>
+    <difficulty_user>3021.16783</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>1JNLtznJX...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SMART</symbol>
+    <time>1579441457</time>
+    <height>1423211</height>
+    <amount>25.2</amount>
+    <category>immature</category>
+    <difficulty>327585.98257932</difficulty>
+    <difficulty_user>499592.990302</difficulty_user>
+    <algo>keccak</algo>
+    <type>shared</type>
+    <finder>SMNSyXt2m...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GXX</symbol>
+    <time>1579441456</time>
+    <height>613145</height>
+    <amount>1.5</amount>
+    <category>immature</category>
+    <difficulty>0.0074874552135127</difficulty>
+    <difficulty_user>1314.195393</difficulty_user>
+    <algo>lyra2z330</algo>
+    <type>shared</type>
+    <finder>163MgYLXF...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SMART</symbol>
+    <time>1579441454</time>
+    <height>1423210</height>
+    <amount>25.2</amount>
+    <category>immature</category>
+    <difficulty>327585.98257932</difficulty>
+    <difficulty_user>449247.177933</difficulty_user>
+    <algo>keccak</algo>
+    <type>shared</type>
+    <finder>DF3ahbqp6...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>STPX</symbol>
+    <time>1579441451</time>
+    <height>508397</height>
+    <amount>30.42</amount>
+    <category>immature</category>
+    <difficulty>1841.4955944587</difficulty>
+    <difficulty_user>1867.330406</difficulty_user>
+    <algo>x11</algo>
+    <type>shared</type>
+    <finder>XpGfrKbVN...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TLR</symbol>
+    <time>1579441449</time>
+    <height>811583</height>
+    <amount>3.5</amount>
+    <category>immature</category>
+    <difficulty>2.4162299838193</difficulty>
+    <difficulty_user>3.513352</difficulty_user>
+    <algo>lyra2z</algo>
+    <type>shared</type>
+    <finder>LLVayswBg...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SCRIV</symbol>
+    <time>1579441446</time>
+    <height>1845734</height>
+    <amount>14.69664</amount>
+    <category>immature</category>
+    <difficulty>181.50597195776</difficulty>
+    <difficulty_user>200.547216</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>bc1qj8grt...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>D</symbol>
+    <time>1579441446</time>
+    <height>2844658</height>
+    <amount>2</amount>
+    <category>immature</category>
+    <difficulty>5299.30565786</difficulty>
+    <difficulty_user>13074.328598</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>3NTf91gHA...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>UTIP</symbol>
+    <time>1579441444</time>
+    <height>489333</height>
+    <amount>13.13371337</amount>
+    <category>immature</category>
+    <difficulty>1484.06545794</difficulty>
+    <difficulty_user>11629.278135</difficulty_user>
+    <algo>x13</algo>
+    <type>shared</type>
+    <finder>1BxotRUiH...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MBC</symbol>
+    <time>1579441442</time>
+    <height>146425</height>
+    <amount>5233.6016</amount>
+    <category>immature</category>
+    <difficulty>0.026215059088387</difficulty>
+    <difficulty_user>2054.85617</difficulty_user>
+    <algo>power2b</algo>
+    <type>shared</type>
+    <finder>3M7WjojzX...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GRLC</symbol>
+    <time>1579441435</time>
+    <height>1534489</height>
+    <amount>12.5</amount>
+    <category>immature</category>
+    <difficulty>4.3416464964353</difficulty>
+    <difficulty_user>5.491439</difficulty_user>
+    <algo>allium</algo>
+    <type>shared</type>
+    <finder>XgNbWufdT...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>UTIP</symbol>
+    <time>1579441433</time>
+    <height>489332</height>
+    <amount>13.13371337</amount>
+    <category>immature</category>
+    <difficulty>1858.61471831</difficulty>
+    <difficulty_user>2539.997646</difficulty_user>
+    <algo>x13</algo>
+    <type>shared</type>
+    <finder>36gxwi8So...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>DIME</symbol>
+    <time>1579441433</time>
+    <height>3813647</height>
+    <amount>8192</amount>
+    <category>immature</category>
+    <difficulty>1933694.5444057</difficulty>
+    <difficulty_user>28375.299184</difficulty_user>
+    <algo>quark</algo>
+    <type>solo</type>
+    <finder>D9FTMCzDH...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VDL</symbol>
+    <time>1579441428</time>
+    <height>632488</height>
+    <amount>4.8</amount>
+    <category>immature</category>
+    <difficulty>34.287529675162</difficulty>
+    <difficulty_user>62.42493745</difficulty_user>
+    <algo>equihash192</algo>
+    <type>shared</type>
+    <finder>35AHYtreM...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>KOTO</symbol>
+    <time>1579441427</time>
+    <height>1099890</height>
+    <amount>48.5</amount>
+    <category>immature</category>
+    <difficulty>28095.75283352</difficulty>
+    <difficulty_user>3610428.554578</difficulty_user>
+    <algo>yescryptR8G</algo>
+    <type>shared</type>
+    <finder>1CVTQNAN5...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GRLC</symbol>
+    <time>1579441426</time>
+    <height>1534488</height>
+    <amount>12.5</amount>
+    <category>immature</category>
+    <difficulty>4.6384004737666</difficulty>
+    <difficulty_user>25.616257</difficulty_user>
+    <algo>allium</algo>
+    <type>shared</type>
+    <finder>XgNbWufdT...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TNET</symbol>
+    <time>1579441412</time>
+    <height>1150826</height>
+    <amount>0.625</amount>
+    <category>immature</category>
+    <difficulty>2630.6064804436</difficulty>
+    <difficulty_user>5745.15658</difficulty_user>
+    <algo>blake2b</algo>
+    <type>shared</type>
+    <finder>1LDdYJsse...</finder>
+  </Blocks>
+  <Blocks>
     <symbol>AXE</symbol>
     <time>1579441408</time>
     <height>394808</height>
-    <category>questioned</category>
-    <difficulty>1227353.141519</difficulty>
+    <amount>2.08928577</amount>
+    <category>immature</category>
+    <difficulty>1227353.1361671</difficulty>
     <difficulty_user>3896498.790276</difficulty_user>
     <algo>x11</algo>
     <type>shared</type>
     <finder>1BdbC8BVo...</finder>
   </Blocks>
   <Blocks>
+    <symbol>STPX</symbol>
+    <time>1579441408</time>
+    <height>508396</height>
+    <amount>30.42</amount>
+    <category>immature</category>
+    <difficulty>1871.9682834682</difficulty>
+    <difficulty_user>2034.294249</difficulty_user>
+    <algo>x11</algo>
+    <type>solo</type>
+    <finder>D9FTMCzDH...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VDL</symbol>
+    <time>1579441407</time>
+    <height>632487</height>
+    <amount>4.8001</amount>
+    <category>immature</category>
+    <difficulty>35.052457452849</difficulty>
+    <difficulty_user>51.99815915</difficulty_user>
+    <algo>equihash192</algo>
+    <type>shared</type>
+    <finder>1LMsSzcAy...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GLT-nist5</symbol>
+    <time>1579441406</time>
+    <height>1016536</height>
+    <amount>30</amount>
+    <category>immature</category>
+    <difficulty>9148.0349060361</difficulty>
+    <difficulty_user>15787.512224</difficulty_user>
+    <algo>nist5</algo>
+    <type>shared</type>
+    <finder>3FVevw8FN...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BZL</symbol>
+    <time>1579441395</time>
+    <height>1115202</height>
+    <amount>0.8</amount>
+    <category>immature</category>
+    <difficulty>12.85841076</difficulty>
+    <difficulty_user>17.417451</difficulty_user>
+    <algo>tribus</algo>
+    <type>party.acornie</type>
+    <finder>MUP7vwzFb...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SCRIV</symbol>
+    <time>1579441394</time>
+    <height>1845731</height>
+    <amount>14.69664</amount>
+    <category>immature</category>
+    <difficulty>162.24044561349</difficulty>
+    <difficulty_user>242.528798</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>1Eci1SFv5...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>VIRIDI</symbol>
+    <time>1579441390</time>
+    <height>358462</height>
+    <amount>0.05</amount>
+    <category>immature</category>
+    <difficulty>21.692362594453</difficulty>
+    <difficulty_user>24.556205</difficulty_user>
+    <algo>hex</algo>
+    <type>shared</type>
+    <finder>Xkn1Eq6zs...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TROLL</symbol>
+    <time>1579441389</time>
+    <height>3372295</height>
+    <amount>17</amount>
+    <category>immature</category>
+    <difficulty>22.32819612</difficulty>
+    <difficulty_user>40.755162</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>LRmUkaa8Z...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>KOTO</symbol>
+    <time>1579441389</time>
+    <height>1099889</height>
+    <amount>48.50009</amount>
+    <category>immature</category>
+    <difficulty>29131.59946552</difficulty>
+    <difficulty_user>56053.534902</difficulty_user>
+    <algo>yescryptR8G</algo>
+    <type>shared</type>
+    <finder>1FpuMha1Q...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>BZL</symbol>
+    <time>1579441386</time>
+    <height>1115201</height>
+    <amount>0.8</amount>
+    <category>immature</category>
+    <difficulty>8.57227384</difficulty>
+    <difficulty_user>29.041676</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>iBSUZSgXH...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>MEK</symbol>
+    <time>1579441380</time>
+    <height>13244</height>
+    <amount>1.75</amount>
+    <category>immature</category>
+    <difficulty>122.17864035247</difficulty>
+    <difficulty_user>150.168037</difficulty_user>
+    <algo>x17</algo>
+    <type>shared</type>
+    <finder>1CfxsgXfh...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GMC</symbol>
+    <time>1579441380</time>
+    <height>385404</height>
+    <amount>5.1</amount>
+    <category>immature</category>
+    <difficulty>0.13723199085329</difficulty>
+    <difficulty_user>0.333447</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>solo</type>
+    <finder>GJrD4gCSd...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>STPX</symbol>
+    <time>1579441380</time>
+    <height>508395</height>
+    <amount>30.42</amount>
+    <category>immature</category>
+    <difficulty>1968.9371896962</difficulty>
+    <difficulty_user>5779.219503</difficulty_user>
+    <algo>x11</algo>
+    <type>shared</type>
+    <finder>Sb2RXBGgg...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>ONION</symbol>
+    <time>1579441377</time>
+    <height>1688931</height>
+    <amount>2</amount>
+    <category>immature</category>
+    <difficulty>22372.77574621</difficulty>
+    <difficulty_user>70433.104234</difficulty_user>
+    <algo>x13</algo>
+    <type>solo</type>
+    <finder>3NQP895Fg...</finder>
+  </Blocks>
+  <Blocks>
     <symbol>MMO</symbol>
     <time>1579441377</time>
     <height>1000241</height>
-    <category>questioned</category>
-    <difficulty>29.730885</difficulty>
+    <amount>1</amount>
+    <category>immature</category>
+    <difficulty>29.73088496</difficulty>
     <difficulty_user>337.611634</difficulty_user>
     <algo>scrypt</algo>
     <type>shared</type>
@@ -46546,19 +47764,45 @@
     <symbol>STPX</symbol>
     <time>1579441369</time>
     <height>508394</height>
-    <category>questioned</category>
-    <difficulty>2110.04091</difficulty>
+    <amount>30.42</amount>
+    <category>immature</category>
+    <difficulty>2110.0409096916</difficulty>
     <difficulty_user>56725.692907</difficulty_user>
     <algo>x11</algo>
     <type>shared</type>
     <finder>bc1qtywp6...</finder>
   </Blocks>
   <Blocks>
+    <symbol>SCRIV</symbol>
+    <time>1579441365</time>
+    <height>1845729</height>
+    <amount>14.69664</amount>
+    <category>immature</category>
+    <difficulty>164.64141315015</difficulty>
+    <difficulty_user>167.312756</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>D7RKRX6Bv...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GMC</symbol>
+    <time>1579441362</time>
+    <height>385399</height>
+    <amount>5.1</amount>
+    <category>immature</category>
+    <difficulty>0.13023778058208</difficulty>
+    <difficulty_user>0.240494</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>solo</type>
+    <finder>GJrD4gCSd...</finder>
+  </Blocks>
+  <Blocks>
     <symbol>ELI</symbol>
     <time>1579441361</time>
     <height>947583</height>
-    <category>questioned</category>
-    <difficulty>31.077307</difficulty>
+    <amount>5</amount>
+    <category>immature</category>
+    <difficulty>0.00047420207568455</difficulty>
     <difficulty_user>47.118312</difficulty_user>
     <algo>yescryptR16</algo>
     <type>shared</type>
@@ -46568,8 +47812,9 @@
     <symbol>TZC</symbol>
     <time>1579441361</time>
     <height>1220104</height>
-    <category>questioned</category>
-    <difficulty>17.83379</difficulty>
+    <amount>100</amount>
+    <category>immature</category>
+    <difficulty>17.833790420307</difficulty>
     <difficulty_user>27.301829</difficulty_user>
     <algo>neoscrypt</algo>
     <type>shared</type>
@@ -46579,19 +47824,153 @@
     <symbol>DVT</symbol>
     <time>1579441359</time>
     <height>150927</height>
-    <category>questioned</category>
+    <amount>653</amount>
+    <category>immature</category>
     <difficulty>26600896.391745</difficulty>
     <difficulty_user>86688651.148355</difficulty_user>
     <algo>sha256</algo>
-    <type>shared</type>
+    <type>party.Biomine</type>
     <finder>bc1qjk3zp...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>SCRIV</symbol>
+    <time>1579441358</time>
+    <height>1845728</height>
+    <amount>14.69664</amount>
+    <category>immature</category>
+    <difficulty>148.56464795842</difficulty>
+    <difficulty_user>174.400036</difficulty_user>
+    <algo>tribus</algo>
+    <type>shared</type>
+    <finder>122JqhJiN...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>ZER</symbol>
+    <time>1579441358</time>
+    <height>765752</height>
+    <amount>7.83</amount>
+    <category>immature</category>
+    <difficulty>189897.61297764</difficulty>
+    <difficulty_user>620.82091889</difficulty_user>
+    <algo>equihash192</algo>
+    <type>shared</type>
+    <finder>3QitSzgEk...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>NES</symbol>
+    <time>1579441353</time>
+    <height>128801</height>
+    <amount>0.005</amount>
+    <category>immature</category>
+    <difficulty>32.78824881</difficulty>
+    <difficulty_user>1424.201683</difficulty_user>
+    <algo>x13</algo>
+    <type>solo</type>
+    <finder>1HvJ9GzCy...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GMC</symbol>
+    <time>1579441352</time>
+    <height>385396</height>
+    <amount>5.1</amount>
+    <category>immature</category>
+    <difficulty>0.12152178992223</difficulty>
+    <difficulty_user>0.348578</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>solo</type>
+    <finder>GJrD4gCSd...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TROLL</symbol>
+    <time>1579441352</time>
+    <height>3372293</height>
+    <amount>17</amount>
+    <category>immature</category>
+    <difficulty>18.67447322</difficulty>
+    <difficulty_user>28.744048</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>LRmUkaa8Z...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GENX</symbol>
+    <time>1579441352</time>
+    <height>741718</height>
+    <amount>350</amount>
+    <category>immature</category>
+    <difficulty>242.41025863315</difficulty>
+    <difficulty_user>282.49215502</difficulty_user>
+    <algo>equihash192</algo>
+    <type>solo</type>
+    <finder>SizpRjck4...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GRLC</symbol>
+    <time>1579441351</time>
+    <height>1534485</height>
+    <amount>12.5</amount>
+    <category>immature</category>
+    <difficulty>4.3965402026129</difficulty>
+    <difficulty_user>7.8959</difficulty_user>
+    <algo>allium</algo>
+    <type>shared</type>
+    <finder>XgNbWufdT...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TTN</symbol>
+    <time>1579441351</time>
+    <height>145128</height>
+    <amount>30</amount>
+    <category>immature</category>
+    <difficulty>25.697559361703</difficulty>
+    <difficulty_user>711.855613</difficulty_user>
+    <algo>x21s</algo>
+    <type>shared</type>
+    <finder>35cu7vCZ3...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TROLL</symbol>
+    <time>1579441349</time>
+    <height>3372292</height>
+    <amount>17</amount>
+    <category>immature</category>
+    <difficulty>15.44886723</difficulty>
+    <difficulty_user>86.998597</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>LRmUkaa8Z...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>GMC</symbol>
+    <time>1579441344</time>
+    <height>385395</height>
+    <amount>5.1</amount>
+    <category>immature</category>
+    <difficulty>0.019889069160608</difficulty>
+    <difficulty_user>0.092063</difficulty_user>
+    <algo>neoscrypt</algo>
+    <type>solo</type>
+    <finder>GJrD4gCSd...</finder>
+  </Blocks>
+  <Blocks>
+    <symbol>TROLL</symbol>
+    <time>1579441344</time>
+    <height>3372291</height>
+    <amount>17</amount>
+    <category>immature</category>
+    <difficulty>14.09122826</difficulty>
+    <difficulty_user>3571.60797</difficulty_user>
+    <algo>scrypt</algo>
+    <type>shared</type>
+    <finder>LRmUkaa8Z...</finder>
   </Blocks>
   <Blocks>
     <symbol>TROLL</symbol>
     <time>1579441341</time>
     <height>3372290</height>
-    <category>questioned</category>
-    <difficulty>14.432824</difficulty>
+    <amount>17</amount>
+    <category>immature</category>
+    <difficulty>14.43282402</difficulty>
     <difficulty_user>31.836116</difficulty_user>
     <algo>scrypt</algo>
     <type>shared</type>
@@ -46601,8 +47980,9 @@
     <symbol>TZC</symbol>
     <time>1579441339</time>
     <height>1220102</height>
-    <category>questioned</category>
-    <difficulty>19.617151</difficulty>
+    <amount>100.008609</amount>
+    <category>immature</category>
+    <difficulty>19.617150694734</difficulty>
     <difficulty_user>88.094719</difficulty_user>
     <algo>neoscrypt</algo>
     <type>shared</type>
@@ -46612,8 +47992,9 @@
     <symbol>SCRIV</symbol>
     <time>1579441333</time>
     <height>1845726</height>
-    <category>questioned</category>
-    <difficulty>153.705543</difficulty>
+    <amount>14.69664</amount>
+    <category>immature</category>
+    <difficulty>153.70554283097</difficulty>
     <difficulty_user>404.684342</difficulty_user>
     <algo>tribus</algo>
     <type>shared</type>
@@ -47343,8 +48724,8 @@
     <symbol>SAFE</symbol>
     <time>1579441137</time>
     <height>1003214</height>
-    <amount>4</amount>
-    <category>immature</category>
+    <amount>0</amount>
+    <category>orphan</category>
     <difficulty>31660.393892623</difficulty>
     <difficulty_user>74.9409936</difficulty_user>
     <algo>equihash192</algo>
@@ -47752,7 +49133,7 @@
     <time>1579441017</time>
     <height>2844639</height>
     <amount>2</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>1703.95352445</difficulty>
     <difficulty_user>44050.159582</difficulty_user>
     <algo>tribus</algo>
@@ -47800,7 +49181,7 @@
     <time>1579441010</time>
     <height>2844638</height>
     <amount>2</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>1552.49066044</difficulty>
     <difficulty_user>10835.120976</difficulty_user>
     <algo>tribus</algo>
@@ -47956,7 +49337,7 @@
     <time>1579440963</time>
     <height>2844637</height>
     <amount>2</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>1103.99306589</difficulty>
     <difficulty_user>7536.214005</difficulty_user>
     <algo>tribus</algo>
@@ -48028,7 +49409,7 @@
     <time>1579440945</time>
     <height>2844635</height>
     <amount>2</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>1545.59029225</difficulty>
     <difficulty_user>8938.046379</difficulty_user>
     <algo>tribus</algo>
@@ -48052,7 +49433,7 @@
     <time>1579440939</time>
     <height>2844634</height>
     <amount>2</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>961.70054938</difficulty>
     <difficulty_user>1923.138786</difficulty_user>
     <algo>tribus</algo>
@@ -48112,7 +49493,7 @@
     <time>1579440924</time>
     <height>2654663</height>
     <amount>1.95</amount>
-    <category>immature</category>
+    <category>orphan</category>
     <difficulty>39.216555283624</difficulty>
     <difficulty_user>51.767433</difficulty_user>
     <algo>scrypt</algo>
@@ -48436,7 +49817,7 @@
     <time>1579440795</time>
     <height>2844628</height>
     <amount>2</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>3971.22691065</difficulty>
     <difficulty_user>5106.370822</difficulty_user>
     <algo>tribus</algo>
@@ -48460,7 +49841,7 @@
     <time>1579440786</time>
     <height>489309</height>
     <amount>13.13371337</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>1552.37169869</difficulty>
     <difficulty_user>1837.263943</difficulty_user>
     <algo>x13</algo>
@@ -48760,7 +50141,7 @@
     <time>1579440714</time>
     <height>2844625</height>
     <amount>2</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>1276.67532468</difficulty>
     <difficulty_user>2792.746538</difficulty_user>
     <algo>tribus</algo>
@@ -48816,18 +50197,6 @@
     <finder>DMK37uFYT...</finder>
   </Blocks>
   <Blocks>
-    <symbol>D</symbol>
-    <time>1579440703</time>
-    <height>2844624</height>
-    <amount>2</amount>
-    <category>immature</category>
-    <difficulty>851.11671445</difficulty>
-    <difficulty_user>1418.787707</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>3NTf91gHA...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>STPX</symbol>
     <time>1579440703</time>
     <height>508379</height>
@@ -48862,18 +50231,6 @@
     <algo>scrypt</algo>
     <type>shared</type>
     <finder>qpzdujecc...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>D</symbol>
-    <time>1579440699</time>
-    <height>2844623</height>
-    <amount>2</amount>
-    <category>immature</category>
-    <difficulty>680.89326362</difficulty>
-    <difficulty_user>869.719156</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>dgb1quaww...</finder>
   </Blocks>
   <Blocks>
     <symbol>VIRIDI</symbol>
@@ -48934,18 +50291,6 @@
     <algo>k12</algo>
     <type>shared</type>
     <finder>WmtK9TQ6y...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>D</symbol>
-    <time>1579440683</time>
-    <height>2844622</height>
-    <amount>2</amount>
-    <category>immature</category>
-    <difficulty>1830.84629236</difficulty>
-    <difficulty_user>7458.450461</difficulty_user>
-    <algo>tribus</algo>
-    <type>solo</type>
-    <finder>DMkEanZSb...</finder>
   </Blocks>
   <Blocks>
     <symbol>TUX</symbol>
@@ -49060,7 +50405,7 @@
     <time>1579440653</time>
     <height>489306</height>
     <amount>13.13371337</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>1783.98676787</difficulty>
     <difficulty_user>2043.611466</difficulty_user>
     <algo>x13</algo>
@@ -49114,18 +50459,6 @@
     <algo>x11</algo>
     <type>shared</type>
     <finder>Sb2RXBGgg...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>STPX</symbol>
-    <time>1579440645</time>
-    <height>508375</height>
-    <amount>30.42</amount>
-    <category>immature</category>
-    <difficulty>297.8652084369</difficulty>
-    <difficulty_user>945.397348</difficulty_user>
-    <algo>x11</algo>
-    <type>solo</type>
-    <finder>M8aF3F7Cf...</finder>
   </Blocks>
   <Blocks>
     <symbol>CRP</symbol>
@@ -49548,18 +50881,6 @@
     <finder>1B4VdFZYd...</finder>
   </Blocks>
   <Blocks>
-    <symbol>D</symbol>
-    <time>1579440529</time>
-    <height>2844617</height>
-    <amount>2</amount>
-    <category>generate</category>
-    <difficulty>1157.27521335</difficulty>
-    <difficulty_user>1176.238246</difficulty_user>
-    <algo>tribus</algo>
-    <type>solo</type>
-    <finder>DKn5T1nPr...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>VIOG</symbol>
     <time>1579440524</time>
     <height>408461</height>
@@ -49762,18 +51083,6 @@
     <algo>scrypt</algo>
     <type>shared</type>
     <finder>LRmUkaa8Z...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>D</symbol>
-    <time>1579440474</time>
-    <height>2844614</height>
-    <amount>2</amount>
-    <category>generate</category>
-    <difficulty>4142.18758801</difficulty>
-    <difficulty_user>10463.160337</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>1JNLtznJX...</finder>
   </Blocks>
   <Blocks>
     <symbol>CBS</symbol>
@@ -49992,18 +51301,6 @@
     <finder>bc1qtywp6...</finder>
   </Blocks>
   <Blocks>
-    <symbol>D</symbol>
-    <time>1579440397</time>
-    <height>2844613</height>
-    <amount>2</amount>
-    <category>generate</category>
-    <difficulty>2945.55284045</difficulty>
-    <difficulty_user>25052.051199</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>1NNzoUZT5...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>BSD</symbol>
     <time>1579440389</time>
     <height>745064</height>
@@ -50136,18 +51433,6 @@
     <finder>1NoL86jtg...</finder>
   </Blocks>
   <Blocks>
-    <symbol>STPX</symbol>
-    <time>1579440360</time>
-    <height>508374</height>
-    <amount>30.42</amount>
-    <category>immature</category>
-    <difficulty>2978.6198583823</difficulty>
-    <difficulty_user>5499.961991</difficulty_user>
-    <algo>x11</algo>
-    <type>solo</type>
-    <finder>M8aF3F7Cf...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>DIME</symbol>
     <time>1579440348</time>
     <height>3813630</height>
@@ -50232,18 +51517,6 @@
     <finder>XgNbWufdT...</finder>
   </Blocks>
   <Blocks>
-    <symbol>DIME</symbol>
-    <time>1579440325</time>
-    <height>3813628</height>
-    <amount>8192</amount>
-    <category>immature</category>
-    <difficulty>1778832.922493</difficulty>
-    <difficulty_user>8164.063971</difficulty_user>
-    <algo>quark</algo>
-    <type>shared</type>
-    <finder>3FVevw8FN...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>SONO</symbol>
     <time>1579440320</time>
     <height>1239930</height>
@@ -50278,18 +51551,6 @@
     <algo>equihash</algo>
     <type>shared</type>
     <finder>117u3nm88...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>DIME</symbol>
-    <time>1579440312</time>
-    <height>3813626</height>
-    <amount>8192</amount>
-    <category>immature</category>
-    <difficulty>1742864.6052738</difficulty>
-    <difficulty_user>14014.424749</difficulty_user>
-    <algo>quark</algo>
-    <type>shared</type>
-    <finder>3FVevw8FN...</finder>
   </Blocks>
   <Blocks>
     <symbol>TROLL</symbol>
@@ -50364,18 +51625,6 @@
     <finder>XgNbWufdT...</finder>
   </Blocks>
   <Blocks>
-    <symbol>VIRIDI</symbol>
-    <time>1579440278</time>
-    <height>358446</height>
-    <amount>0.05</amount>
-    <category>immature</category>
-    <difficulty>22.158918005072</difficulty>
-    <difficulty_user>56.141044</difficulty_user>
-    <algo>hex</algo>
-    <type>shared</type>
-    <finder>Xkn1Eq6zs...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>BZX</symbol>
     <time>1579440268</time>
     <height>227887</height>
@@ -50386,18 +51635,6 @@
     <algo>lyra2z</algo>
     <type>party.Sei8sam!78</type>
     <finder>XoHNeBjhW...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VIRIDI</symbol>
-    <time>1579440264</time>
-    <height>358445</height>
-    <amount>0.05</amount>
-    <category>immature</category>
-    <difficulty>22.262420382166</difficulty>
-    <difficulty_user>44.73433</difficulty_user>
-    <algo>hex</algo>
-    <type>party.vash</type>
-    <finder>3NtCyPCmY...</finder>
   </Blocks>
   <Blocks>
     <symbol>TZC</symbol>
@@ -50422,18 +51659,6 @@
     <algo>yespower</algo>
     <type>shared</type>
     <finder>XwJutV33i...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VIRIDI</symbol>
-    <time>1579440254</time>
-    <height>358444</height>
-    <amount>0.05</amount>
-    <category>immature</category>
-    <difficulty>23.442411065482</difficulty>
-    <difficulty_user>51.257945</difficulty_user>
-    <algo>hex</algo>
-    <type>solo</type>
-    <finder>qqmswq0tf...</finder>
   </Blocks>
   <Blocks>
     <symbol>BELL</symbol>
@@ -50470,30 +51695,6 @@
     <algo>sha256</algo>
     <type>party.Biomine</type>
     <finder>bc1qjk3zp...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>DIME</symbol>
-    <time>1579440244</time>
-    <height>3813624</height>
-    <amount>8192</amount>
-    <category>immature</category>
-    <difficulty>1719860.6125204</difficulty>
-    <difficulty_user>29509.918935</difficulty_user>
-    <algo>quark</algo>
-    <type>solo</type>
-    <finder>D9FTMCzDH...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>D</symbol>
-    <time>1579440243</time>
-    <height>2844606</height>
-    <amount>2</amount>
-    <category>generate</category>
-    <difficulty>2958.45922399</difficulty>
-    <difficulty_user>3278.558154</difficulty_user>
-    <algo>tribus</algo>
-    <type>solo</type>
-    <finder>dgb1qcfau...</finder>
   </Blocks>
   <Blocks>
     <symbol>ARION</symbol>
@@ -50664,18 +51865,6 @@
     <finder>1PeHvNvBc...</finder>
   </Blocks>
   <Blocks>
-    <symbol>STPX</symbol>
-    <time>1579440214</time>
-    <height>508366</height>
-    <amount>30.42</amount>
-    <category>immature</category>
-    <difficulty>2130.2681372053</difficulty>
-    <difficulty_user>3959.928945</difficulty_user>
-    <algo>x11</algo>
-    <type>shared</type>
-    <finder>bc1qtywp6...</finder>
-  </Blocks>
-  <Blocks>
     <symbol>RITO</symbol>
     <time>1579440213</time>
     <height>594596</height>
@@ -50716,7 +51905,7 @@
     <time>1579440204</time>
     <height>1115178</height>
     <amount>0.8</amount>
-    <category>immature</category>
+    <category>generate</category>
     <difficulty>57.29777359</difficulty>
     <difficulty_user>405.546137</difficulty_user>
     <algo>tribus</algo>
@@ -50758,1169 +51947,5 @@
     <algo>equihash144</algo>
     <type>shared</type>
     <finder>BESDALMmk...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>NES</symbol>
-    <time>1579440189</time>
-    <height>128783</height>
-    <amount>0.005</amount>
-    <category>immature</category>
-    <difficulty>29.20820624</difficulty>
-    <difficulty_user>45.160103</difficulty_user>
-    <algo>x13</algo>
-    <type>solo</type>
-    <finder>1HvJ9GzCy...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VDL</symbol>
-    <time>1579440189</time>
-    <height>632461</height>
-    <amount>4.8</amount>
-    <category>immature</category>
-    <difficulty>28.267884849691</difficulty>
-    <difficulty_user>28.46885127</difficulty_user>
-    <algo>equihash192</algo>
-    <type>party.123456789</type>
-    <finder>1HzLUNt9r...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>NVC</symbol>
-    <time>1579440186</time>
-    <height>557330</height>
-    <amount>5.16</amount>
-    <category>immature</category>
-    <difficulty>12866.34500568</difficulty>
-    <difficulty_user>94399.893422</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>122JqhJiN...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VDL</symbol>
-    <time>1579440186</time>
-    <height>632460</height>
-    <amount>4.8</amount>
-    <category>immature</category>
-    <difficulty>28.676753359465</difficulty>
-    <difficulty_user>33.8890281</difficulty_user>
-    <algo>equihash192</algo>
-    <type>party.KMnFaisal</type>
-    <finder>RDshY1jnW...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GENX</symbol>
-    <time>1579440183</time>
-    <height>741699</height>
-    <amount>350</amount>
-    <category>immature</category>
-    <difficulty>247.07982091838</difficulty>
-    <difficulty_user>123.8974583</difficulty_user>
-    <algo>equihash192</algo>
-    <type>solo</type>
-    <finder>SizpRjck4...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>IMGC</symbol>
-    <time>1579440177</time>
-    <height>286171</height>
-    <amount>2.32142865</amount>
-    <category>immature</category>
-    <difficulty>11079.64306997</difficulty>
-    <difficulty_user>27380.957643</difficulty_user>
-    <algo>x11</algo>
-    <type>shared</type>
-    <finder>35WgRWqgB...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>EMC2</symbol>
-    <time>1579440177</time>
-    <height>2654446</height>
-    <amount>1.95</amount>
-    <category>generate</category>
-    <difficulty>487.7306820164</difficulty>
-    <difficulty_user>821.613799</difficulty_user>
-    <algo>scrypt</algo>
-    <type>solo</type>
-    <finder>LNn4Z8q5q...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>SONO</symbol>
-    <time>1579440168</time>
-    <height>1239927</height>
-    <amount>1.5</amount>
-    <category>immature</category>
-    <difficulty>0.41803012</difficulty>
-    <difficulty_user>1.43809</difficulty_user>
-    <algo>sonoa</algo>
-    <type>solo</type>
-    <finder>193YGE26i...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>CBS</symbol>
-    <time>1579440164</time>
-    <height>432295</height>
-    <amount>2.7</amount>
-    <category>immature</category>
-    <difficulty>0.027518105010953</difficulty>
-    <difficulty_user>0.058903</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>solo</type>
-    <finder>DMK37uFYT...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>DIME</symbol>
-    <time>1579440161</time>
-    <height>3813623</height>
-    <amount>8192</amount>
-    <category>immature</category>
-    <difficulty>1696133.584929</difficulty>
-    <difficulty_user>10485.871558</difficulty_user>
-    <algo>quark</algo>
-    <type>shared</type>
-    <finder>3LTfsHcG4...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TROLL</symbol>
-    <time>1579440159</time>
-    <height>3372260</height>
-    <amount>17</amount>
-    <category>immature</category>
-    <difficulty>29.66936887</difficulty>
-    <difficulty_user>64.713966</difficulty_user>
-    <algo>scrypt</algo>
-    <type>solo</type>
-    <finder>LLWEc7bCW...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>RITO</symbol>
-    <time>1579440158</time>
-    <height>594594</height>
-    <amount>671</amount>
-    <category>immature</category>
-    <difficulty>157.86514105049</difficulty>
-    <difficulty_user>171.900581</difficulty_user>
-    <algo>x21s</algo>
-    <type>shared</type>
-    <finder>PLqsYkeM8...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>FLO</symbol>
-    <time>1579440157</time>
-    <height>3884735</height>
-    <amount>6.25</amount>
-    <category>immature</category>
-    <difficulty>1302.9921145179</difficulty>
-    <difficulty_user>7394.454624</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>LRmUkaa8Z...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MMO</symbol>
-    <time>1579440154</time>
-    <height>1000219</height>
-    <amount>1</amount>
-    <category>immature</category>
-    <difficulty>27.94292481</difficulty>
-    <difficulty_user>85.747444</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>ltc1qdpst...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>BITC</symbol>
-    <time>1579440146</time>
-    <height>726150</height>
-    <amount>19.35</amount>
-    <category>immature</category>
-    <difficulty>605.16760989961</difficulty>
-    <difficulty_user>4307.099698</difficulty_user>
-    <algo>x16rv2</algo>
-    <type>shared</type>
-    <finder>1CncqXqJB...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>KONJ</symbol>
-    <time>1579440144</time>
-    <height>184106</height>
-    <amount>0</amount>
-    <category>orphan</category>
-    <difficulty>0.911944</difficulty>
-    <difficulty_user>3.721498</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>shared</type>
-    <finder>KsSbxeUdp...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GRLC</symbol>
-    <time>1579440140</time>
-    <height>1534460</height>
-    <amount>12.5</amount>
-    <category>immature</category>
-    <difficulty>5.0584297212174</difficulty>
-    <difficulty_user>12.334434</difficulty_user>
-    <algo>allium</algo>
-    <type>shared</type>
-    <finder>XgNbWufdT...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>STPX</symbol>
-    <time>1579440130</time>
-    <height>508365</height>
-    <amount>30.42</amount>
-    <category>immature</category>
-    <difficulty>2176.4686482528</difficulty>
-    <difficulty_user>2276.476263</difficulty_user>
-    <algo>x11</algo>
-    <type>shared</type>
-    <finder>bc1qtywp6...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>ANON</symbol>
-    <time>1579440127</time>
-    <height>115787</height>
-    <amount>6.53125</amount>
-    <category>immature</category>
-    <difficulty>430871.99595578</difficulty>
-    <difficulty_user>84.42141556</difficulty_user>
-    <algo>equihash192</algo>
-    <type>solo</type>
-    <finder>17CoUEzXx...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>CPU</symbol>
-    <time>1579440125</time>
-    <height>281824</height>
-    <amount>50</amount>
-    <category>immature</category>
-    <difficulty>0.0040665283668509</difficulty>
-    <difficulty_user>297.108156</difficulty_user>
-    <algo>cpupower</algo>
-    <type>shared</type>
-    <finder>1DPhven15...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MMO</symbol>
-    <time>1579440124</time>
-    <height>1000218</height>
-    <amount>1</amount>
-    <category>immature</category>
-    <difficulty>23.95107271</difficulty>
-    <difficulty_user>26.405008</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>ltc1qdpst...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>XGCS</symbol>
-    <time>1579440122</time>
-    <height>709060</height>
-    <amount>0.4</amount>
-    <category>immature</category>
-    <difficulty>3.0386635861568</difficulty>
-    <difficulty_user>42.4095</difficulty_user>
-    <algo>x16r</algo>
-    <type>shared</type>
-    <finder>35Nuw87xn...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GLT-blake2s</symbol>
-    <time>1579440111</time>
-    <height>1016510</height>
-    <amount>30</amount>
-    <category>immature</category>
-    <difficulty>2060476.2459615</difficulty>
-    <difficulty_user>2787251.139447</difficulty_user>
-    <algo>blake2s</algo>
-    <type>shared</type>
-    <finder>32JitweY5...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>BELL</symbol>
-    <time>1579440110</time>
-    <height>708847</height>
-    <amount>10</amount>
-    <category>immature</category>
-    <difficulty>0.001831906383504</difficulty>
-    <difficulty_user>291.974837</difficulty_user>
-    <algo>yespower</algo>
-    <type>shared</type>
-    <finder>LehcsSfUK...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>NES</symbol>
-    <time>1579440109</time>
-    <height>128782</height>
-    <amount>0.005</amount>
-    <category>immature</category>
-    <difficulty>22.55519495</difficulty>
-    <difficulty_user>22.970086</difficulty_user>
-    <algo>x13</algo>
-    <type>shared</type>
-    <finder>1312BgMHB...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>ARION</symbol>
-    <time>1579440101</time>
-    <height>410258</height>
-    <amount>2.25</amount>
-    <category>immature</category>
-    <difficulty>5249.5798528862</difficulty>
-    <difficulty_user>7006.858542</difficulty_user>
-    <algo>x11</algo>
-    <type>shared</type>
-    <finder>bc1qtywp6...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VDL</symbol>
-    <time>1579440100</time>
-    <height>632459</height>
-    <amount>4.8002</amount>
-    <category>immature</category>
-    <difficulty>30.181495350136</difficulty>
-    <difficulty_user>57.92462349</difficulty_user>
-    <algo>equihash192</algo>
-    <type>shared</type>
-    <finder>3BZKKja3q...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>NES</symbol>
-    <time>1579440099</time>
-    <height>128781</height>
-    <amount>0.005</amount>
-    <category>immature</category>
-    <difficulty>17.66821546</difficulty>
-    <difficulty_user>777.059298</difficulty_user>
-    <algo>x13</algo>
-    <type>shared</type>
-    <finder>1BxotRUiH...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>YTN</symbol>
-    <time>1579440096</time>
-    <height>566055</height>
-    <amount>50.0002</amount>
-    <category>immature</category>
-    <difficulty>0.00597912</difficulty>
-    <difficulty_user>618.199537</difficulty_user>
-    <algo>yespowerR16</algo>
-    <type>solo</type>
-    <finder>1D4Cq9fQm...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>BELL</symbol>
-    <time>1579440088</time>
-    <height>708846</height>
-    <amount>10</amount>
-    <category>immature</category>
-    <difficulty>0.0018520245523603</difficulty>
-    <difficulty_user>480.470914</difficulty_user>
-    <algo>yespower</algo>
-    <type>shared</type>
-    <finder>LehcsSfUK...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>KOTO</symbol>
-    <time>1579440080</time>
-    <height>1099871</height>
-    <amount>48.5</amount>
-    <category>immature</category>
-    <difficulty>29817.227016609</difficulty>
-    <difficulty_user>33433.800464</difficulty_user>
-    <algo>yescryptR8G</algo>
-    <type>shared</type>
-    <finder>1cmf1Gb2G...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TROLL</symbol>
-    <time>1579440078</time>
-    <height>3372257</height>
-    <amount>17</amount>
-    <category>immature</category>
-    <difficulty>25.44373081</difficulty>
-    <difficulty_user>48.359914</difficulty_user>
-    <algo>scrypt</algo>
-    <type>solo</type>
-    <finder>LLWEc7bCW...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GXX</symbol>
-    <time>1579440076</time>
-    <height>613140</height>
-    <amount>1.5</amount>
-    <category>immature</category>
-    <difficulty>0.0076528681877971</difficulty>
-    <difficulty_user>5982.805997</difficulty_user>
-    <algo>lyra2z330</algo>
-    <type>shared</type>
-    <finder>1B6shJSkD...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>SCRIV</symbol>
-    <time>1579440074</time>
-    <height>1845690</height>
-    <amount>14.69664</amount>
-    <category>immature</category>
-    <difficulty>200.07107507006</difficulty>
-    <difficulty_user>352.466374</difficulty_user>
-    <algo>tribus</algo>
-    <type>shared</type>
-    <finder>15wxkcahH...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>XSH-myr-gr</symbol>
-    <time>1579440067</time>
-    <height>1793691</height>
-    <amount>62</amount>
-    <category>immature</category>
-    <difficulty>60004.774784844</difficulty>
-    <difficulty_user>68295.619865</difficulty_user>
-    <algo>myr-gr</algo>
-    <type>shared</type>
-    <finder>32G8ZgcJM...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>FLO</symbol>
-    <time>1579440065</time>
-    <height>3884723</height>
-    <amount>6.25</amount>
-    <category>immature</category>
-    <difficulty>1298.2731393386</difficulty>
-    <difficulty_user>1691.517506</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>DAcPD4D5X...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TROLL</symbol>
-    <time>1579440065</time>
-    <height>3372256</height>
-    <amount>17</amount>
-    <category>immature</category>
-    <difficulty>31.22636891</difficulty>
-    <difficulty_user>69.005151</difficulty_user>
-    <algo>scrypt</algo>
-    <type>solo</type>
-    <finder>LLWEc7bCW...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>XSH-blake2s</symbol>
-    <time>1579440059</time>
-    <height>1793691</height>
-    <amount>62</amount>
-    <category>orphan</category>
-    <difficulty>1110869.0386467</difficulty>
-    <difficulty_user>1976639.458721</difficulty_user>
-    <algo>blake2s</algo>
-    <type>shared</type>
-    <finder>1MsbFriBV...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TTN</symbol>
-    <time>1579440036</time>
-    <height>145110</height>
-    <amount>30</amount>
-    <category>immature</category>
-    <difficulty>24.673342520108</difficulty>
-    <difficulty_user>99.328497</difficulty_user>
-    <algo>x21s</algo>
-    <type>party.gigergiger</type>
-    <finder>1DnnC39Nn...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>EMC2</symbol>
-    <time>1579440030</time>
-    <height>2654443</height>
-    <amount>1.95</amount>
-    <category>generate</category>
-    <difficulty>426.50396583282</difficulty>
-    <difficulty_user>1277.65211</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>LRmUkaa8Z...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MMO</symbol>
-    <time>1579440027</time>
-    <height>1000215</height>
-    <amount>1</amount>
-    <category>immature</category>
-    <difficulty>20.60550382</difficulty>
-    <difficulty_user>26.315577</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>ltc1qdpst...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GRLC</symbol>
-    <time>1579440026</time>
-    <height>1534455</height>
-    <amount>12.5</amount>
-    <category>immature</category>
-    <difficulty>4.5172152433828</difficulty>
-    <difficulty_user>13.088384</difficulty_user>
-    <algo>allium</algo>
-    <type>shared</type>
-    <finder>36ANNZwL2...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>CRP</symbol>
-    <time>1579440023</time>
-    <height>1965820</height>
-    <amount>21</amount>
-    <category>immature</category>
-    <difficulty>0.0033033885250661</difficulty>
-    <difficulty_user>350.613962</difficulty_user>
-    <algo>yespower</algo>
-    <type>shared</type>
-    <finder>1NoL86jtg...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GENX</symbol>
-    <time>1579440022</time>
-    <height>741698</height>
-    <amount>350</amount>
-    <category>immature</category>
-    <difficulty>249.89892159199</difficulty>
-    <difficulty_user>39.16441648</difficulty_user>
-    <algo>equihash192</algo>
-    <type>solo</type>
-    <finder>SizpRjck4...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TTN</symbol>
-    <time>1579440019</time>
-    <height>145109</height>
-    <amount>30</amount>
-    <category>immature</category>
-    <difficulty>24.535790281891</difficulty>
-    <difficulty_user>27.642503</difficulty_user>
-    <algo>x21s</algo>
-    <type>shared</type>
-    <finder>35cu7vCZ3...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VIRIDI</symbol>
-    <time>1579440012</time>
-    <height>358442</height>
-    <amount>0.05</amount>
-    <category>immature</category>
-    <difficulty>21.142720318585</difficulty>
-    <difficulty_user>41.371299</difficulty_user>
-    <algo>hex</algo>
-    <type>shared</type>
-    <finder>Xkn1Eq6zs...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>PGN</symbol>
-    <time>1579440009</time>
-    <height>877083</height>
-    <amount>4750</amount>
-    <category>immature</category>
-    <difficulty>7656.4241631221</difficulty>
-    <difficulty_user>7832.131169</difficulty_user>
-    <algo>x21s</algo>
-    <type>shared</type>
-    <finder>PN7h8s7tk...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>CRP</symbol>
-    <time>1579440004</time>
-    <height>1965818</height>
-    <amount>21</amount>
-    <category>immature</category>
-    <difficulty>0.0027055749830899</difficulty>
-    <difficulty_user>405.404647</difficulty_user>
-    <algo>yespower</algo>
-    <type>shared</type>
-    <finder>LehcsSfUK...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>ARION</symbol>
-    <time>1579440000</time>
-    <height>410257</height>
-    <amount>2.25</amount>
-    <category>immature</category>
-    <difficulty>5447.7282136624</difficulty>
-    <difficulty_user>83683.703945</difficulty_user>
-    <algo>x11</algo>
-    <type>shared</type>
-    <finder>bc1qtywp6...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>BZX</symbol>
-    <time>1579439995</time>
-    <height>227886</height>
-    <amount>11</amount>
-    <category>immature</category>
-    <difficulty>8.9046420274417</difficulty>
-    <difficulty_user>913.831408</difficulty_user>
-    <algo>lyra2z</algo>
-    <type>party.Sei8sam!78</type>
-    <finder>XoHNeBjhW...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MMO</symbol>
-    <time>1579439990</time>
-    <height>1000214</height>
-    <amount>1</amount>
-    <category>immature</category>
-    <difficulty>17.66185422</difficulty>
-    <difficulty_user>227.453839</difficulty_user>
-    <algo>scrypt</algo>
-    <type>solo</type>
-    <finder>Xmihn2LUC...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VIRIDI</symbol>
-    <time>1579439989</time>
-    <height>358441</height>
-    <amount>0.05</amount>
-    <category>immature</category>
-    <difficulty>21.378296205493</difficulty>
-    <difficulty_user>22.87437</difficulty_user>
-    <algo>hex</algo>
-    <type>shared</type>
-    <finder>Xkn1Eq6zs...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VIRIDI</symbol>
-    <time>1579439989</time>
-    <height>358440</height>
-    <amount>0.05</amount>
-    <category>immature</category>
-    <difficulty>22.276993840185</difficulty>
-    <difficulty_user>74.763063</difficulty_user>
-    <algo>hex</algo>
-    <type>shared</type>
-    <finder>Xkn1Eq6zs...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TZC</symbol>
-    <time>1579439989</time>
-    <height>1220083</height>
-    <amount>100.008632</amount>
-    <category>immature</category>
-    <difficulty>16.04448129542</difficulty>
-    <difficulty_user>17.627294</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>shared</type>
-    <finder>1xMDMB1B1...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GLT-myr-gr</symbol>
-    <time>1579439986</time>
-    <height>1016509</height>
-    <amount>30.00005448</amount>
-    <category>immature</category>
-    <difficulty>78160.177616015</difficulty>
-    <difficulty_user>115266.902</difficulty_user>
-    <algo>myr-gr</algo>
-    <type>shared</type>
-    <finder>1ARKjgEz9...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>CBS</symbol>
-    <time>1579439986</time>
-    <height>432294</height>
-    <amount>2.7</amount>
-    <category>immature</category>
-    <difficulty>0.028219637353869</difficulty>
-    <difficulty_user>0.132688</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>solo</type>
-    <finder>DMK37uFYT...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>DYN</symbol>
-    <time>1579439981</time>
-    <height>443028</height>
-    <amount>1</amount>
-    <category>immature</category>
-    <difficulty>0.62949657563853</difficulty>
-    <difficulty_user>1.728768</difficulty_user>
-    <algo>argon2d-dyn</algo>
-    <type>shared</type>
-    <finder>DS6ZGfA1r...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>BTH</symbol>
-    <time>1579439980</time>
-    <height>628644</height>
-    <amount>25</amount>
-    <category>immature</category>
-    <difficulty>134.47121919061</difficulty>
-    <difficulty_user>581.47188888</difficulty_user>
-    <algo>equihash144</algo>
-    <type>shared</type>
-    <finder>BESDALMmk...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>SONO</symbol>
-    <time>1579439977</time>
-    <height>1239924</height>
-    <amount>1.5</amount>
-    <category>immature</category>
-    <difficulty>0.38377302</difficulty>
-    <difficulty_user>5.026993</difficulty_user>
-    <algo>sonoa</algo>
-    <type>shared</type>
-    <finder>XuBMvesno...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>XSH-myr-gr</symbol>
-    <time>1579439975</time>
-    <height>1793684</height>
-    <amount>62</amount>
-    <category>immature</category>
-    <difficulty>54687.044922074</difficulty>
-    <difficulty_user>70609.636545</difficulty_user>
-    <algo>myr-gr</algo>
-    <type>shared</type>
-    <finder>3F6XyWJqR...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MOON</symbol>
-    <time>1579439969</time>
-    <height>1770967</height>
-    <amount>3421</amount>
-    <category>immature</category>
-    <difficulty>148.27316193691</difficulty>
-    <difficulty_user>161.457313</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>LRmUkaa8Z...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>RITO</symbol>
-    <time>1579439969</time>
-    <height>594593</height>
-    <amount>671</amount>
-    <category>immature</category>
-    <difficulty>157.53014084507</difficulty>
-    <difficulty_user>2039.26358</difficulty_user>
-    <algo>x21s</algo>
-    <type>shared</type>
-    <finder>a529YTA3Z...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>BELL</symbol>
-    <time>1579439967</time>
-    <height>708845</height>
-    <amount>10</amount>
-    <category>immature</category>
-    <difficulty>0.0018221789161429</difficulty>
-    <difficulty_user>263.087394</difficulty_user>
-    <algo>yespower</algo>
-    <type>shared</type>
-    <finder>LehcsSfUK...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>SCIFI</symbol>
-    <time>1579439965</time>
-    <height>705861</height>
-    <amount>10</amount>
-    <category>immature</category>
-    <difficulty>82.73519447</difficulty>
-    <difficulty_user>151.982741</difficulty_user>
-    <algo>scrypt</algo>
-    <type>solo</type>
-    <finder>D7BeYkWMi...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>ABS</symbol>
-    <time>1579439964</time>
-    <height>555467</height>
-    <amount>3.00002572</amount>
-    <category>generate</category>
-    <difficulty>1381.0097840109</difficulty>
-    <difficulty_user>3838.823932</difficulty_user>
-    <algo>lyra2v2</algo>
-    <type>solo</type>
-    <finder>M9dnBVxFT...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>YTN</symbol>
-    <time>1579439957</time>
-    <height>566054</height>
-    <amount>50</amount>
-    <category>immature</category>
-    <difficulty>0.00623818</difficulty>
-    <difficulty_user>1176.134514</difficulty_user>
-    <algo>yespowerR16</algo>
-    <type>solo</type>
-    <finder>1D4Cq9fQm...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>LINC</symbol>
-    <time>1579439954</time>
-    <height>255952</height>
-    <amount>11.78890625</amount>
-    <category>immature</category>
-    <difficulty>0.75</difficulty>
-    <difficulty_user>1.361987</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>shared</type>
-    <finder>1CkMSXn9T...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>DVT</symbol>
-    <time>1579439953</time>
-    <height>150912</height>
-    <amount>653</amount>
-    <category>immature</category>
-    <difficulty>23764126.711479</difficulty>
-    <difficulty_user>113791320.049435</difficulty_user>
-    <algo>sha256</algo>
-    <type>party.Biomine</type>
-    <finder>bc1qjk3zp...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>BELL</symbol>
-    <time>1579439947</time>
-    <height>708844</height>
-    <amount>10</amount>
-    <category>immature</category>
-    <difficulty>0.0018035895767136</difficulty>
-    <difficulty_user>582.319471</difficulty_user>
-    <algo>yespower</algo>
-    <type>shared</type>
-    <finder>LehcsSfUK...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MMO</symbol>
-    <time>1579439945</time>
-    <height>1000212</height>
-    <amount>1</amount>
-    <category>immature</category>
-    <difficulty>17.71792348</difficulty>
-    <difficulty_user>36.25882</difficulty_user>
-    <algo>scrypt</algo>
-    <type>solo</type>
-    <finder>Xmihn2LUC...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>XMY-argon2d4096</symbol>
-    <time>1579439942</time>
-    <height>2993501</height>
-    <amount>250</amount>
-    <category>immature</category>
-    <difficulty>0.35367354207817</difficulty>
-    <difficulty_user>8.383598</difficulty_user>
-    <algo>argon2d4096</algo>
-    <type>shared</type>
-    <finder>1PZQ7wnSj...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>CRP</symbol>
-    <time>1579439940</time>
-    <height>1965814</height>
-    <amount>21</amount>
-    <category>immature</category>
-    <difficulty>0.0026159955624476</difficulty>
-    <difficulty_user>684.183181</difficulty_user>
-    <algo>yespower</algo>
-    <type>shared</type>
-    <finder>LehcsSfUK...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GEX</symbol>
-    <time>1579439934</time>
-    <height>362004</height>
-    <amount>2.4</amount>
-    <category>immature</category>
-    <difficulty>8.1273601106839</difficulty>
-    <difficulty_user>8.175877</difficulty_user>
-    <algo>phi2</algo>
-    <type>shared</type>
-    <finder>XsLwrEsmi...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>ARION</symbol>
-    <time>1579439926</time>
-    <height>410256</height>
-    <amount>2.25</amount>
-    <category>immature</category>
-    <difficulty>5458.6540519518</difficulty>
-    <difficulty_user>10487.268316</difficulty_user>
-    <algo>x11</algo>
-    <type>shared</type>
-    <finder>13gPqc6Di...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>XMY-argon2d4096</symbol>
-    <time>1579439922</time>
-    <height>2993500</height>
-    <amount>250</amount>
-    <category>immature</category>
-    <difficulty>0.36781873695081</difficulty>
-    <difficulty_user>0.74504</difficulty_user>
-    <algo>argon2d4096</algo>
-    <type>shared</type>
-    <finder>4vXgd1xqr...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>DVT</symbol>
-    <time>1579439922</time>
-    <height>150911</height>
-    <amount>653</amount>
-    <category>immature</category>
-    <difficulty>23609509.352802</difficulty>
-    <difficulty_user>215483576.943198</difficulty_user>
-    <algo>sha256</algo>
-    <type>party.Biomine</type>
-    <finder>bc1qjk3zp...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>EMC2</symbol>
-    <time>1579439921</time>
-    <height>2654441</height>
-    <amount>1.9619457</amount>
-    <category>generate</category>
-    <difficulty>445.68605052732</difficulty>
-    <difficulty_user>589.348378</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>LRmUkaa8Z...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VOT</symbol>
-    <time>1579439921</time>
-    <height>519346</height>
-    <amount>62.50030687</amount>
-    <category>immature</category>
-    <difficulty>191914.08634735</difficulty>
-    <difficulty_user>16976.82562966</difficulty_user>
-    <algo>equihash</algo>
-    <type>solo</type>
-    <finder>1Jqb9NZjz...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>ZER</symbol>
-    <time>1579439920</time>
-    <height>765743</height>
-    <amount>7.8303</amount>
-    <category>immature</category>
-    <difficulty>188129.81044044</difficulty>
-    <difficulty_user>826.68519938</difficulty_user>
-    <algo>equihash192</algo>
-    <type>shared</type>
-    <finder>18M5BujbT...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GENX</symbol>
-    <time>1579439919</time>
-    <height>741696</height>
-    <amount>350</amount>
-    <category>immature</category>
-    <difficulty>242.90864075983</difficulty>
-    <difficulty_user>22.27762286</difficulty_user>
-    <algo>equihash192</algo>
-    <type>solo</type>
-    <finder>SizpRjck4...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TROLL</symbol>
-    <time>1579439917</time>
-    <height>3372251</height>
-    <amount>17</amount>
-    <category>immature</category>
-    <difficulty>29.41468546</difficulty>
-    <difficulty_user>61.183099</difficulty_user>
-    <algo>scrypt</algo>
-    <type>solo</type>
-    <finder>LLWEc7bCW...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>TUBE</symbol>
-    <time>1579439906</time>
-    <height>515953</height>
-    <amount>367.10612607</amount>
-    <category>immature</category>
-    <difficulty>399616333</difficulty>
-    <difficulty_user>440184330</difficulty_user>
-    <algo>cryptonight_saber</algo>
-    <type>shared</type>
-    <finder>1Cjq5f4AS...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MEK</symbol>
-    <time>1579439903</time>
-    <height>13235</height>
-    <amount>1.75</amount>
-    <category>immature</category>
-    <difficulty>129.90089197225</difficulty>
-    <difficulty_user>251.484892</difficulty_user>
-    <algo>x17</algo>
-    <type>shared</type>
-    <finder>1E3LiXZTp...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VDL</symbol>
-    <time>1579439898</time>
-    <height>632458</height>
-    <amount>4.8002</amount>
-    <category>immature</category>
-    <difficulty>32.519759966603</difficulty>
-    <difficulty_user>34.55815193</difficulty_user>
-    <algo>equihash192</algo>
-    <type>shared</type>
-    <finder>3BZKKja3q...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>CRP</symbol>
-    <time>1579439897</time>
-    <height>1965812</height>
-    <amount>21</amount>
-    <category>immature</category>
-    <difficulty>0.0020534226405333</difficulty>
-    <difficulty_user>253.416761</difficulty_user>
-    <algo>yespower</algo>
-    <type>shared</type>
-    <finder>LehcsSfUK...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>ARION</symbol>
-    <time>1579439896</time>
-    <height>410254</height>
-    <amount>2.25</amount>
-    <category>immature</category>
-    <difficulty>5544.892398224</difficulty>
-    <difficulty_user>7844.901805</difficulty_user>
-    <algo>x11</algo>
-    <type>shared</type>
-    <finder>bc1qtywp6...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MTNS</symbol>
-    <time>1579439895</time>
-    <height>154814</height>
-    <amount>37.5</amount>
-    <category>immature</category>
-    <difficulty>7373.0953288356</difficulty>
-    <difficulty_user>7763.944253</difficulty_user>
-    <algo>skein</algo>
-    <type>shared</type>
-    <finder>3FVevw8FN...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>MBC</symbol>
-    <time>1579439895</time>
-    <height>146397</height>
-    <amount>5233.6513</amount>
-    <category>immature</category>
-    <difficulty>0.025868990448191</difficulty>
-    <difficulty_user>2479.197807</difficulty_user>
-    <algo>power2b</algo>
-    <type>shared</type>
-    <finder>3M7WjojzX...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>SCIFI</symbol>
-    <time>1579439895</time>
-    <height>705859</height>
-    <amount>10</amount>
-    <category>immature</category>
-    <difficulty>79.14780393</difficulty>
-    <difficulty_user>122.915505</difficulty_user>
-    <algo>scrypt</algo>
-    <type>solo</type>
-    <finder>LLFxhf8cH...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>NTBC</symbol>
-    <time>1579439884</time>
-    <height>994162</height>
-    <amount>4756.0107051</amount>
-    <category>immature</category>
-    <difficulty>83.293830274205</difficulty>
-    <difficulty_user>139.227267</difficulty_user>
-    <algo>scrypt</algo>
-    <type>solo</type>
-    <finder>NLsJBu1kQ...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>CRP</symbol>
-    <time>1579439884</time>
-    <height>1965810</height>
-    <amount>21</amount>
-    <category>immature</category>
-    <difficulty>0.00168784923683</difficulty>
-    <difficulty_user>337.299433</difficulty_user>
-    <algo>yespower</algo>
-    <type>shared</type>
-    <finder>LehcsSfUK...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>CBS</symbol>
-    <time>1579439884</time>
-    <height>432293</height>
-    <amount>2.7</amount>
-    <category>immature</category>
-    <difficulty>0.028189921828725</difficulty>
-    <difficulty_user>0.03474</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>solo</type>
-    <finder>DMK37uFYT...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>EMC2</symbol>
-    <time>1579439883</time>
-    <height>2654440</height>
-    <amount>1.95043875</amount>
-    <category>generate</category>
-    <difficulty>453.1129476584</difficulty>
-    <difficulty_user>2123.412392</difficulty_user>
-    <algo>scrypt</algo>
-    <type>shared</type>
-    <finder>qpzdujecc...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>VIOG</symbol>
-    <time>1579439878</time>
-    <height>408456</height>
-    <amount>0.83571433</amount>
-    <category>immature</category>
-    <difficulty>0.4730163771139</difficulty>
-    <difficulty_user>0.508595</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>shared</type>
-    <finder>1G53uKzuz...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>RITO</symbol>
-    <time>1579439864</time>
-    <height>594590</height>
-    <amount>671</amount>
-    <category>immature</category>
-    <difficulty>155.82557005526</difficulty>
-    <difficulty_user>815.432141</difficulty_user>
-    <algo>x21s</algo>
-    <type>shared</type>
-    <finder>LiCBftVUd...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>GENX</symbol>
-    <time>1579439856</time>
-    <height>741693</height>
-    <amount>350</amount>
-    <category>immature</category>
-    <difficulty>232.21057439446</difficulty>
-    <difficulty_user>23.94241446</difficulty_user>
-    <algo>equihash192</algo>
-    <type>solo</type>
-    <finder>SizpRjck4...</finder>
-  </Blocks>
-  <Blocks>
-    <symbol>CBS</symbol>
-    <time>1579439854</time>
-    <height>432292</height>
-    <amount>2.7</amount>
-    <category>immature</category>
-    <difficulty>0.02880929071601</difficulty>
-    <difficulty_user>0.905617</difficulty_user>
-    <algo>neoscrypt</algo>
-    <type>solo</type>
-    <finder>DMK37uFYT...</finder>
   </Blocks>
 </NewDataSet>
