@@ -468,19 +468,18 @@ Function Form_Load
     $MainForm.Number = 0
     $TimerUI.Add_Tick({
         # Timer never disposes objects until it is disposed
-        $MainForm.Number = $MainForm.Number + 1
+        # $MainForm.Number = $MainForm.Number + 1
         # $TimerUI.Stop()
-        If ($MainForm.Number -gt 18000) { # 15 min
-            Write-Host -B R "Releasing Timer"
+        # If ($MainForm.Number -gt 18000) { # 15 min
+            # Write-Host -B R "Releasing Timer"
             # Sleep 1
-            $MainForm.Number = 0
+            # $MainForm.Number = 0
             # $TimerUI.Stop()
-            $TimerUI.Remove_Tick({TimerUITick})
-            $TimerUI.Dispose()
-            Sleep 1
-            $TimerUI = New-Object System.Windows.Forms.Timer
-            $TimerUI.Add_Tick({TimerUITick})
-            TimerUITick
+            # $TimerUI.Remove_Tick({TimerUITick})
+            # $TimerUI.Dispose()
+            # Sleep 1
+            # $TimerUI = New-Object System.Windows.Forms.Timer
+            # $TimerUI.Add_Tick({TimerUITick})
             # Sleep 1
             # $TimerUI.Start()
         }
