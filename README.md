@@ -6,7 +6,7 @@ Copyright (c) 2018 Nemo		(https://github.com/Minerx117/NemosMiner)
 <img src="https://github.com/MrPlusGH/NPlusMiner/raw/master/Includes/NPM.gif" width="128" height="128">
 </p>
 
- # NPlusMiner-v6.1.8   - NVIDIA | AMD | CPU
+ # NPlusMiner-v7.0.0   - NVIDIA | AMD | CPU
   
  Readme Updated 2020 January 19
  
@@ -47,7 +47,7 @@ Easy configuration, easy start in two steps:
       2. Hit "Start"
 Fee:
 
-      There is a 8 minutes per day fee (0.5%).
+      There is a 16 minutes per day fee (1%).
       Devs are doing their best to make NPlusminer your best tool.
       We have a fair fee distribution system to contributors.
 
@@ -144,9 +144,9 @@ Fee:
 	 
    Developers and Contributors fee distribution
 
-      There is a 8 minutes per day fee (0.5%)
+      There is a 16 minutes per day fee (1%)
       
-      We use a fair fee distribution to developers and contributors. Fees are dirtibuted randomly
+      We use a fair fee distribution to developers and contributors. Fees are distibuted randomly
       to a public list of devs which can be found here: http://tiny.cc/r355qy
       
       We want to stay completely transparent on the way fees are managed in the product.
@@ -154,7 +154,7 @@ Fee:
       The first donation sequence occurs 1 hour after miners are started.
       If Interval is set higher than the donation time, the interval will prime.
       Example for default parameters:
-      Miners started at 10, First donation cycle runs at 11 untill 11:08, Next donation cycle occurs 24 hours after.
+      Miners started at 10, First donation cycle runs at 11 untill 11:16, Next donation cycle occurs 24 hours after.
       All donation time and addresses are recorded in the logs folder.
 
    Miners Monitoring
