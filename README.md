@@ -47,7 +47,7 @@ Easy configuration, easy start in two steps:
       2. Hit "Start"
 Fee:
 
-      There is a 8 minutes per day fee (0.5%).
+      There is a 16 minutes per day fee (1%).
       Devs are doing their best to make NPlusminer your best tool.
       We have a fair fee distribution system to contributors.
 
@@ -144,7 +144,7 @@ Fee:
 	 
    Developers and Contributors fee distribution
 
-      There is a 8 minutes per day fee (0.5%)
+      There is a 16 minutes per day fee (1%)
       
       We use a fair fee distribution to developers and contributors. Fees are dirtibuted randomly
       to a public list of devs which can be found here: http://tiny.cc/r355qy
@@ -154,7 +154,7 @@ Fee:
       The first donation sequence occurs 1 hour after miners are started.
       If Interval is set higher than the donation time, the interval will prime.
       Example for default parameters:
-      Miners started at 10, First donation cycle runs at 11 untill 11:08, Next donation cycle occurs 24 hours after.
+      Miners started at 10, First donation cycle runs at 11 untill 11:16, Next donation cycle occurs 24 hours after.
       All donation time and addresses are recorded in the logs folder.
 
    Miners Monitoring
