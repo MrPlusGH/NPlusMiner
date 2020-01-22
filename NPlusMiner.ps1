@@ -466,6 +466,8 @@ Function Form_Load
     $MainForm.Text = "$($Branding.ProductLable) $($Variables.CurrentVersion)"
     $LabelBTCD.Text = "$($Branding.ProductLable) $($Variables.CurrentVersion)"
     $MainForm.Number = 0 
+    $TimerUI.Interval = 50
+    $TimerUI.Stop()
     $TimerUI.Add_Tick({
         # Timer never disposes objects until it is disposed
         # $MainForm.Number = $MainForm.Number + 1
@@ -486,8 +488,6 @@ Function Form_Load
         TimerUITick
         # $TimerUI.Start()
     })
-    $TimerUI.Interval = 50
-    $TimerUI.Stop()
         
         If ($CheckBoxConsole.Checked) {
             $null = $ShowWindow::ShowWindowAsync($ConsoleHandle, 0)
@@ -2035,7 +2035,7 @@ $ButtonStart.Add_Click( {
             $Variables | add-Member -Force @{MainPath = (Split-Path $script:MyInvocation.MyCommand.Path)}
             $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
 
-            Start-IdleTracking
+            # Start-IdleTracking
 
             If ($Config.MineWhenIdle) {
                 # Disable the pause button - pausing controlled by idle timer

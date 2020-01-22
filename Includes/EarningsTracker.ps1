@@ -22,7 +22,7 @@ File:           EarningsTrackerJob.ps1
 version:        5.4.1
 version date:   20190809
 #>
-Start-Transcript "d:\NplusMiner\logs\ET.log"
+Start-Transcript ".\logs\ET.log"
 $pwd | out-host
 
 # To start the job one could use the following
@@ -85,159 +85,176 @@ while ($true) {
 
 #For each pool in config
 #Go loop
-    foreach ($Pool in $TrackPools) {
-            if ($poolapi -ne $null) {
-                $poolapi | ConvertTo-json | Out-File ".\Config\poolapiref.json"
-                If (($poolapi | ? {$_.Name -eq $pool}).EarnTrackSupport -eq "yes") {
-                $APIUri = ($poolapi | ? {$_.Name -eq $pool}).WalletUri
-                $PaymentThreshold = ($poolapi | ? {$_.Name -eq $pool}).PaymentThreshold
-                $BalanceJson = ($poolapi | ? {$_.Name -eq $pool}).Balance
-                $TotalJson = ($poolapi | ? {$_.Name -eq $pool}).Total
+    If (-not $Variables.DonationRunning) {
+        foreach ($Pool in $TrackPools) {
+                if ($poolapi -ne $null) {
+                    $poolapi | ConvertTo-json | Out-File ".\Config\poolapiref.json"
+                    If (($poolapi | ? {$_.Name -eq $pool}).EarnTrackSupport -eq "yes") {
+                    $APIUri = ($poolapi | ? {$_.Name -eq $pool}).WalletUri
+                    $PaymentThreshold = ($poolapi | ? {$_.Name -eq $pool}).PaymentThreshold
+                    $BalanceJson = ($poolapi | ? {$_.Name -eq $pool}).Balance
+                    $TotalJson = ($poolapi | ? {$_.Name -eq $pool}).Total
 
-                $ConfName = if ($PoolsConfig.$Pool -ne $Null){$Pool}else{"default"}
-                $PoolConf = $Config.PoolsConfig.$ConfName
+                    $ConfName = if ($PoolsConfig.$Pool -ne $Null){$Pool}else{"default"}
+                    $PoolConf = $Config.PoolsConfig.$ConfName
 
-                $Wallet =
-                    if($Pool -eq "miningpoolhub"){
-                        $PoolConf.APIKey
-                    } else  {
-                        $PoolConf.Wallet
-                    }
-                
-                $CurDate = Get-Date
-				# Write-host $Pool
-				Write-Host "$($APIUri)$($Wallet)"
-                If ($Pool -eq "nicehash-V1"){
-                    try {
-                    $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") | ConvertFrom-Json } catch {  }
-                    if (-not $TempBalanceData.$BalanceJson) {$TempBalanceData | Add-Member -NotePropertyName $BalanceJson -NotePropertyValue ($TempBalanceData.result.Stats | measure -sum $BalanceJson).sum -Force}
-                    if (-not $TempBalanceData.$TotalJson) {$TempBalanceData | Add-Member -NotePropertyName $TotalJson -NotePropertyValue ($TempBalanceData.result.Stats | measure -sum $BalanceJson).sum -Force}
-                } elseif ($Pool -eq "nicehash") {
-                    try {
-                    $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)/rigs") | ConvertFrom-Json 
-                    [Double]$NHTotalBalance = [Double]($TempBalanceData.unpaidAmount) + [Double]($TempBalanceData.externalBalance)
-                    $TempBalanceData | Add-Member -NotePropertyName $BalanceJson -NotePropertyValue $NHTotalBalance -Force
-                    $TempBalanceData | Add-Member -NotePropertyName $TotalJson -NotePropertyValue $NHTotalBalance -Force
-                    } catch {  }
-                } elseif ($Pool -eq "miningpoolhub") {
-                    try {
-                    $TempBalanceData = ((((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)")).content | ConvertFrom-Json).getuserallbalances).data | Where {$_.coin -eq "bitcoin"}) } catch {  }#.confirmed
-                } else {
-                    try {
-                    $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") | ConvertFrom-Json } catch {  }
-                }
-
-                If ($TempBalanceData.$TotalJson -gt 0){
-                    $BalanceData = $TempBalanceData
-                    $AllBalanceObjectS += [PSCustomObject]@{
-                            Pool            = $Pool
-                            Date            = $CurDate
-                            balance         = $BalanceData.$BalanceJson
-                            unsold          = $BalanceData.unsold
-                            total_unpaid    = $BalanceData.total_unpaid
-                            total_paid      = $BalanceData.total_paid
-                            total_earned    = $BalanceData.$TotalJson
-                            currency        = $BalanceData.currency
+                    $Wallet =
+                        if($Pool -eq "miningpoolhub"){
+                            $PoolConf.APIKey
+                        } else  {
+                            $PoolConf.Wallet
                         }
-                    $BalanceObjectS = $AllBalanceObjectS | ? {$_.Pool -eq $Pool}
-                    $BalanceObject = $BalanceObjectS[$BalanceOjectS.Count-1]
-                    If ((($CurDate - ($BalanceObjectS[0].Date)).TotalMinutes) -eq 0) {$CurDate = $CurDate.AddMinutes(1)}
                     
-
-
-                    If ((($CurDate - ($BalanceObjectS[0].Date)).TotalDays) -ge 1) {
-                        $Growth1 = $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date -ge $CurDate.AddHours(-1)}).total_earned | measure -Minimum).Minimum
-                        $Growth6 = $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date -ge $CurDate.AddHours(-6)}).total_earned | measure -Minimum).Minimum
-                        $Growth24 = $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date -ge $CurDate.AddDays(-1)}).total_earned | measure -Minimum).Minimum
+                    $CurDate = Get-Date
+                    # Write-host $Pool
+                    Write-Host "$($APIUri)$($Wallet)"
+                    If ($Pool -eq "nicehash-V1"){
+                        try {
+                        $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") | ConvertFrom-Json } catch {  }
+                        if (-not $TempBalanceData.$BalanceJson) {$TempBalanceData | Add-Member -NotePropertyName $BalanceJson -NotePropertyValue ($TempBalanceData.result.Stats | measure -sum $BalanceJson).sum -Force}
+                        if (-not $TempBalanceData.$TotalJson) {$TempBalanceData | Add-Member -NotePropertyName $TotalJson -NotePropertyValue ($TempBalanceData.result.Stats | measure -sum $BalanceJson).sum -Force}
+                    } elseif ($Pool -eq "nicehash") {
+                        try {
+                        $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)/rigs") | ConvertFrom-Json 
+                        [Double]$NHTotalBalance = [Double]($TempBalanceData.unpaidAmount) + [Double]($TempBalanceData.externalBalance)
+                        $TempBalanceData | Add-Member -NotePropertyName $BalanceJson -NotePropertyValue $NHTotalBalance -Force
+                        $TempBalanceData | Add-Member -NotePropertyName $TotalJson -NotePropertyValue $NHTotalBalance -Force
+                        } catch {  }
+                    } elseif ($Pool -eq "miningpoolhub") {
+                        try {
+                        $TempBalanceData = ((((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)")).content | ConvertFrom-Json).getuserallbalances).data | Where {$_.coin -eq "bitcoin"}) } catch {  }#.confirmed
+                    } else {
+                        try {
+                        $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") | ConvertFrom-Json } catch {  }
                     }
-                    If ((($CurDate - ($BalanceObjectS[0].Date)).TotalDays) -lt 1) {
-                        $Growth1 = $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date -ge $CurDate.AddHours(-1)}).total_earned | measure -Minimum).Minimum
-                        $Growth6 = $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date -ge $CurDate.AddHours(-6)}).total_earned | measure -Minimum).Minimum
-                        $Growth24 = (($BalanceObject.total_earned - $BalanceObjectS[0].total_earned) / ($CurDate - ($BalanceObjectS[0].Date)).TotalHours)*24
-                    }
-                    If ((($CurDate - ($BalanceObjectS[0].Date)).TotalHours) -lt 6) {
-                        $Growth1 = $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date -ge $CurDate.AddHours(-1)}).total_earned | measure -Minimum).Minimum
-                        $Growth6 = (($BalanceObject.total_earned - $BalanceObjectS[0].total_earned) / ($CurDate - ($BalanceObjectS[0].Date)).TotalHours)*6
-                    }
-                    If ((($CurDate - ($BalanceObjectS[0].Date)).TotalHours) -lt 1) {
-                        $Growth1 = (($BalanceObject.total_earned - $BalanceObjectS[0].total_earned) / ($CurDate - ($BalanceObjectS[0].Date)).TotalMinutes)*60
-                    }
-                    
-                    $AvgBTCHour = If ((($CurDate - ($BalanceObjectS[0].Date)).TotalHours) -ge 1) {(($BalanceObject.total_earned - $BalanceObjectS[0].total_earned) / ($CurDate - ($BalanceObjectS[0].Date)).TotalHours)} else {$Growth1}
 
-                    $EarningsObject = [PSCustomObject]@{
-                        Pool                        = $pool
-                        Wallet                      = $Wallet
-                        Date                        = $CurDate
-                        StartTime                   = $BalanceObjectS[0].Date
-                        balance                     = $BalanceObject.balance
-                        unsold                      = $BalanceObject.unsold
-                        total_unpaid                = $BalanceObject.total_unpaid
-                        total_paid                  = $BalanceObject.total_paid
-                        total_earned                = $BalanceObject.total_earned
-                        currency                    = $BalanceObject.currency
-                        GrowthSinceStart            = $BalanceObject.total_earned - $BalanceObjectS[0].total_earned
-                        Growth1                     = $Growth1
-                        Growth6                     = $Growth6
-                        Growth24                    = $Growth24
-                        AvgHourlyGrowth             = $AvgBTCHour
-                        BTCD                        = $AvgBTCHour*24
-                        EstimatedEndDayGrowth       = If ((($CurDate - ($BalanceObjectS[0].Date)).TotalHours) -ge 1) {($AvgBTCHour * ((Get-Date -Hour 0 -Minute 00 -Second 00).AddDays(1).AddSeconds(-1) - $CurDate).Hours)} else {$Growth1 * ((Get-Date -Hour 0 -Minute 00 -Second 00).AddDays(1).AddSeconds(-1) - $CurDate).Hours}
-                        EstimatedPayDate            = if ($PaymentThreshold){IF ($BalanceObject.balance -lt $PaymentThreshold) {If ($AvgBTCHour -gt 0.0000000000000001) {$CurDate.AddHours(($PaymentThreshold - $BalanceObject.balance) / ($AvgBTCHour))} Else {"Unknown"}} else {"Next Payout !"}}else{"Unknown"}
-                        TrustLevel                  = if(($CurDate - ($BalanceObjectS[0].Date)).TotalMinutes -le 360){($CurDate - ($BalanceObjectS[0].Date)).TotalMinutes/360}else{1}
-                        PaymentThreshold            = $PaymentThreshold
-                        TotalHours                  = ($CurDate - ($BalanceObjectS[0].Date)).TotalHours
-                    }
-                    # "$($EarningsObject.Pool): $($EarningsObject.balance)" | out-host
+                    If ($TempBalanceData.$TotalJson -gt 0){
+                        $BalanceData = $TempBalanceData
+                        $AllBalanceObjectS += [PSCustomObject]@{
+                                Pool            = $Pool
+                                Date            = $CurDate
+                                balance         = $BalanceData.$BalanceJson
+                                unsold          = $BalanceData.unsold
+                                total_unpaid    = $BalanceData.total_unpaid
+                                total_paid      = $BalanceData.total_paid
+                                total_earned    = $BalanceData.$TotalJson
+                                currency        = $BalanceData.currency
+                            }
+                        $BalanceObjectS = $AllBalanceObjectS | ? {$_.Pool -eq $Pool}
+                        $BalanceObject = $BalanceObjectS[$BalanceOjectS.Count-1]
+                        If ((($CurDate - ($BalanceObjectS[0].Date)).TotalMinutes) -eq 0) {$CurDate = $CurDate.AddMinutes(1)}
+                        
 
-                    if (!$Variables.Earnings) {$Variables | Add-Member -Force @{Earnings = @()}}
-                    $EarningsTemp = @($Variables.Earnings | ? {$_.Pool -ne $Pool}).Clone()
-                    $EarningsTemp +=  $EarningsObject 
-                    $Variables.Earnings = $EarningsTemp.Clone()
 
-                    if ($EarningsTrackerConfig.EnableLog){$EarningsObject | Export-Csv -NoTypeInformation -Append ".\Logs\EarningTrackerLog.csv"}
+                        If ((($CurDate - ($BalanceObjectS[0].Date)).TotalDays) -ge 1) {
+                            $Growth1 = $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date -ge $CurDate.AddHours(-1)}).total_earned | measure -Minimum).Minimum
+                            $Growth6 = $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date -ge $CurDate.AddHours(-6)}).total_earned | measure -Minimum).Minimum
+                            $Growth24 = $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date -ge $CurDate.AddDays(-1)}).total_earned | measure -Minimum).Minimum
+                        }
+                        If ((($CurDate - ($BalanceObjectS[0].Date)).TotalDays) -lt 1) {
+                            $Growth1 = $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date -ge $CurDate.AddHours(-1)}).total_earned | measure -Minimum).Minimum
+                            $Growth6 = $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date -ge $CurDate.AddHours(-6)}).total_earned | measure -Minimum).Minimum
+                            $Growth24 = (($BalanceObject.total_earned - $BalanceObjectS[0].total_earned) / ($CurDate - ($BalanceObjectS[0].Date)).TotalHours)*24
+                        }
+                        If ((($CurDate - ($BalanceObjectS[0].Date)).TotalHours) -lt 6) {
+                            $Growth1 = $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date -ge $CurDate.AddHours(-1)}).total_earned | measure -Minimum).Minimum
+                            $Growth6 = (($BalanceObject.total_earned - $BalanceObjectS[0].total_earned) / ($CurDate - ($BalanceObjectS[0].Date)).TotalHours)*6
+                        }
+                        If ((($CurDate - ($BalanceObjectS[0].Date)).TotalHours) -lt 1) {
+                            $Growth1 = (($BalanceObject.total_earned - $BalanceObjectS[0].total_earned) / ($CurDate - ($BalanceObjectS[0].Date)).TotalMinutes)*60
+                        }
+                        
+                        $AvgBTCHour = If ((($CurDate - ($BalanceObjectS[0].Date)).TotalHours) -ge 1) {(($BalanceObject.total_earned - $BalanceObjectS[0].total_earned) / ($CurDate - ($BalanceObjectS[0].Date)).TotalHours)} else {$Growth1}
 
-                    If (Test-Path ".\Logs\DailyEarnings.csv") {
-                        $DailyEarnings = Import-Csv ".\Logs\DailyEarnings.csv" # Add filter on mw # days from config.
-                        If ($DailyEarnings | ? {$_.Date -eq $CurDate.ToString("MM/dd/yyyy") -and $_.Pool -eq $Pool}) {
-                            $DailyEarnings | select Date,Pool,
-                                @{Name="DailyEarnings";Expression={
-                                    If ($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) {
-                                        If ($_.PrePaimentDayValue -gt 0) {
-                                            #Paiment occured
-                                            ($_.PrePaimentDayValue - $_.FirstDayValue) + ($BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date.DayOfYear -eq $CurDate.DayOfYear}).total_earned | measure -minimum).minimum)
-                                        } else {
-                                            $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date.DayOfYear -eq $CurDate.DayOfYear}).total_earned | measure -minimum).minimum
-                                        }
-                                    } else {$_.DailyEarnings} 
-                                }},
-                                FirstDayDate,
-                                FirstDayValue,
-                                @{Name="LastDayDate";Expression={
-                                    If ($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) {
-                                        $BalanceObject.Date
-                                    } else {$_.LastDayDate} 
-                                }},
-                                @{Name="LastDayValue";Expression={
-                                    If ($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) {
-                                        $BalanceObject.total_earned
-                                    } else {$_.LastDayValue} 
-                                }},
-                                @{Name="PrePaimentDayValue";Expression={
-                                    If (($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) -and ($BalanceObject.total_earned -lt ($BalanceObjectS[$BalanceObjectS.Count-2].total_earned/2))) {
-                                        $BalanceObjectS[$BalanceObjectS.Count-2].total_earned
-                                    } else {$_.PrePaimentDayValue} 
-                                }},
-                                @{Name="Balance";Expression={
-                                    If ($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) {
-                                        $BalanceObject.balance
-                                    } else {$_.Balance} 
-                                }},
-                                @{Name="BTCD";Expression={
-                                    If ($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) {
-                                        $BalanceObject.Growth24
-                                    } else {$_.BTCD} 
-                                }} | Export-Csv ".\Logs\DailyEarnings.csv" -NoTypeInformation
+                        $EarningsObject = [PSCustomObject]@{
+                            Pool                        = $pool
+                            Wallet                      = $Wallet
+                            Date                        = $CurDate
+                            StartTime                   = $BalanceObjectS[0].Date
+                            balance                     = $BalanceObject.balance
+                            unsold                      = $BalanceObject.unsold
+                            total_unpaid                = $BalanceObject.total_unpaid
+                            total_paid                  = $BalanceObject.total_paid
+                            total_earned                = $BalanceObject.total_earned
+                            currency                    = $BalanceObject.currency
+                            GrowthSinceStart            = $BalanceObject.total_earned - $BalanceObjectS[0].total_earned
+                            Growth1                     = $Growth1
+                            Growth6                     = $Growth6
+                            Growth24                    = $Growth24
+                            AvgHourlyGrowth             = $AvgBTCHour
+                            BTCD                        = $AvgBTCHour*24
+                            EstimatedEndDayGrowth       = If ((($CurDate - ($BalanceObjectS[0].Date)).TotalHours) -ge 1) {($AvgBTCHour * ((Get-Date -Hour 0 -Minute 00 -Second 00).AddDays(1).AddSeconds(-1) - $CurDate).Hours)} else {$Growth1 * ((Get-Date -Hour 0 -Minute 00 -Second 00).AddDays(1).AddSeconds(-1) - $CurDate).Hours}
+                            EstimatedPayDate            = if ($PaymentThreshold){IF ($BalanceObject.balance -lt $PaymentThreshold) {If ($AvgBTCHour -gt 0.0000000000000001) {$CurDate.AddHours(($PaymentThreshold - $BalanceObject.balance) / ($AvgBTCHour))} Else {"Unknown"}} else {"Next Payout !"}}else{"Unknown"}
+                            TrustLevel                  = if(($CurDate - ($BalanceObjectS[0].Date)).TotalMinutes -le 360){($CurDate - ($BalanceObjectS[0].Date)).TotalMinutes/360}else{1}
+                            PaymentThreshold            = $PaymentThreshold
+                            TotalHours                  = ($CurDate - ($BalanceObjectS[0].Date)).TotalHours
+                        }
+                        # "$($EarningsObject.Pool): $($EarningsObject.balance)" | out-host
+
+                        if (!$Variables.Earnings) {$Variables | Add-Member -Force @{Earnings = @()}}
+                        $EarningsTemp = @($Variables.Earnings | ? {$_.Pool -ne $Pool}).Clone()
+                        $EarningsTemp +=  $EarningsObject 
+                        $Variables.Earnings = $EarningsTemp.Clone()
+
+                        if ($EarningsTrackerConfig.EnableLog){$EarningsObject | Export-Csv -NoTypeInformation -Append ".\Logs\EarningTrackerLog.csv"}
+
+                        If (Test-Path ".\Logs\DailyEarnings.csv") {
+                            $DailyEarnings = Import-Csv ".\Logs\DailyEarnings.csv" # Add filter on mw # days from config.
+                            If ($DailyEarnings | ? {$_.Date -eq $CurDate.ToString("MM/dd/yyyy") -and $_.Pool -eq $Pool}) {
+                                $DailyEarnings | select Date,Pool,
+                                    @{Name="DailyEarnings";Expression={
+                                        If ($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) {
+                                            If ($_.PrePaimentDayValue -gt 0) {
+                                                #Paiment occured
+                                                ($_.PrePaimentDayValue - $_.FirstDayValue) + ($BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date.DayOfYear -eq $CurDate.DayOfYear}).total_earned | measure -minimum).minimum)
+                                            } else {
+                                                $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date.DayOfYear -eq $CurDate.DayOfYear}).total_earned | measure -minimum).minimum
+                                            }
+                                        } else {$_.DailyEarnings} 
+                                    }},
+                                    FirstDayDate,
+                                    FirstDayValue,
+                                    @{Name="LastDayDate";Expression={
+                                        If ($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) {
+                                            $BalanceObject.Date
+                                        } else {$_.LastDayDate} 
+                                    }},
+                                    @{Name="LastDayValue";Expression={
+                                        If ($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) {
+                                            $BalanceObject.total_earned
+                                        } else {$_.LastDayValue} 
+                                    }},
+                                    @{Name="PrePaimentDayValue";Expression={
+                                        If (($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) -and ($BalanceObject.total_earned -lt ($BalanceObjectS[$BalanceObjectS.Count-2].total_earned/2))) {
+                                            $BalanceObjectS[$BalanceObjectS.Count-2].total_earned
+                                        } else {$_.PrePaimentDayValue} 
+                                    }},
+                                    @{Name="Balance";Expression={
+                                        If ($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) {
+                                            $BalanceObject.balance
+                                        } else {$_.Balance} 
+                                    }},
+                                    @{Name="BTCD";Expression={
+                                        If ($_.Date -eq ($CurDate.ToString("MM/dd/yyyy")) -and $_.Pool -eq $Pool) {
+                                            $BalanceObject.Growth24
+                                        } else {$_.BTCD} 
+                                    }} | Export-Csv ".\Logs\DailyEarnings.csv" -NoTypeInformation
+                            } else {
+                                $DailyEarnings = [PSCustomObject]@{
+                                    Date                = $CurDate.ToString("MM/dd/yyyy")
+                                    Pool                = $Pool
+                                    DailyEarnings       = $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date.DayOfYear -eq $CurDate.DayOfYear}).total_earned | measure -minimum).minimum
+                                    FirstDayDate        = $BalanceObject.Date
+                                    FirstDayValue       = $BalanceObject.total_earned
+                                    LastDayDate         = $BalanceObject.Date
+                                    LastDayValue        = $BalanceObject.total_earned
+                                    PrePaimentDayValue  = 0
+                                    Balance             = $BalanceObject.Balance
+                                    BTCD                = $BalanceObject.Growth24
+                                }
+                                 $DailyEarnings | Export-Csv ".\Logs\DailyEarnings.csv" -NoTypeInformation -Append
+                            }
+                               
                         } else {
                             $DailyEarnings = [PSCustomObject]@{
                                 Date                = $CurDate.ToString("MM/dd/yyyy")
@@ -251,35 +268,20 @@ while ($true) {
                                 Balance             = $BalanceObject.Balance
                                 BTCD                = $BalanceObject.Growth24
                             }
-                             $DailyEarnings | Export-Csv ".\Logs\DailyEarnings.csv" -NoTypeInformation -Append
+                            $DailyEarnings | Export-Csv ".\Logs\DailyEarnings.csv" -NoTypeInformation
                         }
-                           
-                    } else {
-                        $DailyEarnings = [PSCustomObject]@{
-                            Date                = $CurDate.ToString("MM/dd/yyyy")
-                            Pool                = $Pool
-                            DailyEarnings       = $BalanceObject.total_earned - (($BalanceObjectS | ? {$_.Date.DayOfYear -eq $CurDate.DayOfYear}).total_earned | measure -minimum).minimum
-                            FirstDayDate        = $BalanceObject.Date
-                            FirstDayValue       = $BalanceObject.total_earned
-                            LastDayDate         = $BalanceObject.Date
-                            LastDayValue        = $BalanceObject.total_earned
-                            PrePaimentDayValue  = 0
-                            Balance             = $BalanceObject.Balance
-                            BTCD                = $BalanceObject.Growth24
-                        }
-                        $DailyEarnings | Export-Csv ".\Logs\DailyEarnings.csv" -NoTypeInformation
+                        rv DailyEarnings
+                        
+                        # Some pools do reset "Total" after payment (zpool)
+                        # Results in showing bad negative earnings
+                        # Detecting if current is more than 50% less than previous and reset history if so
+                        If ($BalanceObject.total_earned -lt ($BalanceObjectS[$BalanceObjectS.Count-2].total_earned/2)){$AllBalanceObjectS=$AllBalanceObjectS | ? {$_.Pool -ne $Pool};$AllBalanceObjectS += $BalanceObject}
+                        rv TempBalanceData
+                        } #else {$Pool | Out-Host} #else {return}
                     }
-                    rv DailyEarnings
-                    
-                    # Some pools do reset "Total" after payment (zpool)
-                    # Results in showing bad negative earnings
-                    # Detecting if current is more than 50% less than previous and reset history if so
-                    If ($BalanceObject.total_earned -lt ($BalanceObjectS[$BalanceObjectS.Count-2].total_earned/2)){$AllBalanceObjectS=$AllBalanceObjectS | ? {$_.Pool -ne $Pool};$AllBalanceObjectS += $BalanceObject}
-                    rv TempBalanceData
-                    } #else {$Pool | Out-Host} #else {return}
-                }
+            }
         }
-    }
+    }    
         
         If ($AllBalanceObjectS.Count -gt 1) {$AllBalanceObjectS = $AllBalanceObjectS | ? {$_.Date -ge $CurDate.AddDays(-1).AddHours(-1)}}
         # Save data only at defined interval. Limit disk access

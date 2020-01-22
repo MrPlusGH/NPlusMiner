@@ -764,6 +764,14 @@ $CycleTime = Measure-Command -Expression {
         }
     # }
 
+    # Clean UP Miners list every 12 hours to avoid useless increasing list in memory
+    If ((get-date).Hour % 12 -eq 0 -and -not $ActiveMinerProgramsCleanedUp) {
+        $Variables.ActiveMinerPrograms = $Variables.ActiveMinerPrograms | Where {$_.Status -eq "Running"}
+        $ActiveMinerProgramsCleanedUp = $True
+    } else {
+        $ActiveMinerProgramsCleanedUp = $False
+    }
+
     <#
      For some reason (need to investigate) $Variables.ActiveMinerPrograms.psobject.TypeNames
      Inflates adding several lines at each loop and causing a memory leak after log runtime

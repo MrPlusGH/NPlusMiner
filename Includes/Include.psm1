@@ -595,13 +595,8 @@ function Get-SubScriptContent {
             $Name = $_.BaseName
             $FileName = $_.Name
             if ($_.Extension -eq ".ps1") {
-                Try{
-                    &$_.FullName | ForEach-Object {$Content.Add([PSCustomObject]@{Name = $Name; Content = $_}) > $null }
-                   # &$_.FullName | ForEach-Object {$Content += [PSCustomObject]@{Name = $Name; Content = $_} }
-                } Catch {
-                    $Variables.StatusText = "Error in: $($_.FullName)"
-                    $Variables.StatusText = $_.Exception.Message
-                }
+                &$_.FullName | ForEach-Object {$Content.Add([PSCustomObject]@{Name = $Name; Content = $_}) > $null }
+               # &$_.FullName | ForEach-Object {$Content += [PSCustomObject]@{Name = $Name; Content = $_} }
             }
         }
     $Content
@@ -1568,10 +1563,6 @@ Function Invoke-ProxiedWebRequest {
         }
     }
     
-    if ($Request.Content.Length -ne 0) {
-        $Request
-    } else {
-        Throw "Web request failed: $URi"
-    }
+    $Request
     
 }

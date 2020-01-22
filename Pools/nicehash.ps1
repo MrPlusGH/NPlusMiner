@@ -3,11 +3,12 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoa
 try {
     $Request = Invoke-ProxiedWebRequest "https://api2.nicehash.com/main/api/v2/public/simplemultialgo/info/" | ConvertFrom-Json 
     $RequestAlgodetails = Invoke-ProxiedWebRequest "https://api2.nicehash.com/main/api/v2/mining/algorithms/" | ConvertFrom-Json 
-    $Request.miningAlgorithms | foreach {$Algo = $_.Algorithm ; $_ | Add-Member -force @{algodetails = $RequestAlgodetails.miningAlgorithms | ? {$_.Algorithm -eq $Algo}}}
 }
 catch { return }
 
-if (-not $Request) {return}
+if (-not $Request.miningAlgorithms -or -not $RequestAlgodetails.miningAlgorithms) {return}
+
+$Request.miningAlgorithms | foreach {$Algo = $_.Algorithm ; $_ | Add-Member -force @{algodetails = $RequestAlgodetails.miningAlgorithms | ? {$_.Algorithm -eq $Algo}}}
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 $Fees = 5
@@ -47,7 +48,7 @@ $Locations | ForEach-Object {
             [PSCustomObject]@{
                 Algorithm     = $NiceHash_Algorithm
                 Info          = $NiceHash_Coin
-                Price         = $Stat.Live*$PoolConf.PricePenaltyFactor
+                Price         = $Stat."Minute_5"*$PoolConf.PricePenaltyFactor
                 StablePrice   = $Stat.Week
                 MarginOfError = $Stat.Week_Fluctuation
                 Protocol      = "stratum+tcp"
@@ -62,7 +63,7 @@ $Locations | ForEach-Object {
             [PSCustomObject]@{
                 Algorithm     = $NiceHash_Algorithm
                 Info          = $NiceHash_Coin
-                Price         = $Stat.Live*$PoolConf.PricePenaltyFactor
+                Price         = $Stat."Minute_5"*$PoolConf.PricePenaltyFactor
                 StablePrice   = $Stat.Week
                 MarginOfError = $Stat.Week_Fluctuation
                 Protocol      = "stratum+ssl"
