@@ -285,8 +285,13 @@ $CycleTime = Measure-Command -Expression {
             $Variables | Add-Member -Force @{Rates = $Rates}
         } catch {$Variables.StatusText = "Minor error - Failed to load BTC rate.."}
         #Load the Stats
-        $Stats = [PSCustomObject]@{}
-        if(Test-Path "Stats"){Get-ChildItemContent "Stats" | ForEach {$Stats | Add-Member $_.Name $_.Content}}
+        if(Test-Path "Stats"){
+            $StatsLoad = Get-ChildItemContent "Stats" 
+            If ($StatsLoad) {
+                $Stats = [PSCustomObject]@{}
+                $StatsLoad | ForEach {$Stats | Add-Member $_.Name $_.Content}
+            }
+        }
         #Load information about the Pools
         $Variables.StatusText = "Loading pool stats.."
         $PoolFilter = @()
