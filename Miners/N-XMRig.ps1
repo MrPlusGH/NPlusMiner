@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-XMRig\xmrig.exe"
-$Uri = "https://github.com/xmrig/xmrig/releases/download/v5.5.1/xmrig-5.5.1-msvc-cuda10_1-win64.zip"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/CPU-XMRig/xmrig-5.4.0-msvc-cuda10_1-win64.zip"
 
 $Commands = [PSCustomObject]@{
     # "cryptonightr"        = " -a cryptonight/r --nicehash" #cryptonight/r
@@ -16,8 +16,7 @@ $Commands = [PSCustomObject]@{
     "cryptonight_heavyx"    = " -a cn/double --nicehash" #cryptonight_heavyx
     "cryptonight_saber"     = " -a cn-heavy/0 --nicehash" #cryptonightGPU
     "cryptonight_fast"      = " -a cn/half --nicehash" #cryptonightFast
-    "cryptonight_haven"     = " -a cn-heavy/xhv --nicehash" #cryptonightFast
-    # "chukwa"                = " -a argon2/chukwa --nicehash" #cryptonightFast
+    "cryptonight_haven"      = " -a cn-heavy/xhv --nicehash" #cryptonightFast
 }
  
 $Port = $Variables.NVIDIAMinerAPITCPPort #2222

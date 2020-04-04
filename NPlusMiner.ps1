@@ -110,9 +110,7 @@ Write-Host -F Yellow " Copyright and license notices must be preserved."
     $Global:Config = [hashtable]::Synchronized(@{})
     $Global:Config | Add-Member -Force @{ConfigFile = $ConfigFile}
     $Global:Variables = [hashtable]::Synchronized(@{})
-    $Global:Variables | Add-Member -Force @{RefreshNeeded = $False}
-    $Global:Variables | Add-Member -Force @{_StatusText  = [System.Collections.ArrayList]::Synchronized(@())}
-    $Global:Variables | Add-Member -Force -MemberType ScriptProperty -Name 'StatusText' -Value{ $this._StatusText;$This._StatusText = @() }  -SecondValue { If (!$this._StatusText){$this._StatusText=@()};$this._StatusText+=$args[0];$This.RefreshNeeded = $True }
+    $Global:Variables | Add-Member -Force -MemberType ScriptProperty -Name 'StatusText' -Value{ $this._StatusText;$This._StatusText = @() }  -SecondValue { If (!$this._StatusText){$this._StatusText=@()};$this._StatusText+=$args[0];$Variables | Add-Member -Force @{RefreshNeeded = $True} }
 
     # Load Branding
     If (Test-Path ".\Config\Branding.json") {
@@ -126,7 +124,7 @@ Write-Host -F Yellow " Copyright and license notices must be preserved."
         }
     }
         
-Function TimerUITick
+Function Global:TimerUITick
 {
     $TimerUI.Stop()
     # If something (pause button, idle timer) has set the RestartCycle flag, stop and start mining to switch modes immediately
@@ -202,7 +200,7 @@ Function TimerUITick
             }
 
             If ($Variables.Earnings -and $Config.TrackEarnings) {
-                $DisplayEarnings = [System.Collections.ArrayList]@($Variables.Earnings.Clone() | select @(
+                $DisplayEarnings = [System.Collections.ArrayList]@($Variables.Earnings.Values | select @(
                     @{Name="Pool";Expression={$_.Pool}},
                     @{Name="Trust";Expression={"{0:P0}" -f $_.TrustLevel}},
                     @{Name="Balance";Expression={$_.Balance}},
@@ -222,7 +220,7 @@ Function TimerUITick
             }
             
             If ($Variables.Miners) {
-                $DisplayEstimations = [System.Collections.ArrayList]@($Variables.Miners.Clone() | Select @(
+                $DisplayEstimations = [System.Collections.ArrayList]@($Variables.Miners | Select @(
                     @{Name = "Type";Expression={$_.Type}},
                     @{Name = "Miner";Expression={$_.Name}},
                     @{Name = "Algorithm";Expression={$_.HashRates.PSObject.Properties.Name}},
@@ -296,7 +294,7 @@ Function TimerUITick
                 )
                 $RunningMinersDGV.ClearSelection()
             
-                [Array] $processRunning = $Variables.ActiveMinerPrograms.Clone() | Where { $_.Status -eq "Running" }
+                [Array] $processRunning = $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" }
                 If ($ProcessRunning -eq $null){
                     # Update-Status("No miner running")
                 }
@@ -305,13 +303,13 @@ Function TimerUITick
             $Variables | Add-Member -Force @{InCycle = $False}
         
         
-            If ($Variables.Earnings -ne $Null){
-                $LabelBTCD.Text = "Avg: " +("{0:N6}" -f ($Variables.Earnings.Clone() | measure -Property Growth24 -Sum).sum) + " $([char]0x20BF)/D   |   " + ("{0:N3}" -f (($Variables.Earnings | measure -Property Growth24 -Sum).sum*1000)) + " m$([char]0x20BF)/D"
+            If ($Variables.Earnings.Values -ne $Null){
+                $LabelBTCD.Text = "Avg: " +("{0:N6}" -f ($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum) + " $([char]0x20BF)/D   |   " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000)) + " m$([char]0x20BF)/D"
                 
                 $LabelEarningsDetails.Lines = @()
-                # If ((($Variables.Earnings | measure -Property Growth1 -Sum).sum*1000*24) -lt ((($Variables.Earnings | measure -Property BTCD -Sum).sum*1000)*0.999)) {
+                # If ((($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24) -lt ((($Variables.Earnings.Values | measure -Property BTCD -Sum).sum*1000)*0.999)) {
                     # $LabelEarningsDetails.ForeColor = "Red" } else { $LabelEarningsDetails.ForeColor = "Green" }
-                $TrendSign = switch ([Math]::Round((($Variables.Earnings | measure -Property Growth1 -Sum).sum*1000*24),3) - [Math]::Round((($Variables.Earnings | measure -Property Growth6 -Sum).sum*1000*4),3)) {
+                $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4),3)) {
                         {$_ -eq 0}
                             {"="}
                         {$_ -gt 0}
@@ -319,8 +317,8 @@ Function TimerUITick
                         {$_ -lt 0}
                             {"<"}
                     }
-                $LabelEarningsDetails.Lines += "Last  1h: " + ("{0:N3}" -f (($Variables.Earnings | measure -Property Growth1 -Sum).sum*1000*24)) + " m$([char]0x20BF)/D " + $TrendSign
-                $TrendSign = switch ([Math]::Round((($Variables.Earnings | measure -Property Growth6 -Sum).sum*1000*4),3) - [Math]::Round((($Variables.Earnings | measure -Property Growth24 -Sum).sum*1000),3)) {
+                $LabelEarningsDetails.Lines += "Last  1h: " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24)) + " m$([char]0x20BF)/D " + $TrendSign
+                $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3)) {
                         {$_ -eq 0}
                             {"="}
                         {$_ -gt 0}
@@ -328,8 +326,8 @@ Function TimerUITick
                         {$_ -lt 0}
                             {"<"}
                     }
-                $LabelEarningsDetails.Lines += "Last  6h: " + ("{0:N3}" -f (($Variables.Earnings | measure -Property Growth6 -Sum).sum*1000*4)) + " m$([char]0x20BF)/D " + $TrendSign
-                $TrendSign = switch ([Math]::Round((($Variables.Earnings | measure -Property Growth24 -Sum).sum*1000),3) - [Math]::Round((($Variables.Earnings | measure -Property BTCD -Sum).sum*1000*0.96),3)) {
+                $LabelEarningsDetails.Lines += "Last  6h: " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4)) + " m$([char]0x20BF)/D " + $TrendSign
+                $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property BTCD -Sum).sum*1000*0.96),3)) {
                         {$_ -eq 0}
                             {"="}
                         {$_ -gt 0}
@@ -337,7 +335,7 @@ Function TimerUITick
                         {$_ -lt 0}
                             {"<"}
                     }
-                $LabelEarningsDetails.Lines += "Last 24h: " + ("{0:N3}" -f (($Variables.Earnings | measure -Property Growth24 -Sum).sum*1000)) + " m$([char]0x20BF)/D " + $TrendSign
+                $LabelEarningsDetails.Lines += "Last 24h: " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000)) + " m$([char]0x20BF)/D " + $TrendSign
                 rv TrendSign
             } else {
                 $LabelBTCD.Text = "Waiting data from pools."
@@ -364,7 +362,7 @@ Function TimerUITick
                     "e" {$Config.TrackEarnings=-not $Config.TrackEarnings}
             }}}
             Clear-Host
-            [Array] $processesIdle = $Variables.ActiveMinerPrograms.Clone() | Where { $_.Status -eq "Idle" }
+            [Array] $processesIdle = $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Idle" }
             IF ($Config.UIStyle -eq "Full"){
                 if ($processesIdle.Count -gt 0) {
                     Write-Host "Idle: " $processesIdle.Count
@@ -380,8 +378,8 @@ Function TimerUITick
             Write-Host "      1BTC = $($Variables.Rates.($Config.Currency)) $($Config.Currency)"
             # Get and display earnings stats
             If ($Variables.Earnings -and $Config.TrackEarnings) {
-                # $Variables.Earnings | select Pool,Wallet,Balance,AvgDailyGrowth,EstimatedPayDate,TrustLevel | ft *
-                $Variables.Earnings.Clone() | foreach {
+                # $Variables.Earnings.Values | select Pool,Wallet,Balance,AvgDailyGrowth,EstimatedPayDate,TrustLevel | ft *
+                $Variables.Earnings.Values | foreach {
                     Write-Host "+++++" $_.Wallet -B DarkBlue -F DarkGray -NoNewline; Write-Host " " $_.pool "Balance="$_.balance ("{0:P0}" -f ($_.balance/$_.PaymentThreshold))
                     Write-Host "Trust Level                     " ("{0:P0}" -f $_.TrustLevel) -NoNewline; Write-Host -F darkgray " Avg based on [" ("{0:dd\ \d\a\y\s\ hh\:mm}" -f ($_.Date - $_.StartTime))"]"
                     Write-Host "Average BTC/H                    BTC =" ("{0:N8}" -f $_.AvgHourlyGrowth) "| mBTC =" ("{0:N3}" -f ($_.AvgHourlyGrowth*1000))
@@ -413,7 +411,7 @@ Function TimerUITick
                 
                 
                     #Display active miners list
-                [Array] $processRunning = $Variables.ActiveMinerPrograms.Clone() | Where { $_.Status -eq "Running" }
+                [Array] $processRunning = $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" }
                 Write-Host "Running:"
                 $processRunning | Sort {if($_.Process -eq $null){[DateTime]0}else{$_.Process.StartTime}} | Format-Table -Wrap (
                     @{Label = "Speed"; Expression={$_.HashRate | ForEach {"$($_ | ConvertTo-Hash)/s"}}; Align='right'}, 
@@ -422,7 +420,7 @@ Function TimerUITick
                     @{Label = "Cnt"; Expression={Switch($_.Activated){0 {"Never"} 1 {"Once"} Default {"$_"}}}}, 
                     @{Label = "Command"; Expression={"$($_.Path.TrimStart((Convert-Path ".\"))) $($_.Arguments)"}}
                 ) | Out-Host
-                [Array] $processesFailed = $Variables.ActiveMinerPrograms.Clone() | Where { $_.Status -eq "Failed" }
+                [Array] $processesFailed = $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Failed" }
                 if ($processesFailed.Count -gt 0) {
                     Write-Host -ForegroundColor Red "Failed: " $processesFailed.Count
                     $processesFailed | Sort {if($_.Process -eq $null){[DateTime]0}else{$_.Process.StartTime}} | Format-Table -Wrap (
@@ -436,7 +434,7 @@ Function TimerUITick
                 Write-Host "--------------------------------------------------------------------------------"
             
             } else {
-                [Array] $processRunning = $Variables.ActiveMinerPrograms.Clone() | Where { $_.Status -eq "Running" }
+                [Array] $processRunning = $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" }
                 Write-Host "Running:"
                 $processRunning | Sort {if($_.Process -eq $null){[DateTime]0}else{$_.Process.StartTime}} | Format-Table -Wrap (
                     @{Label = "Speed"; Expression={$_.HashRate | ForEach {"$($_ | ConvertTo-Hash)/s"}}; Align='right'}, 
@@ -449,7 +447,6 @@ Function TimerUITick
             }
             Write-Host -ForegroundColor Yellow "Last refresh: $(Get-Date)   |   Next refresh: $((Get-Date).AddSeconds($Variables.TimeToSleep))"
             Update-Status($Variables.StatusText)
-            $Variables.EndLoop = $False
         }
         if (Test-Path ".\EndUIRefresh.ps1"){Invoke-Expression (Get-Content ".\EndUIRefresh.ps1" -Raw)}
 
@@ -465,29 +462,26 @@ Function Form_Load
 
     $MainForm.Text = "$($Branding.ProductLable) $($Variables.CurrentVersion)"
     $LabelBTCD.Text = "$($Branding.ProductLable) $($Variables.CurrentVersion)"
-    $MainForm.Number = 0 
-    $TimerUI.Interval = 50
-    $TimerUI.Stop()
+    $MainForm.Number = 0
     $TimerUI.Add_Tick({
         # Timer never disposes objects until it is disposed
-        # $MainForm.Number = $MainForm.Number + 1
-        # $TimerUI.Stop()
-        # If ($MainForm.Number -gt 18000) { # 15 min
-            # Write-Host -B R "Releasing Timer"
-            # Sleep 1
-            # $MainForm.Number = 0
-            # $TimerUI.Stop()
-            # $TimerUI.Remove_Tick({TimerUITick})
-            # $TimerUI.Dispose()
-            # Sleep 1
-            # $TimerUI = New-Object System.Windows.Forms.Timer
-            # $TimerUI.Add_Tick({TimerUITick})
-            # Sleep 1
-            # $TimerUI.Start()
-        # }
+        $MainForm.Number = $MainForm.Number + 1
+        $TimerUI.Stop()
         TimerUITick
-        # $TimerUI.Start()
+        If ($MainForm.Number -gt 6000) {
+            # Write-Host -B R "Releasing Timer"
+            $MainForm.Number = 0
+            # $TimerUI.Stop()
+            $TimerUI.Remove_Tick({TimerUITick})
+            $TimerUI.Dispose()
+            $TimerUI = New-Object System.Windows.Forms.Timer
+            $TimerUI.Add_Tick({TimerUITick})
+            # $TimerUI.Start()
+        }
+        $TimerUI.Start()
     })
+    $TimerUI.Interval = 50
+    $TimerUI.Stop()
         
         If ($CheckBoxConsole.Checked) {
             $null = $ShowWindow::ShowWindowAsync($ConsoleHandle, 0)
@@ -557,7 +551,6 @@ Add-Type -AssemblyName System.Windows.Forms
 If (Test-Path ".\Logs\switching.log"){$SwitchingArray = [System.Collections.ArrayList]@(Import-Csv ".\Logs\switching.log" | Select -Last 14)}
 
 $MainForm = New-Object system.Windows.Forms.Form
-$MainForm | Add-Member -Name number -Value 0 -MemberType NoteProperty
 $NPMIcon = New-Object system.drawing.icon (".\Includes\NPM.ICO")
 $MainForm.Icon                  = $NPMIcon
 $MainForm.ClientSize            = '740,450' # best to keep under 800,600
@@ -1932,6 +1925,8 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
 
     # ***
 
+$MainForm | Add-Member -Name number -Value 0 -MemberType NoteProperty
+
 $TimerUI = New-Object System.Windows.Forms.Timer
 # $TimerUI.Add_Tick({TimerUI_Tick})
 
@@ -2035,7 +2030,7 @@ $ButtonStart.Add_Click( {
             $Variables | add-Member -Force @{MainPath = (Split-Path $script:MyInvocation.MyCommand.Path)}
             $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
 
-            # Start-IdleTracking
+            Start-IdleTracking
 
             If ($Config.MineWhenIdle) {
                 # Disable the pause button - pausing controlled by idle timer

@@ -26,13 +26,14 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
       $Divisor = 1000000000 * [Double]$Request.$_.mbtc_mh_factor
 
     switch ($PoolAlgorithm) {
-        "equihash125" { $Divisor *= 2 } #temp fix
-        "equihash144" { $Divisor *= 2 } #temp fix
-        "equihash192" { $Divisor *= 2 } #temp fix
+        # "equihash125" { $Divisor *= 2 } #temp fix
+        # "equihash144" { $Divisor *= 2 } #temp fix
+        # "equihash192" { $Divisor *= 2 } #temp fix
         "verushash"   { $Divisor *= 2 } #temp fix
     }
 
-    $Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))
+    if ((Get-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))}
+    else {$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))}
 
     $PwdCurr = if ($PoolConf.PwdCurrency) {$PoolConf.PwdCurrency}else {$Config.Passwordcurrency}
     $WorkerName = If ($PoolConf.WorkerName -like "ID=*") {$PoolConf.WorkerName} else {"ID=$($PoolConf.WorkerName)"}

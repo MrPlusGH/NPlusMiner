@@ -69,8 +69,7 @@ Function Global:RegisterLoaded ($File) {
 }
     
 Function Global:IsLoaded ($File) {
-    # $Variables.StatusText = "IsLoaded CALL - $($file) - $((Get-PSCallStack).Command[1])"
-    $Hash = $Variables.FilesHash.Where({$_.File -eq (Resolve-Path $File).Path}).Hash
+    $Hash = (Get-FileHash (Resolve-Path $File).Path).hash
     If (Test-Path function::$Hash) {
         $True
     }
@@ -283,11 +282,11 @@ Function Start-Mining {
                     # Update the UI every 30 seconds, and the Last 1/6/24hr and text window every 2 minutes
                     for ($i = 0; $i -lt 4; $i++) {
                         if ($i -eq 3) {
-                            $Variables.EndLoop = $True
+                            $Variables | Add-Member -Force @{EndLoop = $True}
                             Update-Monitoring
                         }
                         else {
-                            $Variables.EndLoop = $False
+                            $Variables | Add-Member -Force @{EndLoop = $False}
                         }
 
                         $Variables.StatusText = "Mining paused"
@@ -595,13 +594,8 @@ function Get-SubScriptContent {
             $Name = $_.BaseName
             $FileName = $_.Name
             if ($_.Extension -eq ".ps1") {
-                Try{
-                    &$_.FullName | ForEach-Object {$Content.Add([PSCustomObject]@{Name = $Name; Content = $_}) > $null }
-                   # &$_.FullName | ForEach-Object {$Content += [PSCustomObject]@{Name = $Name; Content = $_} }
-                } Catch {
-                    $Variables.StatusText = "Error in: $($_.FullName)"
-                    $Variables.StatusText = $_.Exception.Message
-                }
+               &$_.FullName | ForEach-Object {$Content.Add([PSCustomObject]@{Name = $Name; Content = $_}) > $null }
+               # &$_.FullName | ForEach-Object {$Content += [PSCustomObject]@{Name = $Name; Content = $_} }
             }
         }
     $Content
@@ -891,12 +885,21 @@ function Get-HashRate {
                 }
             }
 
-            "NBMinerdual" {
+            "NBMinerdualEaglesong" {
                 $Request = Invoke_httpRequest $Server $Port "/api/v1/status" 5
                 if ($Request) {
                     $Data = $Request | ConvertFrom-Json
                     $HashRate = [double]$Data.miner.total_hashrate_raw
                     $HashRate_Dual = [double]$Data.miner.total_hashrate2_raw
+                }
+            }
+
+            "NBMinerdualHandshake" {
+                $Request = Invoke_httpRequest $Server $Port "/api/v1/status" 5
+                if ($Request) {
+                    $Data = $Request | ConvertFrom-Json
+                    $HashRate = [double]$Data.miner.total_hashrate2_raw
+                    $HashRate_Dual = [double]$Data.miner.total_hashrate_raw
                 }
             }
 
@@ -1543,35 +1546,19 @@ Function Invoke-ProxiedWebRequest {
     If ($Config.Server_Client -and $Variables.ServerRunning -and -not $ByPassServer -and -not $OutFile) {
         Try {
             $ProxyURi = "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Proxy/?url=$($URi)"
-            $Request = Invoke-WebRequest $ProxyURi -Credential $Variables.ServerClientCreds -TimeoutSec $TimeoutSec -UseBasicParsing -Headers $Headers -ErrorAction SilentlyContinue
+            $Request = Invoke-WebRequest $ProxyURi -Credential $Variables.ServerClientCreds -TimeoutSec $TimeoutSec -UseBasicParsing -Headers $Headers
         } Catch {
             # $Variables.StatusText = "Proxy Request Failed - Trying Direct: $($URi)"
         }
     }
-    if ($Request.Content.Length -eq 0 -or ($Request.StatusCode -ne 200 -and $Request.StatusCode -ne 305) -and -not $OutFile) {
-        If ($Request.Content.Length -eq 0 -or $Request.StatusCode -eq 200) {
-            # $Variables.StatusText = "Proxy Request NoContent - Trying Direct: $($URi)"
-        } else {
-            # $Variables.StatusText = "Proxy Request Failed - Trying Direct: $($URi)"
-        }
+    if (!$Request.Content -or $Request.StatusCode -ne 200 -and -not $OutFile) {
         Try {
-            $Request = Invoke-WebRequest $URi -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} -ErrorAction SilentlyContinue
+            $Request = Invoke-WebRequest $URi -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"}
         } Catch {
             # $Variables.StatusText = "Direct Request Failed: $($URi)"
         }
-        if ($Request.Content.Length -eq 0 -or $Request.StatusCode -ne 200 -and -not $OutFile) {
-            If ($Request.Content.Length -eq 0 -or $Request.StatusCode -eq 204) {
-                # $Variables.StatusText = "Direct Request NoContent: $($URi)"
-            } else {
-                # $Variables.StatusText = "Direct Request Failed: $($URi)"
-            }
-        }
     }
     
-    if ($Request.Content.Length -ne 0) {
-        $Request
-    } else {
-        Throw "Web request failed: $URi"
-    }
+    $Request
     
 }

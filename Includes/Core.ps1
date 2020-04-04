@@ -26,7 +26,6 @@ version date:   20191110
 
 Function InitApplication {
     $Variables | Add-Member -Force @{SourcesHash = @()}
-    $Variables | Add-Member -Force @{EndLoop = $True}
 	$Variables | Add-Member -Force @{ProcessorCount = (Get-WmiObject -class win32_processor).NumberOfLogicalProcessors}
     
     $ServerPasswd = ConvertTo-SecureString $Config.Server_Password -AsPlainText -Force
@@ -35,24 +34,6 @@ Function InitApplication {
     $ServerClientPasswd = ConvertTo-SecureString $Config.Server_ClientPassword -AsPlainText -Force
     $ServerClientCreds = New-Object System.Management.Automation.PSCredential ($Config.Server_ClientUser, $ServerClientPasswd)
     $Variables | Add-Member -Force @{ServerClientCreds = $ServerClientCreds}
-
-    $Variables | Add-Member -Force @{FilesHash = @(
-        [PSCustomObject]@{
-            Hash = $((Get-FileHash (Resolve-Path ".\Includes\include.ps1")).Hash)
-            File = (Resolve-Path ".\Includes\include.ps1").Path 
-            Changed = $True
-        },
-        [PSCustomObject]@{
-            Hash = $((Get-FileHash (Resolve-Path ".\Includes\Core.ps1")).Hash)
-            File = (Resolve-Path ".\Includes\Core.ps1").Path 
-            Changed = $True
-        },
-        [PSCustomObject]@{
-            Hash = $((Get-FileHash (Resolve-Path ".\Includes\Server.ps1")).Hash)
-            File = (Resolve-Path ".\Includes\Server.ps1").Path 
-            Changed = $True
-        }
-    )}
 
     if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
     if (!(IsLoaded(".\Includes\Server.ps1"))) {. .\Includes\Server.ps1;RegisterLoaded(".\Includes\Server.ps1")}
@@ -95,7 +76,7 @@ Function InitApplication {
     $Variables | Add-Member -Force @{EarningsPool = ""}
     $Variables | Add-Member -Force @{BrainJobs = @()}
     $Variables | Add-Member -Force @{EarningsTrackerJobs = @()}
-    # $Variables | Add-Member -Force @{Earnings = @{}}
+    $Variables | Add-Member -Force @{Earnings = @{}}
 
 	
 	$Global:Variables | Add-Member -Force @{StartPaused = $False}
@@ -133,54 +114,47 @@ Function Start-ChildJobs {
         }
         
         # Starts Brains if necessary
-        $Config.PoolName | foreach { if (-not $Variables."BrainPlus_$($_)"){
+        $Config.PoolName | foreach { if ($_ -notin $Variables.BrainJobs.PoolName){
             $BrainPath = "$($Variables.MainPath)\BrainPlus\$($_)"
             $BrainName = (".\BrainPlus\"+$_+"\BrainPlus.ps1")
-            if ((Test-Path $BrainName) -and -not $Variables."BrainPlus_$($_)"){
+            if (Test-Path $BrainName){
                 $Variables.StatusText = "Starting BrainPlus for $($_)"
-                $Variables | Add-Member @{"BrainPlus_$($_)" = [runspacefactory]::CreateRunspace()}
-                $Variables."BrainPlus_$($_)".Open()
-                $Variables."BrainPlus_$($_)".SessionStateProxy.SetVariable('Config', $Config)
-                $Variables."BrainPlus_$($_)".SessionStateProxy.SetVariable('Variables', $Variables)
-                $Variables."BrainPlus_$($_)".SessionStateProxy.SetVariable('StatusText', $StatusText)
-                $Variables."BrainPlus_$($_)".SessionStateProxy.Path.SetLocation(($BrainPath))
-                $Variables."BrainPlus_$($_)" | Add-Member @{powershell = [powershell]::Create()}
-                $Variables."BrainPlus_$($_)".powershell.Runspace = $Variables."BrainPlus_$($_)"
-                $Variables."BrainPlus_$($_)".powershell.AddScript( { Invoke-Expression (Get-Content -Raw ".\BrainPlus.ps1") } )
-                $Variables."BrainPlus_$($_)" | Add-Member @{Handle = $Variables."BrainPlus_$($_)".powershell.BeginInvoke()}
+                $BrainJob = Start-Job -FilePath $BrainName -ArgumentList @($BrainPath)
+                $BrainJob | Add-Member -Force @{PoolName = $_}
+                $Variables.BrainJobs += $BrainJob
+                rv BrainJob
             }
         }}
-       
-       
         # Starts Earnings Tracker Job if necessary
-        if (($Config.TrackEarnings) -and (!($Variables."EarningsTracker"))) {
+        $StartDelay = 0
+        # if ($Config.TrackEarnings -and (($EarningTrackerConfig.Pools | sort) -ne ($Config.PoolName | sort))) {
+            # $Variables.StatusText = "Updating Earnings Tracker Configuration"
+            # $EarningTrackerConfig = Get-Content ".\Config\EarningTrackerConfig.json" | ConvertFrom-JSON
+            # $EarningTrackerConfig | Add-Member -Force @{"Pools" = ($Config.PoolName)}
+            # $EarningTrackerConfig | ConvertTo-JSON | Out-File ".\Config\EarningTrackerConfig.json"
+        # }
+        
+        if (($Config.TrackEarnings) -and (!($Variables.EarningsTrackerJobs))) {
+            $Params = @{
+                WorkingDirectory = ($Variables.MainPath)
+                PoolsConfig = $Config.PoolsConfig
+            }
+            $EarningsJob = Start-Job -FilePath ".\Includes\EarningsTrackerJob.ps1" -ArgumentList $Params
+            If ($EarningsJob){
                 $Variables.StatusText = "Starting Earnings Tracker"
-                $Variables | Add-Member @{"EarningsTracker" = [runspacefactory]::CreateRunspace()}
-                $Variables."EarningsTracker".Open()
-                $Variables."EarningsTracker".SessionStateProxy.SetVariable('Config', $Config)
-                $Variables."EarningsTracker".SessionStateProxy.SetVariable('Variables', $Variables)
-                $Variables."EarningsTracker".SessionStateProxy.SetVariable('StatusText', $StatusText)
-                $Variables."EarningsTracker".SessionStateProxy.Path.SetLocation(($Variables.MainPath))
-                $Variables."EarningsTracker" | Add-Member @{powershell = [powershell]::Create()}
-                $Variables."EarningsTracker".powershell.Runspace = $Variables."EarningsTracker"
-                $Variables."EarningsTracker".powershell.AddScript( { Invoke-Expression (Get-Content -Raw ".\Includes\EarningsTracker.ps1") } )
-                $Variables."EarningsTracker" | Add-Member @{Handle = $Variables."EarningsTracker".powershell.BeginInvoke()}
+                $Variables.EarningsTrackerJobs += $EarningsJob
+                rv EarningsJob
+                # Delay Start when several instances to avoid conflicts.
+            }
         }
 }
 
 Function NPMCycle {
 $CycleTime = Measure-Command -Expression {
     [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
-
-    $Variables.FilesHash | foreach {
-        $Hash = (Get-FileHash (Resolve-Path $_.File)).Hash
-        $_.Changed = ($_.Hash -ne $Hash)
-        $_.Hash = $Hash
-    }
-    
     if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1");"LoadedInclude" | out-host}
 
-    $Variables.EndLoop = $False
+    $Variables | Add-Member -Force @{EndLoop = $False}
 
         $Variables.StatusText = "Starting Cycle"
         If ($Config.Server_Client) {
@@ -220,7 +194,6 @@ $CycleTime = Measure-Command -Expression {
         
         #Activate or deactivate donation
         # if((Get-Date).AddDays(-1).AddMinutes($Config.Donate) -ge $Variables.LastDonated -and $Variables.DonateRandom.wallet -eq $Null){
-# $Variables.LastDonated  = (Get-Date).AddDays(-1).AddHours(1)       
 # $Variables.LastDonated  = (Get-Date).AddDays(-1).AddMinutes(-1)        
         if((Get-Date).AddDays(-1) -ge $Variables.LastDonated -and $Variables.DonateRandom.wallet -eq $Null){
             # Get donation addresses randomly from agreed developers list
@@ -285,13 +258,8 @@ $CycleTime = Measure-Command -Expression {
             $Variables | Add-Member -Force @{Rates = $Rates}
         } catch {$Variables.StatusText = "Minor error - Failed to load BTC rate.."}
         #Load the Stats
-        if(Test-Path "Stats"){
-            $StatsLoad = Get-ChildItemContent "Stats" 
-            If ($StatsLoad) {
-                $Stats = [PSCustomObject]@{}
-                $StatsLoad | ForEach {$Stats | Add-Member $_.Name $_.Content}
-            }
-        }
+        $Stats = [PSCustomObject]@{}
+        if(Test-Path "Stats"){Get-ChildItemContent "Stats" | ForEach {$Stats | Add-Member $_.Name $_.Content}}
         #Load information about the Pools
         $Variables.StatusText = "Loading pool stats.."
         $PoolFilter = @()
@@ -338,10 +306,10 @@ $CycleTime = Measure-Command -Expression {
         } else {
             Compare-Object $Variables.MinersHash (Get-ChildItem .\Miners\ -filter "*.ps1" | Get-FileHash) -Property "Hash","Path" | Sort "Path" -Unique | % {
                 $Variables.StatusText = "Miner Updated: $($_.Path)"
-                $UpdatedMiner =  &$_.path | select -first 1
-                $UpdatedMiner | Add-Member -Force @{Name = (Get-Item $_.Path).BaseName}
-                If ($UpdatedMiner.Path -and (Test-Path (Split-Path $UpdatedMiner.Path))) {
-                    $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" -and (Resolve-Path $_.Path).Path -eq (Resolve-Path $UpdatedMiner.Path).Path} | ForEach {
+                $NewMiner =  &$_.path | select -first 1
+                $NewMiner | Add-Member -Force @{Name = (Get-Item $_.Path).BaseName}
+                If ($NewMiner.Path -and (Test-Path (Split-Path $NewMiner.Path))) {
+                    $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" -and (Resolve-Path $_.Path).Path -eq (Resolve-Path $NewMiner.Path).Path} | ForEach {
                             if($_.Process -eq $null)
                             {
                                 $_.Status = "Failed"
@@ -361,8 +329,8 @@ $CycleTime = Measure-Command -Expression {
                             $Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit_Bias_Orig}
                     }
                     # Force re-benchmark - Deactivated
-                    # Get-ChildItem -path ".\stats\" -filter "$($UpdatedMiner.Name)_*.txt" | Remove-Item -Force -Recurse
-                    Remove-Item -Force -Recurse (Split-Path $UpdatedMiner.Path)
+                    # Get-ChildItem -path ".\stats\" -filter "$($NewMiner.Name)_*.txt" | Remove-Item -Force -Recurse
+                    Remove-Item -Force -Recurse (Split-Path $NewMiner.Path)
                 }
                 $Variables.MinersHash = Get-ChildItem .\Miners\ -filter "*.ps1" | Get-FileHash
                 $Variables.MinersHash | ConvertTo-Json | out-file ".\Config\MinersHash.json"
@@ -551,7 +519,7 @@ $CycleTime = Measure-Command -Expression {
                 $Variables.StatusText = "Miner prevents CPU mining"
             }
         # }
-
+        
         # Prevent switching during donation
         If ($Variables.DonationStart -or $Variables.DonationRunning) {
             If ($Variables.DonationRunning) {$BestMiners_Combo = $Variables.DonationBestMiners_Combo}
@@ -645,7 +613,7 @@ $CycleTime = Measure-Command -Expression {
                             }
                         }
                         # Log switching information to .\log\switching.log
-                        [pscustomobject]@{date=(get-date);Type=$_.Type;algo=$_.Algorithms;coin=$_.Coin;wallet=$_.User;username=$Config.UserName;Host=$_.host} | export-csv .\Logs\switching.log -Append -NoTypeInformation -Force
+                        [pscustomobject]@{date=(get-date);Type=$_.Type;algo=$_.Algorithms -join ',';coin=$_.Coin -join ',';wallet=$_.User -join ',';username=$Config.UserName -join ',';Host=$_.host -join ','} | export-csv .\Logs\switching.log -Append -NoTypeInformation -Force
                         If ($Variables.DonationStart) {
                             $Variables | Add-Member -Force @{ DonationStart = $False }
                             $Variables | Add-Member -Force @{ DonationRunning = $True }
@@ -769,14 +737,6 @@ $CycleTime = Measure-Command -Expression {
         }
     # }
 
-    # Clean UP Miners list every 12 hours to avoid useless increasing list in memory
-    If ((get-date).Hour % 12 -eq 0 -and -not $ActiveMinerProgramsCleanedUp) {
-        $Variables.ActiveMinerPrograms = $Variables.ActiveMinerPrograms | Where {$_.Status -eq "Running"}
-        $ActiveMinerProgramsCleanedUp = $True
-    } else {
-        $ActiveMinerProgramsCleanedUp = $False
-    }
-
     <#
      For some reason (need to investigate) $Variables.ActiveMinerPrograms.psobject.TypeNames
      Inflates adding several lines at each loop and causing a memory leak after log runtime
@@ -815,8 +775,7 @@ $CycleTime = Measure-Command -Expression {
     } else {
         $Variables.StatusText = "Waiting $($Variables.TimeToSleep) seconds... | Next refresh: $((Get-Date).AddSeconds($Variables.TimeToSleep))"
     }
-    $Variables.EndLoop = $True
-    $Variables.RefreshNeeded = $True
+    $Variables | Add-Member -Force @{EndLoop = $True}
     # Sleep $Variables.TimeToSleep
     # }
 # $Variables.BrainJobs | foreach { $_ | stop-job | remove-job }

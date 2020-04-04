@@ -13,7 +13,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
 
     switch ($_) {
         "hodl" {$ThreadCount = $Variables.ProcessorCount}
-        default {$ThreadCount = $Variables.ProcessorCount - 1}
+        default {$ThreadCount = $Variables.ProcessorCount - 2}
     }
 
 	$Algo =$_

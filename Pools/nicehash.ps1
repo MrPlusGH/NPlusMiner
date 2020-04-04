@@ -6,7 +6,7 @@ try {
 }
 catch { return }
 
-if (-not $Request.miningAlgorithms -or -not $RequestAlgodetails.miningAlgorithms) {return}
+if (-not $Request -or -not $RequestAlgodetails) {return}
 
 $Request.miningAlgorithms | foreach {$Algo = $_.Algorithm ; $_ | Add-Member -force @{algodetails = $RequestAlgodetails.miningAlgorithms | ? {$_.Algorithm -eq $Algo}}}
 
@@ -40,7 +40,7 @@ $Locations | ForEach-Object {
             "jp"    {$Location = "JP"}
             "hk"    {$Location = "JP"}
             "in"    {$Location = "JP"}
-            "br"    {$Location = "US"}
+            # "br"    {$Location = "US"}
         }
         $NiceHash_Host = "$($Algo).$($NiceHash_Location).nicehash.com"
 

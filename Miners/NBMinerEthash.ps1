@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-NBMiner\nbminer.exe"
-$Uri = "https://github.com/NebuTech/NBMiner/releases/download/v26.2/NBMiner_26.2_Win.zip"
+$Uri = "https://github.com/NebuTech/NBMiner/releases/download/v28.1/NBMiner_28.1_Win.zip"
 $Commands = [PSCustomObject]@{
     "ethash"       = " -a ethash" #eaglesong
 }
@@ -16,10 +16,16 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
 
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_
+        
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
-        $Arguments = " --no-watchdog --no-nvml --temperature-limit 95 -d $($Config.SelGPUCC) --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -o nicehash+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User):$($Password)"
+        # $Arguments = " --no-watchdog --no-nvml --temperature-limit 95 -d $($Config.SelGPUCC) --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -o nicehash+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User):$($Password)"
+        If ($Algo -eq "ethash" -and ($Pool.Host -like "*nicehash*" -or $Pool.Host -like "*miningpoolhub*")) {
+            $Arguments = " --no-watchdog --no-nvml --temperature-limit 95 -d $($Config.SelGPUCC) --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -o nicehash+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User):$($Password)"
+        } else {
+            $Arguments = " --no-watchdog --no-nvml --temperature-limit 95 -d $($Config.SelGPUCC) --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User):$($Password)"
+        }
         
         [PSCustomObject]@{
             Type      = "NVIDIA"

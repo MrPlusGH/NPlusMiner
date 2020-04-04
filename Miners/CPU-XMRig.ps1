@@ -18,7 +18,6 @@ $Commands = [PSCustomObject]@{
     "cryptonight_saber"     = " -a cn-heavy/0 --nicehash" #cryptonightGPU
     "cryptonight_fast"      = " -a cn/half --nicehash" #cryptonightFast
     "cryptonight_haven"      = " -a cn-heavy/xhv --nicehash" #cryptonightFast
-    "chukwa"                = " -a argon2/chukwa --nicehash" #cryptonightFast
 }
  
 $ThreadCount = $ThreadCount = $Variables.ProcessorCount - 2

@@ -91,7 +91,6 @@ function Reset-ServerRules {
 
 Function Start-Server {
     if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
-    If (Test-Path ".\Logs\Server.log") {Remove-Item ".\Logs\Server.log"}
     Initialize-ServerRules $Config.Server_Port
 
     # Setup runspace to launch the API webserver in a separate thread
@@ -178,17 +177,12 @@ Function Start-Server {
                                 # "Get cache content" | Out-Host
                                 $CacheHits++
                                 $Content = ($ProxyCache.Where({$_.ID -eq $ProxURLHash})).Content
-                                If ($Content.Length -eq 0) {
-                                    $StatusCode  = [System.Net.HttpStatusCode]::NoContent
-                                } else {
-                                    $StatusCode  = [System.Net.HttpStatusCode]::UseProxy
-                                }
+                                $StatusCode  = [System.Net.HttpStatusCode]::UseProxy
                             } else {
                                 # "Web Query" | Out-Host
                                 $WebHits++
                                 $Wco = New-Object Net.Webclient
                                 $Content = $Wco.downloadString("$ProxURL")
-                                
                                 If ($Content) {
                                     $ProxyCache = $ProxyCache.Where({$_.ID -ne $ProxURLHash})
                                     $ProxyCache.Add([PSCustomObject]@{
@@ -198,11 +192,7 @@ Function Start-Server {
                                         Content = $Content
                                     })
                                 }
-                                If ($Content.Length -eq 0) {
-                                    $StatusCode  = [System.Net.HttpStatusCode]::NoContent
-                                } else {
-                                    $StatusCode  = [System.Net.HttpStatusCode]::OK
-                                }
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
                                 $Wco.Close()
                             }
 
@@ -238,7 +228,7 @@ Function Start-Server {
                                 $ContentType = "text/html"
                         }
                     }
-                    $HasContent = $content.Length
+                    $HasContent = $content -ne $null
                     $Buf = [Text.Encoding]::UTF8.GetBytes($Content)
                     $HRes.ContentLength64 = $Buf.Length
                     $HRes.OutputStream.Write($Buf,0,$Buf.Length)

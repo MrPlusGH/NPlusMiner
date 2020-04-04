@@ -23,11 +23,8 @@ version:        5.4.1
 version date:   20190809
 #>
 
-Start-Transcript -Path ".\Brain.log"
-$pwd | out-host
-
 $Path = $args[0]
-If ($pwd) {set-location ($pwd)}
+set-location ($Path)
 # Set Process priority
 (Get-Process -Id $PID).PriorityClass = "BelowNormal"
 
@@ -130,38 +127,39 @@ $ProgressPreference="SilentlyContinue"
     $dtBlocks = New-Object System.Data.DataTable
     $dtAlgos = New-Object System.Data.DataTable
 
-if (Test-Path "$($pwd)\Blocks.xml"){
-    $dtBlocks.ReadXml("$($pwd)\Blocks.xml") | out-null
-    $dtBlocks.Rows.Count | out-host
+if (Test-Path "$($Path)\Blocks.xml"){
+    $dtBlocks.ReadXml("$($Path)\Blocks.xml") | out-null
+    $dtBlocks.Rows.Count 
 }
-if (Test-Path "$($pwd)\Algos.xml"){
-    $dtAlgos.ReadXml("$($pwd)\Algos.xml") | out-null
-    $dtAlgos.Rows.Count | out-host
+if (Test-Path "$($Path)\Algos.xml"){
+    $dtAlgos.ReadXml("$($Path)\Algos.xml") | out-null
+    $dtAlgos.Rows.Count 
 }
 
 $pid | out-file ".\pid.txt"
 $RoundZero = ($dtAlgos.Rows.Count -lt 1)
 
 . ..\..\Includes\include.ps1
-# $Config = Load-Config "..\..\Config\Config.json"
+$Config = Load-Config "..\..\Config\Config.json"
     If ($Config.Server_Client) {
+        $ServerClientPasswd = ConvertTo-SecureString $Config.Server_ClientPassword -AsPlainText -Force
+        $ServerClientCreds = New-Object System.Management.Automation.PSCredential ($Config.Server_ClientUser, $ServerClientPasswd)
+        $Variables = [hashtable]::Synchronized(@{})
+        $Variables | Add-Member -Force @{ServerClientCreds = $ServerClientCreds}
         $Variables | Add-Member -Force @{ServerRunning = ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds).content -eq "Server Alive")}
     }
-While ($true) {
-    if (!(IsLoaded("..\..\Includes\include.ps1"))) {. ..\..\Includes\include.ps1; RegisterLoaded("..\..\Includes\include.ps1")}
 
+While ($true) {
 #Get-Config{
     If (Test-Path ".\BrainConfig.json") {
         $BrainConfig = Get-Content ".\BrainConfig.json" | ConvertFrom-Json
     } else {return}
-
-
 $CurDate = Get-Date
 $RetryInterval = 0
 
 try{
-    $AlgoData = Invoke-ProxiedWebRequest $BrainConfig.PoolStatusUri | ConvertFrom-Json
-    $CoinsData = Invoke-ProxiedWebRequest $BrainConfig.PoolCurrenciesUri | ConvertFrom-Json 
+    $AlgoData = Invoke-ProxiedWebRequest $BrainConfig.PoolStatusUri -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json
+    $CoinsData = Invoke-ProxiedWebRequest $BrainConfig.PoolCurrenciesUri -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
     If ($BrainConfig.SoloBlocksPenaltyMode -eq "Sample" -or $BrainConfig.OrphanBlocksPenalty) {
         # Need to update in case of type change (Orphans)
         (Invoke-ProxiedWebRequest $BrainConfig.PoolBlocksUri | ConvertFrom-Json) | ? {$_.category -ne "new"} | foreach {
@@ -193,8 +191,6 @@ If (!$RoundZero -and $dtAlgos.Select("date >= '$($CurDate.AddMinutes(-($BrainCon
 If ( $AlgoData -and $CoinsData ) {
 $LoopTime = (Measure-Command {    
     Foreach ($Coin in ($CoinsData | gm -MemberType NoteProperty).Name) {
-            # Some pools present some Coins with no correspoding Algo in Status API
-            If (!($AlgoData.($CoinsData.$Coin.Algo))) { continue }
             $CoinsData.($Coin).estimate = $CoinsData.($Coin).estimate / $BrainConfig.CoinEstimateDivisor
             # $BasePrice = If ($AlgoData.($CoinsData.$Coin.Algo).actual_last24h) {[Decimal]$AlgoData.($CoinsData.$Coin.Algo).actual_last24h / $BrainConfig.Actual24hrDivisor} else {$CoinsData.($Coin).estimate -as [Decimal]}
             
@@ -458,21 +454,19 @@ if ($BrainConfig.EnableLog) {$MathObject | Export-Csv -NoTypeInformation -Append
 $dvAlgosResult = New-Object System.Data.DataView($dtAlgos)
 $dvAlgosResult.Sort = "[date]"
 $dvAlgosResult.Filter = "date > '$($CurDate.AddSeconds(-($BrainConfig.Interval*3)))' and date = MAX([date]) and NoAutotrade = 0 and SoloHashPercent < '$($BrainConfig.MaxSoloPercent/100)'"
-$Variables."BrainPlus_$($pwd | Split-Path -Leaf)" | Add-Member -Force @{Data = ($dvAlgosResult.ToTable()).Copy()}
-# $dvAlgosResult.ToTable().WriteXml("$($pwd)\$($BrainConfig.TransferFile)",[System.Data.XmlWriteMode]::WriteSchema)
+$dvAlgosResult.ToTable().WriteXml("$($Path)\$($BrainConfig.TransferFile)",[System.Data.XmlWriteMode]::WriteSchema)
 
 }).TotalSeconds
 
 }        
 
 #Give some ouput for debug
-"$(($dtAlgos.Rows.date | sort -Unique).count) -- $($dtAlgos.Compute('min([date])','')) -- $($dtAlgos.Compute('max([date])','')) -- $($CurDate) -- $(($dtAlgos.Rows[$dtAlgos.Rows.Count - 1]).TimeSpan) -- $(($dtBlocks.rows | group symbol | sort count | select -Last 1).count) -- $($LoopTime)" | out-host
+"$(($dtAlgos.Rows.date | sort -Unique).count) -- $($dtAlgos.Compute('min([date])','')) -- $($dtAlgos.Compute('max([date])','')) -- $($CurDate) -- $(($dtAlgos.Rows[$dtAlgos.Rows.Count - 1]).TimeSpan) -- $(($dtBlocks.rows | group symbol | sort count | select -Last 1).count) -- $($LoopTime)"
 
 
 If ((get-date).minute % 5 -eq 0){
-    $dtBlocks.WriteXml("$($pwd)\Blocks.xml",[System.Data.XmlWriteMode]::WriteSchema)
-    $dtAlgos.WriteXml("$($pwd)\Algos.xml",[System.Data.XmlWriteMode]::WriteSchema)
-    $dvAlgosResult.ToTable().WriteXml("$($pwd)\$($BrainConfig.TransferFile)",[System.Data.XmlWriteMode]::WriteSchema)
+    $dtBlocks.WriteXml("$($Path)\Blocks.xml",[System.Data.XmlWriteMode]::WriteSchema)
+    $dtAlgos.WriteXml("$($Path)\Algos.xml",[System.Data.XmlWriteMode]::WriteSchema)
 }
 
 If ((get-date).minute % 30 -eq 0){

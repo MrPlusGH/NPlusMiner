@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-CryptoDredge\CryptoDredge.exe"
-$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/CryptoDredge/CryptoDredge_0.22.0_cuda_10.1_windows.zip"
+$Uri = "https://github.com/technobyl/CryptoDredge/releases/download/v0.23.0/CryptoDredge_0.23.0_cuda_10.0_windows.zip"
 
 $Commands = [PSCustomObject]@{
     "allium"            = " --intensity 8 -a allium" #Allium (fastest)
@@ -36,6 +36,7 @@ $Commands = [PSCustomObject]@{
     "cryptonight_xeq" = " --intensity 8 -a cngpu" # CryptonightGPU (XEQ Zergpool)
     "cryptonight_saber" = " --intensity 8 -a cnsaber" # CryptonightSaber
     "cryptonight_conceal" = " --intensity 8 -a cnconceal" # Cryptonight_Conceal
+    "cryptonight_upx" = " --intensity 8 -a cnupx2" # Cryptonight_Conceal
     "chukwa" = " --intensity 8 -a chukwa" # Cryptonight_Conceal
     #"tribus"            = " --intensity 8 -a tribus" #Tribus (not profitable)
     #"x16r"              = " --intensity 8 -a x16r" #x16r (trex fastest)

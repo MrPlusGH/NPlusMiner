@@ -1,16 +1,12 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
-If ($Variables."BrainPlus_Zergpoolplus".data){
-    $dtAlgos = $Variables."BrainPlus_Zpoolplus".data.Copy()
-} else {
-    Try {
-        $dtAlgos = New-Object System.Data.DataTable
-        if (Test-Path ((split-path -parent (get-item $script:MyInvocation.MyCommand.Path).Directory) + "\BrainPlus\zpoolplus\zpoolplus.xml")) {
-            $dtAlgos.ReadXml((split-path -parent (get-item $script:MyInvocation.MyCommand.Path).Directory) + "\BrainPlus\zpoolplus\zpoolplus.xml") | out-null
-        }
+Try {
+    $dtAlgos = New-Object System.Data.DataTable
+    if (Test-Path ((split-path -parent (get-item $script:MyInvocation.MyCommand.Path).Directory) + "\BrainPlus\zpoolplus\zpoolplus.xml")) {
+        $dtAlgos.ReadXml((split-path -parent (get-item $script:MyInvocation.MyCommand.Path).Directory) + "\BrainPlus\zpoolplus\zpoolplus.xml") | out-null
     }
-    catch { return }
 }
+catch { return }
 
 if (-not $dtAlgos) {return}
 

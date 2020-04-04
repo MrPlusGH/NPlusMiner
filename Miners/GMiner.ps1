@@ -1,11 +1,11 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-Gminer\miner.exe"
-$Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/1.96/gminer_1_96_windows64.zip"
+$Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.04/gminer_2_04_windows64.zip"
 $Commands = [PSCustomObject]@{
     "cuckoocycle"    = " --algo aeternity --pers auto" #Aeternity 
     "eaglesong"       = " --algo eaglesong" #eaglesong
-    # "ethash"          = " --algo ethash --proto stratum" #Ethash
+    # "ethash"          = " --algo ethash" #Ethash
     "equihash96"   = " --algo 96_5 --pers auto" #Equihash96 (fastest)
     "grincuckaroo29"  = " --algo cuckaroo29 --pers auto" #Grincuckaroo29 (fastest)
     "grincuckarood29"  = " --algo grin29 --pers auto" #Grincuckaroo29 (fastest)
@@ -18,6 +18,9 @@ $Commands = [PSCustomObject]@{
     # "grincuckatoo31"  = " --devices $($Config.SelGPUDSTM) --algo grin31 --pers auto" #Cuckatoo31 requires 7.4GB VRam, will work on 8GB cards under Linux and Windows 7, will not work under Windows 10
     # "zhash"        = " --devices $($Config.SelGPUDSTM) --algo 144_5 --pers auto" #Zhash (fastest)
     "cuckaroom"       = " --algo grin29" #Cuckaroom 
+    "grincuckatoo32"   = " --algo grin32 --pers auto" #Grincuckatoo32
+    "kawpow"           = " --algo kawpow --pers auto" #KAWPOW [RVN fork]
+    # "handshake"           = " --algo Handshake --pers auto" #Handshake 
 }
  
 $Port = $Variables.NVIDIAMinerAPITCPPort
@@ -30,6 +33,13 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
 
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_
+
+        If ($Algo -eq "ethash" -and ($Pool.Host -like "*nicehash*" -or $Pool.Host -like "*miningpoolhub*")) {
+            $Commands.$Algo += " --proto stratum"
+        } else {
+
+        }
+
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
