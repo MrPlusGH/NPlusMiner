@@ -46,7 +46,7 @@
     "SelGPUCC":  "0",
     "SelGPUDSTM":  "0",
     "Server_Client":  false,
-    "Server_ClientIP":  "",
+    "Server_ClientIP":  "127.0.0.1",
     "Server_ClientPassword":  "3890292d-990c-44ba-b779-552829fc0bc4",
     "Server_ClientPort":  "4028",
     "Server_ClientUser":  "NPlusMiner",
