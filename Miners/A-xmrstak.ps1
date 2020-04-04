@@ -15,7 +15,7 @@ $Commands = [PSCustomObject]@{
     "cryptonight_r"     = "" #Cryptonight_r (Monero)
 }
 
-$Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
+$Commands.PSObject.Properties.Name | ForEach-Object {
 
     $Algo =$_
 	

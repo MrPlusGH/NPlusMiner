@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 try {
-    $Request = Invoke-WebRequest "http://www.nlpool.nl/api/status" -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
+    $Request = Invoke-ProxiedWebRequest "http://www.nlpool.nl/api/status" -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
 }
 catch { return }
 
@@ -26,9 +26,9 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
       $Divisor = 1000000000 * [Double]$Request.$_.mbtc_mh_factor
 
     switch ($PoolAlgorithm) {
-        "equihash125" { $Divisor *= 2 } #temp fix
-        "equihash144" { $Divisor *= 2 } #temp fix
-        "equihash192" { $Divisor *= 2 } #temp fix
+        # "equihash125" { $Divisor *= 2 } #temp fix
+        # "equihash144" { $Divisor *= 2 } #temp fix
+        # "equihash192" { $Divisor *= 2 } #temp fix
         "verushash"   { $Divisor *= 2 } #temp fix
     }
 

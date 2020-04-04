@@ -4,7 +4,7 @@ $Path = ".\Bin\CPU-Verium\cpuminer.exe"
 $Uri = "https://github.com/fireworm71/veriumMiner/releases/download/v1.4/cpuminer_1.4_windows_x64_O2_GCC7.zip"
 
 $Commands = [PSCustomObject]@{
-    "scryptn2" = "" #Verium
+    "scryptn2" = "" #Yespower
 }
 
 $Name = Get-Item $MyInvocation.MyCommand.Path | Select-Object -ExpandProperty BaseName

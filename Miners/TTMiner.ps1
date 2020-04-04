@@ -2,6 +2,8 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLo
 
 $Path = ".\Bin\NVIDIA-TTMiner\TT-Miner.exe"
 $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/TTMiner/TT-Miner-3.0.5.zip"
+
+Return
  
 $Commands = [PSCustomObject]@{
     #"progpow"  = " -a PROGPOW "
@@ -10,7 +12,7 @@ $Commands = [PSCustomObject]@{
  
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
-$Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
+$Commands.PSObject.Properties.Name | ForEach-Object {
     $Algo =$_
 	$AlgoNorm = Get-Algorithm($_)
 
