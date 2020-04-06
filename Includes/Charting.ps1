@@ -216,6 +216,7 @@ Switch ($Chart) {
     }
     "DayPoolSplit" {
            $datasource = If (Test-Path ".\logs\DailyEarnings.csv" ) {Import-Csv ".\logs\DailyEarnings.csv" | ? {[datetime]$_.date -ge [datetime](Get-Date).date.AddDays(-1).ToString("MM/dd/yyyy")}}
+           # $datasource = If (Test-Path ".\logs\DailyEarnings.csv" ) {Import-Csv ".\logs\DailyEarnings.csv" }
            $dataSource | % {$_.DailyEarnings = [Decimal]$_.DailyEarnings}
            $datasource = $dataSource | ? {$_.DailyEarnings -gt 0} | sort DailyEarnings #-Descending
          

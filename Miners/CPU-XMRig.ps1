@@ -7,11 +7,12 @@ $Commands = [PSCustomObject]@{
     # "cryptonightr"        = " -a cryptonight/r --nicehash" #cryptonight/r
     # "cryptonight-monero"  = " -a cryptonight/r" #cryptonight/r
     "randomxmonero"         = " -a rx/0 --nicehash" #RandomX
-    "randomarq"             = " -a rx/arq --nicehash" #Randomarq
     "randomx"               = " -a rx/0 --nicehash" #RandomX
     "randomsfx"             = " -a rx/sfx --nicehash" #RandomX
+    "randomarq"             = " -a rx/arq --nicehash" #Randomarq
     "cryptonightv7"         = " -a cn/1 --nicehash" #cryptonightv7
-    #"cryptonight_gpu"       = " -a cn/gpu --nicehash" #cryptonightGPU
+    "cryptonight_gpu"       = " -a cn/gpu --nicehash" #cryptonightGPU
+    "cryptonight_xeq"       = " -a cn/gpu --nicehash" #cryptonightGPU
     "cryptonight_heavy"     = " -a cn-heavy/0 --nicehash" #cryptonight_heavyx
     "cryptonight_heavyx"    = " -a cn/double --nicehash" #cryptonight_heavyx
     "cryptonight_saber"     = " -a cn-heavy/0 --nicehash" #cryptonightGPU
@@ -24,7 +25,7 @@ $ThreadCount = $ThreadCount = $Variables.ProcessorCount - 2
 $Port = $Variables.CPUMinerAPITCPPort #2222
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
-$Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | % { 
+$Commands.PSObject.Properties.Name | % { 
     $Algo =$_
 	$AlgoNorm = Get-Algorithm($_)
 

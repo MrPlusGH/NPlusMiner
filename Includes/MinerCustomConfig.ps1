@@ -25,7 +25,7 @@ version date:   20191108
 
     $AbortCurrentPool = $False
     $DontUseCustom = $False
-    $MinerCustomConfig = $MinerCustomConfig | ? {$_.Enabled}
+    $MinerCustomConfig = $MinerCustomConfig.Where({$_.Enabled})
     $Combinations = $MinerCustomConfig | group algo,Pool,miner,coin
     $CustomCommands = [PSCustomObject]@{}
     $DontUseCustom = $False
@@ -53,8 +53,10 @@ version date:   20191108
         "$($Pool.Algorithm), , , $($Pool.Coin)"
         "$($Pool.Algorithm), $($Pool.Name), $($Name), $($Pool.Coin)"
     ) 
-    $WinningCustomConfig = ($Combinations | ? {$_.Name -like (Compare-Object $OrderedCombinations $Combinations.Name -IncludeEqual -ExcludeDifferent -PassThru | select -Last 1)}).Group
+    $WinningCustomConfig = ($Combinations.Where({$_.Name -like (Compare-Object $OrderedCombinations $Combinations.Name -IncludeEqual -ExcludeDifferent -PassThru | select -Last 1)})).Group
     if ($WinningCustomConfig) {
+        If ($WinningCustomConfig.IncludeCoins -and $Pool.Coin -notin $WinningCustomConfig.IncludeCoins) {$AbortCurrentPool = $true ; Return}
+        If ($WinningCustomConfig.ExcludeCoins -and $Pool.Coin -in $WinningCustomConfig.ExcludeCoins) {$AbortCurrentPool = $true ; Return}
         If ($WinningCustomConfig.code) {
             $WinningCustomConfig.code | Invoke-Expression
             # Can't get return or continue to work in context correctly when inserted in custom code.
@@ -72,8 +74,6 @@ version date:   20191108
     }
     $CustomPasswordAdds = $null
 
-    If ($WinningCustomConfig.IncludeCoins -and $Pool.Coin -notin $WinningCustomConfig.IncludeCoins) {$AbortCurrentPool = $true ; return}
-    If ($WinningCustomConfig.ExcludeCoins -and $Pool.Coin -in $WinningCustomConfig.ExcludeCoins) {$AbortCurrentPool = $true ; return}
     $WinningCustomConfig = $null
 
 

@@ -48,6 +48,7 @@ $Commands = [PSCustomObject]@{
     "sha256q"       = " -d $($Config.SelGPUCC)" #Sha256q
     #"lyra2v3"       = " -d $($Config.SelGPUCC)" #Lyra2v3
     "blake2b"       = ",d=12 -d $($Config.SelGPUCC)" #blake2b
+    "scryptn11" = " --cpu-priority 1 -a scrypt:10" #scryptn11
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName

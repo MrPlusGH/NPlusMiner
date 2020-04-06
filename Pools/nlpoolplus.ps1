@@ -31,9 +31,9 @@ $dtAlgos | foreach {
       $Divisor = 1000000 * [Double]$Pool.mbtc_mh_factor
 
     switch ($PoolAlgorithm) {
-        "equihash125" { $Divisor *= 2 } #temp fix
-        "equihash144" { $Divisor *= 2 } #temp fix
-        "equihash192" { $Divisor *= 2 } #temp fix
+        # "equihash125" { $Divisor *= 2 } #temp fix
+        # "equihash144" { $Divisor *= 2 } #temp fix
+        # "equihash192" { $Divisor *= 2 } #temp fix
         "verushash"   { $Divisor *= 2 } #temp fix
     }
 

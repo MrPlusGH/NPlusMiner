@@ -3,13 +3,15 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLo
 $Path = ".\Bin\NVIDIA-ccminermtp\ccminer.exe"
 $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/ccminerMtp/ccminer.exe"
 
+Return
+
 $Commands = [PSCustomObject]@{
     # "mtp" = "" #mtp
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
-$Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
+$Commands.PSObject.Properties.Name | ForEach-Object {
 	$Algo =$_
 	$AlgoNorm = Get-Algorithm($_)
 
