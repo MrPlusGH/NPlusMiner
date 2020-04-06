@@ -5,7 +5,7 @@ $Uri = "https://github.com/NebuTech/NBMiner/releases/download/v29.0/NBMiner_29.0
 $Commands = [PSCustomObject]@{
     # "eaglesong"       = " -a eaglesong" #eaglesong
     # "handshake"        = "-a hns" #handshake
-    "kawpow"           = "-a kawpow -o stratum+tcp://" #kawpow
+    "kawpow"           = "-a kawpow" #kawpow
 }
 
 $Port = $Variables.NVIDIAMinerAPITCPPort
