@@ -6,6 +6,8 @@ $Commands = [PSCustomObject]@{
     "ethash+eaglesong"          = "" #Ethash
 }
 
+if (!$Pools.Ethash -or !$Pools.eaglesong) {return}
+ 
 $Port = $Variables.NVIDIAMinerAPITCPPort
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 $WinningCustomConfig = [PSCustomObject]@{}

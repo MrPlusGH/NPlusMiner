@@ -5,6 +5,8 @@ $Uri = "https://github.com/NebuTech/NBMiner/releases/download/v29.0/NBMiner_29.0
 $Commands = [PSCustomObject]@{
     "ethash+eaglesong"          = "" #Ethash
 }
+
+if (!$Pools.Ethash -or !$Pools.eaglesong) {return}
  
 $Port = $Variables.NVIDIAMinerAPITCPPort
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
