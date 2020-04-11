@@ -38,8 +38,8 @@
     "PenalizeSoloInPlus":  true,
     "PoolName":  [
                      "nicehash",
-                     "miningpoolhub",
-                     "zergpoolplus"
+                     "zergpoolplus",
+                     "zpoolplus"
                  ],
     "Proxy":  "",
     "ReportToServer":  false,
