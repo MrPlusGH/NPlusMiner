@@ -112,6 +112,21 @@ Write-Host -F Yellow " Copyright and license notices must be preserved."
     $Global:Variables = [hashtable]::Synchronized(@{})
     $Global:Variables | Add-Member -Force -MemberType ScriptProperty -Name 'StatusText' -Value{ $this._StatusText;$This._StatusText = @() }  -SecondValue { If (!$this._StatusText){$this._StatusText=@()};$this._StatusText+=$args[0];$Variables | Add-Member -Force @{RefreshNeeded = $True} }
 
+    # Set Console size
+    $ConsoleHeight = 50
+    $ConsoleWidth = 160
+    $pswindow = (get-host).ui.rawui
+    $newsize = $pswindow.buffersize
+    # $newsize.height = 3000
+    $newsize.width = $ConsoleWidth
+    $pswindow.buffersize = $newsize
+    $newsize = $pswindow.windowsize
+    # $newsize.height = $ConsoleHeight
+    $newsize.width = $ConsoleWidth
+    $pswindow.windowsize = $newsize
+    
+    rv ConsoleHeight, ConsoleWidth, pswindow, newsize
+
     # Load Branding
     If (Test-Path ".\Config\Branding.json") {
         $Branding = Get-Content ".\Config\Branding.json" | ConvertFrom-Json
