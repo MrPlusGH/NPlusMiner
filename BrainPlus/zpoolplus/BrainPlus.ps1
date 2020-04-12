@@ -148,18 +148,19 @@ $Config = Load-Config "..\..\Config\Config.json"
         $Variables | Add-Member -Force @{ServerClientCreds = $ServerClientCreds}
         $Variables | Add-Member -Force @{ServerRunning = ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds).content -eq "Server Alive")}
     }
-
 While ($true) {
 #Get-Config{
     If (Test-Path ".\BrainConfig.json") {
         $BrainConfig = Get-Content ".\BrainConfig.json" | ConvertFrom-Json
     } else {return}
+
+
 $CurDate = Get-Date
 $RetryInterval = 0
 
 try{
-    $AlgoData = Invoke-ProxiedWebRequest $BrainConfig.PoolStatusUri -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json
-    $CoinsData = Invoke-ProxiedWebRequest $BrainConfig.PoolCurrenciesUri -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
+    $AlgoData = Invoke-ProxiedWebRequest $BrainConfig.PoolStatusUri | ConvertFrom-Json
+    $CoinsData = Invoke-ProxiedWebRequest $BrainConfig.PoolCurrenciesUri | ConvertFrom-Json 
     If ($BrainConfig.SoloBlocksPenaltyMode -eq "Sample" -or $BrainConfig.OrphanBlocksPenalty) {
         # Need to update in case of type change (Orphans)
         (Invoke-ProxiedWebRequest $BrainConfig.PoolBlocksUri | ConvertFrom-Json) | ? {$_.category -ne "new"} | foreach {
@@ -191,6 +192,8 @@ If (!$RoundZero -and $dtAlgos.Select("date >= '$($CurDate.AddMinutes(-($BrainCon
 If ( $AlgoData -and $CoinsData ) {
 $LoopTime = (Measure-Command {    
     Foreach ($Coin in ($CoinsData | gm -MemberType NoteProperty).Name) {
+            # Some pools present some Coins with no correspoding Algo in Status API
+            If (!($AlgoData.($CoinsData.$Coin.Algo))) { continue }
             $CoinsData.($Coin).estimate = $CoinsData.($Coin).estimate / $BrainConfig.CoinEstimateDivisor
             # $BasePrice = If ($AlgoData.($CoinsData.$Coin.Algo).actual_last24h) {[Decimal]$AlgoData.($CoinsData.$Coin.Algo).actual_last24h / $BrainConfig.Actual24hrDivisor} else {$CoinsData.($Coin).estimate -as [Decimal]}
             

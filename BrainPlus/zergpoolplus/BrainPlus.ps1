@@ -158,7 +158,7 @@ While ($true) {
 $CurDate = Get-Date
 $RetryInterval = 0
 
-# try{
+try{
     $AlgoData = Invoke-ProxiedWebRequest $BrainConfig.PoolStatusUri | ConvertFrom-Json
     $CoinsData = Invoke-ProxiedWebRequest $BrainConfig.PoolCurrenciesUri | ConvertFrom-Json 
     If ($BrainConfig.SoloBlocksPenaltyMode -eq "Sample" -or $BrainConfig.OrphanBlocksPenalty) {
@@ -180,10 +180,10 @@ $RetryInterval = 0
         ($dtBlocks.Rows | sort date | group symbol | ? {$_.count -gt $BrainConfig.SoloBlocksPenaltyOnLastNBlocks} | foreach {$dtBlocks.Select("symbol = '$($_.Name)'") | sort time | select -first ($_.count - $BrainConfig.SoloBlocksPenaltyOnLastNBlocks)}).delete()
     }
     $APICallFails = 0
-# } catch {
+} catch {
     $APICallFails++
     $RetryInterval = $BrainConfig.Interval * [math]::max(0,$APICallFails - $BrainConfig.AllowedAPIFailureCount)
-# }
+}
 
 If (!$RoundZero -and $dtAlgos.Select("date >= '$($CurDate.AddMinutes(-($BrainConfig.MinSampleTSMinutes)))'")) {
     $MinSampleTSMinutesPassed = $True
