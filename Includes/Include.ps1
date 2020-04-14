@@ -1551,7 +1551,7 @@ Function Invoke-ProxiedWebRequest {
             # $Variables.StatusText = "Proxy Request Failed - Trying Direct: $($URi)"
         }
     }
-    if (!$Request.Content -or -or ($Request.StatusCode -ne 200 -and $Request.StatusCode -ne 305) -and -not $OutFile) {
+    if (!$Request.Content -or ($Request.StatusCode -ne 200 -and $Request.StatusCode -ne 305) -and -not $OutFile) {
         Try {
             $Request = Invoke-WebRequest $URi -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"}
         } Catch {
