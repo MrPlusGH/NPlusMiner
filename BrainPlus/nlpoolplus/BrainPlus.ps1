@@ -91,6 +91,8 @@ function Get-DataTable    {
                     Try {
                         If ($srcObject.($property.Name).GetType() -in @([System.Int16],[System.Int32],[System.Int64])) {
                             [void]$dt.Columns.Add($property.Name, [System.Double] )
+                        } elseif ($srcObject.($property.Name).GetType() -in @([DateTime])) {
+                            [void]$dt.Columns.Add($property.Name, [DateTime] )
                         } else {
                             [void]$dt.Columns.Add($property.Name, $srcObject.($property.Name).GetType() )
                         }
@@ -149,6 +151,15 @@ $Config = Load-Config "..\..\Config\Config.json"
         $Variables | Add-Member -Force @{ServerRunning = ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds).content -eq "Server Alive")}
     }
 While ($true) {
+
+# Set culture.
+    # [System.Threading.Thread]::CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator = "."
+    # [System.Threading.Thread]::CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator = "."
+    [System.Threading.Thread]::CurrentThread.CurrentUICulture.NumberFormat = [System.Globalization.CultureInfo]::GetCultureInfo('en-US').NumberFormat
+    [System.Threading.Thread]::CurrentThread.CurrentCulture.NumberFormat = [System.Globalization.CultureInfo]::GetCultureInfo('en-US').NumberFormat
+    [System.Threading.Thread]::CurrentThread.CurrentUICulture.DateTimeFormat = [System.Globalization.CultureInfo]::GetCultureInfo('en-US').DateTimeFormat
+    [System.Threading.Thread]::CurrentThread.CurrentCulture.DateTimeFormat = [System.Globalization.CultureInfo]::GetCultureInfo('en-US').DateTimeFormat
+
 #Get-Config{
     If (Test-Path ".\BrainConfig.json") {
         $BrainConfig = Get-Content ".\BrainConfig.json" | ConvertFrom-Json
