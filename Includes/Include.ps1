@@ -1546,28 +1546,16 @@ Function Invoke-ProxiedWebRequest {
     If ($Config.Server_Client -and $Variables.ServerRunning -and -not $ByPassServer -and -not $OutFile) {
         Try {
             $ProxyURi = "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Proxy/?url=$($URi)"
-            $Request = Invoke-WebRequest $ProxyURi -Credential $Variables.ServerClientCreds -TimeoutSec $TimeoutSec -UseBasicParsing -Headers $Headers -ErrorAction SilentlyContinue
+            $Request = Invoke-WebRequest $ProxyURi -Credential $Variables.ServerClientCreds -TimeoutSec $TimeoutSec -UseBasicParsing -Headers $Headers
         } Catch {
             # $Variables.StatusText = "Proxy Request Failed - Trying Direct: $($URi)"
         }
     }
-    if ($Request.Content.Length -eq 0 -or ($Request.StatusCode -ne 200 -and $Request.StatusCode -ne 305) -and -not $OutFile) {
-        If ($Request.Content.Length -eq 0 -or $Request.StatusCode -eq 200) {
-            $Variables.StatusText = "Proxy Request NoContent - Trying Direct: $($URi)"
-        } else {
-            $Variables.StatusText = "Proxy Request Failed - Trying Direct: $($URi)"
-        }
+    if (!$Request.Content -or $Request.StatusCode -ne 200 -and -not $OutFile) {
         Try {
-            $Request = Invoke-WebRequest $URi -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} -ErrorAction SilentlyContinue
+            $Request = Invoke-WebRequest $URi -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"}
         } Catch {
-            $Variables.StatusText = "Direct Request Failed: $($URi)"
-        }
-        if ($Request.Content.Length -eq 0 -or $Request.StatusCode -ne 200 -and -not $OutFile) {
-            If ($Request.Content.Length -eq 0 -or $Request.StatusCode -eq 204) {
-                $Variables.StatusText = "Direct Request NoContent: $($URi)"
-            } else {
-                $Variables.StatusText = "Direct Request Failed: $($URi)"
-            }
+            # $Variables.StatusText = "Direct Request Failed: $($URi)"
         }
     }
     
