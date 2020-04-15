@@ -222,6 +222,28 @@ Function Start-Server {
                                 $Content = $Variables.ActiveMinerPrograms | ? {$_.Status -eq "Running"} | select Type,Algorithms,Coin,Name,@{Name="HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},@{Name="Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},@{Name="Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},Host | sort Type | ConvertTo-Html -CssUri "d:\NPlusMiner\Includes\Web.css" -Title $Title
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
+                        "/Benchmarks" {
+                                $Title = "Benchmarks"
+                                # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
+                                
+                                $Content = [System.Collections.ArrayList]@($Variables.Miners | Select @(
+                                    @{Name = "Type";Expression={$_.Type}},
+                                    @{Name = "Miner";Expression={$_.Name}},
+                                    @{Name = "Algorithm";Expression={$_.HashRates.PSObject.Properties.Name}},
+                                    @{Name = "Coin"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Info)"}}},
+                                    @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}},
+                                    @{Name = "Speed"; Expression={$_.HashRates.PSObject.Properties.Value | ForEach {if($_ -ne $null){"$($_ | ConvertTo-Hash)/s"}else{"Benchmarking"}}}},
+                                    # @{Name = "mBTC/Day"; Expression={$_.Profits.PSObject.Properties.Value | ForEach {if($_ -ne $null){($_*1000).ToString("N3")}else{"Benchmarking"}}}},
+                                    @{Name = "mBTC/Day"; Expression={(($_.Profits.PSObject.Properties.Value | Measure -Sum).Sum *1000).ToString("N3")}},
+                                    # @{Name = "BTC/Day"; Expression={$_.Profits.PSObject.Properties.Value | ForEach {if($_ -ne $null){$_.ToString("N5")}else{"Benchmarking"}}}},
+                                    @{Name = "BTC/Day"; Expression={(($_.Profits.PSObject.Properties.Value | Measure -Sum).Sum).ToString("N3")}},
+                                    # @{Name = "BTC/GH/Day"; Expression={$_.Pools.PSObject.Properties.Value.Price | ForEach {($_*1000000000).ToString("N15")}}}
+                                    @{Name = "BTC/GH/Day"; Expression={(($_.Pools.PSObject.Properties.Value.Price | Measure -Sum).Sum *1000000000).ToString("N5")}}
+                                ) | sort "mBTC/Day" -Descending) | ConvertTo-Html -CssUri "d:\NPlusMiner\Includes\Web.css" -Title $Title
+
+
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                        }
                         "/Cmd-Pause" {
                                     $Variables.StatusText = "Pause Mining requested via API."
                                     $Variables.Paused = $True
