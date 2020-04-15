@@ -45,7 +45,7 @@ version date:   20191108
     #PrioritizedCombinations | highest at bottom
 
     $OrderedCombinations = @(
-        " , , $($Name), ",
+        ", , $($Name), ",
         "$($Pool.Algorithm), , , ",
         "$($Pool.Algorithm), $($Pool.Name), , ",
         "$($Pool.Algorithm), , $($Name), ",
