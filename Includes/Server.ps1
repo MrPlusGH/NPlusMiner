@@ -222,6 +222,22 @@ Function Start-Server {
                                 $Content = $Variables.ActiveMinerPrograms | ? {$_.Status -eq "Running"} | select Type,Algorithms,Coin,Name,@{Name="HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},@{Name="Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},@{Name="Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},Host | sort Type | ConvertTo-Html -CssUri "d:\NPlusMiner\Includes\Web.css" -Title $Title
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
+                        "/Cmd-Pause" {
+                                $Variables.StatusText = "Pause Mining requested via API."
+                                $Variables.Paused = $True
+                                $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
+                                $Variables.RestartCycle = $True
+                                
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                        }
+                        "/Cmd-Mine" {
+                                $Variables.StatusText = "Start Mining requested via API."
+                                $Variables.Paused = $False
+                                $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
+                                $Variables.RestartCycle = $True
+                                
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                        }
                         default {
                                 $Content = "API Not Available"
                                 $StatusCode  = [System.Net.HttpStatusCode]::NotFound
