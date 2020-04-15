@@ -223,20 +223,23 @@ Function Start-Server {
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/Cmd-Pause" {
-                                $Variables.StatusText = "Pause Mining requested via API."
-                                $Variables.Paused = $True
-                                $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
-                                $Variables.RestartCycle = $True
-                                
-                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                    $Variables.StatusText = "Pause Mining requested via API."
+                                    $Variables.Paused = $True
+                                    $Variables.RestartCycle = $True
+                                    
+                                    $Title = "Pause Command"
+                                    $Content = "OK"
+                                    $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/Cmd-Mine" {
-                                $Variables.StatusText = "Start Mining requested via API."
-                                $Variables.Paused = $False
-                                $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
-                                $Variables.RestartCycle = $True
-                                
-                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                    $Variables.StatusText = "Start Mining requested via API."
+                                    $Variables.Paused = $False
+                                    $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
+                                    $Variables.RestartCycle = $True
+                                    
+                                    $Title = "Mine Command"
+                                    $Content = "OK"
+                                    $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         default {
                                 $Content = "API Not Available"
