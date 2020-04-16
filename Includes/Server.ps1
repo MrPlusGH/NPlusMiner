@@ -196,7 +196,7 @@ Function Start-Server {
 @"
                         <header>
                         <img src=$($Branding.LogoPath)>
-                        $(Get-Date) ++ $($Branding.ProductLable) $($Variables.CurrentVersion) ++ Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) ++ Path: $($BasePath)
+                        Copyright (c) 2018-2020 MrPlus    ++ $(Get-Date) ++ $($Branding.ProductLable) $($Variables.CurrentVersion) ++ Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) ++ Path: $($BasePath)
                         </header>
 "@
                     
