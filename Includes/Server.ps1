@@ -113,9 +113,36 @@ Function Start-Server {
         }
         [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
 
-        if ($MyInvocation.MyCommand.Path) {Set-Location (Split-Path $MyInvocation.MyCommand.Path)}
+        $BasePath = "$($pwd)"
+        if ($MyInvocation.MyCommand.Path) {
+            Set-Location (Split-Path $MyInvocation.MyCommand.Path)
+            $BasePath = $MyInvocation.MyCommand.Path
+        }
 
-        # Start-Transcript ".\Logs\Server.log"
+        $MIMETypes = @{ 
+            ".js"   = "application/x-javascript"
+            ".html" = "text/html"
+            ".htm"  = "text/html"
+            ".json" = "application/json"
+            ".css"  = "text/css"
+            ".txt"  = "text/plain"
+            ".ico"  = "image/x-icon"
+            ".ps1"  = "text/html" # ps1 files get executed, assume their response is html
+        }
+
+        # Load Branding
+        If (Test-Path ".\Config\Branding.json") {
+            $Branding = Get-Content ".\Config\Branding.json" | ConvertFrom-Json
+        } Else {
+            $Branding = [PSCustomObject]@{
+                LogoPath = "https://raw.githubusercontent.com/MrPlusGH/NPlusMiner/master/Includes/NPM.png"
+                BrandName = "NPlusMiner"
+                BrandWebSite = "https://github.com/MrPlusGH/NPlusMiner"
+                ProductLable = "NPlusMiner"
+            }
+        }
+
+        Start-Transcript ".\Logs\ServerTR.log"
         # $pid | out-host
         if ([Net.ServicePointManager]::SecurityProtocol -notmatch [Net.SecurityProtocolType]::Tls12) {
             [Net.ServicePointManager]::SecurityProtocol += [Net.SecurityProtocolType]::Tls12
@@ -165,7 +192,16 @@ Function Start-Server {
                     $ContentType = "text/html"
                     $AuthSuccess = $False
                 } else {
+                    $Header =
+@"
+                        <header>
+                        <img src=$($Branding.LogoPath)>
+                        $(Get-Date) ++ $($Branding.ProductLable) $($Variables.CurrentVersion) ++ Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) ++ Path: $($BasePath)
+                        </header>
+"@
+                    
                     $AuthSuccess = $True
+                    $HReq.RawUrl | write-Host
                     Switch($Path) {
                         "/proxy/" {
                             $ProxyCache = $ProxyCache.Where({$_.Date -ge (Get-Date).AddMinutes(-$Config.Server_ServerProxyTimeOut)})
@@ -193,7 +229,7 @@ Function Start-Server {
                                     })
                                 }
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
-                                $Wco.Close()
+                                $Wco.Dispose()
                             }
 
                             If (($CacheHits + $WebHits)) {$CacheHitsRatio = $CacheHits / ($CacheHits + $WebHits) * 100}
@@ -218,14 +254,15 @@ Function Start-Server {
                         "/RunningMiners" {
                                 $Title = "Running Miners"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
-                                
-                                $Content = $Variables.ActiveMinerPrograms | ? {$_.Status -eq "Running"} | select Type,Algorithms,Coin,Name,@{Name="HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},@{Name="Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},@{Name="Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},Host | sort Type | ConvertTo-Html -CssUri "d:\NPlusMiner\Includes\Web.css" -Title $Title
+                                $ContentType = $MIMETypes[".html"]
+                                $Content = $Variables.ActiveMinerPrograms | ? {$_.Status -eq "Running"} | select Type,Algorithms,Coin,Name,@{Name="HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},@{Name="Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},@{Name="Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},Host | sort Type | ConvertTo-Html -CssUri "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Includes/Web.css" -Title $Title -PreContent $Header
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/Benchmarks" {
                                 $Title = "Benchmarks"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
-                                
+
+                                $ContentType = $MIMETypes[".html"]
                                 $Content = [System.Collections.ArrayList]@($Variables.Miners | Select @(
                                     @{Name = "Type";Expression={$_.Type}},
                                     @{Name = "Miner";Expression={$_.Name}},
@@ -239,7 +276,7 @@ Function Start-Server {
                                     @{Name = "BTC/Day"; Expression={(($_.Profits.PSObject.Properties.Value | Measure -Sum).Sum).ToString("N3")}},
                                     # @{Name = "BTC/GH/Day"; Expression={$_.Pools.PSObject.Properties.Value.Price | ForEach {($_*1000000000).ToString("N15")}}}
                                     @{Name = "BTC/GH/Day"; Expression={(($_.Pools.PSObject.Properties.Value.Price | Measure -Sum).Sum *1000000000).ToString("N5")}}
-                                ) | sort "mBTC/Day" -Descending) | ConvertTo-Html -CssUri "d:\NPlusMiner\Includes\Web.css" -Title $Title
+                                ) | sort "mBTC/Day" -Descending) | ConvertTo-Html -CssUri "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Includes/Web.css" -Title $Title -PreContent $Header
 
 
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
@@ -263,14 +300,58 @@ Function Start-Server {
                                     $Content = "OK"
                                     $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
-                        default {
-                                $Content = "API Not Available"
-                                $StatusCode  = [System.Net.HttpStatusCode]::NotFound
+                        default { 
+                            # Set index page
+                            if ($Path -eq "/") { 
+                                $Path = "/index.html"
+                            }
+
+                            # Check if there is a file with the requested path
+                            $Filename = $BasePath + $Path
+                            if (Test-Path $Filename -PathType Leaf -ErrorAction SilentlyContinue) { 
+                                # If the file is a powershell script, execute it and return the output. A $Parameters parameter is sent built from the query string
+                                # Otherwise, just return the contents of the file
+                                $File = Get-ChildItem $Filename
+
+                                if ($File.Extension -eq ".ps1") { 
+                                    $Content = & $File.FullName -Parameters $Parameters
+                                }
+                                else { 
+                                    $Content = Get-Content $Filename -Raw
+
+                                    # Process server side includes for html files
+                                    # Includes are in the traditional '<!-- #include file="/path/filename.html" -->' format used by many web servers
+                                    if ($File.Extension -eq ".html") { 
+                                        $IncludeRegex = [regex]'<!-- *#include *file="(.*)" *-->'
+                                        $IncludeRegex.Matches($Content) | Foreach-Object { 
+                                            $IncludeFile = $BasePath + '/' + $_.Groups[1].Value
+                                            if (Test-Path $IncludeFile -PathType Leaf) { 
+                                                $IncludeData = Get-Content $IncludeFile -Raw
+                                                $Content = $Content -replace $_.Value, $IncludeData
+                                            }
+                                        }
+                                    }
+                                }
+
+                                # Set content type based on file extension
+                                if ($MIMETypes.ContainsKey($File.Extension)) { 
+                                    $ContentType = $MIMETypes[$File.Extension]
+                                }
+                                else { 
+                                    # If it's an unrecognized file type, prompt for download
+                                    $ContentType = "application/octet-stream"
+                                }
+                            }
+                            else { 
+                                $StatusCode = 404
                                 $ContentType = "text/html"
+                                $Content = "URI '$Path' is not a valid resource. ($Filename)"
+                            }
                         }
                     }
                     $HasContent = $content -ne $null
                     $Buf = [Text.Encoding]::UTF8.GetBytes($Content)
+                    $Hres.Headers.Add("Content-Type", $ContentType)
                     $HRes.ContentLength64 = $Buf.Length
                     $HRes.OutputStream.Write($Buf,0,$Buf.Length)
                     $HRes.OutputStream.Flush()
@@ -295,8 +376,6 @@ Function Start-Server {
                     }
                     $LogEntry | Export-Csv ".\Logs\Server.log" -NoTypeInformation -Append
                     rv LogEntry
-                    rv ProxURL
-                    rv ProxURLHash
                 }
             }
         $Hso.Stop()
