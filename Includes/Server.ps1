@@ -268,7 +268,7 @@ Function Start-Server {
                                     @{Name ="Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},
                                     @{Name ="Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},
                                     @{Name = "Host";Expression={$_.Host}} ) | sort Type
-                                ) | ConvertTo-Html -CssUri "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Includes/Web.css" -Title $Title -PreContent $Header
+                                ) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/Benchmarks" {
