@@ -196,8 +196,9 @@ Function Start-Server {
 @"
                         <header>
                         <img src=$($Branding.LogoPath)>
-                        Copyright (c) 2018-2020 MrPlus    ++ $(Get-Date) ++ $($Branding.ProductLable) $($Variables.CurrentVersion) ++ Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) ++ Path: $($BasePath)
+                        Copyright (c) 2018-2020 MrPlus<br>    $(Get-Date) &nbsp&nbsp&nbsp $($Branding.ProductLable) $($Variables.CurrentVersion) &nbsp&nbsp&nbsp Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) &nbsp&nbsp&nbsp Path: $($BasePath)
                         </header>
+                        <dd><a href="http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/RunningMiners">Running Miners</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Benchmarks">Benchmarks</a><br><br>
 "@
                     
                     $AuthSuccess = $True
@@ -255,7 +256,16 @@ Function Start-Server {
                                 $Title = "Running Miners"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
                                 $ContentType = $MIMETypes[".html"]
-                                $Content = $Variables.ActiveMinerPrograms | ? {$_.Status -eq "Running"} | select Type,Algorithms,Coin,Name,@{Name="HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},@{Name="Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},@{Name="Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},Host | sort Type | ConvertTo-Html -CssUri "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Includes/Web.css" -Title $Title -PreContent $Header
+                                $Content = [System.Collections.ArrayList]@($Variables.ActiveMinerPrograms.Clone() | ? {$_.Status -eq "Running"} | select @(
+                                    @{Name = "Type";Expression={$_.Type}},
+                                    @{Name = "Algorithm";Expression={$_.Algorithms}},
+                                    @{Name = "Coin"; Expression={$_.Coin}},
+                                    @{Name = "Miner";Expression={$_.Name}},
+                                    @{Name="HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
+                                    @{Name ="Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},
+                                    @{Name ="Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},
+                                    @{Name = "Host";Expression={$_.Host}} ) | sort Type
+                                ) | ConvertTo-Html -CssUri "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Includes/Web.css" -Title $Title -PreContent $Header
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/Benchmarks" {
