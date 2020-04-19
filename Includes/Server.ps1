@@ -128,6 +128,7 @@ Function Start-Server {
             ".txt"  = "text/plain"
             ".ico"  = "image/x-icon"
             ".ps1"  = "text/html" # ps1 files get executed, assume their response is html
+            ".png"  = "image/png"
         }
 
         # Load Branding
@@ -174,7 +175,7 @@ Function Start-Server {
                 $ClientAddress = $Hreq.RemoteEndPoint.Address
                 $ClientPort = $Hreq.RemoteEndPoint.Port
                 $HRes = $HC.Response
-                $HRes.Headers.Add("Content-Type","text/html")      
+                # $HRes.Headers.Add("Content-Type","text/html")      
                 
                 If (($Clients.Where({$_.Address -eq $ClientAddress})).count -lt 1) {
                     $Clients.Add([PSCustomObject]@{
@@ -194,6 +195,8 @@ Function Start-Server {
                 } else {
                     $Header =
 @"
+                        <meta charset="utf-8"/>
+                        <link rel="icon" type="image/png" href="$($Branding.LogoPath)">
                         <header>
                         <img src=$($Branding.LogoPath)>
                         Copyright (c) 2018-2020 MrPlus<br>    $(Get-Date) &nbsp&nbsp&nbsp $($Branding.ProductLable) $($Variables.CurrentVersion) &nbsp&nbsp&nbsp Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) &nbsp&nbsp&nbsp Path: $($BasePath)
@@ -286,7 +289,8 @@ Function Start-Server {
                                     @{Name = "BTC/Day"; Expression={(($_.Profits.PSObject.Properties.Value | Measure -Sum).Sum).ToString("N3")}},
                                     # @{Name = "BTC/GH/Day"; Expression={$_.Pools.PSObject.Properties.Value.Price | ForEach {($_*1000000000).ToString("N15")}}}
                                     @{Name = "BTC/GH/Day"; Expression={(($_.Pools.PSObject.Properties.Value.Price | Measure -Sum).Sum *1000000000).ToString("N5")}}
-                                ) | sort "mBTC/Day" -Descending) | ConvertTo-Html -CssUri "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Includes/Web.css" -Title $Title -PreContent $Header
+                                # ) | sort "mBTC/Day" -Descending) | ConvertTo-Html -CssUri "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Includes/Web.css" -Title $Title -PreContent $Header
+                                ) | sort "mBTC/Day" -Descending) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
 
 
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
