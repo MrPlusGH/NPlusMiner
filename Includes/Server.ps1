@@ -329,7 +329,7 @@ Function Start-Server {
 @"
                         <hr>
                         <SectionTitle>
-                        Earnings
+                        Earnings Tracker
                         </SectionTitle>
                         <br>
                         <EarningsCharts>
