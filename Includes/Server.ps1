@@ -202,13 +202,13 @@ Function Start-Server {
                         Copyright (c) 2018-2020 MrPlus<br>    $(Get-Date) &nbsp&nbsp&nbsp $($Branding.ProductLable) $($Variables.CurrentVersion) &nbsp&nbsp&nbsp Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) &nbsp&nbsp&nbsp Path: $($BasePath)
                         </header>
                         <hr>
-                        <a href="http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/RunningMiners">Running Miners</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Benchmarks">Benchmarks</a>
+                        <a href="./RunningMiners">Running Miners</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="./Benchmarks">Benchmarks</a>
 "@
 
                     If ($Variables.Paused) {
-                        $Header += "&nbsp&nbsp&nbsp&nbsp&nbsp<img src=""https://img.icons8.com/flat_round/64/000000/play--v1.png"" width=""16"" height=""16""/>&nbsp<a href=""http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Cmd-Mine"">Start Mining</a><br><br>"
+                        $Header += "&nbsp&nbsp&nbsp&nbsp&nbsp<img src=""https://img.icons8.com/flat_round/64/000000/play--v1.png"" width=""16"" height=""16""/>&nbsp<a href=""./Cmd-Mine"">Start Mining</a><br><br>"
                     } Else {
-                        $Header += "&nbsp&nbsp&nbsp&nbsp&nbsp<img src=""https://img.icons8.com/flat_round/64/000000/pause--v1.png"" width=""16"" height=""16""/>&nbsp<a href=""http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Cmd-Pause"">Pause Mining</a><br><br>"
+                        $Header += "&nbsp&nbsp&nbsp&nbsp&nbsp<img src=""https://img.icons8.com/flat_round/64/000000/pause--v1.png"" width=""16"" height=""16""/>&nbsp<a href=""./Cmd-Pause"">Pause Mining</a><br><br>"
                     }
 
                     If (Test-Path ".\Config\Peers.json") {
