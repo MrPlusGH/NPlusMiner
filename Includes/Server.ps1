@@ -255,10 +255,12 @@ Function Start-Server {
                             If (($CacheHits + $WebHits)) {$CacheHitsRatio = $CacheHits / ($CacheHits + $WebHits) * 100}
                         }
                         "/ping" {
+                                $ContentType = "text/html"
                                 $Content = "Server Alive"
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/ClearCache" {
+                                $ContentType = "text/html"
                                 $CacheHits = 0
                                 $WebHits = 0
                                 rv ProxyCache
@@ -267,6 +269,7 @@ Function Start-Server {
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/ExportCache" {
+                                $ContentType = "text/html"
                                 $ProxyCache | convertto-json | Out-File ".\logs\ProxyCache.json"
                                 $Content = "OK"
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
