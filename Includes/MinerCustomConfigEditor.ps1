@@ -103,7 +103,7 @@ $HelpLabel_OpenLink=
 } 
 #---------------------------------------------- 
 #region Generated Form Code 
-$form1.Text = "NPlusMiner Custom Miners Confiuration Editor" 
+$form1.Text = "NPlusMiner Custom Miners Configuration Editor" 
 $NPMIcon = New-Object system.drawing.icon (".\Includes\NPM.ICO")
 $form1.Icon                  = $NPMIcon
 $form1.Name = "form1" 
