@@ -7,6 +7,8 @@ table {
     font-family: Segoe UI;
     box-shadow: 10px 10px 5px #888;
     border: thin ridge grey;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 th {
@@ -50,3 +52,12 @@ header img {
     height: 60px;
     width: 60px;
 }
+
+SectionTitle {
+    overflow: auto;
+    padding: 5px 20px;
+    color: #000;
+    text-align: center;
+    font-weight: bold;
+}
+

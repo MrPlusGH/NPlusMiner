@@ -201,8 +201,24 @@ Function Start-Server {
                         <img src=$($Branding.LogoPath)>
                         Copyright (c) 2018-2020 MrPlus<br>    $(Get-Date) &nbsp&nbsp&nbsp $($Branding.ProductLable) $($Variables.CurrentVersion) &nbsp&nbsp&nbsp Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) &nbsp&nbsp&nbsp Path: $($BasePath)
                         </header>
-                        <dd><a href="http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/RunningMiners">Running Miners</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Benchmarks">Benchmarks</a><br><br>
+                        <hr>
+                        <a href="http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/RunningMiners">Running Miners</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Benchmarks">Benchmarks</a>
 "@
+
+                    If ($Variables.Paused) {
+                        $Header += "&nbsp&nbsp&nbsp&nbsp&nbsp<img src=""https://img.icons8.com/flat_round/64/000000/play--v1.png"" width=""16"" height=""16""/>&nbsp<a href=""http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Cmd-Mine"">Start Mining</a><br><br>"
+                    } Else {
+                        $Header += "&nbsp&nbsp&nbsp&nbsp&nbsp<img src=""https://img.icons8.com/flat_round/64/000000/pause--v1.png"" width=""16"" height=""16""/>&nbsp<a href=""http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Cmd-Pause"">Pause Mining</a><br><br>"
+                    }
+
+                    If (Test-Path ".\Config\Peers.json") {
+                        $Header += "Rigs:&nbsp&nbsp&nbsp&nbsp&nbsp"
+                        (get-content ".\Config\Peers.json" | ConvertFrom-Json) | foreach {
+                            $Peer = $_
+                            $Header += "<a href=""http://$($Peer.IP):$($Peer.Port)/Status"">$($Peer.Name)</a>&nbsp&nbsp&nbsp&nbsp&nbsp"
+                        }
+                        $Header += "<br><br>"
+                    }
                     
                     $AuthSuccess = $True
                     $HReq.RawUrl | write-Host
@@ -255,6 +271,122 @@ Function Start-Server {
                                 $Content = "OK"
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
+                        "/RunningMiners.json" {
+                                $Title = "Running Miners"
+                                # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
+                                $ContentType = $MIMETypes[".json"]
+                                $Content = $Variables.ActiveMinerPrograms.Clone() | ? {$_.Status -eq "Running"} | ConvertTo-Json Depth 10
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                        }
+                        "/Benchmarks.json" {
+                                $Title = "Running Miners"
+                                # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
+                                $ContentType = $MIMETypes[".json"]
+                                $Content = $Variables.Miners | ? {$_.Status -eq "Running"} | ConvertTo-Json Depth 10
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                        }
+                        "/Status" {
+                                $Title = "Status"
+                                # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
+                                $ContentType = $MIMETypes[".html"]
+
+                                $EarningsTrends = [PSCustomObject]@{}
+                                $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4),3)) {
+                                        {$_ -eq 0}
+                                            {"="}
+                                        {$_ -gt 0}
+                                            {">"}
+                                        {$_ -lt 0}
+                                            {"<"}
+                                    }
+                                $EarningsTrends | Add-Member -Force @{"Last  1h: " = ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24)) + " m$([char]0x20BF)/D " + $TrendSign}
+                                $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3)) {
+                                        {$_ -eq 0}
+                                            {"="}
+                                        {$_ -gt 0}
+                                            {">"}
+                                        {$_ -lt 0}
+                                            {"<"}
+                                    }
+                                $EarningsTrends | Add-Member -Force @{"Last  6h: " = ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4)) + " m$([char]0x20BF)/D " + $TrendSign}
+                                $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property BTCD -Sum).sum*1000*0.96),3)) {
+                                        {$_ -eq 0}
+                                            {"="}
+                                        {$_ -gt 0}
+                                            {">"}
+                                        {$_ -lt 0}
+                                            {"<"}
+                                    }
+                                $EarningsTrends | Add-Member -Force @{"Last  24h: " = ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000)) + " m$([char]0x20BF)/D " + $TrendSign}
+                                    $Header += $EarningsTrends | ConvertTo-Html -CssUri "./Includes/Web.css" 
+
+                                If (Test-Path ".\logs\DailyEarnings.csv"){
+                                    $Chart1 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'Front7DaysEarnings' -Width 505 -Height 85"
+                                    $Chart2 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'DayPoolSplit' -Width 200 -Height 85"
+
+
+                                    $Header +=
+@"
+                        <hr>
+                        <SectionTitle>
+                        Earnings
+                        </SectionTitle>
+                        <br>
+                        <EarningsCharts>
+                        <table>
+                        <tbody>
+                        <tr>
+                        <th>Past 7 days earnings</th>
+                        <th>Per pool earnings</th>
+                        </tr>
+                        <tr>
+                        <td><img src=./Logs/Front7DaysEarnings.png></td><td><img src=./Logs/DayPoolSplit.png></td>
+                        </tr>
+                        </tbody>
+                        </table><br>
+                        </EarningsCharts>
+"@
+                                }
+                                
+                                If ($Variables.Earnings -and $Config.TrackEarnings) {
+                                    $DisplayEarnings = [System.Collections.ArrayList]@($Variables.Earnings.Values | select @(
+                                        @{Name="Pool";Expression={$_.Pool}},
+                                        @{Name="Trust";Expression={"{0:P0}" -f $_.TrustLevel}},
+                                        @{Name="Balance";Expression={$_.Balance}},
+                                        # @{Name="Unpaid";Expression={$_.total_unpaid}},
+                                        # @{Name="BTC/D";Expression={"{0:N8}" -f ($_.BTCD)}},
+                                        @{Name="1h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth1*1000*24)}},
+                                        @{Name="6h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth6*1000*4)}},
+                                        @{Name="24h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth24*1000)}},
+
+                                        @{Name = "Est. Pay Date"; Expression = {if ($_.EstimatedPayDate -is 'DateTime') {$_.EstimatedPayDate.ToShortDateString()} else {$_.EstimatedPayDate}}},
+
+                                        @{Name="PaymentThreshold";Expression={"$($_.PaymentThreshold) ($('{0:P0}' -f $($_.Balance / $_.PaymentThreshold)))"}}#,
+                                        # @{Name="Wallet";Expression={$_.Wallet}}
+                                    ) | Sort "1h m$([char]0x20BF)/D","6h m$([char]0x20BF)/D","24h m$([char]0x20BF)/D" -Descending)
+                                    $Content = [System.Collections.ArrayList]@($DisplayEarnings) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
+                                }
+                                $Content += 
+@"
+                        <hr>
+                        <SectionTitle>
+                        Running Miners
+                        </SectionTitle>
+                        <br>
+"@
+                                
+                                $Content += [System.Collections.ArrayList]@($Variables.ActiveMinerPrograms.Clone() | ? {$_.Status -eq "Running"} | select @(
+                                    @{Name = "Type";Expression={$_.Type}},
+                                    @{Name = "Algorithm";Expression={$_.Algorithms}},
+                                    @{Name = "Coin"; Expression={$_.Coin}},
+                                    @{Name = "Miner";Expression={$_.Name}},
+                                    @{Name="HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
+                                    @{Name ="Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},
+                                    @{Name ="Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},
+                                    @{Name = "Host";Expression={$_.Host}} ) | sort Type
+                                ) | ConvertTo-Html -CssUri "./Includes/Web.css"
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                        }
                         "/RunningMiners" {
                                 $Title = "Running Miners"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
@@ -296,6 +428,7 @@ Function Start-Server {
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/Cmd-Pause" {
+                                    $ContentType = "text/html"
                                     $Variables.StatusText = "Pause Mining requested via API."
                                     $Variables.Paused = $True
                                     $Variables.RestartCycle = $True
@@ -305,6 +438,7 @@ Function Start-Server {
                                     $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/Cmd-Mine" {
+                                    $ContentType = "text/html"
                                     $Variables.StatusText = "Start Mining requested via API."
                                     $Variables.Paused = $False
                                     $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
@@ -350,6 +484,9 @@ Function Start-Server {
                                 # Set content type based on file extension
                                 if ($MIMETypes.ContainsKey($File.Extension)) { 
                                     $ContentType = $MIMETypes[$File.Extension]
+                                    Switch ($File.Extension) {
+                                        ".png"     {$Content = [System.IO.File]::ReadAllBytes($File.FullName)}
+                                    }
                                 }
                                 else { 
                                     # If it's an unrecognized file type, prompt for download
@@ -364,7 +501,14 @@ Function Start-Server {
                         }
                     }
                     $HasContent = $content -ne $null
-                    $Buf = [Text.Encoding]::UTF8.GetBytes($Content)
+
+                    If ($Content.GetType() -ne [byte[]]) {
+                        [byte[]] $Buf = [System.Text.Encoding]::UTF8.GetBytes($Content)
+                    } Else {
+                        [byte[]] $Buf = $Content
+                    }
+
+                    # $Buf = [Text.Encoding]::UTF8.GetBytes($Content)
                     $Hres.Headers.Add("Content-Type", $ContentType)
                     $HRes.ContentLength64 = $Buf.Length
                     $HRes.OutputStream.Write($Buf,0,$Buf.Length)
