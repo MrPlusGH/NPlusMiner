@@ -199,7 +199,7 @@ Function Start-Server {
                         <link rel="icon" type="image/png" href="$($Branding.LogoPath)">
                         <header>
                         <img src=$($Branding.LogoPath)>
-                        Copyright (c) 2018-2020 MrPlus<br>    $(Get-Date) &nbsp&nbsp&nbsp $($Branding.ProductLable) $($Variables.CurrentVersion) &nbsp&nbsp&nbsp Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) &nbsp&nbsp&nbsp Path: $($BasePath)
+                        Copyright (c) 2018-2020 MrPlus<br>    $(Get-Date) &nbsp&nbsp&nbsp $($Branding.ProductLable) $($Variables.CurrentVersion) &nbsp&nbsp&nbsp Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) &nbsp&nbsp&nbsp Path: $($BasePath) &nbsp&nbsp&nbsp API Cache hit ratio: $("{0:N0}" -f $CacheHitsRatio)%
                         </header>
                         <hr>
                         <a href="./RunningMiners">Running Miners</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="./Benchmarks">Benchmarks</a>
