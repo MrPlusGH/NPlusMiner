@@ -123,7 +123,7 @@ Function Start-Server {
             ".js"   = "application/x-javascript"
             ".html" = "text/html"
             ".htm"  = "text/html"
-            ".json" = "application/json"
+            ".json" = "application/json;charset=UTF-8"
             ".css"  = "text/css"
             ".txt"  = "text/plain"
             ".ico"  = "image/x-icon"
@@ -274,18 +274,46 @@ Function Start-Server {
                                 $Content = "OK"
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
-                        "/RunningMiners.json" {
-                                $Title = "Running Miners"
+                        "/Config.json" {
+                                $Title = "Config.json"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
                                 $ContentType = $MIMETypes[".json"]
-                                $Content = $Variables.ActiveMinerPrograms.Clone() | ? {$_.Status -eq "Running"} | ConvertTo-Json Depth 10
+                                $Content = $Config | ConvertTo-Json -Depth 10
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                        }
+                        "/Variables.json" {
+                                $Title = "Variables.json"
+                                # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
+                                $ContentType = $MIMETypes[".json"]
+                                $Content = $Variables | ConvertTo-Json -Depth 10
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                        }
+                        "/Earnings.json" {
+                                $Title = "Earnings.json"
+                                # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
+                                $ContentType = $MIMETypes[".json"]
+                                $Content = $Variables.Earnings | ConvertTo-Json -Depth 10
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                        }
+                        "/RunningMiners.json" {
+                                $Title = "RunningMiners.json"
+                                # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
+                                $ContentType = $MIMETypes[".json"]
+                                $Content = $Variables.ActiveMinerPrograms.Clone() | ? {$_.Status -eq "Running"} | Sort Type | ConvertTo-Json -Depth 10
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/Benchmarks.json" {
-                                $Title = "Running Miners"
+                                $Title = "Benchmarks.json"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
                                 $ContentType = $MIMETypes[".json"]
-                                $Content = $Variables.Miners | ? {$_.Status -eq "Running"} | ConvertTo-Json Depth 10
+                                $Content = $Variables.Miners | ConvertTo-Json -Depth 10
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                        }
+                        "/Peers.json" {
+                                $Title = "Peers.json"
+                                # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
+                                $ContentType = $MIMETypes[".json"]
+                                If (Test-Path ".\Config\Peers.json") {$Content = Get-Content ".\Config\Peers.json" -Raw}
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/Status" {
@@ -421,7 +449,7 @@ Function Start-Server {
                                     # @{Name = "mBTC/Day"; Expression={$_.Profits.PSObject.Properties.Value | ForEach {if($_ -ne $null){($_*1000).ToString("N3")}else{"Benchmarking"}}}},
                                     @{Name = "mBTC/Day"; Expression={(($_.Profits.PSObject.Properties.Value | Measure -Sum).Sum *1000).ToString("N3")}},
                                     # @{Name = "BTC/Day"; Expression={$_.Profits.PSObject.Properties.Value | ForEach {if($_ -ne $null){$_.ToString("N5")}else{"Benchmarking"}}}},
-                                    @{Name = "BTC/Day"; Expression={(($_.Profits.PSObject.Properties.Value | Measure -Sum).Sum).ToString("N3")}},
+                                    # @{Name = "BTC/Day"; Expression={(($_.Profits.PSObject.Properties.Value | Measure -Sum).Sum).ToString("N3")}},
                                     # @{Name = "BTC/GH/Day"; Expression={$_.Pools.PSObject.Properties.Value.Price | ForEach {($_*1000000000).ToString("N15")}}}
                                     @{Name = "BTC/GH/Day"; Expression={(($_.Pools.PSObject.Properties.Value.Price | Measure -Sum).Sum *1000000000).ToString("N5")}}
                                 # ) | sort "mBTC/Day" -Descending) | ConvertTo-Html -CssUri "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Includes/Web.css" -Title $Title -PreContent $Header
