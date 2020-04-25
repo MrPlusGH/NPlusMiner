@@ -4,7 +4,8 @@ h1, h5, th {
 
 table {
     margin: auto;
-    font-family: Segoe UI;
+    /* font-family: Segoe UI; */
+    font-family: 'MS Sans Serif', Geneva, sans-serif;
     box-shadow: 10px 10px 5px #888;
     border: thin ridge grey;
     margin-left: auto;
@@ -16,6 +17,7 @@ th {
     color: #fff;
     max-width: 400px;
     padding: 5px 10px;
+    font-weight: normal;
 }
 
 td {

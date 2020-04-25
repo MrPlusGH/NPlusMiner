@@ -305,7 +305,7 @@ Function Global:TimerUITick
                     @{Name="HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
                     @{Name ="Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},
                     @{Name ="Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},
-                    @{Name = "Host";Expression={$_.Host}} ) | sort Type
+                    @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}} ) | sort Type
                 )
                 $RunningMinersDGV.ClearSelection()
             

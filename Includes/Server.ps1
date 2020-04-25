@@ -414,7 +414,7 @@ Function Start-Server {
                                     @{Name="HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
                                     @{Name ="Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},
                                     @{Name ="Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},
-                                    @{Name = "Host";Expression={$_.Host}} ) | sort Type
+                                    @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}} ) | sort Type
                                 ) | ConvertTo-Html -CssUri "./Includes/Web.css"
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
@@ -427,11 +427,47 @@ Function Start-Server {
                                     @{Name = "Algorithm";Expression={$_.Algorithms}},
                                     @{Name = "Coin"; Expression={$_.Coin}},
                                     @{Name = "Miner";Expression={$_.Name}},
-                                    @{Name="HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
-                                    @{Name ="Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},
-                                    @{Name ="Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},
-                                    @{Name = "Host";Expression={$_.Host}} ) | sort Type
+                                    @{Name = "HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
+                                    @{Name = "Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},
+                                    @{Name = "Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},
+                                    # @{Name = "Host";Expression={$_.Host}},
+                                    @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}}
+                                    ) | sort Type
                                 ) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                        }
+                        "/PeersRunningMiners" {
+                                $Title = "Peers Running Miners"
+                                # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
+                                $ContentType = $MIMETypes[".html"]
+
+                                If (Test-Path ".\Config\Peers.json") {
+                                    $Peers = Get-Content ".\Config\Peers.json" | ConvertFrom-Json
+                                } Else {
+                                    $Peers = @([PSCustomObject]@{ Name = $Config.WorkerName ; IP = "127.0.0.1" ; Port = $Config.Server_Port })
+                                }
+                                $Miners = @()
+                                
+                                $Peers | foreach {
+                                    $Peer = $_
+                                    If ($Peer.Name -eq $Config.WorkerName) {
+                                        $Miners += $Variables.ActiveMinerPrograms.Clone() | ? {$_.Status -eq "Running"} | select @{Name = "Rig";Expression={$Peer.Name}},*
+                                    } else {
+                                        $Miners += (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/RunningMiners.json" -Credential $Variables.ServerCreds | ConvertFrom-Json) | select @{Name = "Rig";Expression={$Peer.Name}},*
+                                    }
+                                }
+                                $Content = [System.Collections.ArrayList]@($Miners | select @(
+                                            @{Name = "Rig";Expression={$_.Rig}},
+                                            @{Name = "Type";Expression={$_.Type}},
+                                            @{Name = "Algorithm";Expression={$_.Algorithms}},
+                                            @{Name = "Coin"; Expression={$_.Coin}},
+                                            @{Name = "Miner";Expression={$_.Name}},
+                                            @{Name = "HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
+                                            @{Name = "Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.Active.Ticks}},
+                                            @{Name = "Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.TotalActive.Ticks}},
+                                            @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}} ) | sort Rig,Type
+                                        ) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
+                                # $Content = $Header + $Content
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/Benchmarks" {

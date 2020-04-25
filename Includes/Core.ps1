@@ -562,6 +562,7 @@ $CycleTime = Measure-Command -Expression {
                         User = $_.User
                         Host = $_.Host
                         Coin = $_.Coin
+                        Pools = $_.Pools
                     }
                 }
             }
