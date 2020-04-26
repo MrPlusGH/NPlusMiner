@@ -98,6 +98,12 @@ Function InitApplication {
     }
     Sleep 2
     
+    # Register Rig on Server
+    # need to decide on solution for IP address... Should be in config has could be external IP...
+    # If ($Config.Server_Client) {
+        # (Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/RegisterRig/?name=$($Config.WorkerName)&IP=192.168.0.30&port=$($Config.ServerPort)" -Credential $Variables.ServerClientCreds)
+    # }
+    
     # Copy nvml.dll to proper location as latest drivers miss it
     # If ( (! (Test-Path "C:\Program Files\NVIDIA Corporation\NVSMI\nvml.dll")) -and (Test-Path "c:\Windows\System32\nvml.dll") ) {
         # Copy-Item "c:\Windows\System32\nvml.dll" "C:\Program Files\NVIDIA Corporation\NVSMI\nvml.dll" -Force -ErrorAction Ignore
@@ -105,10 +111,18 @@ Function InitApplication {
 }
 
 Function Start-ChildJobs {
+        # Stop Server on code updates
+        If ($Config.Server_On -and $Variables.ServerRunning -and -not (IsLoaded(".\Includes\Server.ps1"))) {
+            $Variables.StatusText = "Stopping server for code update."
+            Invoke-WebRequest "http://localhost:4028/StopServer" -Credential $Variables.ServerCreds
+            $Variables.ServerRunning = $False
+        }
+        
         # Starts Server if necessary
         If ($Config.Server_On -and -not $Variables.ServerRunning ) {
-            . .\Includes\Server.ps1
+            . .\Includes\Server.ps1;RegisterLoaded(".\Includes\Server.ps1")
             $Variables.StatusText = "Starting Server"
+            $Variables.StopServer = $False
             Start-Server
             $Variables | Add-Member -Force @{ServerRunning = ((Invoke-WebRequest "http://localhost:4028/ping" -Credential $Variables.ServerCreds).content -eq "Server Alive")}
         }
@@ -775,6 +789,7 @@ $CycleTime = Measure-Command -Expression {
         $Variables.StatusText = "Waiting $($Variables.TimeToSleep) seconds... | Next refresh: $((Get-Date).AddSeconds($Variables.TimeToSleep)) | Donation running. Thanks for your support!"
     } else {
         $Variables.StatusText = "Waiting $($Variables.TimeToSleep) seconds... | Next refresh: $((Get-Date).AddSeconds($Variables.TimeToSleep))"
+        $Variables.StatusText = "!! Check out the new server features and remote management web interface !!"
     }
     $Variables | Add-Member -Force @{EndLoop = $True}
     # Sleep $Variables.TimeToSleep

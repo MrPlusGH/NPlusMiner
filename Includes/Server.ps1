@@ -100,7 +100,8 @@ Function Start-Server {
     $ServerRunspace.SessionStateProxy.SetVariable("Variables", $Variables)
     $ServerRunspace.SessionStateProxy.Path.SetLocation($pwd) | Out-Null
     
-    $Server = [PowerShell]::Create().AddScript({
+    # $Server = [PowerShell]::Create().AddScript({
+    $Variables | Add-Member -Force @{Server = [PowerShell]::Create().AddScript({
         . .\Includes\include.ps1
         
         Function Get-StringHash([String] $String,$HashName = "MD5")
@@ -162,10 +163,10 @@ Function Start-Server {
         #ignore self-signed/invalid ssl certs
         # Breaks TLS all up !
         # [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$True}
-
+ 
         Foreach ($P in $Up) {$Hso.Prefixes.Add($P)} 
             $ServerListener.Start()
-            While ($ServerListener.IsListening) {
+            While ($ServerListener.IsListening -and -not $Variables.StopServer) {
                 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
                 $HC = $ServerListener.GetContext()
                 $HReq = $HC.Request
@@ -223,7 +224,17 @@ Function Start-Server {
                     $AuthSuccess = $True
                     $HReq.RawUrl | write-Host
                     Switch($Path) {
-                        "/proxy/" {
+                        "/StopServer" {
+                            write-host "Stop Requested"
+                            $Variables.StopServer = $True
+                            $Variables.ServerRunning = $False
+                            $Hso.Close()
+                            $ContentType = "text/html"
+                            $Content = "OK"
+                            $StatusCode  = [System.Net.HttpStatusCode]::OK
+                            Break
+                        }
+                         "/proxy/" {
                             $ProxyCache = $ProxyCache.Where({$_.Date -ge (Get-Date).AddMinutes(-$Config.Server_ServerProxyTimeOut)})
                             $ProxURL = $HReq.RawUrl.Replace("/Proxy/?url=","")
                             # $ProxURL = $HReq.QueryString['URL']
@@ -253,6 +264,38 @@ Function Start-Server {
                             }
 
                             If (($CacheHits + $WebHits)) {$CacheHitsRatio = $CacheHits / ($CacheHits + $WebHits) * 100}
+                        }
+                        "/RegisterRig/" {
+                                $ContentType = "text/html"
+
+                                $RegisterRigName =  $HReq.QueryString['Name']
+                                $RegisterRigIP =  $HReq.QueryString['IP']
+                                $RegisterRigPort =  $HReq.QueryString['Port']
+                                
+                                If (!$RegisterRigName -or !$RegisterRigIP -or !$RegisterRigPort) {
+                                    $StatusCode = 404
+                                    $Content = "Incomplete registration"
+                                } Else {
+                                    $Peer = [PSCustomObject]@{
+                                        Name = $RegisterRigName
+                                        IP = $RegisterRigIP
+                                        Port = $RegisterRigPort
+                                    }
+                                    If (Test-Path ".\Config\Peers.json") {
+                                        $Peers = Get-Content ".\Config\Peers.json" | convertfrom-json
+                                    }
+                                    If ($Peers | ? {$_.Name -eq $RegisterRigName}) {
+                                        ($Peers | ? {$_.Name -eq $RegisterRigName}).IP = $RegisterRigIP
+                                        ($Peers | ? {$_.Name -eq $RegisterRigName}).Port = $RegisterRigPort
+                                    } else {
+                                        $Peers += $Peer
+                                    }
+                                    
+                                    $Peers | convertto-json | out-file ".\Config\Peers.json"
+
+                                    $Content = "$($RegisterRigName)`n$($RegisterRigIP)`n$($RegisterRigPort)"
+                                    $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                }
                         }
                         "/ping" {
                                 $ContentType = "text/html"
@@ -371,7 +414,12 @@ Function Start-Server {
                         <th>Per pool earnings</th>
                         </tr>
                         <tr>
-                        <td><img src=./Logs/Front7DaysEarnings.png></td><td><img src=./Logs/DayPoolSplit.png></td>
+                        <td>
+                            <img src=./Logs/Front7DaysEarnings.png>
+                        </td>
+                        <td>
+                            <img src=./Logs/DayPoolSplit.png>
+                        </td>
                         </tr>
                         </tbody>
                         </table><br>
@@ -406,16 +454,33 @@ Function Start-Server {
                         <br>
 "@
                                 
-                                $Content += [System.Collections.ArrayList]@($Variables.ActiveMinerPrograms.Clone() | ? {$_.Status -eq "Running"} | select @(
-                                    @{Name = "Type";Expression={$_.Type}},
-                                    @{Name = "Algorithm";Expression={$_.Algorithms}},
-                                    @{Name = "Coin"; Expression={$_.Coin}},
-                                    @{Name = "Miner";Expression={$_.Name}},
-                                    @{Name="HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
-                                    @{Name ="Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},
-                                    @{Name ="Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},
-                                    @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}} ) | sort Type
-                                ) | ConvertTo-Html -CssUri "./Includes/Web.css"
+                                If (Test-Path ".\Config\Peers.json") {
+                                    $Peers = Get-Content ".\Config\Peers.json" | ConvertFrom-Json
+                                } Else {
+                                    $Peers = @([PSCustomObject]@{ Name = $Config.WorkerName ; IP = "127.0.0.1" ; Port = $Config.Server_Port })
+                                }
+                                $Miners = @()
+                                
+                                $Peers | foreach {
+                                    $Peer = $_
+                                    If ($Peer.Name -eq $Config.WorkerName) {
+                                        $Miners += $Variables.ActiveMinerPrograms.Clone() | ? {$_.Status -eq "Running"} | select @{Name = "Rig";Expression={$Peer.Name}},*
+                                    } else {
+                                        $Miners += (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/RunningMiners.json" -Credential $Variables.ServerCreds | ConvertFrom-Json) | select @{Name = "Rig";Expression={$Peer.Name}},*
+                                    }
+                                }
+                                $Content += [System.Collections.ArrayList]@($Miners | select @(
+                                            @{Name = "Rig";Expression={$_.Rig}},
+                                            @{Name = "Type";Expression={$_.Type}},
+                                            @{Name = "Algorithm";Expression={$_.Algorithms}},
+                                            @{Name = "Coin"; Expression={$_.Coin}},
+                                            @{Name = "Miner";Expression={$_.Name}},
+                                            @{Name = "HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
+                                            @{Name = "Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.Active.Ticks}},
+                                            @{Name = "Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.TotalActive.Ticks}},
+                                            @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}} ) | sort Rig,Type
+                                        ) | ConvertTo-Html -CssUri "./Includes/Web.css"
+                                # $Content = $Header + $Content
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/RunningMiners" {
@@ -603,11 +668,16 @@ Function Start-Server {
                     rv LogEntry
                 }
             }
-        $Hso.Stop()
+        Write-Host "Server stopping"
+        $ServerListener.Stop()
+        $ServerListener.Close()
+        $Variables.Server.Runspace.Close()
+        $Variables.Server.Dispose()
 
-    })
-    $Server.Runspace = $ServerRunspace
-    $Handle = $Server.BeginInvoke()
+    })}
+    $Variables.Server.Runspace = $ServerRunspace
+    # $Variables.Server | Add-Member -Force @{ServerListener = $ServerListener}
+    $Handle = $Variables.Server.BeginInvoke()
 
 }
 
