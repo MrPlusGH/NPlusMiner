@@ -469,17 +469,20 @@ Function Start-Server {
                                         $Miners += (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/RunningMiners.json" -Credential $Variables.ServerCreds | ConvertFrom-Json) | select @{Name = "Rig";Expression={$Peer.Name}},*
                                     }
                                 }
-                                $Content += [System.Collections.ArrayList]@($Miners | select @(
+                                $MinersTable = [System.Collections.ArrayList]@($Miners | select @(
                                             @{Name = "Rig";Expression={$_.Rig}},
                                             @{Name = "Type";Expression={$_.Type}},
                                             @{Name = "Algorithm";Expression={$_.Algorithms}},
-                                            @{Name = "Coin"; Expression={$_.Coin}},
+                                            @{Name = "Coin"; Expression={"###CoinIcon###$($_.Coin.ToLower())###IconSize###" + $_.Coin}},
                                             @{Name = "Miner";Expression={$_.Name}},
                                             @{Name = "HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
                                             @{Name = "Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.Active.Ticks}},
                                             @{Name = "Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.TotalActive.Ticks}},
                                             @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}} ) | sort Rig,Type
                                         ) | ConvertTo-Html -CssUri "./Includes/Web.css"
+                                $MinersTable = $MinersTable -Replace "###CoinIcon###", "<img src=""https://cryptoicons.org/api/color/"
+                                $MinersTable = $MinersTable -Replace "###IconSize###", "$($_.Coin)/16"">&nbsp&nbsp"
+                                $Content += $MinersTable
                                 # $Content = $Header + $Content
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
@@ -521,17 +524,20 @@ Function Start-Server {
                                         $Miners += (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/RunningMiners.json" -Credential $Variables.ServerCreds | ConvertFrom-Json) | select @{Name = "Rig";Expression={$Peer.Name}},*
                                     }
                                 }
-                                $Content = [System.Collections.ArrayList]@($Miners | select @(
+                                $MinersTable = [System.Collections.ArrayList]@($Miners | select @(
                                             @{Name = "Rig";Expression={$_.Rig}},
                                             @{Name = "Type";Expression={$_.Type}},
                                             @{Name = "Algorithm";Expression={$_.Algorithms}},
-                                            @{Name = "Coin"; Expression={$_.Coin}},
+                                            @{Name = "Coin"; Expression={"###CoinIcon###$($_.Coin.ToLower())###IconSize###" + $_.Coin}},
                                             @{Name = "Miner";Expression={$_.Name}},
                                             @{Name = "HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
                                             @{Name = "Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.Active.Ticks}},
                                             @{Name = "Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.TotalActive.Ticks}},
                                             @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}} ) | sort Rig,Type
                                         ) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
+                                $MinersTable = $MinersTable -Replace "###CoinIcon###", "<img src=""https://cryptoicons.org/api/color/"
+                                $MinersTable = $MinersTable -Replace "###IconSize###", "$($_.Coin)/16"">&nbsp&nbsp"
+                                $Content = $MinersTable
                                 # $Content = $Header + $Content
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
