@@ -15,6 +15,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
 
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_
+        If ($Algo -eq "ethash" -and $Pool -like "*zergpool*") { return }
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
