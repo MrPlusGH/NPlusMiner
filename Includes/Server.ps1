@@ -100,8 +100,7 @@ Function Start-Server {
     $ServerRunspace.SessionStateProxy.SetVariable("Variables", $Variables)
     $ServerRunspace.SessionStateProxy.Path.SetLocation($pwd) | Out-Null
     
-    # $Server = [PowerShell]::Create().AddScript({
-    $Variables | Add-Member -Force @{Server = [PowerShell]::Create().AddScript({
+    $Server = [PowerShell]::Create().AddScript({
         . .\Includes\include.ps1
         
         Function Get-StringHash([String] $String,$HashName = "MD5")
@@ -373,7 +372,7 @@ Function Start-Server {
                                         {$_ -lt 0}
                                             {"<"}
                                     }
-                                $EarningsTrends | Add-Member -Force @{"Last  1h: " = ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24)) + " m$([char]0x20BF)/D " + $TrendSign}
+                                $EarningsTrends | Add-Member -Force @{"Last  1h" = ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24)) + " m$([char]0x20BF)/D " + $TrendSign}
                                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3)) {
                                         {$_ -eq 0}
                                             {"="}
@@ -382,7 +381,7 @@ Function Start-Server {
                                         {$_ -lt 0}
                                             {"<"}
                                     }
-                                $EarningsTrends | Add-Member -Force @{"Last  6h: " = ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4)) + " m$([char]0x20BF)/D " + $TrendSign}
+                                $EarningsTrends | Add-Member -Force @{"Last  6h" = ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4)) + " m$([char]0x20BF)/D " + $TrendSign}
                                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property BTCD -Sum).sum*1000*0.96),3)) {
                                         {$_ -eq 0}
                                             {"="}
@@ -391,7 +390,7 @@ Function Start-Server {
                                         {$_ -lt 0}
                                             {"<"}
                                     }
-                                $EarningsTrends | Add-Member -Force @{"Last  24h: " = ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000)) + " m$([char]0x20BF)/D " + $TrendSign}
+                                $EarningsTrends | Add-Member -Force @{"Last  24h" = ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000)) + " m$([char]0x20BF)/D " + $TrendSign}
                                     $Header += $EarningsTrends | ConvertTo-Html -CssUri "./Includes/Web.css" 
 
                                 If (Test-Path ".\logs\DailyEarnings.csv"){
@@ -460,7 +459,6 @@ Function Start-Server {
                                     $Peers = @([PSCustomObject]@{ Name = $Config.WorkerName ; IP = "127.0.0.1" ; Port = $Config.Server_Port })
                                 }
                                 $Miners = @()
-                                
                                 $Peers | foreach {
                                     $Peer = $_
                                     If ($Peer.Name -eq $Config.WorkerName) {
@@ -473,20 +471,27 @@ Function Start-Server {
                                             @{Name = "Rig";Expression={$_.Rig}},
                                             @{Name = "Type";Expression={$_.Type}},
                                             @{Name = "Algorithm";Expression={$_.Algorithms}},
-                                            @{Name = "Coin"; Expression={"###CoinIcon###$($_.Coin.ToLower())###IconSize###" + $_.Coin}},
+                                            # @{Name = "Coin"; Expression={"###CoinIcon###$($_.Coin.ToLower())###IconSize###" + $_.Coin}},
+                                            # @{Name = "Coin"; Expression={If($_.Coin -and $_.Coin -ne ""){"<img src=""$(Get-CoinIcon ($_.Coin.ToString() -Replace '-.*', ''))"" alt="" "" width=""16""></img>&nbsp&nbsp" + $_.Coin}else{""}}},
+                                            @{Name = "Coin"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {If($_.Coin -and $_.Coin -ne ""){"<img src=""$(Get-CoinIcon ($_.Coin.ToString() -Replace '-.*', ''))"" alt="" "" width=""16""></img>&nbsp&nbsp" + $_.Coin}else{""}}}},
                                             @{Name = "Miner";Expression={$_.Name}},
                                             @{Name = "HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
                                             @{Name = "Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.Active.Ticks}},
                                             @{Name = "Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.TotalActive.Ticks}},
                                             @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}} ) | sort Rig,Type
                                         ) | ConvertTo-Html -CssUri "./Includes/Web.css"
-                                $MinersTable = $MinersTable -Replace "###CoinIcon###", "<img src=""https://cryptoicons.org/api/color/"
-                                $MinersTable = $MinersTable -Replace "###IconSize###", "$($_.Coin)/16"">&nbsp&nbsp"
+                                # $MinersTable = $MinersTable -Replace "###CoinIcon###", "<img src=""https://cryptoicons.org/api/icon/"
+                                # $MinersTable = $MinersTable -Replace "###IconSize###", "/16"" alt="" ""></img>&nbsp&nbsp"
+                                
+                                $MinersTable = [System.Web.HttpUtility]::HtmlDecode($MinersTable)
+                                 
+                                # $MinersTable = [regex]::Replace($MinersTable,'###CoinIcon###(.*)###IconSize###',{param($match) "<img src=""$(Get-CoinIcon $match.Groups[1].Value)"" alt="" ""></img>&nbsp&nbsp"})
+                               
                                 $Content += $MinersTable
                                 # $Content = $Header + $Content
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
-                        "/RunningMiners" {
+                        "/RunningMiners" { 
                                 $Title = "Running Miners"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
                                 $ContentType = $MIMETypes[".html"]
@@ -535,13 +540,13 @@ Function Start-Server {
                                             @{Name = "Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.TotalActive.Ticks}},
                                             @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}} ) | sort Rig,Type
                                         ) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
-                                $MinersTable = $MinersTable -Replace "###CoinIcon###", "<img src=""https://cryptoicons.org/api/color/"
-                                $MinersTable = $MinersTable -Replace "###IconSize###", "$($_.Coin)/16"">&nbsp&nbsp"
+                                $MinersTable = $MinersTable -Replace "###CoinIcon###", "<img src=""https://cryptoicons.org/api/icon/"
+                                $MinersTable = $MinersTable -Replace "###IconSize###", "/16"" alt="" ""></img>&nbsp&nbsp"
                                 $Content = $MinersTable
                                 # $Content = $Header + $Content
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
-                        "/Benchmarks" {
+                        "/Benchmarks" { 
                                 $Title = "Benchmarks"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
 
@@ -550,7 +555,7 @@ Function Start-Server {
                                     @{Name = "Type";Expression={$_.Type}},
                                     @{Name = "Miner";Expression={$_.Name}},
                                     @{Name = "Algorithm";Expression={$_.HashRates.PSObject.Properties.Name}},
-                                    @{Name = "Coin"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Info)"}}},
+                                    @{Name = "Coin"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Coin)"}}},
                                     @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}},
                                     @{Name = "Speed"; Expression={$_.HashRates.PSObject.Properties.Value | ForEach {if($_ -ne $null){"$($_ | ConvertTo-Hash)/s"}else{"Benchmarking"}}}},
                                     # @{Name = "mBTC/Day"; Expression={$_.Profits.PSObject.Properties.Value | ForEach {if($_ -ne $null){($_*1000).ToString("N3")}else{"Benchmarking"}}}},
@@ -564,6 +569,14 @@ Function Start-Server {
 
 
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
+                        }
+                        "/Cmd-CleanIconCache" {
+                                    $ContentType = "text/html"
+                                    $Variables | Add-Member -Force @{CoinIcons = @()}
+                                    
+                                    $Title = "CleanIconCache"
+                                    $Content = "OK"
+                                    $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/Cmd-Pause" {
                                     $ContentType = "text/html"
@@ -677,13 +690,12 @@ Function Start-Server {
         Write-Host "Server stopping"
         $ServerListener.Stop()
         $ServerListener.Close()
-        $Variables.Server.Runspace.Close()
-        $Variables.Server.Dispose()
+        # $Variables.Server.Runspace.Close()
+        # $Variables.Server.Dispose()
 
-    })}
-    $Variables.Server.Runspace = $ServerRunspace
+    })
+    $Server.Runspace = $ServerRunspace
     # $Variables.Server | Add-Member -Force @{ServerListener = $ServerListener}
-    $Handle = $Variables.Server.BeginInvoke()
-
+    $Variables | add-Member -Force @{ServerRunspaceHandle = $Server.BeginInvoke()}
 }
 

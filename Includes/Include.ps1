@@ -1562,3 +1562,20 @@ Function Invoke-ProxiedWebRequest {
     $Request
     
 }
+
+Function Get-CoinIcon {
+    param(
+        [Parameter(Mandatory = $true)]
+        [String]$Symbol,
+        [Parameter(Mandatory = $false)]
+        [Int]$Size=32
+    )
+    $Symbol = $Symbol.Trim()
+    If (!$Variables.CoinIcons) {
+        $Variables | Add-Member -Force @{CoinIcons = (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/list" | ConvertFrom-Json) | sort Symbol -Unique | Select Symbol,Id,Name,Image}
+        }
+    If (($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}) -and (($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).image -eq $Null)) {
+            ($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).image = (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/$(($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).id)" | ConvertFrom-Json).Image
+    }
+    ($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).image.thumb
+}
