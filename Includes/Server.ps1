@@ -143,7 +143,6 @@ Function Start-Server {
             }
         }
 
-        If (Test-Path ".\Logs\Server.log") {Remove-Item ".\Logs\Server.log" -Force}
         Start-Transcript ".\Logs\ServerTR.log"
         # $pid | out-host
         if ([Net.ServicePointManager]::SecurityProtocol -notmatch [Net.SecurityProtocolType]::Tls12) {
@@ -200,9 +199,7 @@ Function Start-Server {
                         <link rel="icon" type="image/png" href="$($Branding.LogoPath)">
                         <header>
                         <img src=$($Branding.LogoPath)>
-                        Copyright (c) 2018-2020 MrPlus<br>
-                        $(Get-Date) &nbsp&nbsp&nbsp $($Branding.ProductLable) $($Variables.CurrentVersion) &nbsp&nbsp&nbsp Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) &nbsp&nbsp&nbsp Path: $($BasePath) &nbsp&nbsp&nbsp API Cache hit ratio: $("{0:N0}" -f $CacheHitsRatio)%<br>
-                        $($Config.WorkerName)
+                        Copyright (c) 2018-2020 MrPlus<br>    $(Get-Date) &nbsp&nbsp&nbsp $($Branding.ProductLable) $($Variables.CurrentVersion) &nbsp&nbsp&nbsp Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) &nbsp&nbsp&nbsp Path: $($BasePath) &nbsp&nbsp&nbsp API Cache hit ratio: $("{0:N0}" -f $CacheHitsRatio)%
                         </header>
                         <hr>
                         <a href="./RunningMiners">Running Miners</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="./Benchmarks">Benchmarks</a>
@@ -431,7 +428,7 @@ Function Start-Server {
                                 
                                 If ($Variables.Earnings -and $Config.TrackEarnings) {
                                     $DisplayEarnings = [System.Collections.ArrayList]@($Variables.Earnings.Values | select @(
-                                        @{Name="Pool";Expression={"<img src=""$(Get-PoolIcon ($_.Pool))"" alt="" "" width=""16""></img>&nbsp&nbsp" +$_.Pool}},
+                                        @{Name="Pool";Expression={$_.Pool}},
                                         @{Name="Trust";Expression={"{0:P0}" -f $_.TrustLevel}},
                                         @{Name="Balance";Expression={$_.Balance}},
                                         # @{Name="Unpaid";Expression={$_.total_unpaid}},
@@ -445,8 +442,7 @@ Function Start-Server {
                                         @{Name="PaymentThreshold";Expression={"$($_.PaymentThreshold) ($('{0:P0}' -f $($_.Balance / $_.PaymentThreshold)))"}}#,
                                         # @{Name="Wallet";Expression={$_.Wallet}}
                                     ) | Sort "1h m$([char]0x20BF)/D","6h m$([char]0x20BF)/D","24h m$([char]0x20BF)/D" -Descending)
-                                    $DisplayEarnings = [System.Collections.ArrayList]@($DisplayEarnings) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
-                                    $Content = [System.Web.HttpUtility]::HtmlDecode($DisplayEarnings)
+                                    $Content = [System.Collections.ArrayList]@($DisplayEarnings) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
                                 }
                                 $Content += 
 @"
@@ -482,8 +478,7 @@ Function Start-Server {
                                             @{Name = "HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
                                             @{Name = "Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.Active.Ticks}},
                                             @{Name = "Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.TotalActive.Ticks}},
-                                            # @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}} ) | sort Rig,Type
-                                            @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"<img src=""$(Get-PoolIcon ($_.Name))"" alt="" "" width=""16""></img>&nbsp&nbsp" + $_.Name}}} ) | sort Rig,Type
+                                            @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}} ) | sort Rig,Type
                                         ) | ConvertTo-Html -CssUri "./Includes/Web.css"
                                 # $MinersTable = $MinersTable -Replace "###CoinIcon###", "<img src=""https://cryptoicons.org/api/icon/"
                                 # $MinersTable = $MinersTable -Replace "###IconSize###", "/16"" alt="" ""></img>&nbsp&nbsp"
@@ -556,14 +551,12 @@ Function Start-Server {
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
 
                                 $ContentType = $MIMETypes[".html"]
-                                $MinersTable = [System.Collections.ArrayList]@($Variables.Miners | Select @(
+                                $Content = [System.Collections.ArrayList]@($Variables.Miners | Select @(
                                     @{Name = "Type";Expression={$_.Type}},
                                     @{Name = "Miner";Expression={$_.Name}},
                                     @{Name = "Algorithm";Expression={$_.HashRates.PSObject.Properties.Name}},
-                                    # @{Name = "Coin"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Coin)"}}},
-                                    @{Name = "Coin"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {If($Variables.CoinsIconCacheLoaded -and $_.Coin -and $_.Coin -ne ""){"<img src=""$(Get-CoinIcon ($_.Coin.ToString() -Replace '-.*', ''))"" alt="" "" width=""16""></img>&nbsp&nbsp" + $_.Coin}else{$_.Coin}}}},
-                                    # @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}},
-                                            @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"<img src=""$(Get-PoolIcon ($_.Name))"" alt="" "" width=""16""></img>&nbsp&nbsp" + $_.Name}}},
+                                    @{Name = "Coin"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Coin)"}}},
+                                    @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}},
                                     @{Name = "Speed"; Expression={$_.HashRates.PSObject.Properties.Value | ForEach {if($_ -ne $null){"$($_ | ConvertTo-Hash)/s"}else{"Benchmarking"}}}},
                                     # @{Name = "mBTC/Day"; Expression={$_.Profits.PSObject.Properties.Value | ForEach {if($_ -ne $null){($_*1000).ToString("N3")}else{"Benchmarking"}}}},
                                     @{Name = "mBTC/Day"; Expression={(($_.Profits.PSObject.Properties.Value | Measure -Sum).Sum *1000).ToString("N3")}},
@@ -573,19 +566,13 @@ Function Start-Server {
                                     @{Name = "BTC/GH/Day"; Expression={(($_.Pools.PSObject.Properties.Value.Price | Measure -Sum).Sum *1000000000).ToString("N5")}}
                                 # ) | sort "mBTC/Day" -Descending) | ConvertTo-Html -CssUri "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Includes/Web.css" -Title $Title -PreContent $Header
                                 ) | sort "mBTC/Day" -Descending) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
-                                
-                                $Content = [System.Web.HttpUtility]::HtmlDecode($MinersTable)
+
 
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
-
-                                If (!$Variables.CoinsIconCacheLoaded -and !$Variables.CoinsIconCachePopulating) {Load-CoinsIconsCache}
-
                         }
                         "/Cmd-CleanIconCache" {
                                     $ContentType = "text/html"
                                     $Variables | Add-Member -Force @{CoinIcons = @()}
-                                    $Variables | Add-Member -Force @{CoinsIconCacheLoaded = $False}
-                                    $Variables | Add-Member -Force @{CoinsIconCachePopulating = $False}
                                     
                                     $Title = "CleanIconCache"
                                     $Content = "OK"

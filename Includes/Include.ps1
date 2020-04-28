@@ -1571,73 +1571,11 @@ Function Get-CoinIcon {
         [Int]$Size=32
     )
     $Symbol = $Symbol.Trim()
-    # If (!$Variables.CoinIcons) {
-        # $Variables | Add-Member -Force @{CoinIcons = (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/list" | ConvertFrom-Json) | sort Symbol -Unique | Select Symbol,Id,Name,Image}
-        # }
-    # If (($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}) -and (($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).image -eq $Null)) {
-            # ($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).image = (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/$(($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).id)" | ConvertFrom-Json).Image
-    # }
-    # ($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).image.thumb
     If (!$Variables.CoinIcons) {
-        $Variables | Add-Member -Force @{CoinIcons = [PSCustomObject]@{}}
-        (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/list" | ConvertFrom-Json) | sort Symbol -Unique | ? {$_.Symbol -in $Variables.Miners.Coin} | ForEach {$Variables.CoinIcons | Add-Member -Force @{$_.Symbol = [PSCustomObject]@{id = $_.id}}}
+        $Variables | Add-Member -Force @{CoinIcons = (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/list" | ConvertFrom-Json) | sort Symbol -Unique | Select Symbol,Id,Name,Image}
         }
-    If (($Variables.CoinIcons.$Symbol.id) -and !($Variables.CoinIcons.$Symbol.Image)) {
-            $Variables.CoinIcons.$Symbol | Add-Member -Force @{Image =  (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/$($Variables.CoinIcons.$Symbol.id)" | ConvertFrom-Json).Image.Thumb}
+    If (($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}) -and (($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).image -eq $Null)) {
+            ($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).image = (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/$(($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).id)" | ConvertFrom-Json).Image
     }
-    $Variables.CoinIcons.$Symbol.Image
-}
-
-Function Load-CoinsIconsCache {
-
-    If (Test-Path ".\Logs\CoinIcons.json") {
-        $Variables | Add-Member -Force @{CoinsIconCachePopulating = $True}
-        $Variables | Add-Member -Force @{CoinIcons = (Get-Content ".\Logs\CoinIcons.json" | ConvertFrom-Json)}
-        $Variables | Add-Member -Force @{CoinsIconCacheLoaded = $True}
-        $Variables | Add-Member -Force @{CoinsIconCachePopulating = $False}
-    } Else {
-    
-        # Setup runspace to load Coins icons cache in background
-        $IconCacheRunspace = [runspacefactory]::CreateRunspace()
-        $IconCacheRunspace.Open()
-        $IconCacheRunspace.SessionStateProxy.SetVariable("Config", $Config)
-        $IconCacheRunspace.SessionStateProxy.SetVariable("Variables", $Variables)
-        $IconCacheRunspace.SessionStateProxy.Path.SetLocation($pwd) | Out-Null
-        $IconCacheLoader = [PowerShell]::Create().AddScript({
-            . .\Includes\include.ps1
-            $Variables | Add-Member -Force @{CoinsIconCachePopulating = $True}
-
-            If (!$Variables.CoinsIconCacheLoaded) {
-                If (!$Variables.CoinIcons) {
-                    # $Variables | Add-Member -Force @{CoinIcons = [PSCustomObject]@{}}
-                    $CoinIcons = [PSCustomObject]@{}
-                    (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/list" | ConvertFrom-Json) | sort Symbol -Unique | ? {$_.Symbol -in $Variables.Miners.Coin} | ForEach {$CoinIcons | Add-Member -Force @{$_.Symbol = [PSCustomObject]@{id = $_.id}}}
-                }
-                $Variables.Miners.Coin | sort | foreach {
-                    $CoinIcons.$_ | Add-Member -Force @{Image =  (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/$($CoinIcons.($_).id)" | ConvertFrom-Json).Image.Thumb}
-                }
-            }
-            $Variables | Add-Member -Force @{CoinIcons = CoinIcons}
-            $Variables.CoinIcons | Convertto-Json | out-file ".\Logs\CoinIcons.json"
-            $Variables | Add-Member -Force @{CoinsIconCacheLoaded = $True}
-            $Variables | Add-Member -Force @{CoinsIconCachePopulating = $False}
-        })
-
-        $IconCacheLoader.Runspace = $IconCacheRunspace
-        $Variables | add-Member -Force @{IconCacheRunspaceHandle = $IconCacheLoader.BeginInvoke()}
-    }
-}
-
-Function Get-PoolIcon {
-    param(
-        [Parameter(Mandatory = $true)]
-        [String]$Pool,
-        [Parameter(Mandatory = $false)]
-        [Int]$Size=32
-    )
-    If (!$Variables.poolapiref -and (Test-Path ".\Config\poolapiref.json")){
-        $Variables | Add-Member -Force @{poolapiref = Get-Content ".\Config\poolapiref.json" | ConvertFrom-Json}
-    }
-    ($Variables.poolapiref | ? {$_.Name -eq $Pool}).IconURi
-
+    ($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).image.thumb
 }
