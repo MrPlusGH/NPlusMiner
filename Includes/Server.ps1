@@ -103,6 +103,8 @@ Function Start-Server {
     $Server = [PowerShell]::Create().AddScript({
         . .\Includes\include.ps1
         
+        Load-CoinsIconsCache
+        
         Function Get-StringHash([String] $String,$HashName = "MD5")
         {
         $StringBuilder = New-Object System.Text.StringBuilder
@@ -190,7 +192,7 @@ Function Start-Server {
                 # If ($ProxURL) {
                 if((-not $HC.User.Identity.IsAuthenticated -or $HC.User.Identity.Name -ne $Config.Server_User -or $HC.User.Identity.Password -ne $Config.Server_Password)) {
                     $Data        = "Access denied"
-                    $StatusCode  = [System.Net.HttpStatusCode]::Unauthorized
+                    $StatusCode  = [System.Net.HttpStatusCode]::Forbidden
                     $ContentType = "text/html"
                     $AuthSuccess = $False
                 } else {

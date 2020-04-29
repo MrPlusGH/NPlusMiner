@@ -1611,16 +1611,19 @@ Function Load-CoinsIconsCache {
                 If (!$Variables.CoinIcons) {
                     # $Variables | Add-Member -Force @{CoinIcons = [PSCustomObject]@{}}
                     $CoinIcons = [PSCustomObject]@{}
-                    (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/list" | ConvertFrom-Json) | sort Symbol -Unique | ? {$_.Symbol -in $Variables.Miners.Coin} | ForEach {$CoinIcons | Add-Member -Force @{$_.Symbol = [PSCustomObject]@{id = $_.id}}}
+                    (Invoke-ProxiedWebRequest "https://api.coingecko.com/api/v3/coins/list" | ConvertFrom-Json) | sort Symbol -Unique | ? {$_.Symbol -in $Variables.Miners.Coin} | ForEach {$CoinIcons | Add-Member -Force @{$_.Symbol = [PSCustomObject]@{id = $_.id}}}
                 }
-                $Variables.Miners.Coin | sort | foreach {
-                    $CoinIcons.$_ | Add-Member -Force @{Image =  (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/$($CoinIcons.($_).id)" | ConvertFrom-Json).Image.Thumb}
+                $CoinIcons.PSobject.Properties.Name | sort | foreach {
+                    $CoinIcons.$_ | Add-Member -Force @{Image =  (Invoke-ProxiedWebRequest "https://api.coingecko.com/api/v3/coins/$($CoinIcons.$_.id)" | ConvertFrom-Json).Image.Thumb}
                 }
             }
             $Variables | Add-Member -Force @{CoinIcons = CoinIcons}
             $Variables.CoinIcons | Convertto-Json | out-file ".\Logs\CoinIcons.json"
             $Variables | Add-Member -Force @{CoinsIconCacheLoaded = $True}
             $Variables | Add-Member -Force @{CoinsIconCachePopulating = $False}
+            $Variables.IconCacheRunspaceHandle.Runspace.Close()
+            $Variables.IconCacheRunspaceHandle.Dispose()
+
         })
 
         $IconCacheLoader.Runspace = $IconCacheRunspace
