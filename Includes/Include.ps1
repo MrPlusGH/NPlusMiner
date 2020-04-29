@@ -391,6 +391,11 @@ Function Load-Config {
             }}
         }
     }
+    
+    If ($Config.Server_Password -in @("","3890292d-990c-44ba-b779-552829fc0bc4")) {
+        $Guid = (New-Guid).Guid
+        $Config.Server_Password = $Guid
+    }
 
         $Config
     }
