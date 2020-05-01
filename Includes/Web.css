@@ -2,12 +2,17 @@ h1, h5, th {
     text-align: center;
 }
 
+body {
+  background-color: #F0F0F0
+}
+
 table {
     margin: auto;
     /* font-family: Segoe UI; */
     font-family: 'MS Sans Serif', Geneva, sans-serif;
-    box-shadow: 10px 10px 5px #888;
-    border: thin ridge grey;
+    box-shadow: -5px 5px 5px #888;
+    /* border: thin ridge grey; */
+    border: none;
     margin-left: auto;
     margin-right: auto;
 }
@@ -36,7 +41,8 @@ tr:nth-child(even) {
 
 tr:nth-child(odd) {
     /*        background: #f2a900; */
-    background: #f8d175;
+    /* background: #f8d175; */
+    background: #F9F9F9;
 }
 
 header {

@@ -199,13 +199,13 @@ Function Global:TimerUITick
             # https://stackoverflow.com/questions/8466343/why-controls-do-not-want-to-get-removed
 
             If (Test-Path ".\logs\DailyEarnings.csv"){
-                $Chart1 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'Front7DaysEarnings' -Width 505 -Height 85"
+                $Chart1 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'Front7DaysEarnings' -Width 505 -Height 85 -Currency $($Config.Passwordcurrency)"
                 $Chart1.top = 74
                 $Chart1.left = 0
                 $RunPage.Controls.Add($Chart1)
                 $Chart1.BringToFront()
 
-                $Chart2 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'DayPoolSplit' -Width 200 -Height 85"
+                $Chart2 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'DayPoolSplit' -Width 200 -Height 85 -Currency $($Config.Passwordcurrency)"
                 $Chart2.top = 74
                 $Chart2.left = 500
                 $RunPage.Controls.Add($Chart2)
@@ -221,15 +221,15 @@ Function Global:TimerUITick
                     @{Name="Balance";Expression={$_.Balance}},
                     # @{Name="Unpaid";Expression={$_.total_unpaid}},
                     # @{Name="BTC/D";Expression={"{0:N8}" -f ($_.BTCD)}},
-                    @{Name="1h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth1*1000*24)}},
-                    @{Name="6h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth6*1000*4)}},
-                    @{Name="24h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth24*1000)}},
+                    @{Name="1h $((Get-DisplayCurrency $_.Growth1 24).UnitStringPerDay)";Expression={(Get-DisplayCurrency $_.Growth1 24).RoundedValue}},
+                    @{Name="6h $((Get-DisplayCurrency $_.Growth6 4).UnitStringPerDay)";Expression={(Get-DisplayCurrency $_.Growth6 4).RoundedValue}},
+                    @{Name="24h $((Get-DisplayCurrency $_.Growth24).UnitStringPerDay)";Expression={(Get-DisplayCurrency $_.Growth24).RoundedValue}},
 
                     @{Name = "Est. Pay Date"; Expression = {if ($_.EstimatedPayDate -is 'DateTime') {$_.EstimatedPayDate.ToShortDateString()} else {$_.EstimatedPayDate}}},
 
                     @{Name="PaymentThreshold";Expression={"$($_.PaymentThreshold) ($('{0:P0}' -f $($_.Balance / $_.PaymentThreshold)))"}}#,
                     # @{Name="Wallet";Expression={$_.Wallet}}
-                ) | Sort "1h m$([char]0x20BF)/D","6h m$([char]0x20BF)/D","24h m$([char]0x20BF)/D" -Descending)
+                ) | Sort "1h $((Get-DisplayCurrency $_.Growth1 24).UnitStringPerDay)","6h $((Get-DisplayCurrency $_.Growth6 4).UnitStringPerDay)","24h $((Get-DisplayCurrency $_.Growth24).UnitStringPerDay)" -Descending)
                 $EarningsDGV.DataSource = [System.Collections.ArrayList]@($DisplayEarnings)
                 $EarningsDGV.ClearSelection()
             }
@@ -314,12 +314,13 @@ Function Global:TimerUITick
                     # Update-Status("No miner running")
                 }
             }
-            $LabelBTCPrice.text = If($Variables.Rates.$Currency -gt 0){"BTC/$($Config.Currency) $($Variables.Rates.($Config.Currency))"}
+            $LabelBTCPrice.text = If($Variables.Rates.$Currency -gt 0){"$($Config.Passwordcurrency)/$($Config.Currency) $($Variables.Rates.($Config.Currency))"}
             $Variables | Add-Member -Force @{InCycle = $False}
         
         
             If ($Variables.Earnings.Values -ne $Null){
-                $LabelBTCD.Text = "Avg: " +("{0:N6}" -f ($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum) + " $([char]0x20BF)/D   |   " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000)) + " m$([char]0x20BF)/D"
+                $LabelBTCD.Text = "Avg: " + ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum)).DisplayStringPerDay
+                
                 
                 $LabelEarningsDetails.Lines = @()
                 # If ((($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24) -lt ((($Variables.Earnings.Values | measure -Property BTCD -Sum).sum*1000)*0.999)) {
@@ -332,7 +333,7 @@ Function Global:TimerUITick
                         {$_ -lt 0}
                             {"<"}
                     }
-                $LabelEarningsDetails.Lines += "Last  1h: " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24)) + " m$([char]0x20BF)/D " + $TrendSign
+                $LabelEarningsDetails.Lines += "Last  1h: " + ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum 24)).DisplayStringPerDay + " " + $TrendSign
                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3)) {
                         {$_ -eq 0}
                             {"="}
@@ -341,7 +342,7 @@ Function Global:TimerUITick
                         {$_ -lt 0}
                             {"<"}
                     }
-                $LabelEarningsDetails.Lines += "Last  6h: " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4)) + " m$([char]0x20BF)/D " + $TrendSign
+                $LabelEarningsDetails.Lines += "Last  6h: " + ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum 4)).DisplayStringPerDay + " " + $TrendSign
                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property BTCD -Sum).sum*1000*0.96),3)) {
                         {$_ -eq 0}
                             {"="}
@@ -350,7 +351,7 @@ Function Global:TimerUITick
                         {$_ -lt 0}
                             {"<"}
                     }
-                $LabelEarningsDetails.Lines += "Last 24h: " + ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000)) + " m$([char]0x20BF)/D " + $TrendSign
+                $LabelEarningsDetails.Lines += "Last 24h: " + ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum)).DisplayStringPerDay + " " + $TrendSign
                 rv TrendSign
             } else {
                 $LabelBTCD.Text = "Waiting data from pools."
@@ -741,7 +742,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $LabelEarningsDetails.MultiLine                = $true
     $LabelEarningsDetails.text                     = ""
     $LabelEarningsDetails.AutoSize                 = $false
-    $LabelEarningsDetails.width                    = 200 #382
+    $LabelEarningsDetails.width                    = 382 #200
     $LabelEarningsDetails.height                   = 47 #62
     $LabelEarningsDetails.location                 = New-Object System.Drawing.Point(57,2)
     $LabelEarningsDetails.Font                     = 'lucida console,10'
@@ -854,13 +855,13 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $RunPageControls += $LabelEarnings
 
     If (Test-Path ".\logs\DailyEarnings.csv"){
-        $Chart1 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'Front7DaysEarnings' -Width 505 -Height 85"
+        $Chart1 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'Front7DaysEarnings' -Width 505 -Height 85 -Currency $($Config.Passwordcurrency)"
         $Chart1.top = 74
         $Chart1.left = 2
         $RunPageControls += $Chart1
     }
     If (Test-Path ".\logs\DailyEarnings.csv"){
-        $Chart2 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'DayPoolSplit' -Width 200 -Height 85"
+        $Chart2 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'DayPoolSplit' -Width 200 -Height 85 -Currency $($Config.Passwordcurrency)"
         $Chart2.top = 74
         $Chart2.left = 500
         $RunPageControls += $Chart2
@@ -1378,7 +1379,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $ConfigPageControls += $TBCurrency
 
     $LabelPwdCurrency                          = New-Object system.Windows.Forms.Label
-    $LabelPwdCurrency.text                     = "Pwd Currency"
+    $LabelPwdCurrency.text                     = "Payout Currency"
     $LabelPwdCurrency.AutoSize                 = $false
     $LabelPwdCurrency.width                    = 120
     $LabelPwdCurrency.height                   = 20

@@ -203,8 +203,10 @@ Function Start-Server {
                         <header>
                         <img src=$($Branding.LogoPath)>
                         Copyright (c) 2018-2020 MrPlus<br>
-                        $(Get-Date) &nbsp&nbsp&nbsp $($Branding.ProductLable) $($Variables.CurrentVersion) &nbsp&nbsp&nbsp Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) &nbsp&nbsp&nbsp Path: $($BasePath) &nbsp&nbsp&nbsp API Cache hit ratio: $("{0:N0}" -f $CacheHitsRatio)%<br>
-                        $($Config.WorkerName)
+                        $(Get-Date) &nbsp&nbsp&nbsp <a href="https://github.com/MrPlusGH/NPlusMiner">$($Branding.ProductLable) $($Variables.CurrentVersion)</a>  &nbsp&nbsp&nbsp Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) &nbsp&nbsp&nbsp Path: $($BasePath) &nbsp&nbsp&nbsp API Cache hit ratio: $("{0:N0}" -f $CacheHitsRatio)%<br>
+                        Worker Name: <a href="./Status">$($Config.WorkerName)</a> 
+                        &nbsp&nbsp&nbsp Average:  $(((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum)).DisplayStringPerDay)
+                        &nbsp&nbsp&nbsp $(If($Variables.Rates.($Config.Currency) -gt 0){"$($Config.Passwordcurrency)/$($Config.Currency) $($Variables.Rates.($Config.Currency))"})
                         </header>
                         <hr>
                         <a href="./RunningMiners">Running Miners</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="./Benchmarks">Benchmarks</a>
@@ -377,7 +379,7 @@ Function Start-Server {
                                         {$_ -lt 0}
                                             {"<"}
                                     }
-                                $EarningsTrends | Add-Member -Force @{"Last  1h" = ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24)) + " m$([char]0x20BF)/D " + $TrendSign}
+                                $EarningsTrends | Add-Member -Force @{"Last  1h" = ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum 24)).DisplayStringPerDay + " " + $TrendSign}
                                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3)) {
                                         {$_ -eq 0}
                                             {"="}
@@ -386,7 +388,7 @@ Function Start-Server {
                                         {$_ -lt 0}
                                             {"<"}
                                     }
-                                $EarningsTrends | Add-Member -Force @{"Last  6h" = ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4)) + " m$([char]0x20BF)/D " + $TrendSign}
+                                $EarningsTrends | Add-Member -Force @{"Last  6h" = ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum 4)).DisplayStringPerDay + " " + $TrendSign}
                                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property BTCD -Sum).sum*1000*0.96),3)) {
                                         {$_ -eq 0}
                                             {"="}
@@ -395,12 +397,12 @@ Function Start-Server {
                                         {$_ -lt 0}
                                             {"<"}
                                     }
-                                $EarningsTrends | Add-Member -Force @{"Last  24h" = ("{0:N3}" -f (($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000)) + " m$([char]0x20BF)/D " + $TrendSign}
+                                $EarningsTrends | Add-Member -Force @{"Last  24h" = ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum)).DisplayStringPerDay + " " + $TrendSign}
                                     $Header += $EarningsTrends | ConvertTo-Html -CssUri "./Includes/Web.css" 
 
                                 If (Test-Path ".\logs\DailyEarnings.csv"){
-                                    $Chart1 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'Front7DaysEarnings' -Width 505 -Height 85"
-                                    $Chart2 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'DayPoolSplit' -Width 200 -Height 85"
+                                    $Chart1 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'Front7DaysEarnings' -Width 505 -Height 85 -Currency $($Config.Passwordcurrency)"
+                                    $Chart2 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'DayPoolSplit' -Width 200 -Height 85 -Currency $($Config.Passwordcurrency)"
 
 
                                     $Header +=
@@ -438,15 +440,15 @@ Function Start-Server {
                                         @{Name="Balance";Expression={$_.Balance}},
                                         # @{Name="Unpaid";Expression={$_.total_unpaid}},
                                         # @{Name="BTC/D";Expression={"{0:N8}" -f ($_.BTCD)}},
-                                        @{Name="1h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth1*1000*24)}},
-                                        @{Name="6h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth6*1000*4)}},
-                                        @{Name="24h m$([char]0x20BF)/D";Expression={"{0:N3}" -f ($_.Growth24*1000)}},
+                                        @{Name="1h $((Get-DisplayCurrency $_.Growth1 24).UnitStringPerDay)";Expression={(Get-DisplayCurrency $_.Growth1 24).RoundedValue}},
+                                        @{Name="6h $((Get-DisplayCurrency $_.Growth6 4).UnitStringPerDay)";Expression={(Get-DisplayCurrency $_.Growth6 4).RoundedValue}},
+                                        @{Name="24h $((Get-DisplayCurrency $_.Growth24).UnitStringPerDay)";Expression={(Get-DisplayCurrency $_.Growth24).RoundedValue}},
 
                                         @{Name = "Est. Pay Date"; Expression = {if ($_.EstimatedPayDate -is 'DateTime') {$_.EstimatedPayDate.ToShortDateString()} else {$_.EstimatedPayDate}}},
 
                                         @{Name="PaymentThreshold";Expression={"$($_.PaymentThreshold) ($('{0:P0}' -f $($_.Balance / $_.PaymentThreshold)))"}}#,
                                         # @{Name="Wallet";Expression={$_.Wallet}}
-                                    ) | Sort "1h m$([char]0x20BF)/D","6h m$([char]0x20BF)/D","24h m$([char]0x20BF)/D" -Descending)
+                                    ) | Sort "1h $((Get-DisplayCurrency $_.Growth1 24).UnitStringPerDay)","6h $((Get-DisplayCurrency $_.Growth6 4).UnitStringPerDay)","24h $((Get-DisplayCurrency $_.Growth24).UnitStringPerDay)" -Descending)
                                     $DisplayEarnings = [System.Collections.ArrayList]@($DisplayEarnings) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
                                     $Content = [System.Web.HttpUtility]::HtmlDecode($DisplayEarnings)
                                 }
@@ -582,6 +584,15 @@ Function Start-Server {
 
                                 If (!$Variables.CoinsIconCacheLoaded -and !$Variables.CoinsIconCachePopulating) {Load-CoinsIconsCache}
 
+                        }
+                        "/SwitchingLog" {
+                                $Title = "SwitchingLog"
+                                $ContentType = $MIMETypes[".html"]
+
+                                If (Test-Path ".\Logs\switching.log"){$SwitchingArray = [System.Collections.ArrayList]@(@((get-content ".\Logs\switching.log" -First 1) , (get-content ".\logs\switching.log" -last 15)) | ConvertFrom-Csv | Select date,type,algo,coin,host -Last 13)}
+                                $Content = $SwitchingArray | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
+                                
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/Cmd-CleanIconCache" {
                                     $ContentType = "text/html"

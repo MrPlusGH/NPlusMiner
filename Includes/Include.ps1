@@ -395,6 +395,9 @@ Function Load-Config {
     If ($Config.Server_Password -in @("","3890292d-990c-44ba-b779-552829fc0bc4")) {
         $Guid = (New-Guid).Guid
         $Config.Server_Password = $Guid
+        If ($Config.Server_ClientPassword -in @("","3890292d-990c-44ba-b779-552829fc0bc4")) {
+            $Config.Server_ClientPassword = $Guid
+        }
     }
 
         $Config
@@ -1587,6 +1590,9 @@ Function Get-CoinIcon {
         $Variables | Add-Member -Force @{CoinIcons = [PSCustomObject]@{}}
         (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/list" | ConvertFrom-Json) | sort Symbol -Unique | ? {$_.Symbol -in $Variables.Miners.Coin} | ForEach {$Variables.CoinIcons | Add-Member -Force @{$_.Symbol = [PSCustomObject]@{id = $_.id}}}
         }
+    If (!($Variables.CoinIcons.$Symbol.id)) {
+        (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/list" | ConvertFrom-Json) | sort Symbol -Unique | ? {$_.Symbol -eq $Symbol} | ForEach {$Variables.CoinIcons | Add-Member -Force @{$_.Symbol = [PSCustomObject]@{id = $_.id}}}
+    }   
     If (($Variables.CoinIcons.$Symbol.id) -and !($Variables.CoinIcons.$Symbol.Image)) {
             $Variables.CoinIcons.$Symbol | Add-Member -Force @{Image =  (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/$($Variables.CoinIcons.$Symbol.id)" | ConvertFrom-Json).Image.Thumb}
     }
@@ -1647,5 +1653,41 @@ Function Get-PoolIcon {
         $Variables | Add-Member -Force @{poolapiref = Get-Content ".\Config\poolapiref.json" | ConvertFrom-Json}
     }
     ($Variables.poolapiref | ? {$_.Name -eq $Pool}).IconURi
+
+}
+
+Function Get-DisplayCurrency {
+    param(
+        [Parameter(Mandatory = $false)]
+        [Decimal]$Value,
+        [Parameter(Mandatory = $false)]
+        [Decimal]$Factor=1
+    )
+    
+    $Result = [PSCustomObject]@{
+        Currency = If($Config.Passwordcurrency -eq "BTC") {"$([char]0x20BF)"} Else {$Config.Passwordcurrency}
+        Value = $Value * $Factor
+        RoundedValue = [Math]::Round($This.Value, 3)
+        Unit = ""
+        UnitString = "$($This.Unit)$($This.Currency)"
+        UnitStringPerDay = "$($This.Unit)$($This.Currency)/Day"
+        DisplayString = "$($This.RoundedValue) $($This.Unit)$($This.Currency)"
+        DisplayStringPerDay = "$($This.RoundedValue) $($This.Unit)$($This.Currency)/Day"
+    }
+    $Result | Add-Member -Force -MemberType ScriptProperty -Name 'RoundedValue' -Value{ [Math]::Round($This.Value, 3) }
+    $Result | Add-Member -Force -MemberType ScriptProperty -Name 'UnitString' -Value{ "$($This.Unit)$($This.Currency)" }
+    $Result | Add-Member -Force -MemberType ScriptProperty -Name 'UnitStringPerDay' -Value{ "$($This.Unit)$($This.Currency)/Day" }
+    $Result | Add-Member -Force -MemberType ScriptProperty -Name 'DisplayString' -Value{ "$($This.RoundedValue) $($This.Unit)$($This.Currency)" }
+    $Result | Add-Member -Force -MemberType ScriptProperty -Name 'DisplayStringPerDay' -Value{ "$($This.RoundedValue) $($This.Unit)$($This.Currency)/Day" }
+    
+    $Result.Unit = Switch ([Math]::Floor($Result.Value)) {
+        {$_ -le 0}                    {"m";$Result.Value*=1000;Break}
+        {$_ -le 999}                  {"";Break}
+        {$_ -le 999999}               {"K";$Result.Value/=1000;Break}
+        {$_ -le 999999999}            {"M";$Result.Value/=1000000;Break}
+        {$_ -le 999999999999}         {"G";$Result.Value/=1000000000;Break}
+    }
+    # $Result.Value = [Math]::Round($Result.Value, 3)
+    $Result
 
 }
