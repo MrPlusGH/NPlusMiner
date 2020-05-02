@@ -175,7 +175,7 @@ Function Start-Server {
                 # $Hreq | Out-Host
                 # $Hreq | convertto-json -Depth 10 | Out-File ".\Logs\HReq.json"
                 $Path = $Hreq.Url.LocalPath
-                $ClientAddress = $Hreq.RemoteEndPoint.Address
+                $ClientAddress = $Hreq.RemoteEndPoint.Address.ToString()
                 $ClientPort = $Hreq.RemoteEndPoint.Port
                 $HRes = $HC.Response
                 # $HRes.Headers.Add("Content-Type","text/html")      
@@ -211,7 +211,7 @@ Function Start-Server {
                         <hr>
                         <a href="./RunningMiners">Running Miners</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="./Benchmarks">Benchmarks</a>
 "@
-
+ 
                     If ($Variables.Paused) {
                         $Header += "&nbsp&nbsp&nbsp&nbsp&nbsp<img src=""https://img.icons8.com/flat_round/64/000000/play--v1.png"" width=""16"" height=""16""/>&nbsp<a href=""./Cmd-Mine"">Start Mining</a><br><br>"
                     } Else {
@@ -220,7 +220,7 @@ Function Start-Server {
 
                     If (Test-Path ".\Config\Peers.json") {
                         $Header += "Rigs:&nbsp&nbsp&nbsp&nbsp&nbsp"
-                        (get-content ".\Config\Peers.json" | ConvertFrom-Json) | foreach {
+                        (get-content ".\Config\Peers.json" | ConvertFrom-Json) | Sort Name | foreach {
                             $Peer = $_
                             $Header += "<a href=""http://$($Peer.IP):$($Peer.Port)/Status"">$($Peer.Name)</a>&nbsp&nbsp&nbsp&nbsp&nbsp"
                         }
@@ -278,29 +278,34 @@ Function Start-Server {
                                 $RegisterRigIP =  $HReq.QueryString['IP']
                                 $RegisterRigPort =  $HReq.QueryString['Port']
                                 
-                                If (!$RegisterRigName -or !$RegisterRigIP -or !$RegisterRigPort) {
+                                If (!$RegisterRigName -or (!$RegisterRigIP -and !$ClientAddress) -or !$RegisterRigPort) {
                                     $StatusCode = 404
                                     $Content = "Incomplete registration"
                                 } Else {
                                     $Peer = [PSCustomObject]@{
                                         Name = $RegisterRigName
-                                        IP = $RegisterRigIP
+                                        IP = If (!$RegisterRigIP) {$ClientAddress} Else {$RegisterRigIP}
                                         Port = $RegisterRigPort
                                     }
                                     If (Test-Path ".\Config\Peers.json") {
                                         $Peers = Get-Content ".\Config\Peers.json" | convertfrom-json
                                     }
                                     If ($Peers | ? {$_.Name -eq $RegisterRigName}) {
-                                        ($Peers | ? {$_.Name -eq $RegisterRigName}).IP = $RegisterRigIP
-                                        ($Peers | ? {$_.Name -eq $RegisterRigName}).Port = $RegisterRigPort
+                                        ($Peers | ? {$_.Name -eq $RegisterRigName}).IP = $Peer.IP
+                                        ($Peers | ? {$_.Name -eq $RegisterRigName}).Port = $Peer.Port
                                     } else {
                                         $Peers += $Peer
                                     }
                                     
-                                    $Peers | convertto-json | out-file ".\Config\Peers.json"
+                                    If ((Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/ping" -Credential $Variables.ServerClientCreds).content -eq "Server Alive") {
+                                        $Peers | convertto-json | out-file ".\Config\Peers.json"
 
-                                    $Content = "$($RegisterRigName)`n$($RegisterRigIP)`n$($RegisterRigPort)"
-                                    $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                        $Content = "$($Peer.Name)`n$($Peer.IP)`n$($Peer.Port)"
+                                        $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                    } Else {
+                                        $StatusCode = 404
+                                        $Content = "Peer not responding"
+                                    }
                                 }
                         }
                         "/ping" {
