@@ -1595,6 +1595,7 @@ Function Get-CoinIcon {
     }   
     If (($Variables.CoinIcons.$Symbol.id) -and !($Variables.CoinIcons.$Symbol.Image)) {
             $Variables.CoinIcons.$Symbol | Add-Member -Force @{Image =  (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/$($Variables.CoinIcons.$Symbol.id)" | ConvertFrom-Json).Image.Thumb}
+            $Variables.CoinIcons | Convertto-Json | out-file ".\Logs\CoinIcons.json"
     }
     $Variables.CoinIcons.$Symbol.Image
 }
@@ -1690,4 +1691,19 @@ Function Get-DisplayCurrency {
     # $Result.Value = [Math]::Round($Result.Value, 3)
     $Result
 
+}
+
+Function ConvertTo-ImagePath {
+    param(
+        [Parameter(Mandatory = $true)]
+        [String]$Text
+    )
+    
+    $ImagePath = Switch ($Text) {
+        "CPU"               {"https://img.icons8.com/metro/26/000000/electronics.png"}
+        "NVIDIA"            {"https://www.nvidia.com/favicon.ico"}
+        "AMD"               {"https://www.amd.com/themes/custom/amd/favicon.ico"}
+        "Top"               {"https://img.icons8.com/metro/32/000000/double-up.png"}
+    }
+    $ImagePath
 }
