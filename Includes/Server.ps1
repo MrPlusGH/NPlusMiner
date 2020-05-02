@@ -497,6 +497,12 @@ Function Start-Server {
                                 # $MinersTable = [regex]::Replace($MinersTable,'###CoinIcon###(.*)###IconSize###',{param($match) "<img src=""$(Get-CoinIcon $match.Groups[1].Value)"" alt="" ""></img>&nbsp&nbsp"})
                                
                                 $Content += $MinersTable
+                                
+                                ForEach ($Type in ($Miners.Type | Sort -Unique)) {
+                                    $Content = $Content -Replace "<td>$($Type)</td>", "<td><img src=""$(ConvertTo-ImagePath $Type)"" alt="" "" width=""16""></img>&nbsp&nbsp$($Type)</td>"
+                                }
+                                $Content = [System.Web.HttpUtility]::HtmlDecode($Content)
+
                                 # $Content = $Header + $Content
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
@@ -558,31 +564,53 @@ Function Start-Server {
                         "/Benchmarks" { 
                                 $Title = "Benchmarks"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
+                                If (!$Variables.CoinsIconCacheLoaded -and !$Variables.CoinsIconCachePopulating) {Load-CoinsIconsCache}
 
                                 $ContentType = $MIMETypes[".html"]
-                                $MinersTable = [System.Collections.ArrayList]@($Variables.Miners | Select @(
-                                    @{Name = "Type";Expression={$_.Type}},
-                                    @{Name = "Miner";Expression={$_.Name}},
-                                    @{Name = "Algorithm";Expression={$_.HashRates.PSObject.Properties.Name}},
-                                    # @{Name = "Coin"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Coin)"}}},
-                                    @{Name = "Coin"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {If($Variables.CoinsIconCacheLoaded -and $_.Coin -and $_.Coin -ne ""){"<img src=""$(Get-CoinIcon ($_.Coin.ToString() -Replace '-.*', ''))"" alt="" "" width=""16""></img>&nbsp&nbsp" + $_.Coin}else{$_.Coin}}}},
-                                    # @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}},
-                                            @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"<img src=""$(Get-PoolIcon ($_.Name))"" alt="" "" width=""16""></img>&nbsp&nbsp" + $_.Name}}},
-                                    @{Name = "Speed"; Expression={$_.HashRates.PSObject.Properties.Value | ForEach {if($_ -ne $null){"$($_ | ConvertTo-Hash)/s"}else{"Benchmarking"}}}},
-                                    # @{Name = "mBTC/Day"; Expression={$_.Profits.PSObject.Properties.Value | ForEach {if($_ -ne $null){($_*1000).ToString("N3")}else{"Benchmarking"}}}},
-                                    @{Name = "mBTC/Day"; Expression={(($_.Profits.PSObject.Properties.Value | Measure -Sum).Sum *1000).ToString("N3")}},
-                                    # @{Name = "BTC/Day"; Expression={$_.Profits.PSObject.Properties.Value | ForEach {if($_ -ne $null){$_.ToString("N5")}else{"Benchmarking"}}}},
-                                    # @{Name = "BTC/Day"; Expression={(($_.Profits.PSObject.Properties.Value | Measure -Sum).Sum).ToString("N3")}},
-                                    # @{Name = "BTC/GH/Day"; Expression={$_.Pools.PSObject.Properties.Value.Price | ForEach {($_*1000000000).ToString("N15")}}}
-                                    @{Name = "BTC/GH/Day"; Expression={(($_.Pools.PSObject.Properties.Value.Price | Measure -Sum).Sum *1000000000).ToString("N5")}}
-                                # ) | sort "mBTC/Day" -Descending) | ConvertTo-Html -CssUri "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Includes/Web.css" -Title $Title -PreContent $Header
-                                ) | sort "mBTC/Day" -Descending) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
+                                $Content = $Header
                                 
-                                $Content = [System.Web.HttpUtility]::HtmlDecode($MinersTable)
+                                ForEach ($Type in ($Variables.Miners.Type | Sort -Unique -Descending)) {
+                                    $Content += "<img src=""$(ConvertTo-ImagePath $Type)"" alt="" "" width=""16""></img>&nbsp&nbsp<a href=""#$($Type)"">$($Type)</a>&nbsp&nbsp&nbsp&nbsp"
+                                }
+                                
+                                ForEach ($Type in ($Variables.Miners.Type | Sort -Unique -Descending)) {
+                                    $Content +=
+@"
+                        <hr>
+                        <div id="$($Type)"></div>
+                        <SectionTitle>
+                        <span class="left"><img src="$(ConvertTo-ImagePath $Type)" alt=" " width="16"></img>&nbsp&nbsp$($Type)</span><span class="right"><a href="#"><img src="$(ConvertTo-ImagePath 'Top')" alt=" " width="16"></img></a></span><br>
+                        </SectionTitle>
+                        <br>
+"@
+                                
+                                    $Content += [System.Collections.ArrayList]@($Variables.Miners | ? {$_.Type -eq $Type} | Select @(
+                                        @{Name = "Type";Expression={$_.Type}},
+                                        @{Name = "Miner";Expression={$_.Name}},
+                                        @{Name = "Algorithm";Expression={$_.HashRates.PSObject.Properties.Name}},
+                                        # @{Name = "Coin"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Coin)"}}},
+                                        @{Name = "Coin"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {If($Variables.CoinsIconCacheLoaded -and $_.Coin -and $_.Coin -ne ""){"<img src=""$(Get-CoinIcon ($_.Coin.ToString() -Replace '-.*', ''))"" alt="" "" width=""16""></img>&nbsp&nbsp" + $_.Coin}else{$_.Coin}}}},
+                                        # @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}},
+                                                @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"<img src=""$(Get-PoolIcon ($_.Name))"" alt="" "" width=""16""></img>&nbsp&nbsp" + $_.Name}}},
+                                        @{Name = "Speed"; Expression={$_.HashRates.PSObject.Properties.Value | ForEach {if($_ -ne $null){"$($_ | ConvertTo-Hash)/s"}else{"Benchmarking"}}}},
+                                        # @{Name = "mBTC/Day"; Expression={$_.Profits.PSObject.Properties.Value | ForEach {if($_ -ne $null){($_*1000).ToString("N3")}else{"Benchmarking"}}}},
+                                        @{Name = "mBTC/Day"; Expression={(($_.Profits.PSObject.Properties.Value | Measure -Sum).Sum *1000).ToString("N3")}},
+                                        # @{Name = "BTC/Day"; Expression={$_.Profits.PSObject.Properties.Value | ForEach {if($_ -ne $null){$_.ToString("N5")}else{"Benchmarking"}}}},
+                                        # @{Name = "BTC/Day"; Expression={(($_.Profits.PSObject.Properties.Value | Measure -Sum).Sum).ToString("N3")}},
+                                        # @{Name = "BTC/GH/Day"; Expression={$_.Pools.PSObject.Properties.Value.Price | ForEach {($_*1000000000).ToString("N15")}}}
+                                        @{Name = "BTC/GH/Day"; Expression={(($_.Pools.PSObject.Properties.Value.Price | Measure -Sum).Sum *1000000000).ToString("N5")}}
+                                    # ) | sort "mBTC/Day" -Descending) | ConvertTo-Html -CssUri "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Includes/Web.css" -Title $Title -PreContent $Header
+                                    ) | sort "mBTC/Day" -Descending) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title
+                                
+                                }
+                                
+                                ForEach ($Type in ($Variables.Miners.Type | Sort -Unique)) {
+                                    $Content = $Content -Replace "<td>$($Type)</td>", "<td><img src=""$(ConvertTo-ImagePath $Type)"" alt="" "" width=""16""></img>&nbsp&nbsp$($Type)</td>"
+                                }
+                                $Content = [System.Web.HttpUtility]::HtmlDecode($Content)
 
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
 
-                                If (!$Variables.CoinsIconCacheLoaded -and !$Variables.CoinsIconCachePopulating) {Load-CoinsIconsCache}
 
                         }
                         "/SwitchingLog" {
