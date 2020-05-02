@@ -73,3 +73,10 @@ img {
   vertical-align:middle;
 }
 
+.right{
+    float:right;
+}
+
+.left{
+    float:left;
+}
