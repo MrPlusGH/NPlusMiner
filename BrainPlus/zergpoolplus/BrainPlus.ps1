@@ -148,7 +148,7 @@ $Config = Load-Config "..\..\Config\Config.json"
         $ServerClientCreds = New-Object System.Management.Automation.PSCredential ($Config.Server_ClientUser, $ServerClientPasswd)
         $Variables = [hashtable]::Synchronized(@{})
         $Variables | Add-Member -Force @{ServerClientCreds = $ServerClientCreds}
-        $Variables | Add-Member -Force @{ServerRunning = ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds).content -eq "Server Alive")}
+        $Variables | Add-Member -Force @{ServerRunning = Try{ ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds -TimeoutSec 3).content -eq "Server Alive")} Catch {$False} }
     }
 While ($true) {
 
