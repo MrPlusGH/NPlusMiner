@@ -274,14 +274,17 @@ Function Start-Server {
                         "/RegisterRig/" {
                                 $ContentType = "text/html"
 
+                                $PeerUpdate = $False
+                                
                                 $RegisterRigName =  $HReq.QueryString['Name']
                                 $RegisterRigIP =  $HReq.QueryString['IP']
                                 $RegisterRigPort =  $HReq.QueryString['Port']
-                                
+                                $RegisterBackRegistrationNotAllowed =  If ($HReq.QueryString['BackRegistrationNotAllowed'] -eq "true") {$True} Else {$False}
+
                                 If (!$RegisterRigName -or (!$RegisterRigIP -and !$ClientAddress) -or !$RegisterRigPort) {
                                     $StatusCode = 404
                                     $Content = "Incomplete registration"
-                                } Else {
+                                } Else { 
                                     $Peer = [PSCustomObject]@{
                                         Name = $RegisterRigName
                                         IP = If (!$RegisterRigIP) {$ClientAddress} Else {$RegisterRigIP}
@@ -289,16 +292,30 @@ Function Start-Server {
                                     }
                                     If (Test-Path ".\Config\Peers.json") {
                                         $Peers = Get-Content ".\Config\Peers.json" | convertfrom-json
+                                        If (@($Peers).count -eq 1) { $Peers = @($Peers) }
                                     }
-                                    If ($Peers | ? {$_.Name -eq $RegisterRigName}) {
+                                    If (($Peers | ? {$_.Name -eq $RegisterRigName}) -and ($Peers | ? {$_.Name -eq $RegisterRigName}) -ne $Peer -and !($Peers | ? {$_.Name -eq $RegisterRigName}).PreventUpdates) {
                                         ($Peers | ? {$_.Name -eq $RegisterRigName}).IP = $Peer.IP
                                         ($Peers | ? {$_.Name -eq $RegisterRigName}).Port = $Peer.Port
-                                    } else {
+                                        $PeerUpdate = $True
+                                    } elseif (!($Peers | ? {$_.Name -eq $RegisterRigName})) {
                                         $Peers += $Peer
+                                        $PeerUpdate = $True
                                     }
                                     
-                                    If ((Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/ping" -Credential $Variables.ServerClientCreds).content -eq "Server Alive") {
+                                    $PeerPing = 
+                                    If ( $Peer.Name -eq $Config.WorkerName ) {
+                                        $True
+                                    } Else {
+                                        Try { (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/ping" -Credential $Variables.ServerClientCreds -TimeoutSec 3).content -eq "Server Alive" } Catch {$False}
+                                    }
+                                    
+                                    If ($PeerUpdate -and $PeerPing) {
                                         $Peers | convertto-json | out-file ".\Config\Peers.json"
+                                        If ($RegisterRigName -ne $Config.WorkerName -and !$RegisterBackRegistrationNotAllowed){
+                                            # Back registration won't work until we switch the listener to ASync
+                                            # Try { (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)&RegisterBackRegistrationNotAllowed=true" -Credential $Variables.ServerClientCreds -TimeoutSec 3).content -eq "Server Alive" } Catch {$False}
+                                        }
 
                                         $Content = "$($Peer.Name)`n$($Peer.IP)`n$($Peer.Port)"
                                         $StatusCode  = [System.Net.HttpStatusCode]::OK
@@ -354,6 +371,11 @@ Function Start-Server {
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
                                 $ContentType = $MIMETypes[".json"]
                                 $Content = $Variables.ActiveMinerPrograms.Clone() | ? {$_.Status -eq "Running"} | Sort Type | ConvertTo-Json -Depth 10
+                                If ($Variables.Paused) {
+                                    $Content = [PSCustomObject]@{
+                                        Type = "Paused"
+                                    } | ConvertTo-Json
+                                }
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                         }
                         "/Benchmarks.json" {
@@ -477,7 +499,7 @@ Function Start-Server {
                                     If ($Peer.Name -eq $Config.WorkerName) {
                                         $Miners += $Variables.ActiveMinerPrograms.Clone() | ? {$_.Status -eq "Running"} | select @{Name = "Rig";Expression={$Peer.Name}},*
                                     } else {
-                                        $Miners += (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/RunningMiners.json" -Credential $Variables.ServerCreds | ConvertFrom-Json) | select @{Name = "Rig";Expression={$Peer.Name}},*
+                                        $Miners += (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/RunningMiners.json" -Credential $Variables.ServerCreds -TimeoutSec 5 | ConvertFrom-Json) | select @{Name = "Rig";Expression={$Peer.Name}},*
                                     }
                                 }
                                 $MinersTable = [System.Collections.ArrayList]@($Miners | select @(
@@ -744,6 +766,7 @@ Function Start-Server {
                     }
                     $LogEntry | Export-Csv ".\Logs\Server.log" -NoTypeInformation -Append
                     rv LogEntry
+                    $ProxURL = ""
                 }
             }
         Write-Host "Server stopping"

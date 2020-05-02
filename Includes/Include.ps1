@@ -400,6 +400,13 @@ Function Load-Config {
         }
     }
 
+    $ServerPasswd = ConvertTo-SecureString $Config.Server_Password -AsPlainText -Force
+    $ServerCreds = New-Object System.Management.Automation.PSCredential ($Config.Server_User, $ServerPasswd)
+    $Variables | Add-Member -Force @{ServerCreds = $ServerCreds}
+    $ServerClientPasswd = ConvertTo-SecureString $Config.Server_ClientPassword -AsPlainText -Force
+    $ServerClientCreds = New-Object System.Management.Automation.PSCredential ($Config.Server_ClientUser, $ServerClientPasswd)
+    $Variables | Add-Member -Force @{ServerClientCreds = $ServerClientCreds}
+
         $Config
     }
 }
@@ -1704,6 +1711,7 @@ Function ConvertTo-ImagePath {
         "NVIDIA"            {"https://www.nvidia.com/favicon.ico"}
         "AMD"               {"https://www.amd.com/themes/custom/amd/favicon.ico"}
         "Top"               {"https://img.icons8.com/metro/32/000000/double-up.png"}
+        "Paused"            {"https://img.icons8.com/flat_round/64/000000/pause--v1.png"}
     }
     $ImagePath
 }

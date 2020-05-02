@@ -124,7 +124,7 @@ Function Start-ChildJobs {
             $Variables.StatusText = "Starting Server"
             $Variables.StopServer = $False
             Start-Server
-            $Variables | Add-Member -Force @{ServerRunning = ((Invoke-WebRequest "http://localhost:$($Config.Server_Port)/ping" -Credential $Variables.ServerCreds).content -eq "Server Alive")}
+            $Variables | Add-Member -Force @{ServerRunning = Try { ((Invoke-WebRequest "http://localhost:$($Config.Server_Port)/ping" -Credential $Variables.ServerCreds).content -eq "Server Alive")} Catch {$False} }
         }
         
         # Starts Brains if necessary
@@ -172,13 +172,13 @@ $CycleTime = Measure-Command -Expression {
 
         $Variables.StatusText = "Starting Cycle"
         If ($Config.Server_Client) {
-            $Variables | Add-Member -Force @{ServerRunning = ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds -TimeoutSec 5).content -eq "Server Alive")}
+            $Variables | Add-Member -Force @{ServerRunning = Try{ ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds -TimeoutSec 3).content -eq "Server Alive")} Catch {$False} }
             If ($Variables.ServerRunning){
                 If ($Config.Server_ClientIP -ne "127.0.0.1") {
                     Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds
                 }
                 $PeersFromServer = Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Peers.json" -Credential $Variables.ServerClientCreds | convertfrom-json
-                $PeersFromServer | ? {$_.Name -ne $Config.WorkerName} | ForEach {Invoke-WebRequest "http://$($_.IP):$($_.Port)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds}
+                $PeersFromServer | ? {$_.Name -ne $Config.WorkerName} | ForEach {Invoke-WebRequest "http://$($_.IP):$($_.Port)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds -TimeoutSec 3}
             }
         }
         $DecayExponent = [int](((Get-Date)-$Variables.DecayStart).TotalSeconds/$Variables.DecayPeriod)
