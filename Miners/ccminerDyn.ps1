@@ -7,6 +7,8 @@ $Commands = [PSCustomObject]@{
     "argon2d-dyn" = "" #argon2d-dyn (fastest)
 }
 
+Return
+
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands.PSObject.Properties.Name | ForEach-Object {

@@ -7,7 +7,7 @@ $Commands = [PSCustomObject]@{
     "allium"            = " --intensity 8 -a allium" #Allium (fastest)
     "argon2d250"        = " --intensity 8 -a argon2d250" #argon2d250
     "argon2d4096"       = " --intensity 8 -a argon2d4096" #argon2d4096
-    # "argon2ddyn"        = ",d=64 --intensity 6 -a argon2d-dyn" #Argon2d-dyn
+    "argon2ddyn"        = " --intensity 6 -a argon2d-dyn" #Argon2d-dyn
     "hmq1725"           = " --intensity 8 -a hmq1725" #Hmq1725 (fastest thanks for the fix)
     "lux"               = " --intensity 8 -a phi2" #Lux
     "lyra2v3"           = " --intensity 8 -a lyra2v3" #Lyra2v3 (fastest)
