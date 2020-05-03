@@ -1015,7 +1015,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     
     $CheckBoxStandalone                       = New-Object system.Windows.Forms.CheckBox
     $CheckBoxStandalone.Tag                   = "Server_Standalone"
-    $CheckBoxStandalone.text                  = "Standalone (default)"
+    $CheckBoxStandalone.text                  = "Standalone"
     $CheckBoxStandalone.AutoSize              = $false
     $CheckBoxStandalone.width                 = 200
     $CheckBoxStandalone.height                = 20
