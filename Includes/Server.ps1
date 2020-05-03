@@ -138,7 +138,7 @@ Function Start-Server {
             $Branding = Get-Content ".\Config\Branding.json" | ConvertFrom-Json
         } Else {
             $Branding = [PSCustomObject]@{
-                LogoPath = "https://raw.githubusercontent.com/MrPlusGH/NPlusMiner/master/Includes/NPM.png"
+                LogoPath = "http://tiny.cc/yvlaoz"
                 BrandName = "NPlusMiner"
                 BrandWebSite = "https://github.com/MrPlusGH/NPlusMiner"
                 ProductLable = "NPlusMiner"
@@ -202,7 +202,9 @@ Function Start-Server {
                         <link rel="icon" type="image/png" href="$($Branding.LogoPath)">
                         <header>
                         <img src=$($Branding.LogoPath)>
-                        Copyright (c) 2018-2020 MrPlus<br>
+                        Copyright (c) 2018-2020 MrPlus
+                        <br>
+                        
                         $(Get-Date) &nbsp&nbsp&nbsp <a href="https://github.com/MrPlusGH/NPlusMiner">$($Branding.ProductLable) $($Variables.CurrentVersion)</a>  &nbsp&nbsp&nbsp Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) &nbsp&nbsp&nbsp Path: $($BasePath) &nbsp&nbsp&nbsp API Cache hit ratio: $("{0:N0}" -f $CacheHitsRatio)%<br>
                         Worker Name: <a href="./Status">$($Config.WorkerName)</a> 
                         &nbsp&nbsp&nbsp Average Profit:  $(((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum)).DisplayStringPerDay)
@@ -213,10 +215,19 @@ Function Start-Server {
 "@
  
                     If ($Variables.Paused) {
-                        $Header += "&nbsp&nbsp&nbsp&nbsp&nbsp<img src=""https://img.icons8.com/flat_round/64/000000/play--v1.png"" width=""16"" height=""16""/>&nbsp<a href=""./Cmd-Mine"">Start Mining</a><br><br>"
+                        $Header += "&nbsp&nbsp&nbsp&nbsp&nbsp<img src=""https://img.icons8.com/flat_round/64/000000/play--v1.png"" width=""16"" height=""16""/>&nbsp<a href=""./Cmd-Mine"">Start Mining</a>"
                     } Else {
-                        $Header += "&nbsp&nbsp&nbsp&nbsp&nbsp<img src=""https://img.icons8.com/flat_round/64/000000/pause--v1.png"" width=""16"" height=""16""/>&nbsp<a href=""./Cmd-Pause"">Pause Mining</a><br><br>"
+                        $Header += "&nbsp&nbsp&nbsp&nbsp&nbsp<img src=""https://img.icons8.com/flat_round/64/000000/pause--v1.png"" width=""16"" height=""16""/>&nbsp<a href=""./Cmd-Pause"">Pause Mining</a>"
                     }
+                    $Header +=
+@"
+                        <span class="right">
+                        <a href="https://discord.gg/2BCqPxe"><img src="https://img.shields.io/discord/522832112311599124.svg?label=Discord&style=popout&logo=discord" alt="Discord"></img></a>
+                        </span><br>
+"@
+
+                        # <a href="https://github.com/MrPlusGH/NPlusMiner/releases/latest"><img src="https://img.shields.io/github/v/release/MRPlusGH/NPlusMiner.svg?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAACpklEQVRYw+3XO2/TUBQH8PBB+ALMrEisSBAhEbUdGMsCQlEH1KELEoK1iC7AwsbA6JCGvgRCrSBVByKaVIEqqE2dRGkepGkeJLEPPufa12/7JkWiQpzBN77H/kV/+caxIxBSU5GQ+g+EA2H1ZwClSdXVPtb3WR1ajhlQ9xffL+jHtDgwlKlKI4A9iVWibwI96naN3Z/6IdKBE5DrJiD98AVy/oDcM4EtX2AjAKgoHEj0fACewAuQmxyQCj5ALhCQd3l7U2sk4lol7cBGMLDD25J2xjwutQUbYCbwBraptY6bfU8gx/suoGoCdNRHT2Cd913ASZ0DzQRuOx4AJUhVvYFR2QA6n3D73QOg7/5S8wagw4ED3H7wAChB1Q+AYwMYvMXh1AVQgneqLzAs6QB8xiHvAlgC8AXghAFtOMThvQtgCQIAlS2kMrAMcw5ATxAAAFvKhT6kcbzjAChBBoIA9mMqVNQijjMOgBIciwBya4gZbtkBI4EIIA+23YCRIABYvnYF63o0ejOqjRcRuBSLYsWmp69i700gsBgJrWdnBZbOOZB9gnfB+NIi1kL8Mp5x4yXtvXiMnUev9kDgMnbo7pS1X0ZaRTX6UYcDA5w4SlqBCjZWVUEAWjizZQUy2PgKooBa0WZyVmANG3VhAPqYIYbAHAHfKAGIA9DQpm4jMEtA2pJADFC0e/QsAjMd7K5YEogBeI++i8BU0ZlAEICafI+AHSPB7pjAqMSA1JEjgSgAbQZIWUcCYQDuM2DTkUAceMCAZJESNMYH5hkg0d/NGowP5JdfP334XHvisicQB7QVnedPNI2JAGim9PNXYTJASetAZkIAyjpQmRQAuoTSSjcAABWLPZXSo71iBU4bWG3r1NB8ATgnbyx/F7gQXOHAWd8K/wHgN3+TQF05kYYwAAAAAElFTkSuQmCC" alt=""></img></a>
+                        # <a href="https://github.com/MrPlusGH/NPlusMiner/releases/latest"><img src="https://img.shields.io/github/release-date/MRPlusGH/NPlusMiner.svg" alt=""></img></a>
 
                     If (Test-Path ".\Config\Peers.json") {
                         $Header += "Rigs:&nbsp&nbsp&nbsp&nbsp&nbsp"
@@ -224,7 +235,7 @@ Function Start-Server {
                             $Peer = $_
                             $Header += "<a href=""http://$($Peer.IP):$($Peer.Port)/Status"">$($Peer.Name)</a>&nbsp&nbsp&nbsp&nbsp&nbsp"
                         }
-                        $Header += "<br><br>"
+                        $Header += "<br>"
                     }
                     
                     $AuthSuccess = $True
