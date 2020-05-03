@@ -20,6 +20,9 @@ Copyright (c) 2018 Nemo		(https://github.com/Minerx117/NemosMiner)
 <p align="center">
 <img src="https://raw.githubusercontent.com/MrPlusGH/NPlusMiner/master/Utils/Screenshot.jpg">	
 </p>
+<p align="center">
+<img src="https://raw.githubusercontent.com/MrPlusGH/NPlusMiner/master/Utils/WebUI.jpg">	
+</p>
 
 *****
 **Have questions? Need help?** We're on Discord: https://discord.gg/2BCqPxe
