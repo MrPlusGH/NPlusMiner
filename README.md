@@ -21,7 +21,7 @@ Copyright (c) 2018 Nemo		(https://github.com/Minerx117/NemosMiner)
 <img src="https://raw.githubusercontent.com/MrPlusGH/NPlusMiner/master/Utils/Screenshot.jpg">	
 </p>
 <p align="center">
-<img src="https://raw.githubusercontent.com/MrPlusGH/NPlusMiner/master/Utils/WebUI.jpg">	
+<img src="https://raw.githubusercontent.com/MrPlusGH/NPlusMiner/master/Utils/WebUI.png">	
 </p>
 
 *****
