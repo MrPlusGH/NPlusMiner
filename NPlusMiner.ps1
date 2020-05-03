@@ -900,6 +900,17 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $LabelCopyright.add_Click({[system.Diagnostics.Process]::start("https://github.com/MrPlusGH/NPlusMiner/blob/master/LICENSE")})
     $RunPageControls += $LabelCopyright
 
+    $LabelWebUI                 = New-Object System.Windows.Forms.LinkLabel
+    # $LabelWebUI.Location        = New-Object System.Drawing.Size(415,61)
+    # $LabelWebUI.Size            = New-Object System.Drawing.Size(200,20)
+    $LabelWebUI.Location        = New-Object System.Drawing.Size(250,246)
+    $LabelWebUI.Size            = New-Object System.Drawing.Size(200,20)
+    $LabelWebUI.LinkColor       = "BLUE"
+    $LabelWebUI.ActiveLinkColor = "BLUE"
+    $LabelWebUI.Text            = "Web interface"
+    $LabelWebUI.add_Click({[system.Diagnostics.Process]::start("http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Status")})
+    $RunPageControls += $LabelWebUI
+
     $LabelRunningMiners                          = New-Object system.Windows.Forms.Label
     $LabelRunningMiners.text                     = "Running Miners"
     $LabelRunningMiners.AutoSize                 = $false
