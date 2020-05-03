@@ -205,7 +205,7 @@ Function Start-Server {
                         Copyright (c) 2018-2020 MrPlus<br>
                         $(Get-Date) &nbsp&nbsp&nbsp <a href="https://github.com/MrPlusGH/NPlusMiner">$($Branding.ProductLable) $($Variables.CurrentVersion)</a>  &nbsp&nbsp&nbsp Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) &nbsp&nbsp&nbsp Path: $($BasePath) &nbsp&nbsp&nbsp API Cache hit ratio: $("{0:N0}" -f $CacheHitsRatio)%<br>
                         Worker Name: <a href="./Status">$($Config.WorkerName)</a> 
-                        &nbsp&nbsp&nbsp Average:  $(((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum)).DisplayStringPerDay)
+                        &nbsp&nbsp&nbsp Average Profit:  $(((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum)).DisplayStringPerDay)
                         &nbsp&nbsp&nbsp $(If($Variables.Rates.($Config.Currency) -gt 0){"$($Config.Passwordcurrency)/$($Config.Currency) $($Variables.Rates.($Config.Currency))"})
                         </header>
                         <hr>
