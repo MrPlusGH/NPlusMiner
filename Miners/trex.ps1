@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-trex\t-rex.exe"
-$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/trex/t-rex-0.14.6-win-cuda10.0.zip"
+$Uri = "https://github.com/trexminer/T-Rex/releases/download/0.15.3/t-rex-0.15.3-win-cuda10.0.zip"
  
 $Commands = [PSCustomObject]@{
     "astralhash" = "" #Astralhash
@@ -9,10 +9,10 @@ $Commands = [PSCustomObject]@{
     "bcd"        = " -i 24" #Bcd (fastest)
     "bitcore"    = " -i 25" #Bitcore( fastest)
     "c11"        = " -i 24" #C11 (fastest)
-    # "dedal"      = "" #Dedal (fastest)
     "geek"       = "" #Geekcash
     "honeycomb"  = "" #honeycomb
     "jeonghash"  = "" #Jeonghash
+    "kawpow"     = " -i 21" #kawpow 
     "mtp"        = "" #MTP
     "padihash"   = "" #Padihash
     "pawelhash"  = "" #Pawelhash
@@ -24,13 +24,14 @@ $Commands = [PSCustomObject]@{
     "tribus"     = " -i 23" #Tribus
     "veil"      = " -i 24" #Veil (fastest)
     "x16r"       = " -i 24" #X16r (fastest)
-    "x16rv2"     = " -i 24" #X16rv2 ,mc=RVN
     "x16rt"      = " -i 24" #X16rt (fastest)
+    "x16rv2"     = " -i 24" #X16rv2 ,mc=RVN
     "x16s"       = " -i 24" #X16s (fastest)
     "x17"        = " -i 24" #X17 (fastest)
     "x21s"       = "" #X21s (fastest)
     "x22i"       = " -i 23" #X22i (fastest)
     "x25x"       = " -i 21" #25x
+    # "dedal"      = "" #Dedal (fastest)
     #"hmq1725" = " -i 23" #Hmq1725 (CryptoDredge faster)
     #"lyra2z" = "" #Lyra2z (Asic)
     #"skunk" = "" #Skunk (CryptoDredge faster)
