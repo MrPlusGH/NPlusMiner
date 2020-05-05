@@ -47,6 +47,7 @@ tr:nth-child(odd) {
 
 header {
     overflow: auto;
+    background-color: #F9F9F9;
     /* background: left / no-repeat url(https://raw.githubusercontent.com/MrPlusGH/NPlusMiner/master/Includes/NPM.png); */
     padding: 5px 20px;
     color: #000;
