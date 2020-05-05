@@ -208,7 +208,7 @@ Function Start-Server {
                         $(Get-Date) &nbsp&nbsp&nbsp <a href="https://github.com/MrPlusGH/NPlusMiner">$($Branding.ProductLable) $($Variables.CurrentVersion)</a>  &nbsp&nbsp&nbsp Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) &nbsp&nbsp&nbsp Path: $($BasePath) &nbsp&nbsp&nbsp API Cache hit ratio: $("{0:N0}" -f $CacheHitsRatio)%<br>
                         Worker Name: <a href="./Status">$($Config.WorkerName)</a> 
                         &nbsp&nbsp&nbsp Average Profit:  $(((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum)).DisplayStringPerDay)
-                        &nbsp&nbsp&nbsp $(If($Variables.Rates.($Config.Currency) -gt 0){"$($Config.Passwordcurrency)/$($Config.Currency) $($Variables.Rates.($Config.Currency))"})
+                        &nbsp&nbsp&nbsp $(If($Variables.Rates.($Config.Currency) -gt 0){"$($Config.Passwordcurrency)/$($Config.Currency) $($Variables.Rates.($Config.Currency).ToString("N2"))"})
                         </header>
                         <hr>
                         <a href="./RunningMiners">Running Miners</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="./Benchmarks">Benchmarks</a>
@@ -285,6 +285,7 @@ Function Start-Server {
                         "/RegisterRig/" {
                                 $ContentType = "text/html"
 
+                                $Peers = @()
                                 $PeerUpdate = $False
                                 
                                 $RegisterRigName =  $HReq.QueryString['Name']
@@ -305,7 +306,8 @@ Function Start-Server {
                                         $Peers = Get-Content ".\Config\Peers.json" | convertfrom-json
                                         If (@($Peers).count -eq 1) { $Peers = @($Peers) }
                                     }
-                                    If (($Peers | ? {$_.Name -eq $RegisterRigName}) -and ($Peers | ? {$_.Name -eq $RegisterRigName}) -ne $Peer -and !($Peers | ? {$_.Name -eq $RegisterRigName}).PreventUpdates) {
+                                    
+                                    If (($Peers | ? {$_.Name -eq $RegisterRigName}) -and !(compare $Peer $Peers -IncludeEqual -ExcludeDifferent) -and !($Peers | ? {$_.Name -eq $RegisterRigName}).PreventUpdates) {
                                         ($Peers | ? {$_.Name -eq $RegisterRigName}).IP = $Peer.IP
                                         ($Peers | ? {$_.Name -eq $RegisterRigName}).Port = $Peer.Port
                                         $PeerUpdate = $True
@@ -335,6 +337,7 @@ Function Start-Server {
                                         $Content = "Peer not responding"
                                     }
                                 }
+                                $Peers = $Null
                         }
                         "/ping" {
                                 $ContentType = "text/html"
@@ -411,31 +414,31 @@ Function Start-Server {
                                 $EarningsTrends = [PSCustomObject]@{}
                                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum*1000*24),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4),3)) {
                                         {$_ -eq 0}
-                                            {"="}
+                                            {"&nbsp&nbsp<img src=https://img.icons8.com/metro/26/000000/equal-sign-2.png alt="" ""  width=""16"">"}
                                         {$_ -gt 0}
-                                            {">"}
+                                            {"&nbsp&nbsp<img src=https://img.icons8.com/color/26/000000/bullish.png alt="" ""  width=""16"">"}
                                         {$_ -lt 0}
-                                            {"<"}
+                                            {"&nbsp&nbsp<img src=https://img.icons8.com/color/26/000000/bearish.png alt="" ""  width=""16"">"}
                                     }
-                                $EarningsTrends | Add-Member -Force @{"Last  1h" = ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum 24)).DisplayStringPerDay + " " + $TrendSign}
+                                $EarningsTrends | Add-Member -Force @{"Last  1h $TrendSign" = ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum 24)).DisplayStringPerDay}
                                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3)) {
                                         {$_ -eq 0}
-                                            {"="}
+                                            {"&nbsp&nbsp<img src=https://img.icons8.com/metro/26/000000/equal-sign-2.png alt="" ""  width=""16"">"}
                                         {$_ -gt 0}
-                                            {">"}
+                                            {"&nbsp&nbsp<img src=https://img.icons8.com/color/26/000000/bullish.png alt="" ""  width=""16"">"}
                                         {$_ -lt 0}
-                                            {"<"}
+                                            {"&nbsp&nbsp<img src=https://img.icons8.com/color/26/000000/bearish.png alt="" ""  width=""16"">"}
                                     }
-                                $EarningsTrends | Add-Member -Force @{"Last  6h" = ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum 4)).DisplayStringPerDay + " " + $TrendSign}
+                                $EarningsTrends | Add-Member -Force @{"Last  6h $TrendSign" = ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum 4)).DisplayStringPerDay}
                                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property BTCD -Sum).sum*1000*0.96),3)) {
                                         {$_ -eq 0}
-                                            {"="}
+                                            {"&nbsp&nbsp<img src=https://img.icons8.com/metro/26/000000/equal-sign-2.png alt="" ""  width=""16"">"}
                                         {$_ -gt 0}
-                                            {">"}
+                                            {"&nbsp&nbsp<img src=https://img.icons8.com/color/26/000000/bullish.png alt="" ""  width=""16"">"}
                                         {$_ -lt 0}
-                                            {"<"}
+                                            {"&nbsp&nbsp<img src=https://img.icons8.com/color/26/000000/bearish.png alt="" ""  width=""16"">"}
                                     }
-                                $EarningsTrends | Add-Member -Force @{"Last  24h" = ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum)).DisplayStringPerDay + " " + $TrendSign}
+                                $EarningsTrends | Add-Member -Force @{"Last  24h $TrendSign" = ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum)).DisplayStringPerDay}
                                     $Header += $EarningsTrends | ConvertTo-Html -CssUri "./Includes/Web.css" 
 
                                 If (Test-Path ".\logs\DailyEarnings.csv"){
@@ -606,6 +609,7 @@ Function Start-Server {
 
                                 $ContentType = $MIMETypes[".html"]
                                 $Content = $Header
+                                $Content += "<hr>"
                                 
                                 ForEach ($Type in ($Variables.Miners.Type | Sort -Unique -Descending)) {
                                     $Content += "<img src=""$(ConvertTo-ImagePath $Type)"" alt="" "" width=""16""></img>&nbsp&nbsp<a href=""#$($Type)"">$($Type)</a>&nbsp&nbsp&nbsp&nbsp"
@@ -621,8 +625,8 @@ Function Start-Server {
                         </SectionTitle>
                         <br>
 "@
-                                
-                                    $Content += [System.Collections.ArrayList]@($Variables.Miners | ? {$_.Type -eq $Type} | Select @(
+ 
+                                    $DisplayEstimations = [System.Collections.ArrayList]@($Variables.Miners | ? {$_.Type -eq $Type} | Select @(
                                         @{Name = "Type";Expression={$_.Type}},
                                         @{Name = "Miner";Expression={$_.Name}},
                                         @{Name = "Algorithm";Expression={$_.HashRates.PSObject.Properties.Name}},
@@ -638,7 +642,15 @@ Function Start-Server {
                                         # @{Name = "BTC/GH/Day"; Expression={$_.Pools.PSObject.Properties.Value.Price | ForEach {($_*1000000000).ToString("N15")}}}
                                         @{Name = "BTC/GH/Day"; Expression={(($_.Pools.PSObject.Properties.Value.Price | Measure -Sum).Sum *1000000000).ToString("N5")}}
                                     # ) | sort "mBTC/Day" -Descending) | ConvertTo-Html -CssUri "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Includes/Web.css" -Title $Title -PreContent $Header
-                                    ) | sort "mBTC/Day" -Descending) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title
+                                    ) | sort "mBTC/Day" -Descending)
+
+                                    $DisplayEstimations = If ($Config.ShowOnlyTopCoins){
+                                        [System.Collections.ArrayList]@($DisplayEstimations | sort "mBTC/Day" -Descending | Group "Type","Algorithm" | % { $_.Group | select -First 1} | sort "mBTC/Day" -Descending)
+                                    } else {
+                                        $DisplayEstimations 
+                                    }
+                                    
+                                    $Content += $DisplayEstimations | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title
                                 
                                 }
                                 
