@@ -112,19 +112,22 @@ Function InitApplication {
 
 Function Start-ChildJobs {
         # Stop Server on code updates
-        If ($Config.Server_On -and $Variables.ServerRunning -and -not (IsLoaded(".\Includes\Server.ps1"))) {
+        If ($Config.Server_On -and $Variables.LocalServerRunning -and -not (IsLoaded(".\Includes\Server.ps1"))) {
             $Variables.StatusText = "Stopping server for code update."
             Invoke-WebRequest "http://localhost:$($Config.Server_Port)/StopServer" -Credential $Variables.ServerCreds
-            $Variables.ServerRunning = $False
+            $Variables.LocalServerRunning = $False
         }
         
+        If ($Variables.LocalServerRunning) {$StartServerAttempt = 0}
+        
         # Starts Server if necessary
-        If ($Config.Server_On -and -not $Variables.ServerRunning ) {
+        If ($Config.Server_On -and -not $Variables.LocalServerRunning -and $StartServerAttempt -le 5 ) {
             . .\Includes\Server.ps1;RegisterLoaded(".\Includes\Server.ps1")
             $Variables.StatusText = "Starting Server"
             $Variables.StopServer = $False
             Start-Server
-            $Variables | Add-Member -Force @{ServerRunning = Try { ((Invoke-WebRequest "http://localhost:$($Config.Server_Port)/ping" -Credential $Variables.ServerCreds).content -eq "Server Alive")} Catch {$False} }
+            $StartServerAttempt++
+            $Variables | Add-Member -Force @{LocalServerRunning = Try { ((Invoke-WebRequest "http://localhost:$($Config.Server_Port)/ping" -Credential $Variables.ServerCreds).content -eq "Server Alive")} Catch {$False} }
         }
         
         # Starts Brains if necessary
@@ -695,22 +698,22 @@ $CycleTime = Measure-Command -Expression {
         # }
         #Do nothing for a few seconds as to not overload the APIs
         if ($newMiner -eq $true) {
-            if ($Config.Interval -ge $Config.FirstInterval -and $Config.Interval -ge $Config.StatsInterval) { $Variables.TimeToSleep = $Config.Interval }
-            else {
+            # if ($Config.Interval -ge $Config.FirstInterval -and $Config.Interval -ge $Config.StatsInterval) { $Variables.TimeToSleep = $Config.Interval }
+            # else {
                 if ($CurrentMinerHashrate_Gathered -eq $true) { $Variables.TimeToSleep = $Config.FirstInterval }
                 else { $Variables.TimeToSleep =  $Config.StatsInterval }
-            }
+            # }
         } else {
             $Variables.TimeToSleep = $Config.Interval
         }
         "--------------------------------------------------------------------------------" | out-host
         #Do nothing for a few seconds as to not overload the APIs
         if ($newMiner -eq $true) {
-            if ($Config.Interval -ge $Config.FirstInterval -and $Config.Interval -ge $Config.StatsInterval) { $Variables.TimeToSleep = $Config.Interval }
-            else {
+            # if ($Config.Interval -ge $Config.FirstInterval -and $Config.Interval -ge $Config.StatsInterval) { $Variables.TimeToSleep = $Config.Interval }
+            # else {
                 if ($CurrentMinerHashrate_Gathered -eq $true) { $Variables.TimeToSleep = $Config.FirstInterval }
                 else { $Variables.TimeToSleep =  $Config.StatsInterval }
-            }
+            # }
         } else {
         $Variables.TimeToSleep = $Config.Interval
         }
