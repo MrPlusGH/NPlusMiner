@@ -1545,20 +1545,19 @@ Function Merge-Command {
 
 Function Invoke-ProxiedWebRequest {
     $Request = $null
-    $headers = @{"Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"}
     If ($Config.Server_Client -and $Variables.ServerRunning -and -not $ByPassServer -and -not $OutFile) {
         Try {
             $ProxyURi = "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Proxy/?url=$($Args[0])"
             $Args[0] = $ProxyURi
             # $Request = Invoke-WebRequest $ProxyURi -Credential $Variables.ServerClientCreds -TimeoutSec $TimeoutSec -UseBasicParsing -Headers $Headers
-            $Request = Invoke-WebRequest @Args -Credential $Variables.ServerClientCreds -Headers $headers
+            $Request = Invoke-WebRequest @Args -Credential $Variables.ServerClientCreds
         } Catch {
             # $Variables.StatusText = "Proxy Request Failed - Trying Direct: $($URi)"
         }
     }
     if (!$Request.Content -or ($Request.StatusCode -ne 200 -and $Request.StatusCode -ne 305) -and -not $OutFile) {
         Try {
-            $Request = Invoke-WebRequest @Args -Headers $headers
+            $Request = Invoke-WebRequest @Args
         } Catch {
             # $Variables.StatusText = "Direct Request Failed: $($URi)"
         }
