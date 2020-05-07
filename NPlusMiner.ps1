@@ -170,6 +170,12 @@ Function Global:TimerUITick
                         If ($true) { #$_.Pool -in ($config.PoolName -replace "24hr","" -replace "plus","")) {
                             $Variables.EarningsPool = $_.Pool
                             $Variables.Earnings.($_.Pool) = $_
+                            $Variables.Earnings.($_.Pool).PaymentThreshold =
+                            If ($Config.PoolsConfig.($_.Pool).PayoutThreshold.($Config.Passwordcurrency)) {
+                                $Config.PoolsConfig.($_.Pool).PayoutThreshold.($Config.Passwordcurrency)
+                            } Else {
+                                $_.PaymentThreshold
+                            }
                         }
                     }
                     rv EarnTrack
