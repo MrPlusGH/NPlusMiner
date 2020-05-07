@@ -40,9 +40,9 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
                 Port      = $Variables.NVIDIAMinerAPITCPPort
                 Wrap      = $false
                 URI       = $Uri    
-                User = $Pool_Ethash.User
+                User = @($Pool_Ethash.User, $Pool_eaglesong.User)
                 Host = @($Pool_Ethash.Host, $Pool_eaglesong.Host)
-                Coin = $Pool_Ethash.Coin
+                Coin = @($Pool_Ethash.Coin, $Pool_eaglesong.Coin)
             }
         }
     }

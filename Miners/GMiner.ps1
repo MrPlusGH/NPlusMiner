@@ -19,7 +19,7 @@ $Commands = [PSCustomObject]@{
     # "zhash"        = " --devices $($Config.SelGPUDSTM) --algo 144_5 --pers auto" #Zhash (fastest)
     "cuckaroom"       = " --algo grin29" #Cuckaroom 
     "grincuckatoo32"   = " --algo grin32 --pers auto" #Grincuckatoo32
-    "kawpow"           = " --algo kawpow --pers auto" #KAWPOW [RVN fork]
+    # "kawpow"           = " --algo kawpow" #KAWPOW [RVN fork]
     # "handshake"           = " --algo Handshake --pers auto" #Handshake 
 }
  

@@ -3,8 +3,9 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoa
 $Path = ".\Bin\NVIDIA-Claymore\EthDcrMiner64.exe"
 $Uri = "https://github.com/Minerx117/miner-binaries/releases/download/v15.0/Claymoresethereumv15.0.7z"
 
+return
 $Commands = [PSCustomObject]@{
-    "ethash" = "" #Ethash -strap 1 -strap 2 -strap 3 -strap 4 -strap 5 -strap 6
+    # "ethash" = "" #Ethash -strap 1 -strap 2 -strap 3 -strap 4 -strap 5 -strap 6
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
