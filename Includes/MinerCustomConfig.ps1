@@ -64,7 +64,7 @@ version date:   20191108
             # Workaround with variable. So users have a way to not apply custom config based on conditions.
             If ($DontUseCustom) {Return}
         }
-        If ($WinningCustomConfig.CustomPasswordAdds) {
+        If ($WinningCustomConfig.CustomPasswordAdds -and !($Variables.DonationStart -or $Variables.DonationRunning)) {
             $CustomPasswordAdds = $WinningCustomConfig.CustomPasswordAdds.Trim()
             $Password = Merge-Command -Slave $Password -Master $CustomPasswordAdds -Type "Password"
         }

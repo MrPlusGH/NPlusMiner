@@ -93,7 +93,7 @@ while ($true) {
                 $PoolConf = $PoolsConfig.$ConfName
 
                 $Wallet =
-                    if($Pool -eq "miningpoolhub"){
+                    if($Pool -in @("miningpoolhub","prohashing")){
                         $PoolConf.APIKey
                     } else  {
                         $PoolConf.Wallet
@@ -116,6 +116,9 @@ while ($true) {
                 } elseif ($Pool -eq "miningpoolhub") {
                     try {
                     $TempBalanceData = ((((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)")).content | ConvertFrom-Json).getuserallbalances).data | Where {$_.coin -eq "bitcoin"}) } catch {  }#.confirmed
+                } elseif ($Pool -eq "prohashing") {
+                    try {
+                    $TempBalanceData = (((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)")).content | ConvertFrom-Json).data.balances.($Config.Passwordcurrency)) } catch {  }#.confirmed
                 } else {
                     try {
                     $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") | ConvertFrom-Json } catch {  }
@@ -125,11 +128,11 @@ while ($true) {
                     $AllBalanceObjectS += [PSCustomObject]@{
                             Pool            = $Pool
                             Date            = $CurDate
-                            balance         = $BalanceData.$BalanceJson
-                            unsold          = $BalanceData.unsold
-                            total_unpaid    = $BalanceData.total_unpaid
-                            total_paid      = $BalanceData.total_paid
-                            total_earned    = $BalanceData.$TotalJson
+                            balance         = [Math]::Round($BalanceData.$BalanceJson, 8)
+                            unsold          = [Math]::Round($BalanceData.unsold, 8)
+                            total_unpaid    = [Math]::Round($BalanceData.total_unpaid, 8)
+                            total_paid      = [Math]::Round($BalanceData.total_paid, 8)
+                            total_earned    = [Math]::Round($BalanceData.$TotalJson, 8)
                             currency        = $BalanceData.currency
                         }
                     $BalanceObjectS = $AllBalanceObjectS | ? {$_.Pool -eq $Pool}

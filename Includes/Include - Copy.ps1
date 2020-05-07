@@ -1544,21 +1544,32 @@ Function Merge-Command {
 }
 
 Function Invoke-ProxiedWebRequest {
+    param(
+        [Parameter(Mandatory = $false)]
+        [String]$URi,
+        [Parameter(Mandatory = $false)]
+        [switch]$UseBasicParsing,
+        [Parameter(Mandatory = $false)]
+        [PSCustomObject]$Headers,
+        [Parameter(Mandatory = $false)]
+        [Int]$TimeoutSec = 15,
+        # [Parameter(Mandatory = $false)]
+        # [String]$OutFile,
+        [Parameter(Mandatory = $false)]
+        [switch]$ByPassServer
+    )
     $Request = $null
-    $headers = @{"Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"}
     If ($Config.Server_Client -and $Variables.ServerRunning -and -not $ByPassServer -and -not $OutFile) {
         Try {
-            $ProxyURi = "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Proxy/?url=$($Args[0])"
-            $Args[0] = $ProxyURi
-            # $Request = Invoke-WebRequest $ProxyURi -Credential $Variables.ServerClientCreds -TimeoutSec $TimeoutSec -UseBasicParsing -Headers $Headers
-            $Request = Invoke-WebRequest @Args -Credential $Variables.ServerClientCreds -Headers $headers
+            $ProxyURi = "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Proxy/?url=$($URi)"
+            $Request = Invoke-WebRequest $ProxyURi -Credential $Variables.ServerClientCreds -TimeoutSec $TimeoutSec -UseBasicParsing -Headers $Headers
         } Catch {
             # $Variables.StatusText = "Proxy Request Failed - Trying Direct: $($URi)"
         }
     }
     if (!$Request.Content -or ($Request.StatusCode -ne 200 -and $Request.StatusCode -ne 305) -and -not $OutFile) {
         Try {
-            $Request = Invoke-WebRequest @Args -Headers $headers
+            $Request = Invoke-WebRequest $URi -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"}
         } Catch {
             # $Variables.StatusText = "Direct Request Failed: $($URi)"
         }

@@ -3,7 +3,7 @@ h1, h5, th {
 }
 
 body {
-  background-color: #F0F0F0
+    background-color: #F0F0F0;
 }
 
 table {
@@ -80,4 +80,14 @@ img {
 
 .left{
     float:left;
+}
+
+Footer{
+    overflow: auto;
+    position:fixed;
+    bottom:0;
+    left:0;
+    width: 100%;
+    background-color: #F9F9F9;
+    font-size: x-small;
 }
