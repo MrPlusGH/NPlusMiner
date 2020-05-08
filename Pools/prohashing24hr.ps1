@@ -2,7 +2,7 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoa
 
 try {
     $Headers = @{"Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"}
-    $Request = ((Invoke-WebRequest "https://prohashing.com/api/v1/status" -UseBasicParsing -Headers $Headers).Content | ConvertFrom-Json).data 
+    $Request = ((Invoke-ProxiedWebRequest "https://prohashing.com/api/v1/status" -UseBasicParsing -Headers $Headers).Content | ConvertFrom-Json).data 
 }
 catch { return }
 
@@ -35,7 +35,7 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
     $Divisor = $DivisorMultiplier * [Double]$Request.$_.mbtc_mh_factor
 
     if ((Get-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.pps_fee)))}
-    else {$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))}
+    else {$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees)))}
 
 	$PwdCurr = if ($PoolConf.PwdCurrency) {$PoolConf.PwdCurrency}else {$Config.Passwordcurrency}
     $WorkerName = If ($PoolConf.WorkerName -like "ID=*") {$PoolConf.WorkerName} else {"ID=$($PoolConf.WorkerName)"}
