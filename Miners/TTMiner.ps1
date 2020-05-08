@@ -3,10 +3,12 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLo
 $Path = ".\Bin\NVIDIA-TTMiner\TT-Miner.exe"
 $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/TTMiner/TT-Miner-5.0.1.zip"
 
+Return
+
 $Commands = [PSCustomObject]@{
     # "mtp"    = " -i 21" #Mtp  
     # "ethash" = "" #Ethash
-    "kawpow" = "" #Kawpow
+    # "kawpow" = "" #Kawpow
 }
  
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
