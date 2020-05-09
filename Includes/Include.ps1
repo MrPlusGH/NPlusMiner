@@ -172,11 +172,11 @@ Function Update-Monitoring {
     If ($Config.ReportToServer) {
         $Version = "$($Variables.CurrentProduct) $($Variables.CurrentVersion.ToString())"
         $Status = If ($Variables.Paused) { "Paused" } else { "Running" }
-        $RunningMiners = $Variables.ActiveMinerPrograms | Where-Object {$_.Status -eq "Running"}
+        $RunningMiners = $Variables.ActiveMinerPrograms.Where( {$_.Status -eq "Running"} )
         # Add the associated object from $Variables.Miners since we need data from that too
         $RunningMiners | Foreach-Object {
             $RunningMiner = $_
-            $Miner = $Variables.Miners | Where-Object {$_.Name -eq $RunningMiner.Name -and $_.Path -eq $RunningMiner.Path -and $_.Arguments -eq $RunningMiner.Arguments}
+            $Miner = $Variables.Miners.Where( {$_.Name -eq $RunningMiner.Name -and $_.Path -eq $RunningMiner.Path -and $_.Arguments -eq $RunningMiner.Arguments} )
             $_ | Add-Member -Force @{'Miner' = $Miner}
         }
 
@@ -276,7 +276,7 @@ Function Start-Mining {
 
                     # Keep updating exchange rate
                     $Rates = Invoke-RestMethod "https://api.coinbase.com/v2/exchange-rates?currency=BTC" -TimeoutSec 15 -UseBasicParsing | Select-Object -ExpandProperty data | Select-Object -ExpandProperty rates
-                    $Config.Currency | Where-Object {$Rates.$_} | ForEach-Object {$Rates | Add-Member $_ ([Double]$Rates.$_) -Force}
+                    $Config.Currency.Where( {$Rates.$_} ) | ForEach-Object {$Rates | Add-Member $_ ([Double]$Rates.$_) -Force}
                     $Variables | Add-Member -Force @{Rates = $Rates}
 
                     # Update the UI every 30 seconds, and the Last 1/6/24hr and text window every 2 minutes
@@ -1185,7 +1185,7 @@ function Start-SubProcess {
     do {Start-Sleep 1; $JobOutput = Receive-Job $Job}
     while ($JobOutput -eq $null)
 
-    $Process = Get-Process | Where-Object Id -EQ $JobOutput.ProcessId
+    $Process = (Get-Process).Where( { $_.Id -EQ $JobOutput.ProcessId } )
     $Process.Handle | Out-Null
     $Process
 }

@@ -178,10 +178,14 @@ $CycleTime = Measure-Command -Expression {
             $Variables | Add-Member -Force @{ServerRunning = Try{ ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds -TimeoutSec 3).content -eq "Server Alive")} Catch {$False} }
             If ($Variables.ServerRunning){
                 If ($Config.Server_ClientIP -ne "127.0.0.1") {
-                    Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds
+                    Try {
+                        Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds -TimeoutSec 3
+                    } Catch {"INFO: Failed to register on $($Config.Server_ClientIP):$($Config.Server_ClientPort)" | out-host}
                 }
-                $PeersFromServer = Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Peers.json" -Credential $Variables.ServerClientCreds | convertfrom-json
-                $PeersFromServer | ? {$_.Name -ne $Config.WorkerName} | ForEach {Invoke-WebRequest "http://$($_.IP):$($_.Port)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds -TimeoutSec 3}
+                Try {
+                    $PeersFromServer = Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Peers.json" -Credential $Variables.ServerClientCreds | convertfrom-json
+                    $PeersFromServer | ? {$_.Name -ne $Config.WorkerName} | ForEach {Invoke-WebRequest "http://$($_.IP):$($_.Port)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds -TimeoutSec 3}
+                } Catch {"INFO: Failed to register on $($_.IP):$($_.Port)" | out-host}
             }
         }
         $DecayExponent = [int](((Get-Date)-$Variables.DecayStart).TotalSeconds/$Variables.DecayPeriod)
@@ -278,7 +282,7 @@ $CycleTime = Measure-Command -Expression {
         Try{
             # $Rates = Invoke-RestMethod "https://api.coinbase.com/v2/exchange-rates?currency=BTC" -TimeoutSec 15 -UseBasicParsing | Select-Object -ExpandProperty data | Select-Object -ExpandProperty rates
             $Rates = Invoke-ProxiedWebRequest "https://api.coinbase.com/v2/exchange-rates?currency=$($Config.Passwordcurrency)" -TimeoutSec 15 -UseBasicParsing | convertfrom-json | Select-Object -ExpandProperty data | Select-Object -ExpandProperty rates
-            $Config.Currency | Where-Object {$Rates.$_} | ForEach-Object {$Rates | Add-Member $_ ([Double]$Rates.$_) -Force}
+            $Config.Currency.Where( {$Rates.$_} ) | ForEach-Object {$Rates | Add-Member $_ ([Double]$Rates.$_) -Force}
             $Variables | Add-Member -Force @{Rates = $Rates}
         } catch {$Variables.StatusText = "Minor error - Failed to load BTC rate.."}
         #Load the Stats
@@ -310,10 +314,11 @@ $CycleTime = Measure-Command -Expression {
         $Pools = [PSCustomObject]@{}
         $Pools_Comparison = [PSCustomObject]@{}
         $AllPools.Algorithm | Sort -Unique | ForEach {
+            $Algo = $_
             # $Pools | Add-Member $_ ($AllPools | Where Algorithm -EQ $_ | Sort Price -Descending | Select -First 1)
             # $Pools_Comparison | Add-Member $_ ($AllPools | Where Algorithm -EQ $_ | Sort StablePrice -Descending | Select -First 1)
-            $Pools | Add-Member $_ ($AllPools | Where Algorithm -EQ $_ | Sort Price -Descending)
-            $Pools_Comparison | Add-Member $_ ($AllPools | Where Algorithm -EQ $_ | Sort StablePrice -Descending)
+            $Pools | Add-Member $_ ($AllPools.Where({ $_.Algorithm -EQ $Algo }) | Sort Price -Descending)
+            $Pools_Comparison | Add-Member $_ ($AllPools.Where({ $_.Algorithm -EQ $Algo }) | Sort StablePrice -Descending)
         }
         # $AllPools.Algorithm | Select -Unique | ForEach {$Pools_Comparison | Add-Member $_ ($AllPools | Where Algorithm -EQ $_ | Sort StablePrice -Descending | Select -First 1)}
         #Load information about the Miners
@@ -333,7 +338,7 @@ $CycleTime = Measure-Command -Expression {
                 $NewMiner =  &$_.path | select -first 1
                 $NewMiner | Add-Member -Force @{Name = (Get-Item $_.Path).BaseName}
                 If ($NewMiner.Path -and (Test-Path (Split-Path $NewMiner.Path))) {
-                    $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Running" -and (Resolve-Path $_.Path).Path -eq (Resolve-Path $NewMiner.Path).Path} | ForEach {
+                    $Variables.ActiveMinerPrograms.Where( { $_.Status -eq "Running" -and (Resolve-Path $_.Path).Path -eq (Resolve-Path $NewMiner.Path).Path} ) | ForEach {
                             if($_.Process -eq $null)
                             {
                                 $_.Status = "Failed"
@@ -350,7 +355,8 @@ $CycleTime = Measure-Command -Expression {
                                $_.Status = "Idle"
                             }
                             #Restore Bias for non-active miners
-                            $Variables.Miners | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit_Bias_Orig}
+                            $Object = $_
+                            $Variables.Miners.Where({ $_.Path -EQ $Object.Path -and $_.Arguments -EQ $Object.Arguments }) | ForEach {$_.Profit_Bias = $_.Profit_Bias_Orig}
                     }
                     # Force re-benchmark - Deactivated
                     # Get-ChildItem -path ".\stats\" -filter "$($NewMiner.Name)_*.txt" | Remove-Item -Force -Recurse
@@ -399,11 +405,11 @@ $CycleTime = Measure-Command -Expression {
                     # $Miner_Profits_Bias | Add-Member $_ ([Double]$Miner.HashRates.$_*$LocPool.Price*(1-($Config.MarginOfError*[Math]::Pow($Variables.DecayBase,$DecayExponent))))
                 # }
                 $Miner.HashRates | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
-                    $LocPool = $Pools.$_ | Where {$_.Host -in $Miner.Host -and $_.Coin -in $Miner.Coin}
-                    $LocPoolsComp = $Pools_Comparison.$_ | Where {$_.Host -in $Miner.Host -and $_.Coin -in $Miner.Coin}
+                    $LocPool = $Pools.$_ | Where {$_.Host -in $Miner.Host -and $_.Coin -in $Miner.Coin} 
+                    $LocPoolsComp = $Pools_Comparison.$_ | Where {$_.Host -in $Miner.Host -and $_.Coin -in $Miner.Coin} 
                     $Miner_HashRates | Add-Member $_ ([Double]$Miner.HashRates.$_)
                     $Miner_Pools | Add-Member $_ ([PSCustomObject]$LocPool)
-                    $Miner_Pools_Comparison | Add-Member $_ ([PSCustomObject]$LocPoolsComp | Where {$_.Host -in $Miner.Host -and $_.Coin -in $Miner.Coin})
+                    $Miner_Pools_Comparison | Add-Member $_ ([PSCustomObject]$LocPoolsComp | Where {$_.Host -in $Miner.Host -and $_.Coin -in $Miner.Coin} )
                     $Miner_Profits | Add-Member $_ ([Double]$Miner.HashRates.$_*$LocPool.Price)
                     $Miner_Profits_Comparison | Add-Member $_ ([Double]$Miner.HashRates.$_*$LocPoolsComp.Price)
                     $Miner_Profits_Bias | Add-Member $_ ([Double]$Miner.HashRates.$_*$LocPool.Price*(1-($Config.MarginOfError*[Math]::Pow($Variables.DecayBase,$DecayExponent))))
@@ -469,10 +475,10 @@ $CycleTime = Measure-Command -Expression {
         # ** Ban is not persistent across sessions **
        If ($Config.MaxMinerFailure -gt 0){
            $Config | Add-Member -Force @{ MaxMinerFailure = If ($Config.MaxMinerFailure) {$Config.MaxMinerFailure} else {3} }
-           $BannedMiners = $Variables.ActiveMinerPrograms | Where { $_.Status -eq "Failed" -and $_.FailedCount -ge $Config.MaxMinerFailure }
+           $BannedMiners = $Variables.ActiveMinerPrograms.Where( { $_.Status -eq "Failed" -and $_.FailedCount -ge $Config.MaxMinerFailure } )
            # $BannedMiners | foreach { $Variables.StatusText = "BANNED: $($_.Name) / $($_.Algorithms). Too many failures. Consider Algo exclusion in config." }
            $BannedMiners | foreach { "BANNED: $($_.Name) / $($_.Algorithms). Too many failures. Consider Algo exclusion in config." | Out-Host }
-           $Variables.Miners = $Variables.Miners | Where { $_.Path -notin $BannedMiners.Path -and $_.Arguments -notin $BannedMiners.Arguments }
+           $Variables.Miners = $Variables.Miners.Where( { $_.Path -notin $BannedMiners.Path -and $_.Arguments -notin $BannedMiners.Arguments } )
        }
 
 
