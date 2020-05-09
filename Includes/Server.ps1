@@ -399,7 +399,7 @@ Function Start-Server {
                                 $Title = "RunningMiners.json"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
                                 $ContentType = $MIMETypes[".json"]
-                                $Content = $Variables.ActiveMinerPrograms.Clone() | ? {$_.Status -eq "Running"} | Sort Type | ConvertTo-Json -Depth 10
+                                $Content = $Variables.ActiveMinerPrograms.Clone().Where( {$_.Status -eq "Running"} ) | Sort Type | ConvertTo-Json -Depth 10
                                 If ($Variables.Paused) {
                                     $Content = [PSCustomObject]@{
                                         Type = "Paused"
@@ -526,7 +526,7 @@ Function Start-Server {
                                 $Peers | foreach {
                                     $Peer = $_
                                     If ($Peer.Name -eq $Config.WorkerName) {
-                                        $Miners += $Variables.ActiveMinerPrograms.Clone() | ? {$_.Status -eq "Running"} | select @{Name = "Rig";Expression={$Peer.Name}},*
+                                        $Miners += $Variables.ActiveMinerPrograms.Clone().Where( {$_.Status -eq "Running"} ) | select @{Name = "Rig";Expression={$Peer.Name}},*
                                     } else {
                                         $Miners += (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/RunningMiners.json" -Credential $Variables.ServerCreds -TimeoutSec 5 | ConvertFrom-Json) | select @{Name = "Rig";Expression={$Peer.Name}},*
                                     }
@@ -649,7 +649,7 @@ Function Start-Server {
                         <br>
 "@
 
-                                    $DisplayEstimations = [System.Collections.ArrayList]@($Miners.Clone() | ? {$_.Type -eq $Type} | sort $_.Profits.PSObject.Properties.Value -Descending | Select @(
+                                    $DisplayEstimations = [System.Collections.ArrayList]@($Miners.Clone().Where( {$_.Type -eq $Type} ) | sort $_.Profits.PSObject.Properties.Value -Descending | Select @(
                                         @{Name = "Type";Expression={$_.Type}},
                                         @{Name = "Miner";Expression={$_.Name}},
                                         @{Name = "Algorithm";Expression={$_.HashRates.PSObject.Properties.Name}},
