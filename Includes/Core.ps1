@@ -177,15 +177,15 @@ $CycleTime = Measure-Command -Expression {
         If ($Config.Server_Client) {
             $Variables | Add-Member -Force @{ServerRunning = Try{ ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds -TimeoutSec 3).content -eq "Server Alive")} Catch {$False} }
             If ($Variables.ServerRunning){
-                If ($Config.Server_ClientIP -ne "127.0.0.1") {
+                If ($Config.Server_ClientIP -and $Config.Server_ClientPort) {
                     Try {
-                        Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds -TimeoutSec 3
-                    } Catch {"INFO: Failed to register on $($Config.Server_ClientIP):$($Config.Server_ClientPort)" | out-host}
+                        Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds -TimeoutSec 5
+                    } Catch {"INFO: Failed to register on http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" | out-host}
                 }
                 Try {
                     $PeersFromServer = Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Peers.json" -Credential $Variables.ServerClientCreds | convertfrom-json
-                    $PeersFromServer | ? {$_.Name -ne $Config.WorkerName} | ForEach {Invoke-WebRequest "http://$($_.IP):$($_.Port)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds -TimeoutSec 3}
-                } Catch {"INFO: Failed to register on $($_.IP):$($_.Port)" | out-host}
+                    $PeersFromServer | ? {$_.Name -ne $Config.WorkerName} | ForEach {Invoke-WebRequest "http://$($_.IP):$($_.Port)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds -TimeoutSec 5}
+                } Catch {"INFO: Failed to register on http://$($_.IP):$($_.Port)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" | out-host}
             }
         }
         $DecayExponent = [int](((Get-Date)-$Variables.DecayStart).TotalSeconds/$Variables.DecayPeriod)
