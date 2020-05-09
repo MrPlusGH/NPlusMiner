@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <#
 Product:        NPlusMiner
 File:           NPlusMiner.ps1
-version:        5.4.1
-version date:   20190809
+version:        7.3.2
+version date:   20200509
 #>
 
 param(
