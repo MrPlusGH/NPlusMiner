@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\AMD-WildRigMulti\wildrig.exe"
-$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.20.5b/wildrig-multi-windows-0.20.5.3.7z"
+$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.23.0/wildrig-multi-windows-0.23.0.7z"
 
 $Commands = [PSCustomObject]@{
     "astralhash"    = " --algo glt-astralhash" #Astralhash
@@ -16,6 +16,7 @@ $Commands = [PSCustomObject]@{
     "hmq1725"       = " --algo hmq1725" #Hmq1725
     "honeycomb"     = " --algo honeycomb" #Honeycomb 
     "jeonghash"     = " --algo glt-jeonghash" #Jeonghash
+    "kawpow"        = " --algo kawpow"
     "lyra2v3"       = " --algo lyra2v3"
     "mtp"           = " --algo mtp" #Mtp
     "mtp-trc"       = " --algo mtp-trc" #Mtp-trc
