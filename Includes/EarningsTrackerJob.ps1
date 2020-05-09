@@ -104,24 +104,27 @@ while ($true) {
 				# Write-Host "$($APIUri)$($Wallet)"
                 If ($Pool -eq "nicehash-V1"){
                     try {
-                    $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") | ConvertFrom-Json } catch {  }
+                    $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing | ConvertFrom-Json } catch {  }
                     if (-not $TempBalanceData.$BalanceJson) {$TempBalanceData | Add-Member -NotePropertyName $BalanceJson -NotePropertyValue ($TempBalanceData.result.Stats | measure -sum $BalanceJson).sum -Force}
                     if (-not $TempBalanceData.$TotalJson) {$TempBalanceData | Add-Member -NotePropertyName $TotalJson -NotePropertyValue ($TempBalanceData.result.Stats | measure -sum $BalanceJson).sum -Force}
                 } elseif ($Pool -eq "nicehash") {
                     try {
-                    $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)/rigs2") | ConvertFrom-Json } catch {  }
+                    $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)/rigs2") -UseBasicParsing | ConvertFrom-Json } catch {  }
                     [Double]$NHTotalBalance = [Double]($TempBalanceData.unpaidAmount) + [Double]($TempBalanceData.externalBalance)
                     $TempBalanceData | Add-Member -NotePropertyName $BalanceJson -NotePropertyValue $NHTotalBalance -Force
                     $TempBalanceData | Add-Member -NotePropertyName $TotalJson -NotePropertyValue $NHTotalBalance -Force
+                    $TempBalanceData | Add-Member -NotePropertyName "currency" -NotePropertyValue "BTC" -Force
                 } elseif ($Pool -eq "miningpoolhub") {
                     try {
-                    $TempBalanceData = ((((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)")).content | ConvertFrom-Json).getuserallbalances).data | Where {$_.coin -eq "bitcoin"}) } catch {  }#.confirmed
+                    $TempBalanceData = ((((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing).content | ConvertFrom-Json).getuserallbalances).data | Where {$_.coin -eq "bitcoin"}) } catch {  }#.confirmed
+                    $TempBalanceData | Add-Member -NotePropertyName "currency" -NotePropertyValue "BTC" -Force
                 } elseif ($Pool -eq "prohashing") {
                     try {
-                    $TempBalanceData = (((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)")).content | ConvertFrom-Json).data.balances.($Config.Passwordcurrency)) } catch {  }#.confirmed
+                    $TempBalanceData = (((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing).content | ConvertFrom-Json).data.balances.($Config.Passwordcurrency)) } catch {  }#.confirmed
+                    $TempBalanceData | Add-Member -NotePropertyName "currency" -NotePropertyValue $Config.Passwordcurrency -Force
                 } else {
                     try {
-                    $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") | ConvertFrom-Json } catch {  }
+                    $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing | ConvertFrom-Json } catch {  }
                 }
                 If ($TempBalanceData.$TotalJson -gt 0){
                     $BalanceData = $TempBalanceData
