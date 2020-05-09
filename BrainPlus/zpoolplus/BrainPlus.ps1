@@ -170,11 +170,11 @@ $CurDate = Get-Date
 $RetryInterval = 0
 
 try{
-    $AlgoData = Invoke-ProxiedWebRequest $BrainConfig.PoolStatusUri | ConvertFrom-Json
-    $CoinsData = Invoke-ProxiedWebRequest $BrainConfig.PoolCurrenciesUri | ConvertFrom-Json 
+    $AlgoData = Invoke-ProxiedWebRequest $BrainConfig.PoolStatusUri -UseBasicParsing | ConvertFrom-Json
+    $CoinsData = Invoke-ProxiedWebRequest $BrainConfig.PoolCurrenciesUri -UseBasicParsing | ConvertFrom-Json 
     If ($BrainConfig.SoloBlocksPenaltyMode -eq "Sample" -or $BrainConfig.OrphanBlocksPenalty) {
         # Need to update in case of type change (Orphans)
-        (Invoke-ProxiedWebRequest $BrainConfig.PoolBlocksUri | ConvertFrom-Json) | ? {$_.category -ne "new"} | foreach {
+        (Invoke-ProxiedWebRequest $BrainConfig.PoolBlocksUri -UseBasicParsing | ConvertFrom-Json) | ? {$_.category -ne "new"} | foreach {
             if (!$_.symbol) {$_ | Add-Member -Force @{symbol = $_.Coin}}
             if (!$_.type) {$_ | Add-Member -Force @{type = "Shared"}}
             Try{
