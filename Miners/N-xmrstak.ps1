@@ -19,7 +19,7 @@ $Commands = [PSCustomObject]@{
 
 $Commands.PSObject.Properties.Name | ForEach-Object {
     $Algo =$_
-	$AlgoNorm = Get-Algorithm($_)
+    $AlgoNorm = Get-Algorithm($_)
 
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_

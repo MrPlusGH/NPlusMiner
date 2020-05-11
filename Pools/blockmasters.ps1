@@ -31,15 +31,15 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
     $PwdCurr = if ($PoolConf.PwdCurrency) {$PoolConf.PwdCurrency}else {$Config.Passwordcurrency}
     $WorkerName = If ($PoolConf.WorkerName -like "ID=*") {$PoolConf.WorkerName} else {"ID=$($PoolConf.WorkerName)"}
 
-	$Locations = "eu.", ""
-	$Locations | ForEach-Object {
-		$Pool_Location = $_
-		
-		switch ($Pool_Location) {
-			"eu."    {$Location = "EU"}
-			""    {$Location = "US"}
-		}
-		$PoolHost = "$($Pool_Location)$($HostSuffix)"
+    $Locations = "eu.", ""
+    $Locations | ForEach-Object {
+        $Pool_Location = $_
+        
+        switch ($Pool_Location) {
+            "eu."    {$Location = "EU"}
+            ""    {$Location = "US"}
+        }
+        $PoolHost = "$($Pool_Location)$($HostSuffix)"
 
         if ($PoolConf.Wallet) {
             [PSCustomObject]@{

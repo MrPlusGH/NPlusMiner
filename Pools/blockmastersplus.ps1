@@ -20,7 +20,7 @@ $DivisorMultiplier = 1000000
 $Location = "US"
 
 # Placed here for Perf (Disk reads)
-	$ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
+    $ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
     $PoolConf = $Config.PoolsConfig.$ConfName
 
 $dtAlgos | foreach {
@@ -33,21 +33,21 @@ $dtAlgos | foreach {
 
     $Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Pool.$PriceField / $Divisor * (1 - ($Pool.fees / 100)))
 
-	$PwdCurr = if ($PoolConf.PwdCurrency) {$PoolConf.PwdCurrency}else {$Config.Passwordcurrency}
+    $PwdCurr = if ($PoolConf.PwdCurrency) {$PoolConf.PwdCurrency}else {$Config.Passwordcurrency}
     $WorkerName = If ($PoolConf.WorkerName -like "ID=*") {$PoolConf.WorkerName} else {"ID=$($PoolConf.WorkerName)"}
 
     $PoolPassword = If ( ! $Config.PartyWhenAvailable ) {"$($WorkerName),c=$($PwdCurr)"} else { "$($WorkerName),c=$($PwdCurr),m=PARTY.NPlusMiner" }
     $PoolPassword = If ( $Pool.symbol ) { "$($PoolPassword),mc=$($Pool.symbol)" } else { $PoolPassword }
 
-	$Locations = "eu.", ""
-	$Locations | ForEach-Object {
-		$Pool_Location = $_
-		
-		switch ($Pool_Location) {
-			"eu."    {$Location = "EU"}
-			default    {$Location = "US"}
-		}
-		$PoolHost = "$($Pool_Location)$($HostSuffix)"
+    $Locations = "eu.", ""
+    $Locations | ForEach-Object {
+        $Pool_Location = $_
+        
+        switch ($Pool_Location) {
+            "eu."    {$Location = "EU"}
+            default    {$Location = "US"}
+        }
+        $PoolHost = "$($Pool_Location)$($HostSuffix)"
 
         if ($PoolConf.Wallet) {
             [PSCustomObject]@{

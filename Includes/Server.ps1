@@ -632,7 +632,7 @@ Function Start-Server {
                                 $Content = $Header
                                 $Content += "<hr>"
                                 
-                                $Miners = $Variables.Miners.Clone()
+                                $Miners = $Variables["Miners"].Clone()
                                 
                                 ForEach ($Type in ($Miners.Type | Sort -Unique -Descending)) {
                                     $Content += "<img src=""$(ConvertTo-ImagePath $Type)"" alt="" "" width=""16""></img>&nbsp&nbsp<a href=""#$($Type)"">$($Type)</a>&nbsp&nbsp&nbsp&nbsp"
@@ -649,7 +649,7 @@ Function Start-Server {
                         <br>
 "@
 
-                                    $DisplayEstimations = [System.Collections.ArrayList]@($Miners.Clone().Where( {$_.Type -eq $Type} ) | sort $_.Profits.PSObject.Properties.Value -Descending | Select @(
+                                    $DisplayEstimations = [System.Collections.ArrayList]@($Miners.Where( {$_.Type -eq $Type} ) | sort $_.Profits.PSObject.Properties.Value -Descending | Select @(
                                         @{Name = "Type";Expression={$_.Type}},
                                         @{Name = "Miner";Expression={$_.Name}},
                                         @{Name = "Algorithm";Expression={$_.HashRates.PSObject.Properties.Name}},
@@ -706,9 +706,9 @@ Function Start-Server {
                         }
                         "/Cmd-CleanIconCache" {
                                     $ContentType = "text/html"
-                                    $Variables | Add-Member -Force @{CoinIcons = @()}
-                                    $Variables | Add-Member -Force @{CoinsIconCacheLoaded = $False}
-                                    $Variables | Add-Member -Force @{CoinsIconCachePopulating = $False}
+                                    $Variables.CoinIcons = @()
+                                    $Variables.CoinsIconCacheLoaded = $False
+                                    $Variables.CoinsIconCachePopulating = $False
                                     
                                     $Title = "CleanIconCache"
                                     $Content = "OK"
@@ -728,7 +728,7 @@ Function Start-Server {
                                     $ContentType = "text/html"
                                     $Variables.StatusText = "Start Mining requested via API."
                                     $Variables.Paused = $False
-                                    $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
+                                    $Variables.LastDonated = (Get-Date).AddDays(-1).AddHours(1)
                                     $Variables.RestartCycle = $True
                                     
                                     $Title = "Mine Command"
@@ -833,6 +833,6 @@ Function Start-Server {
     })
     $Server.Runspace = $ServerRunspace
     # $Variables.Server | Add-Member -Force @{ServerListener = $ServerListener}
-    $Variables | add-Member -Force @{ServerRunspaceHandle = $Server.BeginInvoke()}
+    $Variables.ServerRunspaceHandle = $Server.BeginInvoke()
 }
 

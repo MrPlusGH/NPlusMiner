@@ -17,7 +17,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
         default {$ThreadCount = $Variables.ProcessorCount - 2}
     }
 
-	$Algo = Get-Algorithm($_)
+    $Algo = Get-Algorithm($_)
     [PSCustomObject]@{
         Type = "CPU"
         Path = $Path

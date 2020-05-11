@@ -110,7 +110,7 @@ Write-Host -F Yellow " Copyright and license notices must be preserved."
     $Global:Config = [hashtable]::Synchronized(@{})
     $Global:Config | Add-Member -Force @{ConfigFile = $ConfigFile}
     $Global:Variables = [hashtable]::Synchronized(@{})
-    $Global:Variables | Add-Member -Force -MemberType ScriptProperty -Name 'StatusText' -Value{ $this._StatusText;$This._StatusText = @() }  -SecondValue { If (!$this._StatusText){$this._StatusText=@()};$this._StatusText+=$args[0];$Variables | Add-Member -Force @{RefreshNeeded = $True} }
+    $Global:Variables | Add-Member -Force -MemberType ScriptProperty -Name 'StatusText' -Value{ $this._StatusText;$This._StatusText = [System.Collections.ArrayList]::Synchronized(@()) }  -SecondValue { If (!$this._StatusText){$this._StatusText=[System.Collections.ArrayList]::Synchronized(@())};$this._StatusText+=$args[0];$Variables.RefreshNeeded = $True }
 
     # Set Console size
     $ConsoleHeight = 50
@@ -186,7 +186,7 @@ Function Global:TimerUITick
         (compare -ReferenceObject $CheckedListBoxPools.Items -DifferenceObject ((Get-ChildItem ".\Pools").BaseName | sort -Unique) | ? {$_.SideIndicator -eq "=>"}).InputObject | % { if ($_ -ne $null){}$CheckedListBoxPools.Items.AddRange($_)}
         $Config.PoolName | foreach {$CheckedListBoxPools.SetItemChecked($CheckedListBoxPools.Items.IndexOf($_),$True)}
         }
-        $Variables | Add-Member -Force @{InCycle = $True}
+        $Variables.InCycle = $True
         # $MainForm.Number+=1
         $MainForm.Text = $Branding.ProductLable + " " + $Variables.CurrentVersion + " Runtime " + ("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate)) + " Path: " + (Split-Path $script:MyInvocation.MyCommand.Path)
         $host.UI.RawUI.WindowTitle = $Branding.ProductLable + " " + $Variables.CurrentVersion + " Runtime " + ("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate)) + " Path: " + (Split-Path $script:MyInvocation.MyCommand.Path)
@@ -321,7 +321,7 @@ Function Global:TimerUITick
                 }
             }
             $LabelBTCPrice.text = If($Variables.Rates.$Currency -gt 0){"$($Config.Passwordcurrency)/$($Config.Currency) $($Variables.Rates.($Config.Currency))"}
-            $Variables | Add-Member -Force @{InCycle = $False}
+            $Variables.InCycle = $False
         
         
             If ($Variables.Earnings.Values -ne $Null){
@@ -367,9 +367,9 @@ Function Global:TimerUITick
             if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
             if (!(IsLoaded(".\Includes\Core.ps1"))) {. .\Includes\Core.ps1;RegisterLoaded(".\Includes\Core.ps1")}
         
-            $Variables | Add-Member -Force @{CurrentProduct = (Get-Content .\Version.json | ConvertFrom-Json).Product}
-            $Variables | Add-Member -Force @{CurrentVersion = [Version](Get-Content .\Version.json | ConvertFrom-Json).Version}
-            $Variables | Add-Member -Force @{CurrentVersionAutoUpdated = (Get-Content .\Version.json | ConvertFrom-Json).AutoUpdated.Value}
+            $Variables.CurrentProduct = (Get-Content .\Version.json | ConvertFrom-Json).Product
+            $Variables.CurrentVersion = [Version](Get-Content .\Version.json | ConvertFrom-Json).Version
+            $Variables.CurrentVersionAutoUpdated = (Get-Content .\Version.json | ConvertFrom-Json).AutoUpdated.Value
             if ((Get-Content .\Version.json | ConvertFrom-Json).AutoUpdated -and $LabelNotifications.Lines[$LabelNotifications.Lines.Count-1] -ne "Auto Updated on $($Variables.CurrentVersionAutoUpdated)"){
                 $LabelNotifications.ForeColor = "Green"
                 Update-Notifications("Running $($Variables.CurrentProduct) Version $([Version]$Variables.CurrentVersion)")
@@ -556,10 +556,10 @@ Function PrepareWriteConfig{
     
     $ServerPasswd = ConvertTo-SecureString $Config.Server_Password -AsPlainText -Force
     $ServerCreds = New-Object System.Management.Automation.PSCredential ($Config.Server_User, $ServerPasswd)
-    $Variables | Add-Member -Force @{ServerCreds = $ServerCreds}
+    $Variables.ServerCreds = $ServerCreds
     $ServerClientPasswd = ConvertTo-SecureString $Config.Server_ClientPassword -AsPlainText -Force
     $ServerClientCreds = New-Object System.Management.Automation.PSCredential ($Config.Server_ClientUser, $ServerClientPasswd)
-    $Variables | Add-Member -Force @{ServerClientCreds = $ServerClientCreds}
+    $Variables.ServerClientCreds = $ServerClientCreds
     
     $MainForm.Refresh
     # [windows.forms.messagebox]::show("Please restart NPlusMiner",'Config saved','ok','Information') | out-null
@@ -699,9 +699,9 @@ $SelGPUDSTM = $Config.SelGPUDSTM
 $SelGPUCC = $Config.SelGPUCC
 $MainForm | Add-Member -Name "Variables" -Value $Variables -MemberType NoteProperty -Force
 
-$Variables | Add-Member -Force @{CurrentProduct = (Get-Content .\Version.json | ConvertFrom-Json).Product}
-$Variables | Add-Member -Force @{CurrentVersion = [Version](Get-Content .\Version.json | ConvertFrom-Json).Version}
-$Variables | Add-Member -Force @{CurrentVersionAutoUpdated = (Get-Content .\Version.json | ConvertFrom-Json).AutoUpdated.Value}
+$Variables.CurrentProduct = (Get-Content .\Version.json | ConvertFrom-Json).Product
+$Variables.CurrentVersion = [Version](Get-Content .\Version.json | ConvertFrom-Json).Version
+$Variables.CurrentVersionAutoUpdated = (Get-Content .\Version.json | ConvertFrom-Json).AutoUpdated.Value
 $Variables.StatusText = "Idle"
 $TabControl = New-object System.Windows.Forms.TabControl
 
@@ -1530,7 +1530,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
                 $StartPort = 4068
                 Update-Status("Finding available TCP Port for $($This.Text)")
                 $Port = Get-FreeTcpPort($StartPort)
-                $Variables | Add-Member -Force @{"$($This.Text)MinerAPITCPPort" = $Port}
+                $Variables."$($This.Text)MinerAPITCPPort" = $Port
                 Update-Status("Miners API Port: $($Port)")
                 $StartPort = $Port+1
             }
@@ -1556,7 +1556,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
                 $StartPort = 4068
                 Update-Status("Finding available TCP Port for $($This.Text)")
                 $Port = Get-FreeTcpPort($StartPort)
-                $Variables | Add-Member -Force @{"$($This.Text)MinerAPITCPPort" = $Port}
+                $Variables."$($This.Text)MinerAPITCPPort" = $Port
                 Update-Status("Miners API Port: $($Port)")
                 $StartPort = $Port+1
             }
@@ -1582,7 +1582,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
                     $StartPort = 4068
                     Update-Status("Finding available TCP Port for $($This.Text)")
                     $Port = Get-FreeTcpPort($StartPort)
-                    $Variables | Add-Member -Force @{"$($This.Text)MinerAPITCPPort" = $Port}
+                    $Variables."$($This.Text)MinerAPITCPPort" = $Port
                     Update-Status("Miners API Port: $($Port)")
                     $StartPort = $Port + 1
                 }
@@ -1978,7 +1978,7 @@ $ButtonPause.Add_Click( {
             $LabelBTCD.Text = "Mining Paused | $($Branding.ProductLable) $($Variables.CurrentVersion)"
             
             If ($Variables.DonationRunning) {
-                $Variables | Add-Member -Force @{ DonationRunning = $False }
+                $Variables.DonationRunning = $False 
                 $ConfigLoad = Get-Content $Config.ConfigFile | ConvertFrom-json
                 $ConfigLoad | % {$_.psobject.properties | sort Name | % {$Config | Add-Member -Force @{$_.Name = $_.Value}}}
                 $Config | Add-Member -Force -MemberType ScriptProperty -Name "PoolsConfig" -Value {
@@ -2001,7 +2001,7 @@ $ButtonPause.Add_Click( {
         else {
             $Variables.Paused = $False
             $ButtonPause.Text = "Pause"
-            $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
+            $Variables.LastDonated = (Get-Date).AddDays(-1).AddHours(1)
             $TimerUI.Start()
 
             # Stop and start mining to immediately switch to unpaused state without waiting for current sleep to finish
@@ -2034,7 +2034,7 @@ $ButtonStart.Add_Click( {
             # $TimerUI.Interval = 1000
 
             If ($Variables.DonationRunning) {
-                $Variables | Add-Member -Force @{ DonationRunning = $False }
+                $Variables.DonationRunning = $False 
                 $ConfigLoad = Get-Content $Config.ConfigFile | ConvertFrom-json
                 $ConfigLoad | % {$_.psobject.properties | sort Name | % {$Config | Add-Member -Force @{$_.Name = $_.Value}}}
                 $Config | Add-Member -Force -MemberType ScriptProperty -Name "PoolsConfig" -Value {
@@ -2060,8 +2060,8 @@ $ButtonStart.Add_Click( {
             PrepareWriteConfig
             $ButtonStart.Text = "Stop"
             InitApplication
-            $Variables | add-Member -Force @{MainPath = (Split-Path $script:MyInvocation.MyCommand.Path)}
-            $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
+            $Variables.MainPath = (Split-Path $script:MyInvocation.MyCommand.Path)
+            $Variables.LastDonated = (Get-Date).AddDays(-1).AddHours(1)
 
             Start-IdleTracking
 

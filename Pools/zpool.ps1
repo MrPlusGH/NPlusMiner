@@ -14,34 +14,34 @@ $PriceField = "estimate_current"
 $DivisorMultiplier = 1000000
  
 # Placed here for Perf (Disk reads)
-	$ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
+    $ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
     $PoolConf = $Config.PoolsConfig.$ConfName
 
 
     $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
-		$Algo = $_
+        $Algo = $_
         $PoolHost = "$($_)$($HostSuffix)"
         $PoolPort = $Request.$_.port
         $PoolAlgorithm = Get-Algorithm $Request.$_.name
 
         $Divisor = $DivisorMultiplier * [Double]$Request.$_.mbtc_mh_factor
 
-		$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))
-		
+        $Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))
+        
         $PwdCurr = if ($PoolConf.PwdCurrency) {$PoolConf.PwdCurrency}else {$Config.Passwordcurrency}
         $WorkerName = If ($PoolConf.WorkerName -like "ID=*") {$PoolConf.WorkerName} else {"ID=$($PoolConf.WorkerName)"}
         
-	$Locations = "eu", "na", "sea"
-	$Locations | ForEach-Object {
-		$Pool_Location = $_
-		
-		switch ($Pool_Location) {
-			"eu"    {$Location = "EU"}
-			"na"    {$Location = "US"}
-			"sea"   {$Location = "JP"}
-			default {$Location = "US"}
-		}
-		$PoolHost = "$($Algo).$($Pool_Location)$($HostSuffix)"
+    $Locations = "eu", "na", "sea"
+    $Locations | ForEach-Object {
+        $Pool_Location = $_
+        
+        switch ($Pool_Location) {
+            "eu"    {$Location = "EU"}
+            "na"    {$Location = "US"}
+            "sea"   {$Location = "JP"}
+            default {$Location = "US"}
+        }
+        $PoolHost = "$($Algo).$($Pool_Location)$($HostSuffix)"
         
         if ($PoolConf.Wallet) {
             [PSCustomObject]@{

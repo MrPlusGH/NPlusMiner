@@ -11,7 +11,7 @@ $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
     $Algo =$_
-	$AlgoNorm = Get-Algorithm($_)
+    $AlgoNorm = Get-Algorithm($_)
 
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_

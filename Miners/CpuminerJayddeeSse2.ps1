@@ -56,8 +56,8 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
         default {$ThreadCount = $Variables.ProcessorCount - 2}
     }
 
-	$Algo =$_
-	$AlgoNorm = Get-Algorithm($_)
+    $Algo =$_
+    $AlgoNorm = Get-Algorithm($_)
 
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_

@@ -46,7 +46,7 @@ function Get-MemoryUsage {
       If (!$Variables.PerfCounterProcPath) {
         $proc_path=((Get-Counter "\Process(*)\ID Process").CounterSamples | ? {$_.RawValue -eq $pid}).Path  
         $proc_path = $proc_path -replace "id process","Working Set - Private"
-        $Variables | Add-Member -Force @{PerfCounterProcPath = $proc_path}
+        $Variables.PerfCounterProcPath = $proc_path
       }
       
       # Write-Host -Object ('PagedMemorySize  : {0:n1} MB ' -f ($P.PagedMemorySize/1024))
@@ -65,7 +65,7 @@ Function GetNVIDIADriverVersion {
  
 Function Global:RegisterLoaded ($File) {
     New-Item -Path function: -Name script:"$((Get-FileHash (Resolve-Path $File)).Hash)" -Value {$true} -EA SilentlyContinue | Add-Member @{"File" = (Resolve-Path $File).Path} -EA SilentlyContinue
-    $Variables.StatusText = "File loaded - $($file) - $((Get-PSCallStack).Command[1])"
+    # $Variables.StatusText = "File loaded - $($file) - $((Get-PSCallStack).Command[1])"
 }
     
 Function Global:IsLoaded ($File) {
@@ -159,7 +159,7 @@ namespace PInvoke.Win32 {
                 Start-Sleep 1
             }
         } ) | Out-Null
-    $Variables | Add-Member -Force @{IdleRunspaceHandle = $idlePowershell.BeginInvoke()}
+    $Variables.IdleRunspaceHandle = $idlePowershell.BeginInvoke()
 }
 
 Function Update-Monitoring {
@@ -238,8 +238,8 @@ Function Update-Monitoring {
                 }
             }
 
-            $Variables | Add-Member -Force @{Workers = $Workers}
-            $Variables | Add-Member -Force @{WorkersLastUpdated = (Get-Date)}
+            $Variables.Workers = $Workers
+            $Variables.WorkersLastUpdated = (Get-Date)
         }
         Catch {
             $Variables.StatusText = "Unable to retrieve worker data from $($Config.MonitoringServer)"
@@ -277,16 +277,16 @@ Function Start-Mining {
                     # Keep updating exchange rate
                     $Rates = Invoke-RestMethod "https://api.coinbase.com/v2/exchange-rates?currency=BTC" -TimeoutSec 15 -UseBasicParsing | Select-Object -ExpandProperty data | Select-Object -ExpandProperty rates
                     $Config.Currency.Where( {$Rates.$_} ) | ForEach-Object {$Rates | Add-Member $_ ([Double]$Rates.$_) -Force}
-                    $Variables | Add-Member -Force @{Rates = $Rates}
+                    $Variables.Rates = $Rates
 
                     # Update the UI every 30 seconds, and the Last 1/6/24hr and text window every 2 minutes
                     for ($i = 0; $i -lt 4; $i++) {
                         if ($i -eq 3) {
-                            $Variables | Add-Member -Force @{EndLoop = $True}
+                            $Variables.EndLoop = $True
                             Update-Monitoring
                         }
                         else {
-                            $Variables | Add-Member -Force @{EndLoop = $False}
+                            $Variables.EndLoop = $False
                         }
 
                         $Variables.StatusText = "Mining paused"
@@ -300,8 +300,8 @@ Function Start-Mining {
                 }
             }
         }) | Out-Null
-    $Variables | add-Member -Force @{CycleRunspaceHandle = $powershell.BeginInvoke()}
-    $Variables | Add-Member -Force @{LastDonated = (Get-Date).AddDays(-1).AddHours(1)}
+    $Variables.CycleRunspaceHandle = $powershell.BeginInvoke()
+    $Variables.LastDonated = (Get-Date).AddDays(-1).AddHours(1)
 }
 
 Function Stop-Mining {
@@ -403,10 +403,10 @@ Function Load-Config {
     if ($Variables) {
         $ServerPasswd = ConvertTo-SecureString $Config.Server_Password -AsPlainText -Force
         $ServerCreds = New-Object System.Management.Automation.PSCredential ($Config.Server_User, $ServerPasswd)
-        $Variables | Add-Member -Force @{ServerCreds = $ServerCreds}
+        $Variables.ServerCreds = $ServerCreds
         $ServerClientPasswd = ConvertTo-SecureString $Config.Server_ClientPassword -AsPlainText -Force
         $ServerClientCreds = New-Object System.Management.Automation.PSCredential ($Config.Server_ClientUser, $ServerClientPasswd)
-        $Variables | Add-Member -Force @{ServerClientCreds = $ServerClientCreds}
+        $Variables.ServerClientCreds = $ServerClientCreds
     }
         $Config
     }
@@ -421,6 +421,9 @@ Function Write-Config {
     )
     If ($Config.ManualConfig) {Update-Status("Manual config mode - Not saving config"); return}
     If ($Config -ne $null) {
+        If (@($Config.Algorithm).Where({$_.StartsWith("+")})) { $Config | Add-Member -Force @{AlgoInclude = @(@($Config.Algorithm).Where({$_.StartsWith("+")}).substring(1) | ForEach {Get-Algorithm $_})} } else {$Config | Add-Member -Force @{AlgoInclude = @()}}
+        If (@($Config.Algorithm).Where({$_.StartsWith("-")})) { $Config | Add-Member -Force @{AlgoExclude = @(@($Config.Algorithm).Where({$_.StartsWith("-")}).substring(1) | ForEach {Get-Algorithm $_})} } else {$Config | Add-Member -Force @{AlgoExclude = @()}}
+
         if (Test-Path $ConfigFile) {Copy-Item $ConfigFile "$($ConfigFile).backup"}
         $OrderedConfig = [PSCustomObject]@{}; ($config | select -Property * -ExcludeProperty PoolsConfig) | % {$_.psobject.properties | sort Name | % {$OrderedConfig | Add-Member -Force @{$_.Name = $_.Value}}}
         $OrderedConfig | ConvertTo-json | out-file $ConfigFile
@@ -590,7 +593,7 @@ function Get-ChildItemContent {
                     $PropertyKeys | ForEach-Object {
                         if ($Property.$_ -is [String]) {
                             $Property.$_ = Invoke-Expression "`"$($Property.$_)`""
-                        }
+                        }  
                     }
                 }
             }
@@ -808,7 +811,7 @@ function Get-HashRate {
                     $HashRate = [int](($Data.result[2] -split ';')[0]) * 1000
                 }
             }
-	    
+        
             "TTminer" {
 
                 $Parameters = @{id = 1; jsonrpc = "2.0"; method = "miner_getstat1"} | ConvertTo-Json  -Compress
@@ -851,7 +854,7 @@ function Get-HashRate {
                 $Request = Invoke_TcpRequest $server $port $message 5
                 $Data = $Request | ConvertFrom-Json
                 $HashRate = [Double](($Data.result.speed_sps) | Measure-Object -Sum).Sum
-			}
+            }
 
             "wrapper" {
                 $HashRate = ""
@@ -923,7 +926,7 @@ function Get-HashRate {
                 $Request = Invoke_httpRequest $Server $Port "/summary" 5
                 if ($Request) {
                     $Data = $Request | ConvertFrom-Json
-					$HashRate = [Double]$data.Session.Performance_Summary
+                    $HashRate = [Double]$data.Session.Performance_Summary
                 }
             }
 
@@ -931,7 +934,7 @@ function Get-HashRate {
                 $Request = Invoke_TcpRequest $Server $Port "status" 5
                 if ($Request) {
                     $Data = $Request | ConvertFrom-Json
-					$HashRate = [Double]$Data.result.speed_ips * 1000000
+                    $HashRate = [Double]$Data.result.speed_ips * 1000000
                 }
             }
             
@@ -1140,38 +1143,38 @@ function Start-SubProcess {
 
         $CreateProcessExitCode = [Kernel32]::CreateProcess($lpApplicationName, $lpCommandLine, [ref] $lpProcessAttributes, [ref] $lpThreadAttributes, $bInheritHandles, $dwCreationFlags, $lpEnvironment, $lpCurrentDirectory, [ref] $lpStartupInfo, [ref] $lpProcessInformation)
         $x = [System.Runtime.InteropServices.Marshal]::GetLastWin32Error()
-		# Write-Host "CreateProcessExitCode: $CreateProcessExitCode"
+        # Write-Host "CreateProcessExitCode: $CreateProcessExitCode"
         # Write-Host "Last error $x"
-		Write-Host $lpCommandLine
-		# Write-Host "lpProcessInformation.dwProcessID: $($lpProcessInformation.dwProcessID)"
-		
-		If ($CreateProcessExitCode) {
-			# Write-Host "lpProcessInformation.dwProcessID - WHEN TRUE: $($lpProcessInformation.dwProcessID)"
+        Write-Host $lpCommandLine
+        # Write-Host "lpProcessInformation.dwProcessID: $($lpProcessInformation.dwProcessID)"
+        
+        If ($CreateProcessExitCode) {
+            # Write-Host "lpProcessInformation.dwProcessID - WHEN TRUE: $($lpProcessInformation.dwProcessID)"
 
-			$Process = Get-Process -Id $lpProcessInformation.dwProcessID
+            $Process = Get-Process -Id $lpProcessInformation.dwProcessID
 
-			# Dirty workaround
-			# Need to investigate. lpProcessInformation sometimes comes null even if process started
-			# So getting process with the same FilePath if so
-			$Tries = 0
-			While ($Process -eq $null -and $Tries -le 5) {
-				Write-Host "Can't get process - $Tries"
-				$Tries++
-				Sleep 1
-				$Process = (Get-Process | ? {$_.Path -eq $FilePath})[0]
-				Write-Host "Process= $($Process.Handle)"
-			}
+            # Dirty workaround
+            # Need to investigate. lpProcessInformation sometimes comes null even if process started
+            # So getting process with the same FilePath if so
+            $Tries = 0
+            While ($Process -eq $null -and $Tries -le 5) {
+                Write-Host "Can't get process - $Tries"
+                $Tries++
+                Sleep 1
+                $Process = (Get-Process | ? {$_.Path -eq $FilePath})[0]
+                Write-Host "Process= $($Process.Handle)"
+            }
 
-			if ($Process -eq $null) {
-				Write-Host "Case 2 - Failed Get-Process"
-				[PSCustomObject]@{ProcessId = $null}
-				return
-			}
-		} else {
-			Write-Host "Case 1 - Failed CreateProcess"
-			[PSCustomObject]@{ProcessId = $null}
-			return
-		}
+            if ($Process -eq $null) {
+                Write-Host "Case 2 - Failed Get-Process"
+                [PSCustomObject]@{ProcessId = $null}
+                return
+            }
+        } else {
+            Write-Host "Case 1 - Failed CreateProcess"
+            [PSCustomObject]@{ProcessId = $null}
+            return
+        }
 
         [PSCustomObject]@{ProcessId = $Process.Id; ProcessHandle = $Process.Handle}
 
@@ -1584,7 +1587,7 @@ Function Get-CoinIcon {
     # }
     # ($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).image.thumb
     If (!$Variables.CoinIcons) {
-        $Variables | Add-Member -Force @{CoinIcons = [PSCustomObject]@{}}
+        $Variables.CoinIcons = [PSCustomObject]@{}
         (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/list" | ConvertFrom-Json) | sort Symbol -Unique | ? {$_.Symbol -in $Variables.Miners.Coin} | ForEach {$Variables.CoinIcons | Add-Member -Force @{$_.Symbol = [PSCustomObject]@{id = $_.id}}}
         }
     If (!($Variables.CoinIcons.$Symbol.id)) {
@@ -1600,10 +1603,10 @@ Function Get-CoinIcon {
 Function Load-CoinsIconsCache {
 
     If (Test-Path ".\Logs\CoinIcons.json") {
-        $Variables | Add-Member -Force @{CoinsIconCachePopulating = $True}
-        $Variables | Add-Member -Force @{CoinIcons = (Get-Content ".\Logs\CoinIcons.json" | ConvertFrom-Json)}
-        $Variables | Add-Member -Force @{CoinsIconCacheLoaded = $True}
-        $Variables | Add-Member -Force @{CoinsIconCachePopulating = $False}
+        $Variables.CoinsIconCachePopulating = $True
+        $Variables.CoinIcons = (Get-Content ".\Logs\CoinIcons.json" | ConvertFrom-Json)
+        $Variables.CoinsIconCacheLoaded = $True
+        $Variables.CoinsIconCachePopulating = $False
     } Else {
     
         # Setup runspace to load Coins icons cache in background
@@ -1614,7 +1617,7 @@ Function Load-CoinsIconsCache {
         $IconCacheRunspace.SessionStateProxy.Path.SetLocation($pwd) | Out-Null
         $IconCacheLoader = [PowerShell]::Create().AddScript({
             . .\Includes\include.ps1
-            $Variables | Add-Member -Force @{CoinsIconCachePopulating = $True}
+            $Variables.CoinsIconCachePopulating = $True
 
             If (!$Variables.CoinsIconCacheLoaded) {
                 If (!$Variables.CoinIcons) {
@@ -1626,17 +1629,17 @@ Function Load-CoinsIconsCache {
                     $CoinIcons.$_ | Add-Member -Force @{Image =  (Invoke-ProxiedWebRequest "https://api.coingecko.com/api/v3/coins/$($CoinIcons.$_.id)" | ConvertFrom-Json).Image.Thumb}
                 }
             }
-            $Variables | Add-Member -Force @{CoinIcons = CoinIcons}
+            $Variables.CoinIcons = CoinIcons
             $Variables.CoinIcons | Convertto-Json | out-file ".\Logs\CoinIcons.json"
-            $Variables | Add-Member -Force @{CoinsIconCacheLoaded = $True}
-            $Variables | Add-Member -Force @{CoinsIconCachePopulating = $False}
+            $Variables.CoinsIconCacheLoaded = $True
+            $Variables.CoinsIconCachePopulating = $False
             $Variables.IconCacheRunspaceHandle.Runspace.Close()
             $Variables.IconCacheRunspaceHandle.Dispose()
 
         })
 
         $IconCacheLoader.Runspace = $IconCacheRunspace
-        $Variables | add-Member -Force @{IconCacheRunspaceHandle = $IconCacheLoader.BeginInvoke()}
+        $Variables.IconCacheRunspaceHandle = $IconCacheLoader.BeginInvoke()
     }
 }
 
@@ -1647,8 +1650,9 @@ Function Get-PoolIcon {
         [Parameter(Mandatory = $false)]
         [Int]$Size=32
     )
+
     If (!$Variables.poolapiref -and (Test-Path ".\Config\poolapiref.json")){
-        $Variables | Add-Member -Force @{poolapiref = Get-Content ".\Config\poolapiref.json" | ConvertFrom-Json}
+        $Variables.poolapiref = Get-Content ".\Config\poolapiref.json" | ConvertFrom-Json
     }
     ($Variables.poolapiref | ? {$_.Name -eq $Pool}).IconURi
 

@@ -1,3 +1,5 @@
+Return
+
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-MultiMiner\multiminer.exe"
@@ -10,8 +12,8 @@ $Commands = [PSCustomObject]@{
 $Name = Get-Item $MyInvocation.MyCommand.Path | Select-Object -ExpandProperty BaseName
 
 $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | ForEach {
-	$Algo =$_
-	$AlgoNorm = Get-Algorithm($_)
+    $Algo =$_
+    $AlgoNorm = Get-Algorithm($_)
 
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_

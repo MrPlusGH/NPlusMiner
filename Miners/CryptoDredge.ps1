@@ -49,7 +49,7 @@ $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands.PSObject.Properties.Name | ForEach-Object {
     $Algo =$_
-	$AlgoNorm = Get-Algorithm($_)
+    $AlgoNorm = Get-Algorithm($_)
     # If ($AlgoNorm -eq "mtp" -and $Pool.Host -like "*nicehash*") {return}
     switch ($_) {
         "mtp" {$Fee = 0.02}

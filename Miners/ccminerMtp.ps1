@@ -12,8 +12,8 @@ $Commands = [PSCustomObject]@{
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands.PSObject.Properties.Name | ForEach-Object {
-	$Algo =$_
-	$AlgoNorm = Get-Algorithm($_)
+    $Algo =$_
+    $AlgoNorm = Get-Algorithm($_)
 
     $Pool | foreach {
         $Pool = $_

@@ -41,12 +41,12 @@ $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Commands.PSObject.Properties.Name | ForEach-Object {
     $MinerAlgo = switch ($_){
-		"Veil"	{ "x16rt" }
-		default	{ $_ }
-	}
+        "Veil"    { "x16rt" }
+        default    { $_ }
+    }
 
     $Algo =$_
-	$AlgoNorm = Get-Algorithm($_)
+    $AlgoNorm = Get-Algorithm($_)
 
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_

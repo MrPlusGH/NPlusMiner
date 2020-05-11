@@ -12,7 +12,7 @@ $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 
 $Locations = 'EU', 'US', 'Asia'
 # Placed here for Perf (Disk reads)
-	$ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
+    $ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
     $PoolConf = $Config.PoolsConfig.$ConfName
 
 $Fee = 0.0090
@@ -20,7 +20,7 @@ $Divisor = 1000000000
 
 
     $Request.return | ForEach-Object {
-		$Current = $_
+        $Current = $_
         $Algorithm = $_.algo -replace "-"
         $Coin = (Get-Culture).TextInfo.ToTitleCase(($_.current_mining_coin -replace "-", " ")) -replace " "
 
@@ -29,7 +29,7 @@ $Divisor = 1000000000
 
 $Locations | ForEach-Object {
     $Location = $_
-	
+    
         [PSCustomObject]@{
             Algorithm   = $Algorithm
             Info        = $Coin

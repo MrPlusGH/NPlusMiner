@@ -75,13 +75,13 @@ while ($true) {
     $TrackPools = (($EarningsTrackerConfig.pools | sort -Unique).replace("plus","")).replace("24hr","")
 
 # Get pools api ref
-	If (-not $poolapi -or ($LastAPIUpdateTime -le (Get-Date).AddDays(-1))){
-		try {
-			$poolapi = Invoke-ProxiedWebRequest "http://tiny.cc/l355qy" | ConvertFrom-Json} catch {$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json}
-			$LastAPIUpdateTime = Get-Date
-		} else {
-			$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json
-		}
+    If (-not $poolapi -or ($LastAPIUpdateTime -le (Get-Date).AddDays(-1))){
+        try {
+            $poolapi = Invoke-ProxiedWebRequest "http://tiny.cc/l355qy" | ConvertFrom-Json} catch {$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json}
+            $LastAPIUpdateTime = Get-Date
+        } else {
+            $poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json
+        }
 
 #For each pool in config
 #Go loop

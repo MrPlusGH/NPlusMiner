@@ -14,8 +14,8 @@ $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 $WinningCustomConfig = [PSCustomObject]@{}
 
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object {
-	$Algo =$_
-	$AlgoNorm = Get-Algorithm($_)
+    $Algo =$_
+    $AlgoNorm = Get-Algorithm($_)
 
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_

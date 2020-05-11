@@ -14,13 +14,13 @@ $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
 $Fees = 5
 
 # Placed here for Perf (Disk reads)
-	$ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
+    $ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
     $PoolConf = $Config.PoolsConfig.$ConfName
 
 
     $Request.miningAlgorithms| ? { [Double]$_.paying -gt 0 } | ForEach-Object {
         $Algo = $_.Algorithm
-		$NiceHash_Port = $_.algodetails.port
+        $NiceHash_Port = $_.algodetails.port
         $NiceHash_Algorithm = Get-Algorithm $_.Algorithm
         $NiceHash_Coin = ""
 
