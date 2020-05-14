@@ -257,7 +257,7 @@ Function Start-Mining {
     $CycleRunspace.SessionStateProxy.Path.SetLocation((Split-Path $script:MyInvocation.MyCommand.Path))
     $Global:powershell = [powershell]::Create()
     $powershell.Runspace = $CycleRunspace
-    $powershell.AddScript( {
+    $scriptblock =  {
             #Start the log
                 Start-Transcript -Path ".\logs\CoreCyle-$((Get-Date).ToString('yyyyMMdd')).log" -Append -Force
             # Purge Logs more than 10 days
@@ -299,7 +299,10 @@ Function Start-Mining {
                     Sleep $Variables.TimeToSleep
                 }
             }
-        }) | Out-Null
+        }
+    $powershell.AddScript( {. $args[0]} ) | Out-Null
+    $powershell.AddArgument($scriptblock.Ast.GetScriptBlock())
+
     $Variables.CycleRunspaceHandle = $powershell.BeginInvoke()
     $Variables.LastDonated = (Get-Date).AddDays(-1).AddHours(1)
 }
@@ -1233,7 +1236,7 @@ function Get-Algorithm {
         $Variables.Algorithms  | Add-Member @{ UpdatedCache = get-date } -Force
     }
     
-    $Algorithms = Get-Content ".\Includes\Algorithms.txt" | ConvertFrom-Json
+    # $Algorithms = Get-Content ".\Includes\Algorithms.txt" | ConvertFrom-Json
 
     $Algorithm = (Get-Culture).TextInfo.ToTitleCase(($Algorithm -replace "-", " " -replace "_", " ")) -replace " "
 
