@@ -170,7 +170,12 @@ Function Start-Server {
             $ServerListener.Start()
             While ($ServerListener.IsListening -and -not $Variables.StopServer) {
                 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
-                $HC = $ServerListener.GetContext()
+                # $HC = $ServerListener.GetContext()
+                
+                $contextTask = $ServerListener.GetContextAsync()
+                while (-not $contextTask.AsyncWaitHandle.WaitOne(500)) { }
+                $HC = $contextTask.GetAwaiter().GetResult()
+
                 $HReq = $HC.Request
                 # $Hreq | Out-Host
                 # $Hreq | convertto-json -Depth 10 | Out-File ".\Logs\HReq.json"
@@ -204,7 +209,7 @@ Function Start-Server {
                         <link rel="icon" type="image/png" href="$($Branding.LogoPath)">
                         <header>
                         <img src=$($Branding.LogoPath)>
-                        Copyright (c) 2018-2020 MrPlus
+                        Copyright (c) 2018-$((Get-Date).year) MrPlus
                         <br>
                         
                         $(Get-Date) &nbsp&nbsp&nbsp <a href="https://github.com/MrPlusGH/NPlusMiner">$($Branding.ProductLable) $($Variables.CurrentVersion)</a>  &nbsp&nbsp&nbsp Runtime $(("{0:dd\ \d\a\y\s\ hh\:mm}" -f ((get-date)-$Variables.ScriptStartDate))) &nbsp&nbsp&nbsp Path: $($BasePath) &nbsp&nbsp&nbsp API Cache hit ratio: $("{0:N0}" -f $CacheHitsRatio)%<br>
@@ -296,6 +301,7 @@ Function Start-Server {
                             }
 
                             If (($CacheHits + $WebHits)) {$CacheHitsRatio = $CacheHits / ($CacheHits + $WebHits) * 100}
+                            Break
                         }
                         "/RegisterRig/" {
                                 $ContentType = "text/html"
@@ -353,11 +359,13 @@ Function Start-Server {
                                     }
                                 }
                                 $Peers = $Null
+                                Break
                         }
                         "/ping" {
                                 $ContentType = "text/html"
                                 $Content = "Server Alive"
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         "/ClearCache" {
                                 $ContentType = "text/html"
@@ -367,12 +375,14 @@ Function Start-Server {
                                 [System.Collections.ArrayList]$ProxyCache = @()
                                 $Content = "OK"
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         "/ExportCache" {
                                 $ContentType = "text/html"
                                 $ProxyCache | convertto-json | Out-File ".\logs\ProxyCache.json"
                                 $Content = "OK"
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         "/Config.json" {
                                 $Title = "Config.json"
@@ -380,6 +390,7 @@ Function Start-Server {
                                 $ContentType = $MIMETypes[".json"]
                                 $Content = $Config | ConvertTo-Json -Depth 10
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         "/Variables.json" {
                                 $Title = "Variables.json"
@@ -387,6 +398,7 @@ Function Start-Server {
                                 $ContentType = $MIMETypes[".json"]
                                 $Content = $Variables | ConvertTo-Json -Depth 10
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         "/Earnings.json" {
                                 $Title = "Earnings.json"
@@ -394,6 +406,7 @@ Function Start-Server {
                                 $ContentType = $MIMETypes[".json"]
                                 $Content = $Variables.Earnings | ConvertTo-Json -Depth 10
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         "/RunningMiners.json" {
                                 $Title = "RunningMiners.json"
@@ -406,6 +419,7 @@ Function Start-Server {
                                     } | ConvertTo-Json
                                 }
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         "/Benchmarks.json" {
                                 $Title = "Benchmarks.json"
@@ -413,6 +427,7 @@ Function Start-Server {
                                 $ContentType = $MIMETypes[".json"]
                                 $Content = $Variables.Miners | ConvertTo-Json -Depth 10
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         "/Peers.json" {
                                 $Title = "Peers.json"
@@ -420,6 +435,7 @@ Function Start-Server {
                                 $ContentType = $MIMETypes[".json"]
                                 If (Test-Path ".\Config\Peers.json") {$Content = Get-Content ".\Config\Peers.json" -Raw}
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         "/Status" {
                                 $Title = "Status"
@@ -567,6 +583,7 @@ Function Start-Server {
 
                                 # $Content = $Header + $Content
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         "/RunningMiners" { 
                                 $Title = "Running Miners"
@@ -585,6 +602,7 @@ Function Start-Server {
                                     ) | sort Type
                                 ) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         "/PeersRunningMiners" {
                                 $Title = "Peers Running Miners"
@@ -622,6 +640,7 @@ Function Start-Server {
                                 $Content = $MinersTable
                                 # $Content = $Header + $Content
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         "/Benchmarks" { 
                                 $Title = "Benchmarks"
@@ -692,6 +711,7 @@ Function Start-Server {
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
 
 
+                                Break
                         }
                         "/SwitchingLog" {
                                 $Title = "SwitchingLog"
@@ -703,37 +723,41 @@ Function Start-Server {
                                 $Content += $Footer 
                                 
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         "/Cmd-CleanIconCache" {
-                                    $ContentType = "text/html"
-                                    $Variables.CoinIcons = @()
-                                    $Variables.CoinsIconCacheLoaded = $False
-                                    $Variables.CoinsIconCachePopulating = $False
-                                    
-                                    $Title = "CleanIconCache"
-                                    $Content = "OK"
-                                    $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                $ContentType = "text/html"
+                                $Variables.CoinIcons = @()
+                                $Variables.CoinsIconCacheLoaded = $False
+                                $Variables.CoinsIconCachePopulating = $False
+                                
+                                $Title = "CleanIconCache"
+                                $Content = "OK"
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         "/Cmd-Pause" {
-                                    $ContentType = "text/html"
-                                    $Variables.StatusText = "Pause Mining requested via API."
-                                    $Variables.Paused = $True
-                                    $Variables.RestartCycle = $True
-                                    
-                                    $Title = "Pause Command"
-                                    $Content = "OK"
-                                    $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                $ContentType = "text/html"
+                                $Variables.StatusText = "Pause Mining requested via API."
+                                $Variables.Paused = $True
+                                $Variables.RestartCycle = $True
+                                
+                                $Title = "Pause Command"
+                                $Content = "OK"
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         "/Cmd-Mine" {
-                                    $ContentType = "text/html"
-                                    $Variables.StatusText = "Start Mining requested via API."
-                                    $Variables.Paused = $False
-                                    $Variables.LastDonated = (Get-Date).AddDays(-1).AddHours(1)
-                                    $Variables.RestartCycle = $True
-                                    
-                                    $Title = "Mine Command"
-                                    $Content = "OK"
-                                    $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                $ContentType = "text/html"
+                                $Variables.StatusText = "Start Mining requested via API."
+                                $Variables.Paused = $False
+                                $Variables.LastDonated = (Get-Date).AddDays(-1).AddHours(1)
+                                $Variables.RestartCycle = $True
+                                
+                                $Title = "Mine Command"
+                                $Content = "OK"
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
                         }
                         default { 
                             # Set index page
@@ -823,6 +847,7 @@ Function Start-Server {
                     rv LogEntry
                     $ProxURL = ""
                 }
+                $HCTemp = $null
             }
         Write-Host "Server stopping"
         $ServerListener.Stop()
