@@ -759,6 +759,15 @@ Function Start-Server {
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                                 Break
                         }
+                        "/Cmd-ResetPeers" {
+                                $ContentType = "text/html"
+                                If (Test-Path ".\Config\Peers.json") {Remove-Item -Recurse -Force ".\Config\Peers.json"}
+                                
+                                $Title = "Peers Reset"
+                                $Content = "OK"
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
+                        }
                         default { 
                             # Set index page
                             if ($Path -eq "/") { 
