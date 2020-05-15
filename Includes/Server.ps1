@@ -218,7 +218,7 @@ Function Start-Server {
                         &nbsp&nbsp&nbsp $(If($Variables.Rates.($Config.Currency) -gt 0){"$($Config.Passwordcurrency)/$($Config.Currency) $($Variables.Rates.($Config.Currency).ToString("N2"))"})
                         </header>
                         <hr>
-                        <a href="./RunningMiners">Running Miners</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="./Benchmarks">Benchmarks</a>
+                        <a href="./RunningMiners">Running Miners</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="./Benchmarks">Benchmarks</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="./SwitchingLog">Switching log</a>
 "@
 
                     If ($Variables.Paused) {
