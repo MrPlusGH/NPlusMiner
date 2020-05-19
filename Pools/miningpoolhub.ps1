@@ -14,15 +14,15 @@ $Locations = 'EU', 'US', 'Asia'
 # Placed here for Perf (Disk reads)
     $ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
     $PoolConf = $Config.PoolsConfig.$ConfName
-
-$Fee = 0.0090
+ 
+$Fee = 0.0090 + (0.0003 / .01) #Fee + Withdrawal fee based on 0.01 BTC threshold
 $Divisor = 1000000000
 
 
     $Request.return | ForEach-Object {
         $Current = $_
-        $Algorithm = $_.algo -replace "-"
-        $Coin = (Get-Culture).TextInfo.ToTitleCase(($_.current_mining_coin -replace "-", " ")) -replace " "
+        $Algorithm = Get-Algorithm($_.algo -replace "-")
+        $Coin = $_.current_mining_coin_symbol
 
         $Stat = Set-Stat -Name "$($Name)_$($Algorithm)_Profit" -Value ([decimal]$_.profit / $Divisor * (1 - $Fee))
         $Price = (($Stat.Live * (1 - [Math]::Min($Stat.Day_Fluctuation, 1))) + ($Stat.Day * (0 + [Math]::Min($Stat.Day_Fluctuation, 1))))
@@ -42,6 +42,7 @@ $Locations | ForEach-Object {
             Pass        = 'x'
             Location    = $Location
             SSL         = $false
+            Coin        = $Coin
         }
         
         [PSCustomObject]@{
@@ -56,6 +57,7 @@ $Locations | ForEach-Object {
             Pass        = 'x'
             Location    = $Location
             SSL         = $true
+            coin        = $Coin
         }
     }
 }

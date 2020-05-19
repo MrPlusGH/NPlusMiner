@@ -4,8 +4,8 @@ $Path = ".\Bin\NVIDIA-miniZ\miniZ.exe"
 $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/miniZ/miniZ_v1.5t3_cuda10_win-x64.zip"
 $Commands = [PSCustomObject]@{
     "beamv2"       = " --par=beam --pers auto " #Beamv2
-    "equihash-btg" = " --algo 144,5 --pers BgoldPoW " # Equihash-btg MPH (fastest)
-    "equihash-zcl" = " --par=192,7 --pers ZcashPoW" # Equihash-ZCL MPH
+    # "equihashbtg" = " --algo 144,5 --pers BgoldPoW " # Equihash-btg MPH (fastest)
+    # "equihashzcl" = " --par=192,7 --pers ZcashPoW" # Equihash-ZCL MPH
     "equihash125"  = " --par=125,4 --oc1 " #Equihash125
     "equihash144"  = " --algo 144,5 --pers auto --oc1 " #Equihash144 (fastest)
     "equihash192"  = " --algo 192,7 --pers auto --oc1 " #Equihash192 (fastest)
