@@ -206,7 +206,7 @@ Function Start-Server {
                     $Header =
 @"
                         <meta charset="utf-8"/>
-                        <link rel="icon" type="image/png" href="$($Branding.LogoPath)">
+                        <link rel="icon" type="image/png" href="http://tiny.cc/yvlaoz">
                         <header>
                         <img src=$($Branding.LogoPath)>
                         Copyright (c) 2018-$((Get-Date).year) MrPlus

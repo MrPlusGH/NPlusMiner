@@ -573,6 +573,7 @@ $CycleScriptBlock =  {
             If ($Variables.DonationStart) {
                 $BestMiners_Combo | % {
                     $_.Arguments = $_.Arguments -replace "$($Config.PoolsConfig.Default.WorkerName)","$($Config.PoolsConfig.Default.WorkerName)_$($_.Type)"
+                    $_.Pools.PSObject.Properties.Value | ForEach {$_.Name = "DevFee"}
                 }
                 $Variables.DonationBestMiners_Combo = $BestMiners_Combo 
             }

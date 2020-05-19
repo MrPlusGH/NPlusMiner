@@ -1657,7 +1657,11 @@ Function Get-PoolIcon {
     If (!$Variables.poolapiref -and (Test-Path ".\Config\poolapiref.json")){
         $Variables.poolapiref = Get-Content ".\Config\poolapiref.json" | ConvertFrom-Json
     }
-    ($Variables.poolapiref | ? {$_.Name -eq $Pool}).IconURi
+    If ($Pool -eq "DevFee") {
+        "http://tiny.cc/yvlaoz"
+    } else {
+        ($Variables.poolapiref | ? {$_.Name -eq $Pool}).IconURi
+    }
 
 }
 
