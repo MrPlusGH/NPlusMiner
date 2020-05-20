@@ -189,7 +189,8 @@ $CycleScriptBlock =  {
                 }
                 Try {
                     $PeersFromServer = Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Peers.json" -Credential $Variables.ServerClientCreds | convertfrom-json
-                    $PeersFromServer | ? {$_.Name -ne $Config.WorkerName} | ForEach {
+                    # $PeersFromServer | ? {$_.Name -ne $Config.WorkerName} | ForEach {
+                    $PeersFromServer | ForEach {
                         $RegServer = $_.IP
                         $RegPort = $_.Port
                         Invoke-WebRequest "http://$($RegServer):$($RegPort)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds -TimeoutSec 5
