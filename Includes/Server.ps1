@@ -560,8 +560,8 @@ Function Start-Server {
                                             }}},
                                             @{Name = "Miner";Expression={$_.Name}},
                                             @{Name = "HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
-                                            @{Name = "Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.Active.Ticks}},
-                                            @{Name = "Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.TotalActive.Ticks}},
+                                            @{Name = "Active";Expression={"{0:dd}:{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.Active.Ticks}},
+                                            @{Name = "Total Active";Expression={"{0:dd}:{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.TotalActive.Ticks}},
                                             # @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}} ) | sort Rig,Type
                                             @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"<img src=""$(Get-PoolIcon ($_.Name))"" alt="" "" width=""16""></img>&nbsp&nbsp" + $_.Name}}} ) | sort Rig,Type
                                         ) | ConvertTo-Html -CssUri "./Includes/Web.css"
@@ -595,8 +595,8 @@ Function Start-Server {
                                     @{Name = "Coin"; Expression={$_.Coin}},
                                     @{Name = "Miner";Expression={$_.Name}},
                                     @{Name = "HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
-                                    @{Name = "Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},
-                                    @{Name = "Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},
+                                    @{Name = "Active";Expression={"{0:dd}:{0:hh}:{0:mm}:{0:ss}" -f $_.Active}},
+                                    @{Name = "Total Active";Expression={"{0:dd}:{0:hh}:{0:mm}:{0:ss}" -f $_.TotalActive}},
                                     # @{Name = "Host";Expression={$_.Host}},
                                     @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}}
                                     ) | sort Type
@@ -631,8 +631,8 @@ Function Start-Server {
                                             @{Name = "Coin"; Expression={"###CoinIcon###$($_.Coin.ToLower())###IconSize###" + $_.Coin}},
                                             @{Name = "Miner";Expression={$_.Name}},
                                             @{Name = "HashRate";Expression={"$($_.HashRate | ConvertTo-Hash)/s"}},
-                                            @{Name = "Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.Active.Ticks}},
-                                            @{Name = "Total Active";Expression={"{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.TotalActive.Ticks}},
+                                            @{Name = "Active";Expression={"{0:dd}:{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.Active.Ticks}},
+                                            @{Name = "Total Active";Expression={"{0:dd}:{0:hh}:{0:mm}:{0:ss}" -f [TimeSpan]$_.TotalActive.Ticks}},
                                             @{Name = "Pool"; Expression={$_.Pools.PSObject.Properties.Value | ForEach {"$($_.Name)"}}} ) | sort Rig,Type
                                         ) | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
                                 $MinersTable = $MinersTable -Replace "###CoinIcon###", "<img src=""https://cryptoicons.org/api/icon/"
