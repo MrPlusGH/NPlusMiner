@@ -26,7 +26,7 @@ version date:   20191110
 
 Function InitApplication {
     $Variables.SourcesHash = @()
-    $Variables.ProcessorCount = (Get-WmiObject -class win32_processor).NumberOfLogicalProcessors
+    $Variables.ProcessorCount = ((Get-WmiObject -class win32_processor).NumberOfLogicalProcessors | Measure-Object -Sum).Sum
     
     $ServerPasswd = ConvertTo-SecureString $Config.Server_Password -AsPlainText -Force
     $ServerCreds = New-Object System.Management.Automation.PSCredential ($Config.Server_User, $ServerPasswd)
