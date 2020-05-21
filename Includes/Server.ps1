@@ -329,7 +329,7 @@ Function Start-Server {
                                         If (@($Peers).count -eq 1) { $Peers = @($Peers) }
                                     }
                                     
-                                    If (($Peers | ? {$_.Name -eq $RegisterRigName}) -and !(compare $Peer $Peers -IncludeEqual -ExcludeDifferent) -and !($Peers | ? {$_.Name -eq $RegisterRigName}).PreventUpdates) {
+                                    If (($Peers | ? {$_.Name -eq $RegisterRigName}) -and !(compare $Peer $Peers -Property name,ip,port -IncludeEqual -ExcludeDifferent) -and !($Peers | ? {$_.Name -eq $RegisterRigName}).PreventUpdates) {
                                         ($Peers | ? {$_.Name -eq $RegisterRigName}).IP = $Peer.IP
                                         ($Peers | ? {$_.Name -eq $RegisterRigName}).Port = $Peer.Port
                                         $PeerUpdate = $True
@@ -342,7 +342,7 @@ Function Start-Server {
                                     If ( $Peer.Name -eq $Config.WorkerName ) {
                                         $True
                                     } Else {
-                                        Try { (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/ping" -Credential $Variables.ServerClientCreds -TimeoutSec 3).content -eq "Server Alive" } Catch {$False}
+                                        Try { (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/ping" -Credential $Variables.ServerClientCreds -TimeoutSec 3 -UseBasicParsing).content -eq "Server Alive" } Catch {$False}
                                     }
                                     
                                     If ($PeerUpdate -and $PeerPing) {
@@ -413,7 +413,7 @@ Function Start-Server {
                                 $Title = "RunningMiners.json"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
                                 $ContentType = $MIMETypes[".json"]
-                                $Content = $Variables.ActiveMinerPrograms.Clone().Where( {$_.Status -eq "Running"} ) | Sort Type | ConvertTo-Json -Depth 10
+                                $Content = $Variables["ActiveMinerPrograms"].Where( {$_.Status -eq "Running"} ) | Sort Type | ConvertTo-Json -Depth 10
                                 If ($Variables.Paused) {
                                     $Content = [PSCustomObject]@{
                                         Type = "Paused"
@@ -543,9 +543,9 @@ Function Start-Server {
                                 $Peers | foreach {
                                     $Peer = $_
                                     If ($Peer.Name -eq $Config.WorkerName) {
-                                        $Miners += $Variables.ActiveMinerPrograms.Clone().Where( {$_.Status -eq "Running"} ) | select @{Name = "Rig";Expression={$Peer.Name}},*
+                                        $Miners += $Variables["ActiveMinerPrograms"].Where( {$_.Status -eq "Running"} ) | select @{Name = "Rig";Expression={$Peer.Name}},*
                                     } else {
-                                        $Miners += (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/RunningMiners.json" -Credential $Variables.ServerCreds -TimeoutSec 5 | ConvertFrom-Json) | select @{Name = "Rig";Expression={$Peer.Name}},*
+                                        $Miners += (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/RunningMiners.json" -Credential $Variables.ServerCreds -TimeoutSec 5 -UseBasicParsing | ConvertFrom-Json) | select @{Name = "Rig";Expression={$Peer.Name}},*
                                     }
                                 }
                                 $MinersTable = [System.Collections.ArrayList]@($Miners | select @(
@@ -590,7 +590,7 @@ Function Start-Server {
                                 $Title = "Running Miners"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
                                 $ContentType = $MIMETypes[".html"]
-                                $Content = [System.Collections.ArrayList]@($Variables.ActiveMinerPrograms.Clone() | ? {$_.Status -eq "Running"} | select @(
+                                $Content = [System.Collections.ArrayList]@($Variables["ActiveMinerPrograms"] | ? {$_.Status -eq "Running"} | select @(
                                     @{Name = "Type";Expression={$_.Type}},
                                     @{Name = "Algorithm";Expression={$_.Algorithms}},
                                     @{Name = "Coin"; Expression={$_.Coin}},
@@ -620,9 +620,9 @@ Function Start-Server {
                                 $Peers | foreach {
                                     $Peer = $_
                                     If ($Peer.Name -eq $Config.WorkerName) {
-                                        $Miners += $Variables.ActiveMinerPrograms.Clone() | ? {$_.Status -eq "Running"} | select @{Name = "Rig";Expression={$Peer.Name}},*
+                                        $Miners += $Variables["ActiveMinerPrograms"] | ? {$_.Status -eq "Running"} | select @{Name = "Rig";Expression={$Peer.Name}},*
                                     } else {
-                                        $Miners += (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/RunningMiners.json" -Credential $Variables.ServerCreds | ConvertFrom-Json) | select @{Name = "Rig";Expression={$Peer.Name}},*
+                                        $Miners += (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/RunningMiners.json" -Credential $Variables.ServerCreds -UseBasicParsing | ConvertFrom-Json) | select @{Name = "Rig";Expression={$Peer.Name}},*
                                     }
                                 }
                                 $MinersTable = [System.Collections.ArrayList]@($Miners | select @(
