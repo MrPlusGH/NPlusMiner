@@ -58,7 +58,11 @@ function Initialize-ServerRules {
         [Int]$Port
     )
 
-    if (-not (Test-ServerRules -Port $Port -Type "urlacl")) {
+    If (-not (Test-ServerRules -Port $Port -Type "all") -and -not $Variables.IsAdminSession) {
+        $Variables.StatusText = "No Admin permissions. Firewall rules not created. Use [Create Firewall Rules] Button"
+    }
+
+    if (-not (Test-ServerRules -Port $Port -Type "urlacl") -and $Variables.IsAdminSession) {
         # S-1-5-32-545 = SID for Users group
         (Start-Process netsh -Verb runas -PassThru -ArgumentList "http add urlacl url=http://+:$($Port)/ sddl=D:(A;;GX;;;S-1-5-32-545) user=everyone").WaitForExit(5000)>$null
     }

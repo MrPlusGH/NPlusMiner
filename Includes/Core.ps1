@@ -121,15 +121,15 @@ Function Start-ChildJobs {
             $Variables.LocalServerRunning = $False
         }
         
-        If ($Variables.LocalServerRunning) {$StartServerAttempt = 0}
+        If ($Variables.LocalServerRunning) {$Variables.StartServerAttempt = 0}
         
         # Starts Server if necessary
-        If ($Config.Server_On -and -not $Variables.LocalServerRunning -and $StartServerAttempt -le 5 ) {
+        If ($Config.Server_On -and -not $Variables.LocalServerRunning -and $Variables.StartServerAttempt -lt 5 ) {
             . .\Includes\Server.ps1;RegisterLoaded(".\Includes\Server.ps1")
             $Variables.StatusText = "Starting Server"
             $Variables.StopServer = $False
             Start-Server
-            $StartServerAttempt++
+            $Variables.StartServerAttempt++
             $Variables.LocalServerRunning = Try { ((Invoke-WebRequest "http://localhost:$($Config.Server_Port)/ping" -Credential $Variables.ServerCreds -UseBasicParsing).content -eq "Server Alive")} Catch {$False} 
         }
         
