@@ -63,11 +63,12 @@ function Initialize-ServerRules {
         (Start-Process netsh -Verb runas -PassThru -ArgumentList "http add urlacl url=http://+:$($Port)/ sddl=D:(A;;GX;;;S-1-5-32-545) user=everyone").WaitForExit(5000)>$null
     }
 
-    if (-not (Test-ServerRules -Port $Port -Type "firewall-tcp")) {
+    if (-not (Test-ServerRules -Port $Port -Type "firewall-tcp") -and $Variables.IsAdminSession) {
         (Start-Process netsh -Verb runas -PassThru -ArgumentList "advfirewall firewall add rule name=`"NPlusMiner Server $($Port) TCP`" dir=in action=allow protocol=TCP localport=$($Port)").WaitForExit(5000)>$null
+
     }
 
-    if (-not (Test-ServerRules -Port $Port -Type "firewall-udp")) {
+    if (-not (Test-ServerRules -Port $Port -Type "firewall-udp") -and $Variables.IsAdminSession) {
         (Start-Process netsh -Verb runas -PassThru -ArgumentList "advfirewall firewall add rule name=`"NPlusMiner Server $($Port) UDP`" dir=in action=allow protocol=UDP localport=$($Port)").WaitForExit(5000)>$null
     }
 }

@@ -27,6 +27,7 @@ version date:   20191110
 Function InitApplication {
     $Variables.SourcesHash = @()
     $Variables.ProcessorCount = ((Get-WmiObject -class win32_processor).NumberOfLogicalProcessors | Measure-Object -Sum).Sum
+	$Variables.IsAdminSession = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
     
     $ServerPasswd = ConvertTo-SecureString $Config.Server_Password -AsPlainText -Force
     $ServerCreds = New-Object System.Management.Automation.PSCredential ($Config.Server_User, $ServerPasswd)
