@@ -601,6 +601,9 @@ $MainForm.add_Shown({
         # }
         
     }
+
+    Update-Status("Checking Prerequisites")
+    & ".\Utils\CheckPreReqs.ps1"
     
     # TimerCheckVersion
     $TimerCheckVersion = New-Object System.Windows.Forms.Timer
