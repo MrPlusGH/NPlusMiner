@@ -60,7 +60,7 @@ while ($true) {
     if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
     If ($Config.Server_Client) {
-        $Variables | Add-Member -Force @{ServerRunning = Try{ ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds -TimeoutSec 3).content -eq "Server Alive")} Catch {$False} }
+        $Variables | Add-Member -Force @{ServerRunning = Try{ ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds -TimeoutSec 3 -UseBasicParsing).content -eq "Server Alive")} Catch {$False} }
     }
 
 # Set decimal separator so CSV files look good.
@@ -77,7 +77,7 @@ while ($true) {
 # Get pools api ref
     If (-not $poolapi -or ($LastAPIUpdateTime -le (Get-Date).AddDays(-1))){
         try {
-            $poolapi = Invoke-ProxiedWebRequest "http://tiny.cc/l355qy" | ConvertFrom-Json} catch {$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json}
+            $poolapi = Invoke-ProxiedWebRequest "http://tiny.cc/l355qy" -UseBasicParsing | ConvertFrom-Json} catch {$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json}
             $LastAPIUpdateTime = Get-Date
         } else {
             $poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json
@@ -110,22 +110,22 @@ while ($true) {
                     Write-Host "$($APIUri)$($Wallet)"
                     If ($Pool -eq "nicehash-V1"){
                         try {
-                        $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") | ConvertFrom-Json } catch {  }
+                        $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing | ConvertFrom-Json } catch {  }
                         if (-not $TempBalanceData.$BalanceJson) {$TempBalanceData | Add-Member -NotePropertyName $BalanceJson -NotePropertyValue ($TempBalanceData.result.Stats | measure -sum $BalanceJson).sum -Force}
                         if (-not $TempBalanceData.$TotalJson) {$TempBalanceData | Add-Member -NotePropertyName $TotalJson -NotePropertyValue ($TempBalanceData.result.Stats | measure -sum $BalanceJson).sum -Force}
                     } elseif ($Pool -eq "nicehash") {
                         try {
-                        $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)/rigs") | ConvertFrom-Json 
+                        $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)/rigs") -UseBasicParsing | ConvertFrom-Json 
                         [Double]$NHTotalBalance = [Double]($TempBalanceData.unpaidAmount) + [Double]($TempBalanceData.externalBalance)
                         $TempBalanceData | Add-Member -NotePropertyName $BalanceJson -NotePropertyValue $NHTotalBalance -Force
                         $TempBalanceData | Add-Member -NotePropertyName $TotalJson -NotePropertyValue $NHTotalBalance -Force
                         } catch {  }
                     } elseif ($Pool -eq "miningpoolhub") {
                         try {
-                        $TempBalanceData = ((((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)")).content | ConvertFrom-Json).getuserallbalances).data | Where {$_.coin -eq "bitcoin"}) } catch {  }#.confirmed
+                        $TempBalanceData = ((((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing).content | ConvertFrom-Json).getuserallbalances).data | Where {$_.coin -eq "bitcoin"}) } catch {  }#.confirmed
                     } else {
                         try {
-                        $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") | ConvertFrom-Json } catch {  }
+                        $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing | ConvertFrom-Json } catch {  }
                     }
 
                     If ($TempBalanceData.$TotalJson -gt 0){

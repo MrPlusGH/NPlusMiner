@@ -1,8 +1,8 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 try {
-    $Request = Invoke-ProxiedWebRequest "https://api2.nicehash.com/main/api/v2/public/simplemultialgo/info/" | ConvertFrom-Json 
-    $RequestAlgodetails = Invoke-ProxiedWebRequest "https://api2.nicehash.com/main/api/v2/mining/algorithms/" | ConvertFrom-Json 
+    $Request = Invoke-ProxiedWebRequest "https://api2.nicehash.com/main/api/v2/public/simplemultialgo/info/" -UseBasicParsing | ConvertFrom-Json 
+    $RequestAlgodetails = Invoke-ProxiedWebRequest "https://api2.nicehash.com/main/api/v2/mining/algorithms/" -UseBasicParsing | ConvertFrom-Json 
 }
 catch { return }
 

@@ -55,7 +55,7 @@ $LastAPIUpdateTime = Get-Date
 
 while ($true) {
     If ($Config.Server_Client) {
-        $Variables | Add-Member -Force @{ServerRunning = Try{ ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds -TimeoutSec 3).content -eq "Server Alive")} Catch {$False} }
+        $Variables | Add-Member -Force @{ServerRunning = Try{ ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds -TimeoutSec 3 -UseBasicParsing).content -eq "Server Alive")} Catch {$False} }
     }
 
 # Set decimal separator so CSV files look good.
@@ -72,7 +72,7 @@ while ($true) {
 # Get pools api ref
     If (-not $poolapi -or ($LastAPIUpdateTime -le (Get-Date).AddDays(-1))){
         try {
-            $poolapi = Invoke-ProxiedWebRequest "http://tiny.cc/l355qy" | ConvertFrom-Json} catch {$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json}
+            $poolapi = Invoke-ProxiedWebRequest "http://tiny.cc/l355qy" -UseBasicParsing | ConvertFrom-Json} catch {$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json}
             $LastAPIUpdateTime = Get-Date
         } else {
             $poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json

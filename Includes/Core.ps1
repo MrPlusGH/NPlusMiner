@@ -117,7 +117,7 @@ Function Start-ChildJobs {
         # Stop Server on code updates
         If ($Config.Server_On -and $Variables.LocalServerRunning -and -not (IsLoaded(".\Includes\Server.ps1"))) {
             $Variables.StatusText = "Stopping server for code update."
-            Invoke-WebRequest "http://localhost:$($Config.Server_Port)/StopServer" -Credential $Variables.ServerCreds
+            Invoke-WebRequest "http://localhost:$($Config.Server_Port)/StopServer" -Credential $Variables.ServerCreds -UseBasicParsing
             $Variables.LocalServerRunning = $False
         }
         
@@ -130,7 +130,7 @@ Function Start-ChildJobs {
             $Variables.StopServer = $False
             Start-Server
             $StartServerAttempt++
-            $Variables.LocalServerRunning = Try { ((Invoke-WebRequest "http://localhost:$($Config.Server_Port)/ping" -Credential $Variables.ServerCreds).content -eq "Server Alive")} Catch {$False} 
+            $Variables.LocalServerRunning = Try { ((Invoke-WebRequest "http://localhost:$($Config.Server_Port)/ping" -Credential $Variables.ServerCreds -UseBasicParsing).content -eq "Server Alive")} Catch {$False} 
         }
         
         # Starts Brains if necessary
@@ -181,20 +181,20 @@ $CycleScriptBlock =  {
 
         $Variables.StatusText = "Starting Cycle"
         If ($Config.Server_Client) {
-            $Variables.ServerRunning = Try{ ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds -TimeoutSec 3).content -eq "Server Alive")} Catch {$False} 
+            $Variables.ServerRunning = Try{ ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds -TimeoutSec 3 -UseBasicParsing).content -eq "Server Alive")} Catch {$False} 
             If ($Variables.ServerRunning){
                 If ($Config.Server_ClientIP -and $Config.Server_ClientPort) {
                     Try {
-                        Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds -TimeoutSec 5
+                        Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds -TimeoutSec 5 -UseBasicParsing
                     } Catch {"INFO: Failed to register on http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" | out-host}
                 }
                 Try {
-                    $PeersFromServer = Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Peers.json" -Credential $Variables.ServerClientCreds | convertfrom-json
+                    $PeersFromServer = Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Peers.json" -Credential $Variables.ServerClientCreds -UseBasicParsing | convertfrom-json
                     # $PeersFromServer | ? {$_.Name -ne $Config.WorkerName} | ForEach {
                     $PeersFromServer | ForEach {
                         $RegServer = $_.IP
                         $RegPort = $_.Port
-                        Invoke-WebRequest "http://$($RegServer):$($RegPort)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds -TimeoutSec 5
+                        Invoke-WebRequest "http://$($RegServer):$($RegPort)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" -Credential $Variables.ServerClientCreds -TimeoutSec 5 -UseBasicParsing
                     }
                 } Catch {"INFO: Failed to register on http://$($RegServer):$($RegPort)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)" | out-host}
             }
