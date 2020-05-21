@@ -1221,6 +1221,21 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $ServermodePageControls += $ButtonWriteServerConfig
 
     $ButtonWriteServerConfig.Add_Click({PrepareWriteConfig})
+
+    $ButtonCreateFWRules                         = New-Object system.Windows.Forms.Button
+    $ButtonCreateFWRules.text                    = "Create Firewall rules"
+    $ButtonCreateFWRules.width                   = 200
+    $ButtonCreateFWRules.height                  = 30
+    $ButtonCreateFWRules.location                = New-Object System.Drawing.Point(400,300)
+    $ButtonCreateFWRules.Font                    = 'Microsoft Sans Serif,10'
+    $ServermodePageControls += $ButtonCreateFWRules
+
+    $ButtonCreateFWRules.Add_Click({
+        . .\Includes\Server.ps1
+        $Variables.IsAdminSession = $True
+        Initialize-ServerRules $Config.Server_Port
+        $Variables.IsAdminSession = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+    })
     
 
 # Config Page Controls
