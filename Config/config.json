@@ -62,7 +62,7 @@
     "SSL":  false,
     "StartGUIMinimized":  false,
     "StartPaused":  false,
-    "StatsInterval":  60,
+    "StatsInterval":  120,
     "SyncRoot":  {
 
                  },
