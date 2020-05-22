@@ -609,7 +609,7 @@ $MainForm.add_Shown({
         Update-Status("Please wait and answer YES to install if asked...")
 		if (Get-Command "Unblock-File" -ErrorAction SilentlyContinue) { Get-ChildItem . -Recurse | Unblock-File }        Update-Status("Please wait and answer YES to install if asked...")
         Start-Process (@{desktop = "powershell"; core = "pwsh" }.$PSEdition) "-File $(Resolve-Path .\Utils\InstallPreReqs.ps1)" -Verb runAs
-        Sleep 60
+        Sleep 30
     }
     # Invoke-Expression -Command ".\Utils\CheckPreReqs.ps1"
     Update-Status("Done and ready")
