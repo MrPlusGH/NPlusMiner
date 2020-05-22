@@ -607,6 +607,7 @@ $MainForm.add_Shown({
     # $PreReqsCheck = Get-SubScriptContent ".\Utils\CheckPreReqs.ps1"
     If (-not (Get-SubScriptContent ".\Utils\CheckPreReqs.ps1").Content) {
         Update-Status("Please wait and answer YES to install if asked...")
+		if (Get-Command "Unblock-File" -ErrorAction SilentlyContinue) { Get-ChildItem . -Recurse | Unblock-File }        Update-Status("Please wait and answer YES to install if asked...")
         Start-Process (@{desktop = "powershell"; core = "pwsh" }.$PSEdition) "-File $(Resolve-Path .\Utils\InstallPreReqs.ps1)" -Verb runAs
         Sleep 60
     }
