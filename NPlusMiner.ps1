@@ -602,9 +602,17 @@ $MainForm.add_Shown({
         
     }
 
+    # Check prereqs
     Update-Status("Checking Prerequisites")
-    & ".\Utils\CheckPreReqs.ps1"
-    
+    # $PreReqsCheck = Get-SubScriptContent ".\Utils\CheckPreReqs.ps1"
+    If (-not (Get-SubScriptContent ".\Utils\CheckPreReqs.ps1").Content) {
+        Update-Status("Please wait and answer YES to install if asked...")
+        Start-Process (@{desktop = "powershell"; core = "pwsh" }.$PSEdition) "-File $(Resolve-Path .\Utils\InstallPreReqs.ps1)" -Verb runAs
+        Sleep 60
+    }
+    # Invoke-Expression -Command ".\Utils\CheckPreReqs.ps1"
+    Update-Status("Done and ready")
+
     # TimerCheckVersion
     $TimerCheckVersion = New-Object System.Windows.Forms.Timer
     $TimerCheckVersion.Enabled = $true
