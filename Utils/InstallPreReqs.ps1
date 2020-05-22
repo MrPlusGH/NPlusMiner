@@ -9,6 +9,16 @@ $Variables = @{}
 Write-Host "System Version: $([System.Environment]::OSVersion.Version)"
 Write-Host "Powershell version: $($PSVersionTable.PSVersion)"
 
+$FWRulesOK = Test-ServerRules -Port $Config.Server_Port -Type "all"
+
+If (-not $FWRulesOK) {
+    Write-Host -F Red "Some dependencies are missing. Installing."
+    $Variables.IsAdminSession = $True
+    Initialize-ServerRules $Config.Server_Port
+} else {
+    Write-Host -F Green "Firewall Rules OK"
+}
+
 $VCRall = Get-WmiObject Win32_Product  -Filter "Name LIKE '%Microsoft Visual C++%'"
 
 $AllVCOK = (
@@ -30,14 +40,5 @@ If (-not $AllVCOK) {
 }
 
 
-$FWRulesOK = Test-ServerRules -Port $Config.Server_Port -Type "all"
-
-If (-not $FWRulesOK) {
-    Write-Host -F Red "Some dependencies are missing. Installing."
-    $Variables.IsAdminSession = $True
-    Initialize-ServerRules $Config.Server_Port
-} else {
-    Write-Host -F Green "Firewall Rules OK"
-}
 
 $True
