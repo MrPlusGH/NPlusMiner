@@ -21,6 +21,7 @@ $Commands = [PSCustomObject]@{
     "grincuckatoo32"   = " --algo grin32 --pers auto" #Grincuckatoo32
     # "kawpow"           = " --algo kawpow" #KAWPOW [RVN fork]
     # "handshake"           = " --algo Handshake --pers auto" #Handshake 
+    "cuckaroo29bfc"    = " --algo bfc" #Cuckaroo29bfc
 }
  
 $Port = $Variables.NVIDIAMinerAPITCPPort
