@@ -18,7 +18,7 @@ $Commands = [PSCustomObject]@{
     # "cryptonight_saber"     = " -a cn-heavy/0 --nicehash" #cryptonightGPU
     # "cryptonight_fast"      = " -a cn/half --nicehash" #cryptonightFast
     # "cryptonight_haven"      = " -a cn-heavy/xhv --nicehash" #cryptonightFast
-    "cryptonight_upx"      = " -a cryptonight-upx/2 --nicehash" #cryptonightFast
+    "cryptonight_upx"      = " -a cryptonight-upx/2" #cryptonightFast
 }
  
 $ThreadCount = $ThreadCount = $Variables.ProcessorCount - 2
@@ -33,7 +33,7 @@ $Commands.PSObject.Properties.Name | % {
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_
 
-    If ($_.Coin -eq "TUBE") {$Commands.$Algo = " -a cn-heavy/tube --nicehash"}
+    If ($_.Coin -eq "TUBE") {$Commands.$Algo = " -a cn-heavy/tube"}
 
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
