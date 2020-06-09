@@ -277,6 +277,7 @@ Function Start-Server {
                             Break
                         }
                          "/proxy/" {
+                            $StatusCode  = [System.Net.HttpStatusCode]::OK
                             $ProxyCache = $ProxyCache.Where({$_.Date -ge (Get-Date).AddMinutes(-$Config.Server_ServerProxyTimeOut)})
                             $ProxURL = $HReq.RawUrl.Replace("/Proxy/?url=","")
                             # $ProxURL = $HReq.QueryString['URL']
@@ -290,9 +291,16 @@ Function Start-Server {
                             } else {
                                 # "Web Query" | Out-Host
                                 $WebHits++
-                                $Wco = New-Object Net.Webclient
-                                $Content = $Wco.downloadString("$ProxURL")
-                                If ($Content) {
+                                $Wco = New-Object Net.Webclient 
+                                # Try {$Content = $Wco.downloadString("$ProxURL")} catch {$Content = $null}
+                                Try {
+                                    $ProxyRequest = Invoke-WebRequest $ProxURL -UseBasicParsing -TimeoutSec 10
+                                    $Content = $ProxyRequest.content
+                                } catch {
+                                    $Content = $null
+                                    $ProxyRequest = $null
+                                }
+                                If ($ProxyRequest -and $Content) {
                                     $ProxyCache = $ProxyCache.Where({$_.ID -ne $ProxURLHash})
                                     $ProxyCache.Add([PSCustomObject]@{
                                         ID = $ProxURLHash
@@ -300,8 +308,15 @@ Function Start-Server {
                                         Date = Get-Date
                                         Content = $Content
                                     })
+                                    $StatusCode  = [System.Net.HttpStatusCode]$ProxyRequest.StatusCode
+                                    $ProxyRequest = $null
+                                } else {
+                                        $StatusCode  = If (! $ProxyRequest) {
+                                            [System.Net.HttpStatusCode]::NotFound
+                                        } else {
+                                            [System.Net.HttpStatusCode]::NotContent
+                                        }
                                 }
-                                $StatusCode  = [System.Net.HttpStatusCode]::OK
                                 $Wco.Dispose()
                             }
 
@@ -310,6 +325,7 @@ Function Start-Server {
                         }
                         "/RegisterRig/" {
                                 $ContentType = "text/html"
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
 
                                 $Peers = @()
                                 $PeerUpdate = $False
@@ -320,7 +336,7 @@ Function Start-Server {
                                 $RegisterBackRegistrationNotAllowed =  If ($HReq.QueryString['BackRegistrationNotAllowed'] -eq "true") {$True} Else {$False}
 
                                 If (!$RegisterRigName -or (!$RegisterRigIP -and !$ClientAddress) -or !$RegisterRigPort) {
-                                    $StatusCode = 404
+                                    $StatusCode = [System.Net.HttpStatusCode]404
                                     $Content = "Incomplete registration"
                                 } Else { 
                                     $Peer = [PSCustomObject]@{
@@ -359,7 +375,7 @@ Function Start-Server {
                                         $Content = "$($Peer.Name)`n$($Peer.IP)`n$($Peer.Port)"
                                         $StatusCode  = [System.Net.HttpStatusCode]::OK
                                     } Else {
-                                        $StatusCode = 404
+                                        $StatusCode = [System.Net.HttpStatusCode]404
                                         $Content = "Peer not responding"
                                     }
                                 }
@@ -443,7 +459,7 @@ Function Start-Server {
                                 Break
                         }
                         "/Status" {
-                                $Title = "Status"
+                                $Title = "$($Config.WorkerName) - Status"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
                                 $ContentType = $MIMETypes[".html"]
 
@@ -591,7 +607,7 @@ Function Start-Server {
                                 Break
                         }
                         "/RunningMiners" { 
-                                $Title = "Running Miners"
+                                $Title = "$($Config.WorkerName) - Running Miners"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
                                 $ContentType = $MIMETypes[".html"]
                                 $Content = [System.Collections.ArrayList]@($Variables["ActiveMinerPrograms"] | ? {$_.Status -eq "Running"} | select @(
@@ -610,7 +626,7 @@ Function Start-Server {
                                 Break
                         }
                         "/PeersRunningMiners" {
-                                $Title = "Peers Running Miners"
+                                $Title = "$($Config.WorkerName) - Peers Running Miners"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
                                 $ContentType = $MIMETypes[".html"]
 
@@ -648,7 +664,7 @@ Function Start-Server {
                                 Break
                         }
                         "/Benchmarks" { 
-                                $Title = "Benchmarks"
+                                $Title = "$($Config.WorkerName) - Benchmarks"
                                 # $Content = ConvertTo-Html -CssUri "file:///d:/Nplusminer/Includes/Web.css " -Title $Title -Body "<h1>$Title</h1>`n<h5>Updated: on $(Get-Date)</h5>"
                                 If (!$Variables.CoinsIconCacheLoaded -and !$Variables.CoinsIconCachePopulating) {Load-CoinsIconsCache}
 
@@ -719,11 +735,29 @@ Function Start-Server {
                                 Break
                         }
                         "/SwitchingLog" {
-                                $Title = "SwitchingLog"
+                                $Title = "$($Config.WorkerName) - SwitchingLog"
                                 $ContentType = $MIMETypes[".html"]
 
-                                If (Test-Path ".\Logs\switching.log"){$SwitchingArray = [System.Collections.ArrayList]@(@((get-content ".\Logs\switching.log" -First 1) , (get-content ".\logs\switching.log" -last 15)) | ConvertFrom-Csv | Select date,type,algo,coin,host -Last 13)}
-                                $Content = $SwitchingArray | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title -PreContent $Header
+                                $Content = $Header
+                                If (Test-Path ".\Logs\switching.log"){$SwitchingArray = [System.Collections.ArrayList]@(@((get-content ".\Logs\switching.log" -First 1) , (get-content ".\logs\switching.log" -last 30)) | ConvertFrom-Csv | Select date,type,algo,coin,host -Last 30)}
+                                $Content += "<hr>"
+                                
+                                ForEach ($Type in ($SwitchingArray.Type | Sort -Unique -Descending)) {
+                                    $Content += "<img src=""$(ConvertTo-ImagePath $Type)"" alt="" "" width=""16""></img>&nbsp&nbsp<a href=""#$($Type)"">$($Type)</a>&nbsp&nbsp&nbsp&nbsp"
+                                }
+                                
+                                ForEach ($Type in ($SwitchingArray.Type | Sort -Unique -Descending)) {
+                                    $Content +=
+@"
+                        <hr>
+                        <div id="$($Type)"></div>
+                        <SectionTitle>
+                        <span class="left"><img src="$(ConvertTo-ImagePath $Type)" alt=" " width="16"></img>&nbsp&nbsp$($Type)</span><span class="right"><a href="#"><img src="$(ConvertTo-ImagePath 'Top')" alt=" " width="16"></img></a></span><br>
+                        </SectionTitle>
+                        <br>
+"@
+                                    $Content += $SwitchingArray | ? {$_.Type -eq $Type} | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title
+                                }
                                 
                                 $Content += $Footer 
                                 
@@ -826,13 +860,15 @@ Function Start-Server {
                         }
                     }
                     $HasContent = $content -ne $null
-
-                    If ($Content.GetType() -ne [byte[]]) {
-                        [byte[]] $Buf = [System.Text.Encoding]::UTF8.GetBytes($Content)
-                    } Else {
-                        [byte[]] $Buf = $Content
+                    If ($Content) {
+                        If ($Content.GetType() -ne [byte[]]) {
+                            [byte[]] $Buf = [System.Text.Encoding]::UTF8.GetBytes($Content)
+                        } Else {
+                            [byte[]] $Buf = $Content
+                        }
+                    } else {
+                        [byte[]] $Buf = [System.Text.Encoding]::UTF8.GetBytes("")
                     }
-
                     # $Buf = [Text.Encoding]::UTF8.GetBytes($Content)
                     $Hres.Headers.Add("Content-Type", $ContentType)
                     $HRes.ContentLength64 = $Buf.Length
