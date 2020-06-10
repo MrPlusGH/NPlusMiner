@@ -4,7 +4,7 @@ $Path = ".\Bin\AMD-XMRigCNGPU\xmrig.exe"
 $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/CPU-XMRig/xmrig-5.4.0-msvc-cuda10_1-win64.zip"
 
 $Commands = [PSCustomObject]@{
-    "cryptonight_gpu"       = " -a cn/gpu --nicehash" #cryptonightGPU
+    "cryptonight_gpu"       = " -a cn/gpu" #cryptonightGPU
 }
  
 $Port = $Variables.AMDMinerAPITCPPort #2222
@@ -18,6 +18,7 @@ $Commands.PSObject.Properties.Name | % {
         $Pool = $_
         
         If ($_.Coin -eq "TUBE") {$Commands.$Algo = " -a cn-heavy/tube --nicehash"}
+        If ($Pool.Host -like "*nicehash*") {$Commands.$Algo += " --nicehash"}
 
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
