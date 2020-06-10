@@ -6,16 +6,16 @@ $Uri = "https://github.com/xmrig/xmrig/releases/download/v5.11.0/xmrig-5.11.0-ms
 $Commands = [PSCustomObject]@{
     # "cryptonightr"        = " -a cryptonight/r --nicehash" #cryptonight/r
     # "cryptonight-monero"  = " -a cryptonight/r" #cryptonight/r
-    "randomxmonero"         = " -a rx/0 --nicehash" #RandomX
-    "randomx"               = " -a rx/0 --nicehash" #RandomX
-    "randomsfx"             = " -a rx/sfx --nicehash" #RandomX
-    "cryptonightv7"         = " -a cn/1 --nicehash" #cryptonightv7
-    "cryptonight_xeq"       = " -a cn/gpu --nicehash" #cryptonightGPU
-    "cryptonight_heavy"     = " -a cn-heavy/0 --nicehash" #cryptonight_heavyx
-    "cryptonight_heavyx"    = " -a cn/double --nicehash" #cryptonight_heavyx
-    "cryptonight_saber"     = " -a cn-heavy/0 --nicehash" #cryptonightGPU
-    "cryptonight_fast"      = " -a cn/half --nicehash" #cryptonightFast
-    "cryptonight_haven"      = " -a cn-heavy/xhv --nicehash" #cryptonightFast
+    "randomxmonero"         = " -a rx/0" #RandomX
+    "randomx"               = " -a rx/0" #RandomX
+    "randomsfx"             = " -a rx/sfx" #RandomX
+    "cryptonightv7"         = " -a cn/1" #cryptonightv7
+    "cryptonight_xeq"       = " -a cn/gpu" #cryptonightGPU
+    "cryptonight_heavy"     = " -a cn-heavy/0" #cryptonight_heavyx
+    "cryptonight_heavyx"    = " -a cn/double" #cryptonight_heavyx
+    "cryptonight_saber"     = " -a cn-heavy/0" #cryptonightGPU
+    "cryptonight_fast"      = " -a cn/half" #cryptonightFast
+    "cryptonight_haven"      = " -a cn-heavy/xhv" #cryptonightFast
 }
  
 $Port = $Variables.NVIDIAMinerAPITCPPort #2222
@@ -29,6 +29,7 @@ $Commands.PSObject.Properties.Name | % {
         $Pool = $_
         
         If ($_.Coin -eq "TUBE") {$Commands.$Algo = " -a cn-heavy/tube --nicehash"}
+        If ($Pool.Host -like "*nicehash*") {$Commands.$Algo += " --nicehash"}
 
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
