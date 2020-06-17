@@ -36,6 +36,7 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
             User      = $Pool.User
             Host      = $Pool.Host
             Coin      = $Pool.Coin
+            ThreadCount      = $ThreadCount
         }
     }
 }

@@ -30,5 +30,6 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
         User = $Pools.($Algo).User
         Host = $Pools.($Algo).Host
         Coin = $Pools.($Algo).Coin
+        ThreadCount      = $ThreadCount
     }
 }

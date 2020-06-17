@@ -52,6 +52,7 @@ $Commands.PSObject.Properties.Name | % {
             User      = $Pool.User
             Host      = $Pool.Host
             Coin      = $Pool.Coin
+            ThreadCount      = $ThreadCount
         }
     }
 }

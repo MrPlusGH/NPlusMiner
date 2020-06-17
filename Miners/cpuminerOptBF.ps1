@@ -76,6 +76,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
             User = $Pool.User
             Host = $Pool.Host
             Coin = $Pool.Coin
+            ThreadCount      = $ThreadCount
         }
     }
 }

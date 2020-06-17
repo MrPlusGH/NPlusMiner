@@ -1004,11 +1004,13 @@ function Start-SubProcess {
         [Parameter(Mandatory = $false)]
         [String]$ArgumentList = "", 
         [Parameter(Mandatory = $false)]
-        [String]$WorkingDirectory = ""
+        [String]$WorkingDirectory = "",
+        [Parameter(Mandatory = $false)]
+        [Int]$ThreadCount = $null
     )
 
-    $Job = Start-Job -ArgumentList $PID, $FilePath, $ArgumentList, $WorkingDirectory {
-        param($ControllerProcessID, $FilePath, $ArgumentList, $WorkingDirectory)
+    $Job = Start-Job -ArgumentList $PID, $FilePath, $ArgumentList, $WorkingDirectory, $ThreadCount {
+        param($ControllerProcessID, $FilePath, $ArgumentList, $WorkingDirectory, $ThreadCount)
 
         $ControllerProcess = Get-Process -Id $ControllerProcessID
         if ($ControllerProcess -eq $null) {return}
@@ -1155,7 +1157,6 @@ function Start-SubProcess {
             # Write-Host "lpProcessInformation.dwProcessID - WHEN TRUE: $($lpProcessInformation.dwProcessID)"
 
             $Process = Get-Process -Id $lpProcessInformation.dwProcessID
-
             # Dirty workaround
             # Need to investigate. lpProcessInformation sometimes comes null even if process started
             # So getting process with the same FilePath if so
@@ -1178,7 +1179,9 @@ function Start-SubProcess {
             [PSCustomObject]@{ProcessId = $null}
             return
         }
-
+        If ($ThreadCount -ge 1) {
+            $Process.ProcessorAffinity = [Int]((0..($ThreadCount - 1)) | foreach {[math]::Pow(2,$_)} | measure -Sum).sum
+        }
         [PSCustomObject]@{ProcessId = $Process.Id; ProcessHandle = $Process.Handle}
 
         $ControllerProcess.Handle | Out-Null

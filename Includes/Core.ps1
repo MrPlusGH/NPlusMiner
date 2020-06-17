@@ -319,12 +319,9 @@ $CycleScriptBlock =  {
         $Variables.StatusText = "Computing pool stats.."
         # Use location as preference and not the only one
         $AllPoolsTemp = $AllPools
-        "AllPoolsCount = $($AllPools.Count)" | out-host
         $AllPools = @($AllPools.Where({$_.location -eq $Config.Location}))
-        "AllPoolsCount = $($AllPools.Count) Loc only" | out-host
         # $AllPools = $AllPools + @($AllPoolsTemp.Where({$_.name -notin $AllPools.name}))
         $AllPools += (($AllPoolsTemp | sort name,algorithm,coin -Unique).Where({$_.name -notin ($AllPools.name | Sort -Unique)}))
-        "AllPoolsCount = $($AllPools.Count) After" | out-host
         # rv LocPools
         # Filter Algo based on Per Pool Config
         $PoolsConf = $Config.PoolsConfig
@@ -613,6 +610,7 @@ $CycleScriptBlock =  {
                         Host = $_.Host
                         Coin = $_.Coin
                         Pools = $_.Pools
+                        ThreadCount = $_.ThreadCount
                     }
                 }
             }
@@ -705,7 +703,7 @@ $CycleScriptBlock =  {
                         if($_.Process -ne $null){$_.Active = [TimeSpan]0}
                         
                         if($_.Wrap){$_.Process = Start-Process -FilePath "PowerShell" -ArgumentList "-executionpolicy bypass -command . '$(Convert-Path ".\Includes\Wrapper.ps1")' -ControllerProcessID $PID -Id '$($_.Port)' -FilePath '$($_.Path)' -ArgumentList '$($_.Arguments)' -WorkingDirectory '$(Split-Path $_.Path)'" -PassThru}
-                        else{$_.Process = Start-SubProcess -FilePath $_.Path -ArgumentList $_.Arguments -WorkingDirectory (Split-Path $_.Path)}
+                        else{$_.Process = Start-SubProcess -FilePath $_.Path -ArgumentList $_.Arguments -WorkingDirectory (Split-Path $_.Path) -ThreadCount $_.ThreadCount}
                         if($_.Process -eq $null){$_.Status = "Failed";$_.FailedCount++}
                         else {
                             $_.Status = "Running"
