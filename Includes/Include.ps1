@@ -1179,7 +1179,7 @@ function Start-SubProcess {
             [PSCustomObject]@{ProcessId = $null}
             return
         }
-        If ($ThreadCount -ge 0) {
+        If ($ThreadCount -gt 0) {
             $Process.ProcessorAffinity = [Int]((0..($ThreadCount - 1)) | foreach {[math]::Pow(2,$_)} | measure -Sum).sum
         }
         [PSCustomObject]@{ProcessId = $Process.Id; ProcessHandle = $Process.Handle}
