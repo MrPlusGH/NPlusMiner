@@ -8,17 +8,17 @@ $Commands = [PSCustomObject]@{
     # "cryptonight-monero"  = " -a cryptonight/r" #cryptonight/r
     "randomxmonero"         = " -a rx/0" #RandomX
     "randomx"               = " -a rx/0" #RandomX
-    "randomsfx"             = " -a rx/sfx" #RandomX
+    "randomsfx"             = " -a rx/sfx" #randomsfx
     "randomarq"             = " -a rx/arq" #Randomarq
     "cryptonightv7"         = " -a cn/1" #cryptonightv7
     # "cryptonight_gpu"       = " -a cn/gpu" #cryptonightGPU
-    "cryptonight_xeq"       = " -a cn/gpu" #cryptonightGPU
-    "cryptonight_heavy"     = " -a cn-heavy/0" #cryptonight_heavyx
+    "cryptonight_xeq"       = " -a cn/gpu" #cryptonight_xeq
+    "cryptonight_heavy"     = " -a cn-heavy/0" #cryptonight_heavy
     "cryptonight_heavyx"    = " -a cn/double" #cryptonight_heavyx
-    "cryptonight_saber"     = " -a cn-heavy/0" #cryptonightGPU
+    "cryptonight_saber"     = " -a cn-heavy/0" #cryptonight_saber
     "cryptonight_fast"      = " -a cn/half" #cryptonightFast
-    "cryptonight_haven"     = " -a cn-heavy/xhv" #cryptonightFast
-    "randomWOW"             = " -a rx/wow" #cryptonightFast
+    "cryptonight_haven"     = " -a cn-heavy/xhv" #cryptonight_haven
+    "randomWOW"             = " -a rx/wow" #randomWOW
 }
  
 $ThreadCount = $ThreadCount = $Variables.ProcessorCount - 2
