@@ -572,6 +572,8 @@ Add-Type -AssemblyName System.Windows.Forms
 # $SwitchingArray = [System.Collections.ArrayList]@($Log)
 If (Test-Path ".\Logs\switching.log"){$SwitchingArray = [System.Collections.ArrayList]@(Import-Csv ".\Logs\switching.log" | Select -Last 14)}
 
+[environment]::currentdirectory = (Split-Path $script:MyInvocation.MyCommand.Path)
+
 $MainForm = New-Object system.Windows.Forms.Form
 $NPMIcon = New-Object system.drawing.icon (".\Includes\NPM.ICO")
 $MainForm.Icon                  = $NPMIcon
@@ -2110,8 +2112,6 @@ $ButtonStart.Add_Click( {
 
 
 $ShowWindow = Add-Type -MemberDefinition '[DllImport("user32.dll")] public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);' -Name Win32ShowWindowAsync -Namespace Win32Functions -PassThru
-$ParentPID = (Get-CimInstance -Class Win32_Process -Filter "ProcessID = $pid").ParentProcessId
-$ConsoleHandle = (Get-Process -Id $ParentPID).MainWindowHandle
 $ConsoleHandle = (Get-Process -Id $pid).MainWindowHandle
 
 $MainForm.controls.AddRange($MainFormControls)
