@@ -21,7 +21,7 @@ $Commands = [PSCustomObject]@{
     "cryptonight_upx"      = " -a cryptonight-upx/2" #cryptonightFast
 }
  
-$ThreadCount = $ThreadCount = $Variables.ProcessorCount - 2
+# $ThreadCount = $ThreadCount = $Variables.ProcessorCount - 2
 
 $Port = $Variables.CPUMinerAPITCPPort #2222
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
@@ -52,7 +52,7 @@ $Commands.PSObject.Properties.Name | % {
             User      = $Pool.User
             Host      = $Pool.Host
             Coin      = $Pool.Coin
-            ThreadCount      = $ThreadCount
+            # ThreadCount      = $ThreadCount
         }
     }
 }
