@@ -23,7 +23,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
-        $Arguments = "-a $AlgoNorm --cpu-affinity AAAA -q -t $($ThreadCount) -b $($Variables.CPUMinerAPITCPPort) -o $($Pool.Protocol)://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password)"
+        $Arguments = "-a $AlgoNorm -q -t $($ThreadCount) -b $($Variables.CPUMinerAPITCPPort) -o $($Pool.Protocol)://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password)"
 
         [PSCustomObject]@{
             Type      = "CPU"
