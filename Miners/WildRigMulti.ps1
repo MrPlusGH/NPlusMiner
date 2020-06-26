@@ -33,6 +33,7 @@ $Commands = [PSCustomObject]@{
     "timetravel"    = " --algo timetravel" #timetravel
     "tribus"        = " --algo tribus" #Tribus
     "Xevan"         = "--algo xevan" #Xevan
+    "x12"           = " --algo x12" #x12
     "x16r"          = " --algo x16r" #x16r
     "x16rt"         = " --algo x16rt"
     "x16rv2"        = " --algo x16rv2" #X16rv2
