@@ -117,11 +117,11 @@ Switch ($Chart) {
         # $BaseColor = "424B54"
         $BaseColor = "FFFFFF"
         # $BaseColor = "F7931A"
-        $StartColor = "FFFFFF"
+        $StartColor = "800000"
         $EndColor = "f2a900"
         $i=0
         # $Colors = Get-ColorPalette $StartColor $EndColor (($datasource | sort DaySum -Unique).DaySum | % {[math]::Round($_*1000, 3)} | sort -Unique).count
-        $Colors = Get-ColorPalette $StartColor $EndColor 100
+        $Colors = Get-ColorPalette $StartColor $EndColor 300
 
            [void]$chart1.Series.Add("Total")
            $chart1.Series["Total"].ChartType = "Column"
@@ -142,7 +142,13 @@ Switch ($Chart) {
            Try{
                $Chart1.Series["Total"].Points | ForEach-Object {
                     # $PSItem.Color = "#$($Colors[((($datasource | sort DaySum -Unique).DaySum | % {[math]::Round($_*1000, 3)} | sort -Unique)).IndexOf([math]::Round(($PSItem.YValues[0]), 3))])"
-                    $PSItem.Color = "#$($Colors[[Int](100 * ($PSItem.YValues[0]) / (($datasource | group date | % {($_.group.DailyEarnings | measure -sum).sum} | measure -maximum).maximum * 1000))])"
+                    # $PSItem.Color = "#$($Colors[[Int](100 * ($PSItem.YValues[0]) / (($datasource | group date | % {($_.group.DailyEarnings | measure -sum).sum} | measure -maximum).maximum * 1000))])"
+                    $ColorCorrection = If ([Int](100 * ($PSItem.YValues[0]) / (($datasource | group date | % {($_.group.DailyEarnings | measure -sum).sum} | measure -maximum).maximum * 1000)) % 2 -eq 0) {
+                        0
+                    } else {
+                        1
+                    }
+                    $PSItem.Color = "#$($Colors[[Int](300 * ($PSItem.YValues[0]) / (($datasource | group date | % {($_.group.DailyEarnings | measure -sum).sum} | measure -maximum).maximum * 1000))])"
                 }
             } Catch {}
     }
@@ -255,7 +261,7 @@ Switch ($Chart) {
         $BaseColor = "FFFFFF"
         # $BaseColor = "F7931A"
         # $StartColor = "FFFFFF"
-        $StartColor = "FFFFFF"
+        $StartColor = "800000"
         $EndColor = "f2a900"
         $i=0
         $Colors = Get-ColorPalette $StartColor $EndColor ($datasource.Pool | select -Unique).count
