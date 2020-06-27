@@ -3,8 +3,8 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLo
 $Path = ".\Bin\NVIDIA-miniZ\miniZ.exe"
 $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/miniZ/miniZ_v1.6v2_cuda10_win-x64.zip"
 $Commands = [PSCustomObject]@{
-    "beamv2"       = " --par=beam --pers auto " #Beamv2
-    "beamv3"       = " --par=150,5,3 --pers=Beam-PoW --ocX" #Beamv3 - Only rejects on NH so far. Retest after fork on 06/28
+    # "beamv2"       = " --par=beam --pers auto " #Beamv2
+    # "beamv3"       = " --par=150,5,3 --pers=Beam-PoW --ocX" #Beamv3 - Only rejects on NH so far. Retest after fork on 06/28
     # "equihashbtg" = " --algo 144,5 --pers BgoldPoW " # Equihash-btg MPH (fastest)
     # "equihashzcl" = " --par=192,7 --pers ZcashPoW" # Equihash-ZCL MPH
     "equihash125"  = " --par=125,4 --ocX " #Equihash125
