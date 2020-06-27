@@ -289,7 +289,7 @@ $CycleScriptBlock =  {
             $Variables.LastDonated = Get-Date
             $Variables.DonateRandom = [PSCustomObject]@{}
         }
-        $Variables.StatusText = "Loading BTC rate from 'api.coinbase.com'.."
+        $Variables.StatusText = "Loading currencies rate from 'api.coinbase.com'.."
         Try{
             # $Rates = Invoke-RestMethod "https://api.coinbase.com/v2/exchange-rates?currency=BTC" -TimeoutSec 15 -UseBasicParsing | Select-Object -ExpandProperty data | Select-Object -ExpandProperty rates
             $Rates = Invoke-ProxiedWebRequest "https://api.coinbase.com/v2/exchange-rates?currency=$($Config.Passwordcurrency)" -TimeoutSec 15 -UseBasicParsing | convertfrom-json | Select-Object -ExpandProperty data | Select-Object -ExpandProperty rates
