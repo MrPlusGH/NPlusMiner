@@ -59,13 +59,19 @@ Function GetNextColor {
 
 function Get-ColorPalette {
     param($StartColor,$EndColor,$n)$x=$StartColor -split '(..)' -ne '' 
-    $StartColor
-    ++$n..1|%{
-        $j=$_
-        -join($x=$x|%{
-            "{0:x2}"-f(+"0x$_"-[int]((+"0x$_"-"0x$(($EndColor -split '(..)' -ne '')[$i++%3])")/$j))
-        })
+    $Colors = @($StartColor)
+    If ($n -gt 1) {
+        $Colors +=
+        ($n-1)..1|%{
+            $j=$_
+            -join($x=$x|%{
+                "{0:x2}"-f(+"0x$_"-[int]((+"0x$_"-"0x$(($EndColor -split '(..)' -ne '')[$i++%3])")/$j))
+            })
+        }
+    } else {
+        $Colors = @($EndColor)
     }
+    $Colors
 }
 
 [void][Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms.DataVisualization")
@@ -75,6 +81,25 @@ $scriptpath = Split-Path -parent $MyInvocation.MyCommand.Definition
     # Front7DaysEarnings
     # FrontDayEarningsPoolSplit
     # DayPoolSplit
+
+<#    
+    Add these values in Config.json to customize charts gradient colors.
+    https://cssgradient.io/
+    
+    Default
+    "ChartGradientMaxColor":  "087d01",
+    "ChartGradientMidColor":  "b9ba00",
+    "ChartGradientMinColor":  "7c0000",
+    
+    Red, Yellow, Green
+    "ChartGradientMaxColor":  "008000",
+    "ChartGradientMidColor":  "FFFF00",
+    "ChartGradientMinColor":  "FF0000",
+#>
+
+$StartColor     = If ($Config.ChartGradientMinColor) {$Config.ChartGradientMinColor} else {"800000"}
+$MidColor       = If ($Config.ChartGradientMidColor) {$Config.ChartGradientMidColor} else {"b85300"} #795f09
+$EndColor       = If ($Config.ChartGradientMaxColor) {$Config.ChartGradientMaxColor} else {"f2a900"}
 
 Switch ($Chart) {
     "Front7DaysEarnings" {
@@ -117,11 +142,13 @@ Switch ($Chart) {
         # $BaseColor = "424B54"
         $BaseColor = "FFFFFF"
         # $BaseColor = "F7931A"
-        $StartColor = "800000"
-        $EndColor = "f2a900"
+        # $StartColor = "FF0000"
+        # $MidColor = "FFFF00"
+        # $EndColor = "008000"
         $i=0
-        # $Colors = Get-ColorPalette $StartColor $EndColor (($datasource | sort DaySum -Unique).DaySum | % {[math]::Round($_*1000, 3)} | sort -Unique).count
-        $Colors = Get-ColorPalette $StartColor $EndColor 300
+        $GradientColorsCount = 1000
+        $Colors = Get-ColorPalette $StartColor $MidColor ([Math]::Floor($GradientColorsCount/2))
+        $Colors += Get-ColorPalette $MidColor $EndColor ($GradientColorsCount - [Math]::Floor($GradientColorsCount/2))
 
            [void]$chart1.Series.Add("Total")
            $chart1.Series["Total"].ChartType = "Column"
@@ -148,9 +175,10 @@ Switch ($Chart) {
                     } else {
                         1
                     }
-                    $PSItem.Color = "#$($Colors[[Int](300 * ($PSItem.YValues[0]) / (($datasource | group date | % {($_.group.DailyEarnings | measure -sum).sum} | measure -maximum).maximum * 1000))])"
+                    $PSItem.Color = "#$($Colors[[Int](1000 * ($PSItem.YValues[0]) / (($datasource | group date | % {($_.group.DailyEarnings | measure -sum).sum} | measure -maximum).maximum * 1000)) -1])"
                 }
-            } Catch {}
+            } Catch {
+            }
     }
     "Front7DaysEarningsWithPoolSplit" {
            $datasource = If (Test-Path ".\logs\DailyEarnings.csv" ) {Import-Csv ".\logs\DailyEarnings.csv" | ? {[DateTime]$_.date -ge (Get-Date).AddDays(-7)}}
@@ -255,16 +283,19 @@ Switch ($Chart) {
         # legend 
            $legend = New-Object system.Windows.Forms.DataVisualization.Charting.Legend
            $legend.name = "Legend1"
-           # $chart1.Legends.Add($legend)
+           $legend.BackColor = "#F0F0F0"
+           $chart1.Legends.Add($legend)
          
         # $BaseColor = "424B54"
         $BaseColor = "FFFFFF"
         # $BaseColor = "F7931A"
         # $StartColor = "FFFFFF"
-        $StartColor = "800000"
-        $EndColor = "f2a900"
+        # $StartColor = "FF0000"
+        # $MidColor = "FFFF00"
+        # $EndColor = "008000"
         $i=0
-        $Colors = Get-ColorPalette $StartColor $EndColor ($datasource.Pool | select -Unique).count
+            $Colors = @(Get-ColorPalette $StartColor $MidColor ([Math]::Floor((($datasource.Pool | select -Unique).count-1)/2)))
+            $Colors += Get-ColorPalette $MidColor $EndColor (((($datasource.Pool | select -Unique).count)) - [Math]::Floor((($datasource.Pool | select -Unique).count-1)/2))
         Foreach ($Pool in ($datasource.Pool | select -Unique)) {
            $i++
 
@@ -277,7 +308,7 @@ Switch ($Chart) {
            $chart1.Series[$Pool].chartarea = "ChartArea1"
            # $chart1.Series[$Pool].Legend = "Legend1"
            # $chart1.Series[$Pool].color = "#E3B64C"
-           $chart1.Series[$Pool].color = "#$($Colors[$i])"
+           $chart1.Series[$Pool].color = "#$($Colors[$i-1])"
            # $chart1.Series[$Pool].color = "#FFFFFF"
            # $chart1.Series[$Pool].color = [System.Drawing.Color]::FromArgb($A,247,147,26)
            # $chart1.Series[$Pool].label = "#SERIESNAME: #VALY mBTC"
