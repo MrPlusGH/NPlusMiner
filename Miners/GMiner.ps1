@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-Gminer\miner.exe"
-$Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.10/gminer_2_10_windows64.zip"
+$Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.11/gminer_2_11_windows64.zip"
 $Commands = [PSCustomObject]@{
     "cuckoocycle"    = " --algo aeternity --pers auto" #Aeternity 
     "eaglesong"       = " --algo eaglesong" #eaglesong
@@ -11,6 +11,7 @@ $Commands = [PSCustomObject]@{
     "grincuckarood29"  = " --algo grin29 --pers auto" #Grincuckaroo29 (fastest)
     # "beam"         = " --devices $($Config.SelGPUDSTM) --algo 150_5 --pers Beam-PoW" #Equihash150 (fastest)
     # "beamv2"       = " --devices $($Config.SelGPUDSTM) -a beamhashII" #Equihash150 (NiceHash)
+    "beamv3"           = " -a BeamHashIII" #Equihash150,5,3 (NiceHash)
     # "equihash-btg" = " --devices $($Config.SelGPUDSTM) --algo 144_5 --pers BgoldPoW" # Equihash-btg (fastest)
     # "equihash125"    = " --devices $($Config.SelGPUDSTM) --algo 125_4 --pers auto" #Equihash125
     # "equihash144"      = " --devices $($Config.SelGPUDSTM) --algo 144_5 --pers auto" #Equihash144 (fastest)
