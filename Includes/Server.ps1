@@ -495,7 +495,7 @@ Function Start-Server {
 
                                 If (Test-Path ".\logs\DailyEarnings.csv"){
                                     $Chart1 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'Front7DaysEarnings' -Width 505 -Height 85 -Currency $($Config.Passwordcurrency)"
-                                    $Chart2 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'DayPoolSplit' -Width 200 -Height 85 -Currency $($Config.Passwordcurrency)"
+                                    $Chart2 = Invoke-Expression -Command ".\Includes\Charting.ps1 -Chart 'DayPoolSplit' -Width 300 -Height 85 -Currency $($Config.Passwordcurrency)"
 
 
                                     $Header +=
