@@ -764,6 +764,44 @@ Function Start-Server {
                                 $StatusCode  = [System.Net.HttpStatusCode]::OK
                                 Break
                         }
+                        "/Hardware" {
+                                $Title = "$($Config.WorkerName) - Hardware"
+                                $ContentType = $MIMETypes[".html"]
+
+                                $Content = $Header
+                                If (Test-Path ".\Utils\OpenHardwareMonitorLib.dll"){
+                                    $Path = (Resolve-Path ".\utils\").path
+                                    Unblock-File -Path "$Path/OpenHardwareMonitorLib.dll"
+                                    $HardwareDLL = [System.IO.File]::ReadAllBytes("$($Path)/OpenHardwareMonitorLib.dll")
+                                    [System.Reflection.Assembly]::Load($HardwareDLL) | Out-Null
+                                    $Hardware = New-Object OpenHardwareMonitor.Hardware.Computer
+                                    $Hardware.CPUEnabled = $true
+                                    $Hardware.MainboardEnabled = $true
+                                    $Hardware.GPUEnabled = $true
+                                    $Hardware.Open()
+                                }
+                              
+                                $Content += "<hr>"
+                                
+                                ForEach ($Device in ($Hardware.Hardware | ? {$_.HardwareType -like "gpu*" -or $_.HardwareType -eq "cpu"})) {
+                                $Content += 
+@"
+                        <hr>
+                        <div id="$($Device.Identifier)"></div>
+                        <SectionTitle>
+                        <span class="left">$($Device.Identifier) - $($Device.Name)</span><br>
+                        </SectionTitle>
+                        <br>
+"@
+
+                                    $Content += $Device.Sensors | select SensorType,Name,Value | ConvertTo-Html -CssUri "./Includes/Web.css" -Title $Title
+                                }
+                                
+                                $Content += $Footer 
+                                
+                                $StatusCode  = [System.Net.HttpStatusCode]::OK
+                                Break
+                        }
                         "/Cmd-CleanIconCache" {
                                 $ContentType = "text/html"
                                 $Variables.CoinIcons = @()
