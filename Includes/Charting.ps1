@@ -294,8 +294,8 @@ Switch ($Chart) {
         # $MidColor = "FFFF00"
         # $EndColor = "008000"
         $i=0
-            $Colors = @(Get-ColorPalette $StartColor $MidColor ([Math]::Floor((($datasource.Pool | select -Unique).count-1)/2)))
-            $Colors += Get-ColorPalette $MidColor $EndColor (((($datasource.Pool | select -Unique).count)) - [Math]::Floor((($datasource.Pool | select -Unique).count-1)/2))
+            $Colors = @(Get-ColorPalette $StartColor $MidColor ([Math]::Floor((($datasource.Pool | select -Unique).count)/2)))
+            $Colors += Get-ColorPalette $MidColor $EndColor (((($datasource.Pool | select -Unique).count)) - [Math]::Floor((($datasource.Pool | select -Unique).count)/2))
         Foreach ($Pool in ($datasource.Pool | select -Unique)) {
            $i++
 
