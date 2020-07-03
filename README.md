@@ -61,8 +61,7 @@ Fee:
    Supported pools:
    
 - [ahashpool](http://ahashpool.com)
-
-[zergpool](http://zergpool.com)
+- [zergpool](http://zergpool.com)
 
 [zpool](https://zpool.ca)
 
