@@ -58,6 +58,16 @@ Fee:
 
 ## Features list
 
+   Supported pools:
+[ahashpool](http://ahashpool.com)
+[zergpool](http://zergpool.com)
+[zpool](https://zpool.ca)
+[nicehash](https://www.nicehash.com)
+[miningpoolhub](https://miningpoolhub.com/)
+[Blazepool](http://blazepool.com/)
+[BlockMasters](http://blockmasters.co)
+[ProHashing](https://prohashing.com?r=m1HNHfYS)
+
    AI
    
       NPlusMiner provides deep data analysis to lead to the best mining decisions.
@@ -193,7 +203,6 @@ Fee:
    
       Graphical displays BTC/H and BTC/D as well a estimation of when the pool payment threshold will be reached.
       Supported pools:
-      
             [![ahashpool]](http://ahashpool.com)
             [zergpool](http://zergpool.com)
             [zpool](https://zpool.ca)
