@@ -59,7 +59,8 @@ Fee:
 ## Features list
 
    Supported pools:
-[ahashpool](http://ahashpool.com)
+   
+- [ahashpool](http://ahashpool.com)
 
 [zergpool](http://zergpool.com)
 
