@@ -193,6 +193,7 @@ Fee:
    
       Graphical displays BTC/H and BTC/D as well a estimation of when the pool payment threshold will be reached.
       Supported pools:
+      
             [![ahashpool]](http://ahashpool.com)
             [zergpool](http://zergpool.com)
             [zpool](https://zpool.ca)
