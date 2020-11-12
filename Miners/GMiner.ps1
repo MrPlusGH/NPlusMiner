@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-Gminer\miner.exe"
-$Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.11/gminer_2_11_windows64.zip"
+$Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.29/gminer_2_29_windows64.zip"
 $Commands = [PSCustomObject]@{
     "cuckoocycle"    = " --algo aeternity --pers auto" #Aeternity 
     "eaglesong"       = " --algo eaglesong" #eaglesong
