@@ -6,7 +6,7 @@ $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersB
 $Commands = [PSCustomObject]@{
     # "lyra2rev3" = ",d=144 -i 24 -a lyra2v3 -d $($Config.SelGPUCC)" #Lyra2rev3 
     "lyra2v3" = " -i 24 -a lyra2v3 -d $($Config.SelGPUCC)" #Lyra2v3 -i 24 max
-    "lyra2z330" = " -a lyra2z330 -d $($Config.SelGPUCC) -t 1 --no-cpu-verify" #Lyra2z330
+    "lyra2z330" = " -i 12.5 -a lyra2z330 -d $($Config.SelGPUCC) -t 1 --no-cpu-verify" #Lyra2z330
     # "neoscrypt" = " -a neoscrypt -d $($Config.SelGPUCC)" #NeoScrypt
     # "yescrypt" = " -a yescrypt -d $($Config.SelGPUCC)" #Yescrypt
     # "yescryptR16" = " -a yescryptr16 -d $($Config.SelGPUCC)" #YescryptR16
