@@ -9,6 +9,7 @@ $Commands = [PSCustomObject]@{
     "grincuckatoo32"    = "-a grin32" #Grincuckatoo32
     "beamv3"            = "-a beamv3" #Beamv3
     "octopus"            = "-a octopus" #octopus
+    "etchash"            = "-a etchash" #etchash
 }
 
 $Port = $Variables.NVIDIAMinerAPITCPPort
