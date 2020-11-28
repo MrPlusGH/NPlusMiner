@@ -5,7 +5,7 @@ $Uri = "https://github.com/JayDDee/cpuminer-opt/releases/download/v3.15.1/cpumin
 
 $Commands = [PSCustomObject]@{
     "allium" = "" #Allium
-    "argon2d-crds" = "" #argon2d-crds
+    "argon2d250" = "" #argon2d-crds
     #"argon2d-dyn" = " -a argon2d500" #argon2d-dyn
     "argon2d4096" = "" #argon2d4096 
     #"bitcore" = "" #Bitcore

@@ -1,12 +1,16 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-NBMiner\nbminer.exe"
-$Uri = "https://github.com/NebuTech/NBMiner/releases/download/v33.4/NBMiner_33.4_Win.zip"
+
+$Uri = "https://github.com/NebuTech/NBMiner/releases/download/v33.8/NBMiner_33.8_Win.zip"
+
 $Commands = [PSCustomObject]@{
     # "eaglesong"       = " -a eaglesong" #eaglesong
-    # "handshake"        = "-a hns" #handshake
-    "kawpow"           = "-a kawpow" #kawpow
-    # "grincuckatoo32"   = "-a grin32" #Grincuckatoo32
+    # "handshake"       = "-a hns" #handshake
+    "kawpow"            = "-a kawpow" #kawpow
+    "grincuckatoo32"    = "-a grin32" #Grincuckatoo32
+    "beamv3"            = "-a beamv3" #Beamv3
+    "octopus"            = "-a octopus" #octopus
 }
 
 $Port = $Variables.NVIDIAMinerAPITCPPort
