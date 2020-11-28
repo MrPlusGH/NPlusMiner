@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-trex\t-rex.exe"
-$Uri = "https://github.com/trexminer/T-Rex/releases/download/0.15.8/t-rex-0.15.8-win-cuda10.0.zip"
+$Uri = "https://github.com/trexminer/T-Rex/releases/download/0.18.11/t-rex-0.18.11-win-cuda10.0.zip"
  
 $Commands = [PSCustomObject]@{
     "astralhash" = "" #Astralhash
@@ -31,6 +31,8 @@ $Commands = [PSCustomObject]@{
     "x21s"       = "" #X21s (fastest)
     "x22i"       = " -i 23" #X22i (fastest)
     "x25x"       = " -i 21" #25x
+    "etchash"       = "" #etchash
+    "ethash"       = "" #ethash
     # "dedal"      = "" #Dedal (fastest)
     #"hmq1725" = " -i 23" #Hmq1725 (CryptoDredge faster)
     #"lyra2z" = "" #Lyra2z (Asic)
