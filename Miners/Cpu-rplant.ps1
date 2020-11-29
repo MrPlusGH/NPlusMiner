@@ -9,8 +9,6 @@ $Commands = [PSCustomObject]@{
     "curve" = "" #curvehash
 }
 
-$Name = Get-Item $MyInvocation.MyCommand.Path | Select-Object -ExpandProperty BaseName
-
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object { 
     switch ($_) { 
         default { $ThreadCount = $Variables.ProcessorCount - 2 }
@@ -24,7 +22,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
-        $Arguments = "-q -t $($ThreadCount) -b $($Variables.CPUMinerAPITCPPort) -a $AlgoNorm -o $($Pool.Protocol)://$($Pool.Host):$($Pool.Port) -u $($Pools.User) -p $($Password)"
+        $Arguments = "-q -t $($ThreadCount) -b $($Variables.CPUMinerAPITCPPort) -a $AlgoNorm -o $($Pool.Protocol)://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password)"
 
         [PSCustomObject]@{
             Type = "CPU"
