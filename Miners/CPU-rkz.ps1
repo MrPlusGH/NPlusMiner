@@ -4,8 +4,8 @@ $Path = ".\Bin\CPU-RKZ\cpuminer.exe"
 $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/CPU-rkz/cpuminer-RKZ.zip"
 
 $Commands = [PSCustomObject]@{
-    "yespower" = "" #Yespower
-    "yescrypt" = "" #Yescrypt
+    # "yespower" = "" #Yespower
+    # "yescrypt" = "" #Yescrypt
     "cpupower" = "" #Cpupower
     "power2b"  = "" #Power2b 
 }
