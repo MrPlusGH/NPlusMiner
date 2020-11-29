@@ -91,6 +91,7 @@
     "cryptonightv7stellitev4":  "CryptonightXtl",
     "cryptonightv8":  "CryptonightV8",
     "cryptonightxhvheavy":  "CryptonightHeavyXhv",
+    "curve":  "Curvehash",
     "daggerhashimoto":  "Ethash",
     "dagger":  "Ethash",
     "darkcoinmod":  "X11",

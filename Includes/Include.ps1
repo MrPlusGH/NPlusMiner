@@ -940,6 +940,17 @@ function Get-HashRate {
                     $HashRate = [Double]$Data.result.speed_ips * 1000000
                 }
             }
+
+            "srb" { 
+                $Request = Invoke_httpRequest $Server $Port "" $Timeout
+                If ($Request) { 
+                    $Data = $Request | ConvertFrom-Json
+                    $HashRate = @(
+                        [Double]$Data.algorithms.hashrate.now
+                        [Double]$Data.algorithms.hashrate.'5min'
+                    ) | Where-Object { $_ -gt 0 } | Select-Object -First 1
+                }
+            }
             
         } #end switch
         
