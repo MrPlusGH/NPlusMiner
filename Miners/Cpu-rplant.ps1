@@ -6,7 +6,7 @@ $Uri = "https://github.com/rplant8/cpuminer-opt-rplant/releases/download/4.5.18/
 $Commands = [PSCustomObject]@{
     "yescryptR8G" = "" #YescryptR8
     "yespowerIOTS" = "" #yespowerIOTS
-    "curve" = "" #curvehash
+    # "curve" = " -f 65535" #curvehash
 }
 
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object { 
@@ -29,7 +29,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
             Path = $Path
             Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
             HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week} 
-            API = "SRB"
+            API = "ccminer"
             Port = $Variables.CPUMinerAPITCPPort
             Wrap = $false
             URI = $Uri
