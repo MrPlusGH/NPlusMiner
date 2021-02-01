@@ -325,7 +325,7 @@ $CycleScriptBlock =  {
         # rv LocPools
         # Filter Algo based on Per Pool Config
         $PoolsConf = $Config.PoolsConfig
-        $AllPools = $AllPools.Where({$_.Name -notin ($PoolsConf | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name) -or ($_.Name -in ($PoolsConf | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name) -and ((!($PoolsConf.($_.Name).Algorithm | ? {$_ -like "+*"}) -or ("+$($_.Algorithm)" -in $PoolsConf.($_.Name).Algorithm)) -and ("-$($_.Algorithm)" -notin $PoolsConf.($_.Name).Algorithm)))})
+        $AllPools = @($AllPools).Where({$_.Name -notin ($PoolsConf | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name) -or ($_.Name -in ($PoolsConf | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name) -and ((!($PoolsConf.($_.Name).Algorithm | ? {$_ -like "+*"}) -or ("+$($_.Algorithm)" -in $PoolsConf.($_.Name).Algorithm)) -and ("-$($_.Algorithm)" -notin $PoolsConf.($_.Name).Algorithm)))})
 
     # if($AllPools.Count -eq 0){$Variables.StatusText = "Error contacting pool, retrying.."; $timerCycle.Interval = 15000 ; $timerCycle.Start() ; return}
         $Pools = [PSCustomObject]@{}
@@ -494,7 +494,7 @@ $CycleScriptBlock =  {
            $BannedMiners = $Variables["ActiveMinerPrograms"].Where( { $_.Status -eq "Failed" -and $_.FailedCount -ge $Config.MaxMinerFailure } )
            # $BannedMiners | foreach { $Variables.StatusText = "BANNED: $($_.Name) / $($_.Algorithms). Too many failures. Consider Algo exclusion in config." }
            $BannedMiners | foreach { "BANNED: $($_.Name) / $($_.Algorithms). Too many failures. Consider Algo exclusion in config." | Out-Host }
-           $Variables["Miners"] = $Variables["Miners"].Where( { $_.Path -notin $BannedMiners.Path -and $_.Arguments -notin $BannedMiners.Arguments } )
+           $Variables["Miners"] = $Variables["Miners"].Where( { -not ($_.Path -in $BannedMiners.Path -and $_.Arguments -in $BannedMiners.Arguments) } )
        }
 
 
@@ -702,7 +702,8 @@ $CycleScriptBlock =  {
                         # if($_.Process -ne $null){$_.TotalActive += $_.Process.ExitTime-$_.Process.StartTime}
                         if($_.Process -ne $null){$_.Active = [TimeSpan]0}
                         
-                        if($_.Wrap){$_.Process = Start-Process -FilePath "PowerShell" -ArgumentList "-executionpolicy bypass -command . '$(Convert-Path ".\Includes\Wrapper.ps1")' -ControllerProcessID $PID -Id '$($_.Port)' -FilePath '$($_.Path)' -ArgumentList '$($_.Arguments)' -WorkingDirectory '$(Split-Path $_.Path)'" -PassThru}
+                        # if($_.Wrap){$_.Process = Start-Process -FilePath "PowerShell" -ArgumentList "-executionpolicy bypass -command . '$(Convert-Path ".\Includes\Wrapper.ps1")' -ControllerProcessID $PID -Id '$($_.Port)' -FilePath '$($_.Path)' -ArgumentList '$($_.Arguments)' -WorkingDirectory '$(Split-Path $_.Path)'" -PassThru}
+                        if($_.Wrap){$_.Process = Start-Process -FilePath "PowerShell" -ArgumentList "-executionpolicy bypass -command . '$(Convert-Path ".\Includes\Wrapper.ps1")' -ControllerProcessID $PID -Id '$($_.Port)' -FilePath '$($_.Path)' -ArgumentList '$($_.Arguments)' -WorkingDirectory '$($Variables.MainPath)'" -PassThru}
                         else{$_.Process = Start-SubProcess -FilePath $_.Path -ArgumentList $_.Arguments -WorkingDirectory (Split-Path $_.Path) -ThreadCount $_.ThreadCount}
                         if($_.Process -eq $null){$_.Status = "Failed";$_.FailedCount++}
                         else {

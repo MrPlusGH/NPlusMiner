@@ -862,10 +862,10 @@ function Get-HashRate {
             "wrapper" {
                 $HashRate = ""
                 $wrpath = ".\Logs\Energi.txt"
-                $HashRate = if (test-path -path $wrpath ) {
-                    Get-Content  $wrpath
-                    $HashRate = ($HashRate -split ',')[0]
-                    $HashRate = ($HashRate -split '.')[0]
+                if (test-path -path $wrpath ) {
+                    $HashRate = Get-Content  $wrpath
+                    $HashRate = $HashRate.split(',')[0]
+                    $HashRate = $HashRate.split('.')[0]
 
                 }
                 else {$hashrate = 0}
