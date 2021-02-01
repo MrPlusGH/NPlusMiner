@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-NBMiner\nbminer.exe"
-$Uri = "https://github.com/NebuTech/NBMiner/releases/download/v33.8/NBMiner_33.8_Win.zip"
+$Uri = "https://github.com/NebuTech/NBMiner/releases/download/v36.1/NBMiner_36.1_Win.zip"
 $Commands = [PSCustomObject]@{
     "ethash+eaglesong"          = "" #Ethash
 }
@@ -26,9 +26,9 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
 
             # $Arguments = "--dual_intensity 0 --watchdog 0 --pec 0 --nvml 0 --devices $($Config.SelGPUDSTM) --api $($Variables.NVIDIAMinerAPITCPPort) --algo eth+ckb --server $($Pool_Ethash.Host):$($Pool_Ethash.Port) --user $($Pool_Ethash.User) --dserver $($Pool_eaglesong.Host):$($Pool_eaglesong.Port) --duser $($Pool_eaglesong.User)"
             If (($Pool_Ethash.Host -like "*nicehash*" -or $Pool_Ethash.Host -like "*miningpoolhub*")) {
-                $Arguments = " -a eaglesong_ethash --no-watchdog --no-nvml --temperature-limit 95 -di 24 -d $($Config.SelGPUCC) --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -o stratum+tcp://$($Pool_eaglesong.Host):$($Pool_eaglesong.Port) -u $($Pool_eaglesong.User):$($Pool_eaglesong.Pass) -do nicehash+tcp://$($Pool_Ethash.Host):$($Pool_Ethash.Port) -du $($Pool_Ethash.User):$($Pool_Ethash.Pass)"
+                $Arguments = " -a eaglesong_ethash --no-watchdog --temperature-limit 95 -di 24 -d $($Config.SelGPUCC) --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -o stratum+tcp://$($Pool_eaglesong.Host):$($Pool_eaglesong.Port) -u $($Pool_eaglesong.User):$($Pool_eaglesong.Pass) -do nicehash+tcp://$($Pool_Ethash.Host):$($Pool_Ethash.Port) -du $($Pool_Ethash.User):$($Pool_Ethash.Pass)"
             } else {
-                $Arguments = " -a eaglesong_ethash --no-watchdog --no-nvml --temperature-limit 95 -di 24 -d $($Config.SelGPUCC) --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -o stratum+tcp://$($Pool_eaglesong.Host):$($Pool_eaglesong.Port) -u $($Pool_eaglesong.User):$($Pool_eaglesong.Pass) -do stratum+tcp://$($Pool_Ethash.Host):$($Pool_Ethash.Port) -du $($Pool_Ethash.User):$($Pool_Ethash.Pass)"
+                $Arguments = " -a eaglesong_ethash --no-watchdog --temperature-limit 95 -di 24 -d $($Config.SelGPUCC) --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -o stratum+tcp://$($Pool_eaglesong.Host):$($Pool_eaglesong.Port) -u $($Pool_eaglesong.User):$($Pool_eaglesong.Pass) -do stratum+tcp://$($Pool_Ethash.Host):$($Pool_Ethash.Port) -du $($Pool_Ethash.User):$($Pool_Ethash.Pass)"
             }
             
             [PSCustomObject]@{

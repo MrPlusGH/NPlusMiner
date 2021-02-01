@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-NBMiner\nbminer.exe"
-$Uri = "https://github.com/NebuTech/NBMiner/releases/download/v33.8/NBMiner_33.8_Win.zip"
+$Uri = "https://github.com/NebuTech/NBMiner/releases/download/v36.1/NBMiner_36.1_Win.zip"
 $Commands = [PSCustomObject]@{
     # "eaglesong"       = " -a eaglesong" #eaglesong
     # "handshake"       = "-a hns" #handshake
@@ -25,7 +25,7 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
-        $Arguments = " --no-watchdog --no-nvml --temperature-limit 95 -d $($Config.SelGPUCC) --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User):$($Password)"
+        $Arguments = " --no-watchdog --temperature-limit 95 -d $($Config.SelGPUCC) --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User):$($Password)"
         
         [PSCustomObject]@{
             Type      = "NVIDIA"

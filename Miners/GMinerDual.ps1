@@ -3,7 +3,9 @@ Return
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-GminerDual\miner.exe"
-$Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.11/gminer_2_11_windows64.zip"
+# $Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.18/gminer_2_18_windows64.zip"
+# $Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.36/gminer_2_36_windows64.zip"
+$Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.44/gminer_2_44_windows64.zip"
 $Commands = [PSCustomObject]@{
     "ethash+eaglesong"          = "" #Ethash
 }

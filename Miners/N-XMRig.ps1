@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-XMRig\xmrig.exe"
-$Uri = "https://github.com/xmrig/xmrig/releases/download/v6.2.2/xmrig-6.2.2-msvc-cuda10_2-win64.zip"
+$Uri = "https://github.com/xmrig/xmrig/releases/download/v6.8.0/xmrig-6.8.0-msvc-cuda10_2-win64.zip"
 
 $Commands = [PSCustomObject]@{
     # "cryptonightr"        = " -a cryptonight/r --nicehash" #cryptonight/r
@@ -9,14 +9,14 @@ $Commands = [PSCustomObject]@{
     "randomxmonero"         = " -a rx/0" #RandomX
     "randomx"               = " -a rx/0" #RandomX
     "randomsfx"             = " -a rx/sfx" #RandomX
-    # "randomWOW"             = " -a rx/wow" #randomWOW
     "cryptonightv7"         = " -a cn/1" #cryptonightv7
     "cryptonight_xeq"       = " -a cn/gpu" #cryptonightGPU
     "cryptonight_heavy"     = " -a cn-heavy/0" #cryptonight_heavyx
     "cryptonight_heavyx"    = " -a cn/double" #cryptonight_heavyx
     "cryptonight_saber"     = " -a cn-heavy/0" #cryptonightGPU
     "cryptonight_fast"      = " -a cn/half" #cryptonightFast
-    "cryptonight_haven"      = " -a cn-heavy/xhv" #cryptonightFast
+    "cryptonight_haven"     = " -a cn-heavy/xhv" #cryptonightFast
+    "kawpow"                = " -a kawpow" #kawpow
 }
  
 $Port = $Variables.NVIDIAMinerAPITCPPort #2222

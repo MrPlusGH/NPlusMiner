@@ -1,12 +1,12 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\CPU-XMRig\xmrig.exe"
-$Uri = "https://github.com/xmrig/xmrig/releases/download/v6.2.2/xmrig-6.2.2-msvc-cuda10_2-win64.zip"
+$Uri = "https://github.com/xmrig/xmrig/releases/download/v6.8.0/xmrig-6.8.0-msvc-cuda10_2-win64.zip"
 
 $Commands = [PSCustomObject]@{
     # "cryptonightr"        = " -a cryptonight/r --nicehash" #cryptonight/r
-    # "cryptonight-monero"  = " -a cryptonight/r" #cryptonight/r
-    "randomxmonero"         = " -a rx/0" #RandomX
+    # "cryptonight-monero"    = " -a rx/0" #RandomX
+    # "randomxmonero"         = " -a rx/0" #RandomX
     "randomx"               = " -a rx/0" #RandomX
     "randomsfx"             = " -a rx/sfx" #randomsfx
     "randomarq"             = " -a rx/arq" #Randomarq

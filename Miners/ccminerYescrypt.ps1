@@ -13,7 +13,7 @@ $Commands = [PSCustomObject]@{
 }
     switch ($_) {
         "yescryptR32" {$Fee = 0.14} # account for 14% stale shares
-              default {$Fee = 0.00}
+              default {$Fee = 0.05} # account for 5% stale shares
     }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
@@ -33,7 +33,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
             Type = "NVIDIA"
             Path = $Path
             Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
-            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week * .86} # account for 14% stale shares
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week * (1 - $Fee)}
             API = "ccminer"
             Port = $Variables.NVIDIAMinerAPITCPPort
             Wrap = $false

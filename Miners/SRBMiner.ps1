@@ -1,7 +1,7 @@
 If (-not (IsLoaded(".\Includes\include.ps1"))) { . .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1") }
 
 $Path = ".\Bin\cpu-SRBMiner\SRBMiner-MULTI.exe"
-$Uri = "https://github.com/doktor83/SRBMiner-Multi/releases/download/0.5.7/SRBMiner-Multi-0-5-7-win64.zip"
+$Uri = "https://github.com/doktor83/SRBMiner-Multi/releases/download/0.6.3/SRBMiner-Multi-0-6-3-win64.zip"
 
 $Commands = [PSCustomObject]@{ 
     # "randomx"            = " --randomx-use-1gb-pages" #randomx 
@@ -14,8 +14,10 @@ $Commands = [PSCustomObject]@{
     # "yescryptR16"        = "" #yescryptR16  
     # "yescryptR32"        = "" #yescryptR32   
     "yespower"           = "" #yespower 
+    "yespowerSUGAR"           = "" #yespowerSUGAR
     # "yespowerr16"        = "" #yespowerr16 
     # "cryptonight-monero" = " --randomx-use-1gb-pages" #randomx
+    "phi5" = "" #phi5
 }
 
 $Name = Get-Item $MyInvocation.MyCommand.Path | Select-Object -ExpandProperty BaseName
@@ -32,6 +34,9 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         $Pool = $_
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
+        
+        #Curve diff doesn't play well on ZPool
+        If ($Pool.Host -like "*zpool*" -and $AlgoNorm -eq "curvehash") {Return}
 
         $Arguments = "--algorithm $($AlgoNorm) --pool stratum+tcp://$($Pool.Host):$($Pool.Port) --cpu-threads $($ThreadCount) --nicehash true --send-stales true --api-enable --api-port $($Variables.CPUMinerAPITCPPort) --disable-gpu --wallet $($Pool.User) --password $($Password)"
 

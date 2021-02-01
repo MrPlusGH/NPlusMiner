@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-trex\t-rex.exe"
-$Uri = "https://github.com/trexminer/T-Rex/releases/download/0.18.11/t-rex-0.18.11-win-cuda10.0.zip"
+$Uri = "https://github.com/trexminer/T-Rex/releases/download/0.19.9/t-rex-0.19.9-win-cuda10.0.zip"
  
 $Commands = [PSCustomObject]@{
     "astralhash" = "" #Astralhash
@@ -32,7 +32,7 @@ $Commands = [PSCustomObject]@{
     "x22i"       = " -i 23" #X22i (fastest)
     "x25x"       = " -i 21" #25x
     "etchash"       = "" #etchash
-    "ethash"       = "" #ethash
+    "octopus"       = "" #octopus
     # "dedal"      = "" #Dedal (fastest)
     #"hmq1725" = " -i 23" #Hmq1725 (CryptoDredge faster)
     #"lyra2z" = "" #Lyra2z (Asic)
@@ -45,6 +45,11 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
     $MinerAlgo = switch ($_){
         "Veil"    { "x16rt" }
         default    { $_ }
+    }
+    
+    $fee = switch ($_){
+        "octopus"   {0.02}
+        default     {0.01}
     }
 
     $Algo =$_
@@ -61,7 +66,7 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
             Type      = "NVIDIA"
             Path      = $Path
             Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
-            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week * .99} # substract 1% devfee
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week * (1-$fee)} # substract 1% devfee
             API       = "ccminer"
             Port      = $Variables.NVIDIAMinerAPITCPPort
             Wrap      = $false
