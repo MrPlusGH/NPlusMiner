@@ -6,10 +6,10 @@ $Uri = "https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.11/
 $Commands = [PSCustomObject]@{
     "yescryptR8G" = "" #YescryptR8
     "yespowerIOTS" = "" #yespowerIOTS
-    "yespowerSUGAR" = "" #yespowerSUGAR
-    "yespowerLITB" = "" #yespowerLITB
-    "yespowerIC" = "" #yespowerIC
-    "yespowerLNC" = "" #yespowerLTNCG
+    # "yespowerSUGAR" = "" #yespowerSUGAR
+    # "yespowerLITB" = "" #yespowerLITB
+    # "yespowerIC" = "" #yespowerIC
+    # "yespowerLNC" = "" #yespowerLTNCG
 }
 
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object { 
