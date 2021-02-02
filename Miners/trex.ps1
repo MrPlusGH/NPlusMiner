@@ -34,7 +34,7 @@ $Commands = [PSCustomObject]@{
     "etchash"       = "" #etchash
     "octopus"       = "" #octopus
     # "dedal"      = "" #Dedal (fastest)
-    #"hmq1725" = " -i 23" #Hmq1725 (CryptoDredge faster)
+    "hmq1725" = " -i 23" #Hmq1725 
     #"lyra2z" = "" #Lyra2z (Asic)
     #"skunk" = "" #Skunk (CryptoDredge faster)
 }
