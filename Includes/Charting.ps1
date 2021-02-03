@@ -77,6 +77,10 @@ function Get-ColorPalette {
 [void][Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms.DataVisualization")
 $scriptpath = Split-Path -parent $MyInvocation.MyCommand.Definition
 
+# Set decimal separator so CSV files look good.
+    [System.Threading.Thread]::CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator = "."
+    [System.Threading.Thread]::CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator = "."
+
 # Defined Charts list
     # Front7DaysEarnings
     # FrontDayEarningsPoolSplit
