@@ -83,7 +83,7 @@ Function InitApplication {
     if(Test-Path "Stats"){Get-ChildItemContent "Stats" | ForEach {$Stat = Set-Stat $_.Name $_.Content.Week}}
     #Set donation parameters
     # $Variables | Add-Member -Force @{DonateRandom = [PSCustomObject]@{}}
-    $Variables.LastDonated = (Get-Date).AddDays(-1).AddHours(1)
+    $Variables.LastDonated = (Get-Date).AddHours(-12).AddHours(1)
     # If ($Config.Donate -lt 3) {$Config.Donate = (0,(3..8)) | Get-Random}
     # $Variables | Add-Member -Force @{WalletBackup = $Config.Wallet}
     # $Variables | Add-Member -Force @{UserNameBackup = $Config.UserName}
@@ -246,7 +246,7 @@ $CycleScriptBlock =  {
         #Activate or deactivate donation
         # if((Get-Date).AddDays(-1).AddMinutes($Config.Donate) -ge $Variables.LastDonated -and $Variables.DonateRandom.wallet -eq $Null){
 # $Variables.LastDonated  = (Get-Date).AddDays(-1).AddMinutes(-1)        
-        if((Get-Date).AddDays(-1) -ge $Variables.LastDonated -and $Variables.DonateRandom.wallet -eq $Null){
+        if((Get-Date).AddHours(-12) -ge $Variables.LastDonated -and $Variables.DonateRandom.wallet -eq $Null){
             # Get donation addresses randomly from agreed developers list
             # This will fairly distribute donations to Developers
             # Developers list and wallets is publicly available at: http://tiny.cc/r355qy 
