@@ -164,11 +164,11 @@ Fee:
       to a public list of devs which can be found here: http://tiny.cc/r355qy
       
       We want to stay completely transparent on the way fees are managed in the product.
-      Fees cycle occurs once every 24 hours for the selected amount of time (8 minutes).
+      Fees cycle occurs once every 12 hours for the selected amount of time (8 minutes).
       The first donation sequence occurs 1 hour after miners are started.
       If Interval is set higher than the donation time, the interval will prime.
       Example for default parameters:
-      Miners started at 10, First donation cycle runs at 11 untill 11:16, Next donation cycle occurs 24 hours after.
+      Miners started at 10, First donation cycle runs at 11 untill 11:16, Next donation cycle occurs 12 hours after.
       All donation time and addresses are recorded in the logs folder.
 
    Miners Monitoring
