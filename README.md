@@ -29,6 +29,8 @@ Copyright (c) 2018 Nemo		(https://github.com/Minerx117/NemosMiner)
 
 **For more help and HowTos please check our wiki here** : https://github.com/MrPlusGH/NPlusMiner-Documentation/wiki
 BitcoinTalk : https://bitcointalk.org/index.php?topic=2965976.0
+
+Many thanks to @syl3ntz for his contribution and help provided to the comunity
 *****
 NPlusMiner Monitors mining pools in real-time in order to find the most profitable Algo
 
