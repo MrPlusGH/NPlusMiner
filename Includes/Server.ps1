@@ -1,7 +1,7 @@
 <#
 This file is part of NPlusMiner
 Copyright (c) 2018 Nemo
-Copyright (c) 2018-2020 MrPlus
+Copyright (c) 2018-2021 MrPlus
 
 NPlusMiner is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -255,7 +255,7 @@ Function Start-Server {
 @"
                         <br>
                         <Footer>
-                        Copyright (c) 2018-2020 MrPlus
+                        Copyright (c) 2018-2021 MrPlus
                         <span class="right">
                         <a href="httpss://icons8.com">icons8.com</a>
                         </span><br>
