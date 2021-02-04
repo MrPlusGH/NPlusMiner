@@ -1,6 +1,6 @@
 <#
 This file is part of NPlusMiner
-Copyright (c) 2018-2020 MrPlus
+Copyright (c) 2018-2021 MrPlus
 
 NPlusMiner is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -88,7 +88,7 @@ param(
 
 @"
 NPlusMiner
-Copyright (c) 2018-2020 MrPlus
+Copyright (c) 2018-2021 MrPlus
 
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
@@ -619,7 +619,7 @@ $MainForm.add_Shown({
     # TimerCheckVersion
     $TimerCheckVersion = New-Object System.Windows.Forms.Timer
     $TimerCheckVersion.Enabled = $true
-    $TimerCheckVersion.Interval = 700*60*1000
+    $TimerCheckVersion.Interval = 480*60*1000
     $TimerCheckVersion.Add_Tick({
         Update-Status("Checking version")
         try {
@@ -916,7 +916,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $LabelCopyright.Size            = New-Object System.Drawing.Size(200,20)
     $LabelCopyright.LinkColor       = "BLUE"
     $LabelCopyright.ActiveLinkColor = "BLUE"
-    $LabelCopyright.Text            = "Copyright (c) 2018-2020 MrPlus"
+    $LabelCopyright.Text            = "Copyright (c) 2018-$((Get-Date).year) MrPlus"
     $LabelCopyright.add_Click({[system.Diagnostics.Process]::start("https://github.com/MrPlusGH/NPlusMiner/blob/master/LICENSE")})
     $RunPageControls += $LabelCopyright
 
