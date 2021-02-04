@@ -1,6 +1,6 @@
 <#
 This file is part of NPlusMiner
-Copyright (c) 2018-2021 MrPlus
+Copyright (c) 2018-2019 MrPlus
 
 NPlusMiner is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -367,7 +367,7 @@ $form1Controls += $HelpLabel
 
     $ButtonLoadRules.Add_Click({
         If (Test-Path ".\Config\MinerCustomConfig.json") {$Script:MinerCustomConfig = Get-Content ".\Config\MinerCustomConfig.json" | ConvertFrom-Json}
-        $RulesDGV.DataSource = [System.Collections.ArrayList]($MinerCustomConfig | Sort enabled,algo,pool,miner,coin -Descending | select enabled,algo,pool,miner,coin)
+        $RulesDGV.DataSource = [System.Collections.ArrayList]@($MinerCustomConfig | Sort enabled,algo,pool,miner,coin -Descending | select enabled,algo,pool,miner,coin)
     })
 
     $ButtonAddRule                         = New-Object system.Windows.Forms.Button
@@ -396,7 +396,7 @@ $form1Controls += $HelpLabel
             [System.Windows.Forms.MessageBox]::Show("Duplicate rules are not allowed", "Cannot add rule" , "OK", 16)
         } else {
             $MinerCustomConfig = $MinerCustomConfig + $NewRule
-            $MinerCustomConfig | ConvertTo-Json | out-file ".\Config\MinerCustomConfig.json"
+            ConvertTo-Json @($MinerCustomConfig) | out-file ".\Config\MinerCustomConfig.json"
             $ButtonLoadRules.PerformClick()
         }
     })
@@ -416,7 +416,7 @@ $form1Controls += $HelpLabel
             [System.Windows.Forms.MessageBox]::Show("Rule not found", "Cannot delete rule" , "OK", 16)
         } else {
             $MinerCustomConfig = $MinerCustomConfig | ? { -not ($_.algo -eq $SelectedRule.algo -and $_.pool -eq $SelectedRule.pool -and $_.miner -eq $SelectedRule.miner -and $_.coin -eq $SelectedRule.coin) }
-            $MinerCustomConfig | ConvertTo-Json | out-file ".\Config\MinerCustomConfig.json"
+            ConvertTo-Json @($MinerCustomConfig) | out-file ".\Config\MinerCustomConfig.json"
             $ButtonLoadRules.PerformClick()
         }
        
