@@ -2030,7 +2030,7 @@ $ButtonPause.Add_Click( {
         else {
             $Variables.Paused = $False
             $ButtonPause.Text = "Pause"
-            $Variables.LastDonated = (Get-Date).AddDays(-1).AddHours(1)
+            $Variables.LastDonated = (Get-Date).AddHours(-12).AddHours(1)
             $TimerUI.Start()
 
             # Stop and start mining to immediately switch to unpaused state without waiting for current sleep to finish
@@ -2090,7 +2090,7 @@ $ButtonStart.Add_Click( {
             $ButtonStart.Text = "Stop"
             InitApplication
             $Variables.MainPath = (Split-Path $script:MyInvocation.MyCommand.Path)
-            $Variables.LastDonated = (Get-Date).AddDays(-1).AddHours(1)
+            $Variables.LastDonated = (Get-Date).AddHours(-12).AddHours(1)
 
             Start-IdleTracking
 

@@ -1,7 +1,7 @@
 <#
 This file is part of NPlusMiner
 Copyright (c) 2018 Nemo
-Copyright (c) 2018-2021 MrPlus
+Copyright (c) 2018-2020 MrPlus
 
 NPlusMiner is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -255,7 +255,7 @@ Function Start-Server {
 @"
                         <br>
                         <Footer>
-                        Copyright (c) 2018-2021 MrPlus
+                        Copyright (c) 2018-2020 MrPlus
                         <span class="right">
                         <a href="httpss://icons8.com">icons8.com</a>
                         </span><br>
@@ -828,7 +828,7 @@ Function Start-Server {
                                 $ContentType = "text/html"
                                 $Variables.StatusText = "Start Mining requested via API."
                                 $Variables.Paused = $False
-                                $Variables.LastDonated = (Get-Date).AddDays(-1).AddHours(1)
+                                $Variables.LastDonated = (Get-Date).AddHours(-12).AddHours(1)
                                 $Variables.RestartCycle = $True
                                 
                                 $Title = "Mine Command"

@@ -1,7 +1,7 @@
 <#
 This file is part of NPlusMiner
 Copyright (c) 2018 Nemo
-Copyright (c) 2018-2021 MrPlus
+Copyright (c) 2018-2019 MrPlus
 
 NPlusMiner is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -244,8 +244,6 @@ $CycleScriptBlock =  {
         }
         
         #Activate or deactivate donation
-        # if((Get-Date).AddDays(-1).AddMinutes($Config.Donate) -ge $Variables.LastDonated -and $Variables.DonateRandom.wallet -eq $Null){
-# $Variables.LastDonated  = (Get-Date).AddDays(-1).AddMinutes(-1)        
         if((Get-Date).AddHours(-12) -ge $Variables.LastDonated -and $Variables.DonateRandom.wallet -eq $Null){
             # Get donation addresses randomly from agreed developers list
             # This will fairly distribute donations to Developers

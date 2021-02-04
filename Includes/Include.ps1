@@ -1,7 +1,7 @@
 <#
 This file is part of NPlusMiner
 Copyright (c) 2018 Nemo
-Copyright (c) 2018-2021 MrPlus
+Copyright (c) 2018-2019 MrPlus
 
 NPlusMiner is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -304,7 +304,7 @@ Function Start-Mining {
     $powershell.AddArgument($scriptblock.Ast.GetScriptBlock())
 
     $Variables.CycleRunspaceHandle = $powershell.BeginInvoke()
-    $Variables.LastDonated = (Get-Date).AddDays(-1).AddHours(1)
+    $Variables.LastDonated = (Get-Date).AddHours(-12).AddHours(1)
 }
 
 Function Stop-Mining {
