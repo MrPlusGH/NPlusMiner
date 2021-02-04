@@ -1,6 +1,6 @@
 <#
 This file is part of NPlusMiner
-Copyright (c) 2018-2019 MrPlus
+Copyright (c) 2018-2021 MrPlus
 
 NPlusMiner is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
