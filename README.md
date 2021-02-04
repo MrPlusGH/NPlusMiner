@@ -170,7 +170,7 @@ Fee:
       The first donation sequence occurs 1 hour after miners are started.
       If Interval is set higher than the donation time, the interval will prime.
       Example for default parameters:
-      Miners started at 10, First donation cycle runs at 11 untill 11:16, Next donation cycle occurs 12 hours after.
+      Miners started at 10, First donation cycle runs at 11 untill 11:08, Next donation cycle occurs 12 hours after.
       All donation time and addresses are recorded in the logs folder.
 
    Miners Monitoring
