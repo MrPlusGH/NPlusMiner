@@ -111,9 +111,11 @@ while ($true) {
                     try {
                     $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)/rigs2") -UseBasicParsing | ConvertFrom-Json } catch {  }
                     [Double]$NHTotalBalance = [Double]($TempBalanceData.unpaidAmount) + [Double]($TempBalanceData.externalBalance)
-                    $TempBalanceData | Add-Member -NotePropertyName $BalanceJson -NotePropertyValue $NHTotalBalance -Force
-                    $TempBalanceData | Add-Member -NotePropertyName $TotalJson -NotePropertyValue $NHTotalBalance -Force
-                    $TempBalanceData | Add-Member -NotePropertyName "currency" -NotePropertyValue "BTC" -Force
+                    If ($NHTotalBalance) {
+                        $TempBalanceData | Add-Member -NotePropertyName $BalanceJson -NotePropertyValue $NHTotalBalance -Force
+                        $TempBalanceData | Add-Member -NotePropertyName $TotalJson -NotePropertyValue $NHTotalBalance -Force
+                        $TempBalanceData | Add-Member -NotePropertyName "currency" -NotePropertyValue "BTC" -Force
+                    }
                 } elseif ($Pool -eq "miningpoolhub") {
                     try {
                     $TempBalanceData = ((((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing).content | ConvertFrom-Json).getuserallbalances).data | Where {$_.coin -eq "bitcoin"}) } catch {  }#.confirmed
