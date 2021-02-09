@@ -23,7 +23,7 @@ $Location = "US"
     $ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
     $PoolConf = $Config.PoolsConfig.$ConfName
 
-$dtAlgos | foreach {
+$dtAlgos | ? {$_.symbol -notlike "HashTap*"} | foreach {
     $Pool = $_
     $PoolHost = "$($Pool.algo)$($HostSuffix)"
     $PoolPort = $Pool.port
