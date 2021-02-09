@@ -644,7 +644,7 @@ $MainForm.add_Shown({
     # Added DetectedGPU in 7.8.0 to store GPU details in Config
     If ($Config.DetectedGPU.Count -eq 0 -or $Config.GPUCount -eq $null -or $Config.GPUCount -lt 1){
         If ($Config -eq $null){$Config = [hashtable]::Synchronized(@{})}
-        $DetectedGPU = DetectGPUCount
+        $DetectedGPU = @(DetectGPUCount)
         $Config | Add-Member -Force @{DetectedGPU = $DetectedGPU}
         $Config | Add-Member -Force @{GPUCount = $DetectedGPU.Count}
         $TBGPUCount.Text = $Config.GPUCount
@@ -1383,9 +1383,11 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $ButtonDetectGPU.Font                    = 'Microsoft Sans Serif,10'
     $ConfigPageControls += $ButtonDetectGPU
 
-    $DetectedGPU = DetectGPUCount
-    $Config | Add-Member -Force @{DetectedGPU = $DetectedGPU}
-    $ButtonDetectGPU.Add_Click({$TBGPUCount.text = $DetectedGPU.Count})
+    $ButtonDetectGPU.Add_Click({
+        $DetectedGPU = @(DetectGPUCount)
+        $Config | Add-Member -Force @{DetectedGPU = $DetectedGPU}
+        $TBGPUCount.text = $DetectedGPU.Count
+    })
 
     $LabelAlgos                          = New-Object system.Windows.Forms.Label
     $LabelAlgos.text                     = "Algorithm"
