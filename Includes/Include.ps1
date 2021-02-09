@@ -370,7 +370,7 @@ Function DetectGPUCount {
     $i = 0
     $DetectedGPU | foreach {Update-Status("$($i): $($_.Name)") | Out-Null; $i++}
     Update-Status("Found $($DetectedGPUCount) GPU(s)")
-    $DetectedGPUCount
+    $DetectedGPU
 }
 
 Function Load-Config {
