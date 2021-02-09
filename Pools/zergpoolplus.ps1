@@ -24,36 +24,51 @@ $Location = "US"
     $PoolConf = $Config.PoolsConfig.$ConfName
 
 $dtAlgos | foreach {
-    $PoolHost = "$($_.algo)$($HostSuffix)"
-    $PoolPort = $_.port
-    $PoolAlgorithm = Get-Algorithm $_.algo
+    $Pool = $_
+    $PoolHost = "$($Pool.algo)$($HostSuffix)"
+    $PoolPort = $Pool.port
+    $PoolAlgorithm = Get-Algorithm $Pool.algo
     
-    $Divisor = $DivisorMultiplier * [Double]$_.mbtc_mh_factor
+    $Divisor = $DivisorMultiplier * [Double]$Pool.mbtc_mh_factor
 
-    $Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$_.$PriceField / $Divisor * (1 - ($_.fees / 100)))
+    $Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Pool.$PriceField / $Divisor * (1 - ($Pool.fees / 100)))
 
     $PwdCurr = if ($PoolConf.PwdCurrency) {$PoolConf.PwdCurrency}else {$Config.Passwordcurrency}
     $WorkerName = If ($PoolConf.WorkerName -like "ID=*") {$PoolConf.WorkerName} else {"ID=$($PoolConf.WorkerName)"}
     
     $PoolPassword = If ( ! $Config.PartyWhenAvailable ) {"$($WorkerName),c=$($PwdCurr)"} else { "$($WorkerName),c=$($PwdCurr),m=party.NPlusMiner" }
-    $PoolPassword = If ( $_.symbol) { "$($PoolPassword),mc=$($_.symbol)" } else { $PoolPassword }
+    $PoolPassword = If ( $Pool.symbol) { "$($PoolPassword),mc=$($Pool.symbol)" } else { $PoolPassword }
+
+    $Locations = "eu", "na", "sea", "jp"
+    $Locations | ForEach-Object {
+        $Pool_Location = $_
+        
+        switch ($Pool_Location) {
+            "eu"    {$Location = "EU"}
+            "na"    {$Location = "US"}
+            "sea"   {$Location = "JP"}
+            "jp"   {$Location = "JP"}
+            default {$Location = "US"}
+        }
+        $PoolHost = "$($Pool.algo).$($Pool_Location)$($HostSuffix)"
     
-    if ($PoolConf.Wallet) {
-        [PSCustomObject]@{
-            Algorithm     = $PoolAlgorithm
-            Info          = $_.symbol
-            Price         = $Stat.Live*$PoolConf.PricePenaltyFactor #*$SoloPenalty
-            StablePrice   = $Stat.Week
-            MarginOfError = $Stat.Week_Fluctuation
-            Protocol      = "stratum+tcp"
-            Host          = $PoolHost
-            Port          = $PoolPort
-            User          = $PoolConf.Wallet
-            Pass          = $PoolPassword
-            Location      = $Location
-            SSL           = $false
-            Coin          = $_.symbol
-            SoloBlocksPenalty          = $_.SoloBlocksPenalty
+        if ($PoolConf.Wallet) {
+            [PSCustomObject]@{
+                Algorithm     = $PoolAlgorithm
+                Info          = $Pool.symbol
+                Price         = $Stat.Live*$PoolConf.PricePenaltyFactor #*$SoloPenalty
+                StablePrice   = $Stat.Week
+                MarginOfError = $Stat.Week_Fluctuation
+                Protocol      = "stratum+tcp"
+                Host          = $PoolHost
+                Port          = $PoolPort
+                User          = $PoolConf.Wallet
+                Pass          = $PoolPassword
+                Location      = $Location
+                SSL           = $false
+                Coin          = $Pool.symbol
+                SoloBlocksPenalty          = $Pool.SoloBlocksPenalty
+            }
         }
     }
 }
