@@ -1,7 +1,11 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-trex\t-rex.exe"
-$Uri = "https://github.com/trexminer/T-Rex/releases/download/0.19.10/t-rex-0.19.10-win-cuda10.0.zip"
+$Uri = IF ($Config.DetectedGPU.Name -like "*NVIDIA*30?0*") {
+    "https://github.com/trexminer/T-Rex/releases/download/0.19.10/t-rex-0.19.10-win-cuda11.1.zip"
+   } else {
+    "https://github.com/trexminer/T-Rex/releases/download/0.19.10/t-rex-0.19.10-win-cuda10.0.zip"
+   }
  
 $Commands = [PSCustomObject]@{
     "astralhash" = "" #Astralhash
