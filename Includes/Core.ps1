@@ -329,9 +329,9 @@ $CycleScriptBlock =  {
         $Variables.StatusText = "Computing pool stats.."
         # Use location as preference and not the only one
         $AllPoolsTemp = $AllPools
-        $AllPools = @($AllPools.Where({$_.location -eq $Config.Location}))
+        $AllPools = @(@($AllPools).Where({$_.location -eq $Config.Location}))
         # $AllPools = $AllPools + @($AllPoolsTemp.Where({$_.name -notin $AllPools.name}))
-        $AllPools += (($AllPoolsTemp | sort name,algorithm,coin -Unique).Where({$_.name -notin ($AllPools.name | Sort -Unique)}))
+        $AllPools += (@($AllPoolsTemp | sort name,algorithm,coin -Unique).Where({$_.name -notin ($AllPools.name | Sort -Unique)}))
         # rv LocPools
         # Filter Algo based on Per Pool Config
         $PoolsConf = $Config.PoolsConfig
@@ -474,7 +474,7 @@ $CycleScriptBlock =  {
                 # $Miner.Path = Convert-Path $Miner.Path
 
                 $Miner_Devices = $Miner.Device | Select -Unique
-                if($Miner_Devices -eq $null){$Miner_Devices = ($Variables["Miners"].Where({(Compare $Miner.Type $_.Type -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0})).Device | Select -Unique}
+                if($Miner_Devices -eq $null){$Miner_Devices = (@($Variables["Miners"]).Where({(Compare $Miner.Type $_.Type -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0})).Device | Select -Unique}
                 if($Miner_Devices -eq $null){$Miner_Devices = $Miner.Type}
                 $Miner | Add-Member Device $Miner_Devices -Force
                 $Miner
@@ -485,7 +485,7 @@ $CycleScriptBlock =  {
     
     # 5.2.1
     # Added sceurity to filter miners with no user name in case of malformed miner or pool file
-    $Variables["Miners"] = $Variables["Miners"].Where({$_.User})
+    $Variables["Miners"] = @($Variables["Miners"]).Where({$_.User})
 
     # 5.2.1
     # Exclude non benchmarked during donation.
@@ -508,7 +508,7 @@ $CycleScriptBlock =  {
        }
 
 
-        ($Variables["Miners"] | Sort Path,URI -Unique).Where({ (Test-Path $_.Path) -eq $false }) | ForEach {
+        @($Variables["Miners"] | Sort Path,URI -Unique).Where({ (Test-Path $_.Path) -eq $false }) | ForEach {
             $Miner = $_
             if((Test-Path $Miner.Path) -eq $false)
             {
