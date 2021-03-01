@@ -124,7 +124,11 @@ while ($true) {
                     try {
                     $TempBalanceData = (((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing).content | ConvertFrom-Json).data.balances.($Config.Passwordcurrency)) } catch {  }#.confirmed
                     $TempBalanceData | Add-Member -NotePropertyName "currency" -NotePropertyValue $Config.Passwordcurrency -Force
-                } else {
+                } elseif ($Pool -eq "hashcryptos"){
+				    $Headers = @{"Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"}
+					$TempBalanceData = ((Invoke-WebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing -Headers $Headers).Content | ConvertFrom-Json) 
+					$TempBalanceData | Add-Member -NotePropertyName "currency" -NotePropertyValue $Config.Passwordcurrency -Force
+				} else {
                     try {
                     $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing | ConvertFrom-Json } catch {  }
                 }
@@ -170,7 +174,7 @@ while ($true) {
                         Wallet                      = $Wallet
                         Date                        = $CurDate
                         StartTime                   = $BalanceObjectS[0].Date
-                        balance                     = $BalanceObject.balance
+                        balance                     = [Decimal]$BalanceObject.balance
                         unsold                      = $BalanceObject.unsold
                         total_unpaid                = $BalanceObject.total_unpaid
                         total_paid                  = $BalanceObject.total_paid
