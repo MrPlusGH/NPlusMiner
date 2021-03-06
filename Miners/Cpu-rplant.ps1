@@ -1,9 +1,10 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\CPU-rplant\cpuminer-sse42.exe"
-$Uri = "https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.11/cpuminer-opt-win.zip"
+$Uri = "https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.14/cpuminer-opt-win.zip"
 
 $Commands = [PSCustomObject]@{
+    "ghostrider" = "" #ghostrider 
     "yescryptR8G" = "" #YescryptR8
     "yespowerIOTS" = "" #yespowerIOTS
     # "yespowerSUGAR" = "" #yespowerSUGAR

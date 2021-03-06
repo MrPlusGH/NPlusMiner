@@ -122,6 +122,7 @@
     "feathercoin":  "NeoScrypt",
     "fresh":  "Fresh",
     "garlicoin":  "Allium",
+    "ghostrider":  "gr",
     "groestl":  "Groestl",
     "groestlcoin":  "Groestl",
     "heavy":  "Heavy",
