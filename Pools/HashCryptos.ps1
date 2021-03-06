@@ -9,7 +9,7 @@ catch { return }
 if (-not $Request) {return}
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
-$HostSuffix = "stratum4.hashcryptos.com"
+$HostSuffix = "hashcryptos.com"
 # $PriceField = "actual_last24h"
 $PriceField = "estimate_current"
 $DivisorMultiplier = 1000000
@@ -24,7 +24,31 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
 	#Exclude offline statums
 	If ([decimal]$Request.$_.estimate_current -le 0.00000001) {Return}
 
-    $PoolHost = "$($HostSuffix)"
+    switch ($Request.$_.name) {
+        "blake2s"    {$stratum = "stratum3"}
+        "c11"    {$stratum = "stratum4"}
+        "equihash"    {$stratum = "stratum4"}
+        "groestl"    {$stratum = "stratum3"}
+        "kawpow"    {$stratum = "stratum4"}
+        "keccak"    {$stratum = "stratum3"}
+        "lyra2rev2"    {$stratum = "stratum3"}
+        "lyra2rev3"    {$stratum = "stratum3"}
+        "myrgro"    {$stratum = "stratum3"}
+        "neoscrypt"    {$stratum = "stratum1"}
+        "odocrypt"    {$stratum = "stratum2"}
+        "phi2"    {$stratum = "stratum4"}
+        "quark"    {$stratum = "stratum3"}
+        "qubit"    {$stratum = "stratum3"}
+        "scrypt"    {$stratum = "stratum2"}
+        "skein"    {$stratum = "stratum3"}
+        "verthash"    {$stratum = "stratum3"}
+        "x11"    {$stratum = "stratum1"}
+        "x11gost"    {$stratum = "stratum3"}
+        "yescrypt"    {$stratum = "stratum4"}
+        default {$stratum = "stratum4"}
+    }
+
+    $PoolHost = "$($stratum).$($HostSuffix)"
     $PoolPort = $Request.$_.port
     $PoolAlgorithm = Get-Algorithm $Request.$_.name
 
