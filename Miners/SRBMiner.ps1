@@ -1,7 +1,7 @@
 If (-not (IsLoaded(".\Includes\include.ps1"))) { . .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1") }
 
 $Path = ".\Bin\cpu-SRBMiner\SRBMiner-MULTI.exe"
-$Uri = "https://github.com/doktor83/SRBMiner-Multi/releases/download/0.6.3/SRBMiner-Multi-0-6-3-win64.zip"
+$Uri = "https://github.com/doktor83/SRBMiner-Multi/releases/download/0.6.9/SRBMiner-Multi-0-6-9-win64.zip"
 
 $Commands = [PSCustomObject]@{ 
     # "randomx"            = " --randomx-use-1gb-pages" #randomx 
@@ -18,6 +18,8 @@ $Commands = [PSCustomObject]@{
     # "yespowerr16"        = "" #yespowerr16 
     # "cryptonight-monero" = " --randomx-use-1gb-pages" #randomx
     "phi5" = "" #phi5
+    # "verthash" = "" #verthash
+    "rx2" = "" #verthash
 }
 
 $Name = Get-Item $MyInvocation.MyCommand.Path | Select-Object -ExpandProperty BaseName
