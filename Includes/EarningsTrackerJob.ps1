@@ -134,6 +134,7 @@ while ($true) {
                 }
                 If ($TempBalanceData.$TotalJson -gt 0){
                     $BalanceData = $TempBalanceData
+					IF ($BalanceData.minpay) {$PaymentThreshold = $BalanceData.minpay}
                     $AllBalanceObjectS += [PSCustomObject]@{
                             Pool            = $Pool
                             Date            = $CurDate
