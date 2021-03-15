@@ -1,8 +1,8 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-miniZ\miniZ.exe"
-# $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/miniZ/miniZ_v1.6v2_cuda10_win-x64.zip"
-$Uri = "https://github.com/Minerx117/miners/releases/download/MiniZ/miniZ_v1.6x_win-x64.zip"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/miniZ/miniZ_v1.7x3_win-x64.zip"
+
 $Commands = [PSCustomObject]@{
     # "beamv2"       = " --par=beam --pers auto " #Beamv2
     "beamv3"       = " --par=144,5s --pers=Beam-PoW --ocX" #Beamv3
@@ -12,6 +12,8 @@ $Commands = [PSCustomObject]@{
     "equihash144"  = " --algo 144,5 --pers auto --ocX " #Equihash144 (fastest)
     "equihash192"  = " --algo 192,7 --pers auto --ocX " #Equihash192 (fastest)
     "zhash"        = " --algo 144,5 --pers auto " #Zhash (fastest)
+    # "ethash"        = " --par ethash --ocX " #ethash 
+    # "kawpow"        = " --par kawpow " #kawpow
     # "beam"         = " --algo 150,5 --pers auto" #Beam
     # "equihash96"   = " --algo 96,5  --pers auto --oc1 " #Equihash96 (ewbf faster)
 }
