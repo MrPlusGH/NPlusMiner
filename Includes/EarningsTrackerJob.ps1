@@ -128,6 +128,11 @@ while ($true) {
 				    $Headers = @{"Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"}
 					$TempBalanceData = ((Invoke-WebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing -Headers $Headers).Content | ConvertFrom-Json) 
 					$TempBalanceData | Add-Member -NotePropertyName "currency" -NotePropertyValue $Config.Passwordcurrency -Force
+                } elseif ($Pool -eq "unmineable"){
+				    $Headers = @{"Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"}
+					$TempBalanceData = ((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)?coin=$($config.Passwordcurrency)") -UseBasicParsing).content | ConvertFrom-Json).data
+					$TempBalanceData | Add-Member -NotePropertyName "currency" -NotePropertyValue $Config.Passwordcurrency -Force
+					$TempBalanceData | Add-Member -NotePropertyName "minpay" -NotePropertyValue $TempBalanceData.payment_threshold -Force
 				} else {
                     try {
                     $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing | ConvertFrom-Json } catch {  }
@@ -138,11 +143,11 @@ while ($true) {
                     $AllBalanceObjectS += [PSCustomObject]@{
                             Pool            = $Pool
                             Date            = $CurDate
-                            balance         = [Math]::Round($BalanceData.$BalanceJson, 8)
-                            unsold          = [Math]::Round($BalanceData.unsold, 8)
-                            total_unpaid    = [Math]::Round($BalanceData.total_unpaid, 8)
-                            total_paid      = [Math]::Round($BalanceData.total_paid, 8)
-                            total_earned    = [Math]::Round($BalanceData.$TotalJson, 8)
+                            balance         = [Decimal][Math]::Round($BalanceData.$BalanceJson, 8)
+                            unsold          = [Decimal][Math]::Round($BalanceData.unsold, 8)
+                            total_unpaid    = [Decimal][Math]::Round($BalanceData.total_unpaid, 8)
+                            total_paid      = [Decimal][Math]::Round($BalanceData.total_paid, 8)
+                            total_earned    = [Decimal][Math]::Round($BalanceData.$TotalJson, 8)
                             currency        = $BalanceData.currency
                         }
                     $BalanceObjectS = $AllBalanceObjectS | ? {$_.Pool -eq $Pool}
