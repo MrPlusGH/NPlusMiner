@@ -6,7 +6,7 @@ try {
 				name = "ethash"
 				port = 3333
 				host = "ethash.unmineable.com"
-				fees = 1
+				fees = 0.75
 				mbtc_mh_factor = 1
 				RequestBody = @{algo="ethash";coin="$($config.Passwordcurrency)";mh=100}
 				estimate_current = (Invoke-RestMethod "https://api.unminable.com/v3/calculate/reward" -Body @{algo="ethash";coin="$($config.Passwordcurrency)";mh=1} -Method POST).per_day
@@ -15,7 +15,7 @@ try {
 				name = "etchash"
 				port = 3333
 				host = "etchash.unmineable.com"
-				fees = 1
+				fees = 0.75
 				mbtc_mh_factor = 1
 				RequestBody = @{algo="ethash";coin="$($config.Passwordcurrency)";mh=100}
 				estimate_current = (Invoke-RestMethod "https://api.unminable.com/v3/calculate/reward" -Body @{algo="etchash";coin="$($config.Passwordcurrency)";mh=1} -Method POST).per_day
@@ -24,7 +24,7 @@ try {
 				name = "kawpow"
 				port = 3333
 				host = "kp.unmineable.com"
-				fees = 1
+				fees = 0.75
 				mbtc_mh_factor = 1
 				RequestBody = @{algo="ethash";coin="$($config.Passwordcurrency)";mh=100}
 				estimate_current = (Invoke-RestMethod "https://api.unminable.com/v3/calculate/reward" -Body @{algo="x16rv2";coin="$($config.Passwordcurrency)";mh=1} -Method POST).per_day
@@ -33,7 +33,7 @@ try {
 				name = "randomx"
 				port = 3333
 				host = "rx.unmineable.com"
-				fees = 1
+				fees = 0.75
 				mbtc_mh_factor = 1
 				RequestBody = @{algo="ethash";coin="$($config.Passwordcurrency)";mh=100}
 				estimate_current = (Invoke-RestMethod "https://api.unminable.com/v3/calculate/reward" -Body @{algo="randomx";coin="$($config.Passwordcurrency)";mh=100} -Method POST).per_day
