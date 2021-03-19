@@ -24,7 +24,6 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
         $Pool = $_
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
-		If ($Pool.Host -like "*unmineable*") {Return}
 
         $Arguments = " --no-watchdog --temperature-limit 95 -d $($Config.SelGPUCC) --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User):$($Password)"
         
