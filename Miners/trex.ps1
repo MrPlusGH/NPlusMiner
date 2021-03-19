@@ -35,6 +35,7 @@ $Commands = [PSCustomObject]@{
     "x21s"       = "" #X21s (fastest)
     "x22i"       = " -i 23" #X22i (fastest)
     "x25x"       = " -i 21" #25x
+    "ethash"       = "" #etchash
     "etchash"       = "" #etchash
     "octopus"       = "" #octopus
     # "dedal"      = "" #Dedal (fastest)
