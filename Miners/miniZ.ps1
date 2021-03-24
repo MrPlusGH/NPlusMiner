@@ -31,7 +31,7 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
-        $Arguments = "--templimit 95 --intensity 100 --latency --tempunits C -cd $($Config.SelGPUDSTM) --telemetry $($Variables.NVIDIAMinerAPITCPPort) --url $($Pool.User)@$($Pool.Host):$($Pool.Port) --pass $($Password)"
+        $Arguments = "--templimit 95 --intensity 100 --latency --tempunits C -cd $($Config.SelGPUDSTM) --telemetry $($Variables.NVIDIAMinerAPITCPPort) --url $($Pool.User).$($Config.WorkerName)@$($Pool.Host):$($Pool.Port) --pass $($Password)"
 
         [PSCustomObject]@{
             Type      = "NVIDIA"
