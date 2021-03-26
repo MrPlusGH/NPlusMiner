@@ -1,5 +1,9 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
+If (!($Variables.CPUFeatures)){
+    try {$Variables.CPUFeatures = $($feat = @{}; switch -regex ((& .\Includes\CHKCPU32.exe /x) -split "</\w+>") {"^\s*<_?(\w+)>(.*).*" {$feat.($matches[1]) = try {[int]$matches[2]}catch{$matches[2]}}}; $feat)} catch {if ($Error.Count){$Error.RemoveAt(0)}}
+}
+
 $Path = ".\Bin\CPU-rplant\cpuminer-sse42.exe"
 $Uri = "https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.17/cpuminer-opt-win.zip"
 
@@ -15,6 +19,10 @@ $Commands = [PSCustomObject]@{
 
 $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | ForEach-Object { 
     switch ($_) { 
+        ghostrider { 
+            $ThreadCount = $Variables.ProcessorCount - 2
+            If ($Variables.CPUFeatures.avx2) {$Path = ".\Bin\CPU-rplant\cpuminer-avx2.exe"}
+        }
         default { $ThreadCount = $Variables.ProcessorCount - 2 }
     }
 
