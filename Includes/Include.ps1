@@ -1611,7 +1611,7 @@ Function Get-CoinIcon {
         (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/list" -UseBasicParsing | ConvertFrom-Json) | sort Symbol -Unique | ? {$_.Symbol -eq $Symbol} | ForEach {$Variables.CoinIcons | Add-Member -Force @{$_.Symbol = [PSCustomObject]@{id = $_.id}}}
     }   
     If (($Variables.CoinIcons.$Symbol.id) -and !($Variables.CoinIcons.$Symbol.Image)) {
-            $Variables.CoinIcons.$Symbol | Add-Member -Force @{Image =  (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/$($Variables.CoinIcons.$Symbol.id)" -UseBasicParsing | ConvertFrom-Json).Image.Thumb}
+            $Variables.CoinIcons.$Symbol | Add-Member -Force @{Image =  ((Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/$($Variables.CoinIcons.$Symbol.id)" -UseBasicParsing).Content.Replace("""""", """DummyKey""") | ConvertFrom-Json).Image.Thumb}
             $Variables.CoinIcons | Convertto-Json | out-file ".\Logs\CoinIcons.json"
     }
     $Variables.CoinIcons.$Symbol.Image
