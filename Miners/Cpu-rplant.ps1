@@ -5,7 +5,7 @@ If (!($Variables.CPUFeatures)){
 }
 
 $Path = ".\Bin\CPU-rplant\cpuminer-sse42.exe"
-$Uri = "https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.17/cpuminer-opt-win.zip"
+$Uri = "https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.19/cpuminer-opt-win.zip"
 
 $Commands = [PSCustomObject]@{
     "ghostrider" = "" #ghostrider 
