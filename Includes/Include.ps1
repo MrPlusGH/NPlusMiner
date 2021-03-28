@@ -1730,3 +1730,9 @@ Function ConvertTo-ImagePath {
     }
     $ImagePath
 }
+
+Function Get-CPUFeatures {
+	If (!($Variables.CPUFeatures)){
+		try {$Variables.CPUFeatures = $($feat = @{}; switch -regex ((& .\Includes\CHKCPU32.exe /x) -split "</\w+>") {"^\s*<_?(\w+)>(.*).*" {$feat.($matches[1]) = try {[int]$matches[2]}catch{$matches[2]}}}; $feat)} catch {if ($Error.Count){$Error.RemoveAt(0)}}
+	}
+}
