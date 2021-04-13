@@ -1,47 +1,14 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-trex\t-rex.exe"
-$Uri = IF ($Config.DetectedGPU.Name -like "*NVIDIA*30?0*") {
-    "https://github.com/trexminer/T-Rex/releases/download/0.19.12/t-rex-0.19.12-win-cuda11.1.zip"
-   } else {
-    "https://github.com/trexminer/T-Rex/releases/download/0.19.12/t-rex-0.19.12-win-cuda10.0.zip"
-   }
+$Uri = "https://github.com/trexminer/T-Rex/releases/download/0.20.0/t-rex-0.20.0-win.zip"
 
 $Commands = [PSCustomObject]@{
-    "astralhash" = "" #Astralhash
-    "balloon"    = "" #Balloon(fastest)
-    "bcd"        = " -i 24" #Bcd (fastest)
-    "bitcore"    = " -i 25" #Bitcore( fastest)
-    "c11"        = " -i 24" #C11 (fastest)
-    "geek"       = "" #Geekcash
-    "honeycomb"  = "" #honeycomb
-    "jeonghash"  = "" #Jeonghash
     # "kawpow"     = "" #kawpow 
     "mtp"        = "" #MTP
-    "padihash"   = "" #Padihash
-    "pawelhash"  = "" #Pawelhash
-    "polytimos"  = " -i 25" #Poly (fastest) 
-    "sha256q"    = "" #Sha256q (testing)
-    "sha256t"    = " -i 26" #Sha256t (fastest)
-    "sonoa"      = " -i 23" #Sonoa (fastest)
-    "timetravel" = " -i 25" #Timetravel (fastest)
-    "tribus"     = " -i 23" #Tribus
-    "veil"      = " -i 24" #Veil (fastest)
-    "x16r"       = " -i 24" #X16r (fastest)
-    "x16rt"      = " -i 24" #X16rt (fastest)
-    "x16rv2"     = " -i 24" #X16rv2 ,mc=RVN
-    "x16s"       = " -i 24" #X16s (fastest)
-    "x17"        = " -i 24" #X17 (fastest)
-    "x21s"       = "" #X21s (fastest)
-    "x22i"       = " -i 23" #X22i (fastest)
-    "x25x"       = " -i 21" #25x
     "ethash"       = "" #etchash
     "etchash"       = "" #etchash
     "octopus"       = "" #octopus
-    # "dedal"      = "" #Dedal (fastest)
-    "hmq1725" = " -i 23" #Hmq1725 
-    #"lyra2z" = "" #Lyra2z (Asic)
-    #"skunk" = "" #Skunk (CryptoDredge faster)
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
