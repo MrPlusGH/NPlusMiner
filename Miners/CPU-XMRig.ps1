@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\CPU-XMRig\xmrig.exe"
-$Uri = "https://github.com/xmrig/xmrig/releases/download/v6.8.2/xmrig-6.8.2-msvc-cuda10_2-win64.zip"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/CPU-XMRig/xmrig-6.12.0-msvc-cuda10_2-win64.zip"
 
 $Commands = [PSCustomObject]@{
     # "cryptonightr"        = " -a cryptonight/r --nicehash" #cryptonight/r
@@ -19,6 +19,7 @@ $Commands = [PSCustomObject]@{
     "cryptonight_fast"      = " -a cn/half" #cryptonightFast
     "cryptonight_haven"     = " -a cn-heavy/xhv" #cryptonight_haven
     "randomWOW"             = " -a rx/wow" #randomWOW
+    "cryptonight_upx"      = " -a cn/upx2" #cryptonightFast
 }
  
 # $ThreadCount = $ThreadCount = $Variables.ProcessorCount - 2
