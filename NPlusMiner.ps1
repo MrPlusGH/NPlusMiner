@@ -1805,7 +1805,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $CheckBoxLowPriorityForCPUMiners.height = 20
     $CheckBoxLowPriorityForCPUMiners.location = New-Object System.Drawing.Point(560, 222)
     $CheckBoxLowPriorityForCPUMiners.Font = 'Microsoft Sans Serif,10'
-    $CheckBoxLowPriorityForCPUMiners.Checked = $Config.OrphanBlocksPenalty
+    $CheckBoxLowPriorityForCPUMiners.Checked = $Config.UseLowPriorityForCPUMiners
     $ConfigPageControls += $CheckBoxLowPriorityForCPUMiners
 
     $CheckBoxOrphanBlocksPenalty.Add_Click( {
