@@ -719,6 +719,9 @@ $CycleScriptBlock =  {
                         else {
                             $_.Status = "Running"
                             $newMiner = $true
+							If ($_.Type -eq "CPU" -and $Config.UseLowPriorityForCPUMiners) {
+								$_.Process.PriorityClass = 16384
+							}
                             #Newely started miner should looks better than other in the first run too
                             $Variables["Miners"] | Where Path -EQ $_.Path | Where Arguments -EQ $_.Arguments | ForEach {$_.Profit_Bias = $_.Profit * (1 + $Config.ActiveMinerGainPct / 100)}
                         }

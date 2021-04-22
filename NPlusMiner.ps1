@@ -1797,6 +1797,21 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
                 }
     })
 
+    $CheckBoxLowPriorityForCPUMiners = New-Object system.Windows.Forms.CheckBox
+    $CheckBoxLowPriorityForCPUMiners.Tag = "UseLowPriorityForCPUMiners"
+    $CheckBoxLowPriorityForCPUMiners.text = "Low Pri CPU miners"
+    $CheckBoxLowPriorityForCPUMiners.AutoSize = $false
+    $CheckBoxLowPriorityForCPUMiners.width = 160
+    $CheckBoxLowPriorityForCPUMiners.height = 20
+    $CheckBoxLowPriorityForCPUMiners.location = New-Object System.Drawing.Point(560, 222)
+    $CheckBoxLowPriorityForCPUMiners.Font = 'Microsoft Sans Serif,10'
+    $CheckBoxLowPriorityForCPUMiners.Checked = $Config.OrphanBlocksPenalty
+    $ConfigPageControls += $CheckBoxLowPriorityForCPUMiners
+
+    $CheckBoxOrphanBlocksPenalty.Add_Click( {
+                $Config.UseLowPriorityForCPUMiners = $CheckBoxOrphanBlocksPenalty.Checked
+    })
+
     $CheckBoxConsole = New-Object system.Windows.Forms.CheckBox
     $CheckBoxConsole.Tag = "HideConsole"
     $CheckBoxConsole.text = "Hide Console"
