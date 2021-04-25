@@ -1,6 +1,6 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
-$Path = ".\Bin\NVIDIA-trex\t-rex.exe"
+$Path = ".\Bin\NVIDIA-trex\t-rex0192.exe"
 $Uri = IF ($Config.DetectedGPU.Name -like "*NVIDIA*30?0*") {
     "https://github.com/trexminer/T-Rex/releases/download/0.19.12/t-rex-0.19.12-win-cuda11.1.zip"
    } else {
