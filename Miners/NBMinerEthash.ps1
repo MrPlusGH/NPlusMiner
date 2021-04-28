@@ -1,7 +1,7 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
  
 $Path = ".\Bin\NVIDIA-NBMiner\nbminer.exe"
-$Uri = "https://github.com/NebuTech/NBMiner/releases/download/v37.0/NBMiner_37.0_Win.zip"
+$Uri = "https://github.com/NebuTech/NBMiner/releases/download/v37.2/NBMiner_37.2_Win.zip"
 $Commands = [PSCustomObject]@{
     "ethash"       = " -a ethash" #eaglesong
 }
