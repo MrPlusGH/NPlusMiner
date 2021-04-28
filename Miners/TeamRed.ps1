@@ -7,6 +7,7 @@ $Commands = [PSCustomObject]@{
     "etchash"= " --algo etchash" #etchash
     "ethash" = " --algo ethash"  #ethash
     "kawpow" = " --algo kawpow"  #kawpow
+    "verthash" = " --algo verthash"  #kawpow
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
