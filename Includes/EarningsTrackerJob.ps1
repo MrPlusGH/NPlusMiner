@@ -206,6 +206,7 @@ while ($true) {
 
                     If (Test-Path ".\Logs\DailyEarnings.csv") {
                         $DailyEarnings = Import-Csv ".\Logs\DailyEarnings.csv" # Add filter on mw # days from config.
+						If (-not ($DailyEarnings)) {Remove-Item ".\Logs\DailyEarnings.csv" -Force}
                         If ($DailyEarnings | ? {$_.Date -eq $CurDate.ToString("MM/dd/yyyy") -and $_.Pool -eq $Pool}) {
                             $DailyEarnings | select Date,Pool,
                                 @{Name="DailyEarnings";Expression={
