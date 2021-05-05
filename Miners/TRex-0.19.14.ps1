@@ -1,13 +1,11 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
-$Path = ".\Bin\NVIDIA-trex0192\t-rex.exe"
+$Path = ".\Bin\NVIDIA-trex0194\t-rex.exe"
 $Uri = IF ($Config.DetectedGPU.Name -like "*NVIDIA*30?0*") {
-    "https://github.com/trexminer/T-Rex/releases/download/0.19.12/t-rex-0.19.12-win-cuda11.1.zip"
+    "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/trex/t-rex-0.19.14-win-cuda11.1.zip"
    } else {
-    "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/trex/t-rex-0.19.2-win-cuda10.0.zip"
+    "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/trex/t-rex-0.19.14-win-cuda10.0.zip"
    }
-
-IF ($Config.DetectedGPU.Name -like "*NVIDIA*30?0*") {return} #cuda11.1 not available
 
 $Commands = [PSCustomObject]@{
     "astralhash" = "" #Astralhash
