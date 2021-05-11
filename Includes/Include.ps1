@@ -1723,6 +1723,7 @@ Function Get-DisplayCurrency {
     $Result = [PSCustomObject]@{
         Currency = If($Config.Passwordcurrency -eq "BTC") {"$([char]0x20BF)"} Else {$Config.Passwordcurrency}
         Value = $Value * $Factor
+        Factor = $Factor
         RoundedValue = [Math]::Round($This.Value, 3)
         Unit = ""
         UnitString = "$($This.Unit)$($This.Currency)"
@@ -1736,12 +1737,19 @@ Function Get-DisplayCurrency {
     $Result | Add-Member -Force -MemberType ScriptProperty -Name 'DisplayString' -Value{ "$($This.RoundedValue) $($This.Unit)$($This.Currency)" }
     $Result | Add-Member -Force -MemberType ScriptProperty -Name 'DisplayStringPerDay' -Value{ "$($This.RoundedValue) $($This.Unit)$($This.Currency)/Day" }
     
+    # $Result.Unit = Switch ([Math]::Floor($Result.Value)) {
+        # {$_ -le 0}                    {"m";$Result.Value*=1000;Break}
+        # {$_ -le 999}                  {"";Break}
+        # {$_ -le 999999}               {"K";$Result.Value/=1000;Break}
+        # {$_ -le 999999999}            {"M";$Result.Value/=1000000;Break}
+        # {$_ -le 999999999999}         {"G";$Result.Value/=1000000000;Break}
+    # }
     $Result.Unit = Switch ([Math]::Floor($Result.Value)) {
-        {$_ -le 0}                    {"m";$Result.Value*=1000;Break}
-        {$_ -le 999}                  {"";Break}
-        {$_ -le 999999}               {"K";$Result.Value/=1000;Break}
-        {$_ -le 999999999}            {"M";$Result.Value/=1000000;Break}
-        {$_ -le 999999999999}         {"G";$Result.Value/=1000000000;Break}
+        {$_ -le 0}                    {"m";$Result.Factor=1000;$Result.Value*=1000;Break}
+        {$_ -le 999}                  {"";$Result.Factor=1;Break}
+        {$_ -le 999999}               {"K";$Result.Factor=0.001;$Result.Value*=0.001;Break}
+        {$_ -le 999999999}            {"M";$Result.Factor=0.000001;$Result.Value*=0.000001;Break}
+        {$_ -le 999999999999}         {"G";$Result.Factor=0.000000001;$Result.Value*=0.000000001;Break}
     }
     # $Result.Value = [Math]::Round($Result.Value, 3)
     $Result

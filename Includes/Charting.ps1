@@ -166,8 +166,10 @@ Switch ($Chart) {
            $chart1.Series["Total"].label = "#VALY{N3}"
            $chart1.Series["Total"].LabelForeColor = "#FFFFFF"
            $chart1.Series["Total"].ToolTip = "#VALX: #VALY" # - Total: #TOTAL mBTC";
+		   
+		   $ScaleFactor = ( ( Get-DisplayCurrency ($dataSource.DaySum | Measure -Maximum).Maximum).Factor )
            # $datasource | select Date,DaySum -Unique | ForEach-Object {$chart1.Series["Total"].Points.addxy( $_.Date , ("{0:N3}" -f ([Decimal]$_.DaySUm*1000))) | Out-Null }
-           $datasource | select Date,DaySum -Unique | ForEach-Object {$chart1.Series["Total"].Points.addxy( $_.Date , (([Decimal](Get-DisplayCurrency $_.DaySum).Value))) | Out-Null }
+           $datasource | select Date,DaySum -Unique | ForEach-Object {$chart1.Series["Total"].Points.addxy( $_.Date , (("{0:N3}" -f ([Decimal]$_.DaySUm*$ScaleFactor)))) | Out-Null }
 
            $Chart1.Series | foreach {$_.CustomProperties = "DrawSideBySide=True"}
            Try{
@@ -317,7 +319,8 @@ Switch ($Chart) {
            # $chart1.Series[$Pool].color = [System.Drawing.Color]::FromArgb($A,247,147,26)
            # $chart1.Series[$Pool].label = "#SERIESNAME: #VALY mBTC"
            $chart1.Series[$Pool].ToolTip = "#VALX - #SERIESNAME: #VALY" # - Total: #TOTAL mBTC";
-           $datasource | ? {$_.Pool -eq $Pool} | Sort date | ForEach-Object {$chart1.Series[$Pool].Points.addxy( $_.Date , ("{0:N3}" -f (([Decimal](Get-DisplayCurrency $_.DailyEarnings).Value)))) | Out-Null }
+		   $ScaleFactor = ( ( Get-DisplayCurrency ($dataSource.DaySum | Measure -Maximum).Maximum).Factor )
+           $datasource | ? {$_.Pool -eq $Pool} | Sort date | ForEach-Object {$chart1.Series[$Pool].Points.addxy( $_.Date , ("{0:N3}" -f (([Decimal]$_.DailyEarnings * $ScaleFactor)))) | Out-Null }
            # $Chart1.Series["Data"].Points.DataBindXY($datasource.pool, $datasource.DailyEarnings)
         }
     }
