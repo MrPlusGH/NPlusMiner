@@ -1829,7 +1829,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
 	$TBMaxTTFSec = New-Object system.Windows.Forms.TextBox
     $TBMaxTTFSec.Tag = "MaxTTFSeconds"
     $TBMaxTTFSec.MultiLine = $False
-    $TBMaxTTFSec.text = if ($Config.MaxTTFSeconds) {$Config.MaxTTFSeconds} else {0}
+    $TBMaxTTFSec.text = if ($Config.MaxTTFSeconds) {$Config.MaxTTFSeconds} else {-1}
     $TBMaxTTFSec.AutoSize = $false
     $TBMaxTTFSec.width = 50
     $TBMaxTTFSec.height = 20
