@@ -9,7 +9,7 @@ try {
 				fees = 0.75
 				mbtc_mh_factor = 1
 				RequestBody = @{algo="ethash";coin="$($config.Passwordcurrency)";mh=100}
-				estimate_current = (Invoke-RestMethod "https://api.unminable.com/v3/calculate/reward" -Body @{algo="ethash";coin="$($config.Passwordcurrency)";mh=1} -Method POST).per_day
+				estimate_current = (Invoke-RestMethod "https://api.unminable.com/v3/calculate/reward" -Body @{algo="ethash";coin="BTC";mh=1} -Method POST).per_day
 			}
 		etchash = [PSCustomObject]@{
 				name = "etchash"
@@ -18,7 +18,7 @@ try {
 				fees = 0.75
 				mbtc_mh_factor = 1
 				RequestBody = @{algo="ethash";coin="$($config.Passwordcurrency)";mh=100}
-				estimate_current = (Invoke-RestMethod "https://api.unminable.com/v3/calculate/reward" -Body @{algo="etchash";coin="$($config.Passwordcurrency)";mh=1} -Method POST).per_day
+				estimate_current = (Invoke-RestMethod "https://api.unminable.com/v3/calculate/reward" -Body @{algo="etchash";coin="BTC";mh=1} -Method POST).per_day
 			}
 		kawpow = [PSCustomObject]@{
 				name = "kawpow"
@@ -27,7 +27,7 @@ try {
 				fees = 0.75
 				mbtc_mh_factor = 1
 				RequestBody = @{algo="ethash";coin="$($config.Passwordcurrency)";mh=100}
-				estimate_current = (Invoke-RestMethod "https://api.unminable.com/v3/calculate/reward" -Body @{algo="x16rv2";coin="$($config.Passwordcurrency)";mh=1} -Method POST).per_day
+				estimate_current = (Invoke-RestMethod "https://api.unminable.com/v3/calculate/reward" -Body @{algo="x16rv2";coin="BTC";mh=1} -Method POST).per_day
 			}
 		randomx = [PSCustomObject]@{
 				name = "randomx"
@@ -36,7 +36,7 @@ try {
 				fees = 0.75
 				mbtc_mh_factor = 1
 				RequestBody = @{algo="ethash";coin="$($config.Passwordcurrency)";mh=100}
-				estimate_current = (Invoke-RestMethod "https://api.unminable.com/v3/calculate/reward" -Body @{algo="randomx";coin="$($config.Passwordcurrency)";mh=100} -Method POST).per_day
+				estimate_current = (Invoke-RestMethod "https://api.unminable.com/v3/calculate/reward" -Body @{algo="randomx";coin="BTC";mh=100} -Method POST).per_day
 			}
 		}
 	}
