@@ -537,6 +537,10 @@ Function PrepareWriteConfig{
         $Config | Add-Member -Force @{SelGPUCC = (($FirstGPU..($_.Text-1)) -join ",")}
         $Config | Add-Member -Force @{SelGPUDSTM = (($FirstGPU..($_.Text-1)) -join " ")}
     }
+	$ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox") -and ($_.Tag -eq "MaxTTFSeconds")} | foreach {
+		        $Config | Add-Member -Force @{$_.Tag = [Int]$_.Text}
+	}
+
     $ConfigPageControls | ? {(($_.gettype()).Name -eq "TextBox") -and ($_.Tag -eq "Algorithm")} | foreach {
         $Config | Add-Member -Force @{$_.Tag = @($_.Text -split ",")}
     }
@@ -1808,9 +1812,31 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $CheckBoxLowPriorityForCPUMiners.Checked = $Config.UseLowPriorityForCPUMiners
     $ConfigPageControls += $CheckBoxLowPriorityForCPUMiners
 
-    $CheckBoxOrphanBlocksPenalty.Add_Click( {
+    $CheckBoxLowPriorityForCPUMiners.Add_Click( {
                 $Config.UseLowPriorityForCPUMiners = $CheckBoxOrphanBlocksPenalty.Checked
     })
+
+    $LabelMaxTTFSec = New-Object system.Windows.Forms.Label
+    $LabelMaxTTFSec.text = "Max TTF (Plus)"
+    $LabelMaxTTFSec.AutoSize = $false
+    $LabelMaxTTFSec.width = 100
+    $LabelMaxTTFSec.height = 20
+    $LabelMaxTTFSec.location = New-Object System.Drawing.Point(560, 249)
+    $LabelMaxTTFSec.Font = 'Microsoft Sans Serif,10'
+    $ConfigPageControls += $LabelMaxTTFSec
+
+
+	$TBMaxTTFSec = New-Object system.Windows.Forms.TextBox
+    $TBMaxTTFSec.Tag = "MaxTTFSeconds"
+    $TBMaxTTFSec.MultiLine = $False
+    $TBMaxTTFSec.text = if ($Config.MaxTTFSeconds) {$Config.MaxTTFSeconds} else {0}
+    $TBMaxTTFSec.AutoSize = $false
+    $TBMaxTTFSec.width = 50
+    $TBMaxTTFSec.height = 20
+    $TBMaxTTFSec.location = New-Object System.Drawing.Point(660, 244)
+    $TBMaxTTFSec.Font = 'Microsoft Sans Serif,10'
+    $TBMaxTTFSec.Enabled = $True
+    $ConfigPageControls += $TBMaxTTFSec
 
     $CheckBoxConsole = New-Object system.Windows.Forms.CheckBox
     $CheckBoxConsole.Tag = "HideConsole"

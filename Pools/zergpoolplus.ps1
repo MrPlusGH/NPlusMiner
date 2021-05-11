@@ -67,6 +67,8 @@ $dtAlgos | foreach {
                 SSL           = $false
                 Coin          = $Pool.symbol
                 SoloBlocksPenalty          = $Pool.SoloBlocksPenalty
+                Pool_ttf      = $Pool.Pool_ttf
+                Real_ttf      = $Pool.Real_ttf
             }
         }
     }

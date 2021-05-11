@@ -31,6 +31,7 @@
     "ManualConfig":  false,
     "MarginOfError":  0,
     "MaxMinerFailure":  3,
+    "MaxTTFSeconds":  -1,
     "MinerName":  null,
     "MineWhenIdle":  false,
     "MonitoringServer":  "",

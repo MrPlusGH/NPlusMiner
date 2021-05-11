@@ -336,6 +336,17 @@ $CycleScriptBlock =  {
         # Filter Algo based on Per Pool Config
         $PoolsConf = $Config.PoolsConfig
         $AllPools = @($AllPools).Where({$_.Name -notin ($PoolsConf | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name) -or ($_.Name -in ($PoolsConf | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name) -and ((!($PoolsConf.($_.Name).Algorithm | ? {$_ -like "+*"}) -or ("+$($_.Algorithm)" -in $PoolsConf.($_.Name).Algorithm)) -and ("-$($_.Algorithm)" -notin $PoolsConf.($_.Name).Algorithm)))})
+		# Filter pools based on max TTF
+		# PoolsConfig value will prevail over $Config if exists
+		$AllPools = @($AllPools).Where({
+			If ($PoolsConf.($_.Name).MaxTTFSeconds -and $PoolsConf.($_.Name).MaxTTFSeconds -ge 0){
+				((!($_.Real_ttf)) -or ($_.Real_ttf -le $PoolsConf.($_.Name).MaxTTFSeconds))
+			} Elseif ($Config.MaxTTFSeconds -and $Config.MaxTTFSeconds -ge 0 -and (!($PoolsConf.($_.Name).MaxTTFSeconds))) {
+				(!($_.Real_ttf)) -or ($_.Real_ttf -le $Config.MaxTTFSeconds)
+			} Else {
+				$_.name -ne $null
+			}
+		})
 
     # if($AllPools.Count -eq 0){$Variables.StatusText = "Error contacting pool, retrying.."; $timerCycle.Interval = 15000 ; $timerCycle.Start() ; return}
         $Pools = [PSCustomObject]@{}

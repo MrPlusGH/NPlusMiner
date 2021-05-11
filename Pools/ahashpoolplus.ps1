@@ -52,6 +52,8 @@ $dtAlgos | foreach {
             Location      = $Location
             SSL           = $false
             Coin          = "Auto-($($Pool.symbol))"
+			Pool_ttf      = $Pool.Pool_ttf
+			Real_ttf      = $Pool.Real_ttf
         }
     }
 }
