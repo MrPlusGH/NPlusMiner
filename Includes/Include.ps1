@@ -1719,7 +1719,9 @@ Function Get-DisplayCurrency {
         [Parameter(Mandatory = $false)]
         [Decimal]$Factor=1
     )
-    
+    if ($Value -lt 0){
+        $Value = 0	
+    }
     $Result = [PSCustomObject]@{
         Currency = If($Config.Passwordcurrency -eq "BTC") {"$([char]0x20BF)"} Else {$Config.Passwordcurrency}
         Value = $Value * $Factor

@@ -339,7 +339,12 @@ Function Global:TimerUITick
                         {$_ -lt 0}
                             {"<"}
                     }
-                $LabelEarningsDetails.Lines += "Last  1h: " + ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum 24)).DisplayStringPerDay + " " + $TrendSign
+                if ($Variables.Earnings.Values.Growth1 -lt 0) {
+                    $LabelEarningsDetails.Lines += "Last  1h: Mine Longer"
+                } else {
+                    $LabelEarningsDetails.Lines += "Last  1h: " + ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth1 -Sum).sum 24)).DisplayStringPerDay + " " + $TrendSign
+                }
+                
                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum*1000*4),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3)) {
                         {$_ -eq 0}
                             {"="}
@@ -348,7 +353,11 @@ Function Global:TimerUITick
                         {$_ -lt 0}
                             {"<"}
                     }
-                $LabelEarningsDetails.Lines += "Last  6h: " + ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum 4)).DisplayStringPerDay + " " + $TrendSign
+                if ($Variables.Earnings.Values.Growth6 -lt 0) {
+                    $LabelEarningsDetails.Lines += "Last  6h: Mine Longer"
+                } else {
+                    $LabelEarningsDetails.Lines += "Last  6h: " + ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth6 -Sum).sum 4)).DisplayStringPerDay + " " + $TrendSign
+                }
                 $TrendSign = switch ([Math]::Round((($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum*1000),3) - [Math]::Round((($Variables.Earnings.Values | measure -Property BTCD -Sum).sum*1000*0.96),3)) {
                         {$_ -eq 0}
                             {"="}
@@ -357,7 +366,11 @@ Function Global:TimerUITick
                         {$_ -lt 0}
                             {"<"}
                     }
-                $LabelEarningsDetails.Lines += "Last 24h: " + ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum)).DisplayStringPerDay + " " + $TrendSign
+                if ($Variables.Earnings.Values.Growth24 -lt 0) {
+                    $LabelEarningsDetails.Lines += "Last 24h: Mine Longer"
+                } else {
+                    $LabelEarningsDetails.Lines += "Last 24h: " + ((Get-DisplayCurrency ($Variables.Earnings.Values | measure -Property Growth24 -Sum).sum)).DisplayStringPerDay + " " + $TrendSign
+                }
                 rv TrendSign
             } else {
                 $LabelBTCD.Text = "Waiting data from pools."
