@@ -3,7 +3,8 @@
     "EnableLog":  true,
     "WriteEvery":   10,
     "Pools":  [
-                  "nicehash",
-                  "zergpoolplus"
+                  "unmineable",
+                  "zergpoolplus",
+                  "zpoolplus"
               ]
 }
