@@ -22,6 +22,9 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
 
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_
+		
+		If (($Pool.Host -like "*prohashing*" -or $Pool.Host -like "*miningpoolhub*")) {Return}
+		
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 

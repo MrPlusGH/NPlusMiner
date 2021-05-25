@@ -19,6 +19,9 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
          
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
+		
+		If (($Pool.Host -like "*prohashing*" -or $Pool.Host -like "*miningpoolhub*")) {Return}
+
 
         # $Arguments = " --no-watchdog --no-nvml --temperature-limit 95 -d $($Config.SelGPUCC) --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -o nicehash+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User):$($Password)"
         If ($Algo -eq "ethash" -and ($Pool.Host -like "*nicehash*" -or $Pool.Host -like "*miningpoolhub*" -or $Pool.Host -like "*unmineable*" -or $Pool.Host -like "*195.133.197.79*")) {
