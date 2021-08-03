@@ -5,6 +5,7 @@ $Uri = "https://github.com/NebuTech/NBMiner/releases/download/v37.2/NBMiner_37.2
 $Commands = [PSCustomObject]@{
     # "eaglesong"       = " -a eaglesong" #eaglesong
     # "handshake"       = "-a hns" #handshake
+    "autolykos"            = "-a autolykos2" #kawpow
     "kawpow"            = "-a kawpow" #kawpow
     "grincuckatoo32"    = "-a grin32" #Grincuckatoo32
     "beamv3"            = "-a beamv3" #Beamv3
@@ -22,13 +23,10 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
 
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_
-		
-		If (($Pool.Host -like "*prohashing*" -or $Pool.Host -like "*miningpoolhub*")) {Return}
-		
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
-        $Arguments = " --no-watchdog --temperature-limit 95 -d $($Config.SelGPUCC) --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User):$($Password)"
+        $Arguments = " --no-watchdog --temperature-limit 95 -d $($Config.SelGPUCC) --api 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password)"
         
         [PSCustomObject]@{
             Type      = "NVIDIA"
