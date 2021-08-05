@@ -25,6 +25,7 @@ $Commands = [PSCustomObject]@{
     "rx2" = "" #verthash
     "panthera" = "" #panthera
     "heavyhash" = "" #heavyhash
+    "scryptn2" = "" #scryptn2
 }
 
 $Name = Get-Item $MyInvocation.MyCommand.Path | Select-Object -ExpandProperty BaseName
