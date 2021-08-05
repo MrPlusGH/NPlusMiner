@@ -24,7 +24,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
             Type = "NVIDIA"
             Path = $Path
             Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
-            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week}
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week / $Config.GPUCount}
             API = "ccminer"
             Port = $Variables.NVIDIAMinerAPITCPPort
             Wrap = $false
