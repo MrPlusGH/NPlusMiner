@@ -11,6 +11,7 @@
     "argon2coin":  "Argon2",
     "argon2d500":  "Argon2dDYN",
     "astralhash":  "astralhash",
+    "autolykos":  "autolykos2",
     "axiom":  "Axiom",
     "balloon":  "Balloon",
     "bcd":  "BCD",
