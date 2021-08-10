@@ -1,7 +1,8 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-trex\t-rex.exe"
-$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/trex/t-rex-0.20.3-win.zip"
+# $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/trex/t-rex-0.20.3-win.zip"
+$Uri = "https://github.com/trexminer/T-Rex/releases/download/0.21.6/t-rex-0.21.6-win.zip"
 
 $Commands = [PSCustomObject]@{
     # "kawpow"     = "" #kawpow 
