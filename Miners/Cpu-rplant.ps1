@@ -21,12 +21,14 @@ $MinerFeatureType = if($Variables.CPUFeatures.avx512){
 								}
 
 $Path = ".\Bin\CPU-rplant\cpuminer-$($MinerFeatureType).exe"
-$Uri = "https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.19/cpuminer-opt-win.zip"
+# $Uri = "https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.19/cpuminer-opt-win.zip"
+$Uri = "https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.24/cpuminer-opt-win.zip"
 
 $Commands = [PSCustomObject]@{
-    "ghostrider" = "" #ghostrider 
+    # "ghostrider" = "" #ghostrider 
     "yescryptR8G" = "" #YescryptR8
     "yespowerIOTS" = "" #yespowerIOTS
+    "minotaurx" = "" #minotaurx
     # "yespowerSUGAR" = "" #yespowerSUGAR
     # "yespowerLITB" = "" #yespowerLITB
     # "yespowerIC" = "" #yespowerIC
@@ -52,8 +54,12 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
-        $Arguments = "-q -t $($ThreadCount) -b $($Variables.CPUMinerAPITCPPort) -a $AlgoNorm -o $($Pool.Protocol)://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password)"
-
+        If ($Pool.Host -like "*zpool.ca") {
+            $Arguments = "-f 65536 -q -t $($ThreadCount) -b $($Variables.CPUMinerAPITCPPort) -a $AlgoNorm -o $($Pool.Protocol)://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password)"
+        } else {
+            $Arguments = "-q -t $($ThreadCount) -b $($Variables.CPUMinerAPITCPPort) -a $AlgoNorm -o $($Pool.Protocol)://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password)"
+        }
+        
         [PSCustomObject]@{
             Type = "CPU"
             Path = $Path
