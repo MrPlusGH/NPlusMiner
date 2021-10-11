@@ -26,6 +26,7 @@ $Commands = [PSCustomObject]@{
     "panthera" = "" #panthera
     "heavyhash" = "" #heavyhash
     "scryptn2" = "" #scryptn2
+    "ghostrider" = "" #ghostrider
 }
 
 $Name = Get-Item $MyInvocation.MyCommand.Path | Select-Object -ExpandProperty BaseName
@@ -52,7 +53,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
             Type = "CPU"
             Path = $Path
             Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
-            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week * .9915 } # substract 0.85% devfee
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Hour * .9915 } # substract 0.85% devfee
             API = "SRB"
             Port = $Variables.CPUMinerAPITCPPort
             Wrap = $false

@@ -71,7 +71,7 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
             Type      = "NVIDIA"
             Path      = $Path
             Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
-            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week * (1-$fee)} # substract 1% devfee
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Day * (1-$fee)} # substract 1% devfee
             API       = "ccminer"
             Port      = $Variables.NVIDIAMinerAPITCPPort
             Wrap      = $false
