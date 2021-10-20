@@ -51,12 +51,18 @@ $Config = Load-Config ".\Config\Config.json"
 $BalanceObjectS = @()
 $TrustLevel = 0
 $StartTime = Get-Date
-$LastAPIUpdateTime = Get-Date
+$LastAPIUpdateTime = (Get-Date).AddDays(-2)
 
 while ($true) {
     If ($Config.Server_Client) {
         $Variables | Add-Member -Force @{ServerRunning = Try{ ((Invoke-WebRequest "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/ping" -Credential $Variables.ServerClientCreds -TimeoutSec 3 -UseBasicParsing).content -eq "Server Alive")} Catch {$False} }
     }
+
+    Try{
+        $Rates = Invoke-ProxiedWebRequest "https://api.coinbase.com/v2/exchange-rates?currency=$($Config.Passwordcurrency)" -TimeoutSec 15 -UseBasicParsing | convertfrom-json | Select-Object -ExpandProperty data | Select-Object -ExpandProperty rates
+        $Config.Currency.Where( {$Rates.$_} ) | ForEach-Object {$Rates | Add-Member $_ ([Double]$Rates.$_) -Force}
+        $Variables.Rates = $Rates
+    } catch {}
 
 # Set decimal separator so CSV files look good.
     [System.Threading.Thread]::CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator = "."
@@ -135,6 +141,13 @@ while ($true) {
 					$TempBalanceData = ((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)?coin=$($config.Passwordcurrency)") -UseBasicParsing).content | ConvertFrom-Json).data
 					$TempBalanceData | Add-Member -NotePropertyName "currency" -NotePropertyValue $Config.Passwordcurrency -Force
 					$TempBalanceData | Add-Member -NotePropertyName "minpay" -NotePropertyValue $TempBalanceData.payment_threshold -Force
+                } elseif ($Pool -eq "2Miners_ETH"){
+				    $Headers = @{"Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"}
+					$TempBalanceData = ((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing).content | ConvertFrom-Json)
+                    $TempBalanceData | Add-Member -NotePropertyName $BalanceJson -NotePropertyValue ($TempBalanceData.stats.balance / 1000000000 * 1/$Variables.Rates.ETH) -Force
+                    $TempBalanceData | Add-Member -NotePropertyName $TotalJson -NotePropertyValue (($TempBalanceData.stats.balance / 1000000000 * 1/$Variables.Rates.ETH) + ($TempBalanceData.immature / 1000000000 * 1/$Variables.Rates.ETH)) -Force
+					$TempBalanceData | Add-Member -NotePropertyName "currency" -NotePropertyValue $Config.Passwordcurrency -Force
+					$TempBalanceData | Add-Member -NotePropertyName "minpay" -NotePropertyValue ($TempBalanceData.config.minPayout / 1000000000 * 1/$Variables.Rates.ETH)
 				} else {
                     try {
                     $TempBalanceData = Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing | ConvertFrom-Json } catch {  }
