@@ -6,25 +6,14 @@ $Path = ".\Bin\AMD-SRBMiner\SRBMiner-MULTI.exe"
 $Uri = "https://github.com/doktor83/SRBMiner-Multi/releases/download/0.7.9/SRBMiner-Multi-0-7-9-win64.zip"
 
 $Commands = [PSCustomObject]@{ 
-    # "randomx"            = " --randomx-use-1gb-pages" #randomx 
-    # "randomxmonero"      = " --randomx-use-1gb-pages" #randomx 
-    # "randomarq"          = " --randomx-use-1gb-pages" #randomarq  
-    # "randomsfx"          = " --randomx-use-1gb-pages" #randomsfx  
-    # "eaglesong"          = "" #eaglesong  
-    # "autolykos"           = "" #autolykos    
-    # "yescrypt"           = "" #yescrypt    
-    # "curvehash"           = "" #yescrypt    
-    # "yescryptR16"        = "" #yescryptR16  
-    # "yescryptR32"        = "" #yescryptR32   
-    # "yespower"           = "" #yespower 
-    # "yespowerSUGAR"           = "" #yespowerSUGAR
-    # "yespowerr16"        = "" #yespowerr16 
-    # "cryptonight-monero" = " --randomx-use-1gb-pages" #randomx
     "phi5" = "" #phi5
-    # "verthash" = "" #verthash
-    # "rx2" = "" #verthash
-    # "panthera" = "" #panthera
     "heavyhash" = "" #heavyhash
+    "ethash" = "" #ethash
+    "etchash" = "" #etchash
+    "firopow" = "" #firopow
+    "kawpow" = "" #kawpow
+    "cryptonight_gpu" = "" #cryptonight_gpu
+    "ubqhash" = "" #ubqhash
 }
 
 $Name = Get-Item $MyInvocation.MyCommand.Path | Select-Object -ExpandProperty BaseName
