@@ -3,7 +3,8 @@ If (-not (IsLoaded(".\Includes\include.ps1"))) { . .\Includes\include.ps1; Regis
 $Path = ".\Bin\cpu-SRBMiner\SRBMiner-MULTI.exe"
 # $Uri = "https://github.com/doktor83/SRBMiner-Multi/releases/download/0.7.1/SRBMiner-Multi-0-7-1-win64.zip"
 # $Uri = "https://github.com/doktor83/SRBMiner-Multi/releases/download/0.7.3/SRBMiner-Multi-0-7-3-win64.zip"
-$Uri = "https://github.com/doktor83/SRBMiner-Multi/releases/download/0.7.9/SRBMiner-Multi-0-7-9-win64.zip"
+# $Uri = "https://github.com/doktor83/SRBMiner-Multi/releases/download/0.7.9/SRBMiner-Multi-0-7-9-win64.zip"
+$Uri = "https://github.com/doktor83/SRBMiner-Multi/releases/download/0.8.1/SRBMiner-Multi-0-8-1-win64.zip"
 
 $Commands = [PSCustomObject]@{ 
     # "randomx"            = " --randomx-use-1gb-pages" #randomx 
@@ -27,6 +28,7 @@ $Commands = [PSCustomObject]@{
     "heavyhash" = "" #heavyhash
     "scryptn2" = "" #scryptn2
     "ghostrider" = "" #ghostrider
+    "minotaurx" = "" #minotaurx
 }
 
 $Name = Get-Item $MyInvocation.MyCommand.Path | Select-Object -ExpandProperty BaseName
@@ -45,7 +47,8 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         If ($AbortCurrentPool) {Return}
         
         #Curve diff doesn't play well on ZPool
-        If ($Pool.Host -like "*zpool*" -and $AlgoNorm -eq "curvehash") {Return}
+        #Minotaurx diff doesn't play well on ZPool
+        If ($Pool.Host -like "*zpool*" -and $AlgoNorm -in @("curvehash","minotaurx")) {Return}
 
         $Arguments = "--algorithm $($AlgoNorm) --pool stratum+tcp://$($Pool.Host):$($Pool.Port) --cpu-threads $($ThreadCount) --nicehash true --send-stales true --api-enable --api-port $($Variables.CPUMinerAPITCPPort) --disable-gpu --wallet $($Pool.User) --password $($Password)"
 
