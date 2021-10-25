@@ -41,6 +41,7 @@
     "Passwordcurrency":  "BTC",
     "PenalizeSoloInPlus":  true,
     "PoolName":  [
+                     "2MinersEthPlus",
                      "unmineable",
                      "zergpoolplus",
                      "zpoolplus"

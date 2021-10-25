@@ -3,6 +3,7 @@
     "EnableLog":  true,
     "WriteEvery":   10,
     "Pools":  [
+                  "2MinersEthPlus",
                   "unmineable",
                   "zergpoolplus",
                   "zpoolplus"
