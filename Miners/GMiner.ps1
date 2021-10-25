@@ -4,12 +4,13 @@ $Path = ".\Bin\NVIDIA-Gminer\miner.exe"
 # $Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.18/gminer_2_18_windows64.zip"
 # $Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.36/gminer_2_36_windows64.zip"
 # $Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.44/gminer_2_44_windows64.zip"
-$Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.54/gminer_2_54_windows64.zip"
+# $Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.54/gminer_2_54_windows64.zip"
+$Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.70/gminer_2_70_windows64.zip"
 
 $Commands = [PSCustomObject]@{
     "cuckoocycle"    = " --algo aeternity --pers auto" #Aeternity 
     "eaglesong"       = " --algo eaglesong" #eaglesong
-    # "ethash"          = " --algo ethash" #Ethash
+    "ethash"          = " --algo ethash" #Ethash
     # "equihash96"   = " --algo 96_5 --pers auto" #Equihash96 (fastest)
     "grincuckaroo29"  = " --algo cuckaroo29 --pers auto" #Grincuckaroo29 (fastest)
     "grincuckarood29"  = " --algo grin29 --pers auto" #Grincuckaroo29 (fastest)
