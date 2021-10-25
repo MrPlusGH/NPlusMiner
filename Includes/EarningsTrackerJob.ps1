@@ -73,8 +73,7 @@ while ($true) {
     $Interval = $EarningsTrackerConfig.PollInterval
     
 #Filter pools variants
-    $TrackPools = (($EarningsTrackerConfig.pools | sort -Unique).replace("plus","")).replace("24hr","")
-
+    $TrackPools = (($EarningsTrackerConfig.pools | sort -Unique).replace("plus","").replace("Plus","")).replace("24hr","")
 # Get pools api ref
 	If (Test-Path ".\Config\poolapiref.json") {$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json}
 
@@ -141,11 +140,11 @@ while ($true) {
 					$TempBalanceData = ((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)?coin=$($config.Passwordcurrency)") -UseBasicParsing).content | ConvertFrom-Json).data
 					$TempBalanceData | Add-Member -NotePropertyName "currency" -NotePropertyValue $Config.Passwordcurrency -Force
 					$TempBalanceData | Add-Member -NotePropertyName "minpay" -NotePropertyValue $TempBalanceData.payment_threshold -Force
-                } elseif ($Pool -eq "2Miners_ETH"){
+                } elseif ($Pool -eq "2MinersEth"){
 				    $Headers = @{"Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"}
 					$TempBalanceData = ((Invoke-ProxiedWebRequest ("$($APIUri)$($Wallet)") -UseBasicParsing).content | ConvertFrom-Json)
-                    $TempBalanceData | Add-Member -NotePropertyName $BalanceJson -NotePropertyValue ($TempBalanceData.stats.balance / 1000000000 * 1/$Variables.Rates.ETH) -Force
-                    $TempBalanceData | Add-Member -NotePropertyName $TotalJson -NotePropertyValue (($TempBalanceData.stats.balance / 1000000000 * 1/$Variables.Rates.ETH) + ($TempBalanceData.immature / 1000000000 * 1/$Variables.Rates.ETH)) -Force
+                    $TempBalanceData | Add-Member -NotePropertyName $BalanceJson -NotePropertyValue (($TempBalanceData.stats.balance / 1000000000 * 1/$Variables.Rates.ETH) + ($TempBalanceData.stats.immature / 1000000000 * 1/$Variables.Rates.ETH)) -Force
+                    $TempBalanceData | Add-Member -NotePropertyName $TotalJson -NotePropertyValue (($TempBalanceData.stats.balance / 1000000000 * 1/$Variables.Rates.ETH) + ($TempBalanceData.stats.immature / 1000000000 * 1/$Variables.Rates.ETH) + ($TempBalanceData.paymentsTotal / 1000000000 * 1/$Variables.Rates.ETH )) -Force
 					$TempBalanceData | Add-Member -NotePropertyName "currency" -NotePropertyValue $Config.Passwordcurrency -Force
 					$TempBalanceData | Add-Member -NotePropertyName "minpay" -NotePropertyValue ($TempBalanceData.config.minPayout / 1000000000 * 1/$Variables.Rates.ETH)
 				} else {
