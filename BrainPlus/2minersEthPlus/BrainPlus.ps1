@@ -173,7 +173,7 @@ try{
     $PoolApiData = ./../../Includes/2MinersEthApiWrapper.ps1
     $AlgoData = $PoolApiData.Status
     $CoinsData = $PoolApiData.Currencies
-    If ($BrainConfig.SoloBlocksPenaltyMode -eq "Sample" -or $BrainConfig.OrphanBlocksPenalty) {
+    If ($False) { #($BrainConfig.SoloBlocksPenaltyMode -eq "Sample" -or $BrainConfig.OrphanBlocksPenalty) {
         # Need to update in case of type change (Orphans)
         (Invoke-ProxiedWebRequest $BrainConfig.PoolBlocksUri -UseBasicParsing | ConvertFrom-Json) | ? {$_.category -ne "new"} | foreach {
             if (!$_.symbol) {$_ | Add-Member -Force @{symbol = $_.Coin}}
