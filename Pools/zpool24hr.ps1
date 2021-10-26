@@ -56,6 +56,7 @@ $DivisorMultiplier = 1000000000
                 Port          = $PoolPort
                 User          = $PoolConf.Wallet
                 Pass          = "$($WorkerName),c=$($PwdCurr)"
+                WorkerName    = $WorkerName
                 Location      = $Location
                 SSL           = $false
             }

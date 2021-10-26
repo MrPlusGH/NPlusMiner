@@ -49,6 +49,7 @@ $dtAlgos | foreach {
             Port          = $PoolPort
             User          = $PoolConf.Wallet
             Pass          = "$($WorkerName),c=$($PwdCurr)"
+            WorkerName    = $WorkerName
             Location      = $Location
             SSL           = $false
             Coin          = "Auto-($($Pool.symbol))"

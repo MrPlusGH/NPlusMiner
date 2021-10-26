@@ -52,6 +52,7 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
             Port          = $PoolPort
             User          = "$($PoolConf.UserName)"
             Pass          = "a=$($PoolAlgorithm),n=$($PoolConf.WorkerName.replace('ID=',''))"
+            WorkerName    = $WorkerName
             Location      = $Location
             SSL           = $false
         }

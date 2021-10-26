@@ -64,6 +64,7 @@ $dtAlgos | ? {$_.symbol -notlike "HashTap*"} | foreach {
             Port          = $PoolPort
             User          = $PoolConf.Wallet
             Pass          = $PoolPassword
+            WorkerName    = $WorkerName
             Location      = $Location
             SSL           = $false
             Coin          = $Pool.symbol

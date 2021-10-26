@@ -30,6 +30,9 @@ $Fees = 5
 
         $Stat = Set-Stat -Name "$($Name)_$($NiceHash_Algorithm)_Profit" -Value ([Double]$_.paying  / $Divisor * (1 - ($Fees / 100)))
 
+        $WorkerName = If ($PoolConf.WorkerName -like "ID=*") {$PoolConf.WorkerName.Replace("ID=", "")} else {$PoolConf.WorkerName}
+
+
 $Locations = "eu", "usa", "hk", "jp", "in", "br"
 $Locations | ForEach-Object {
         $NiceHash_Location = $_
@@ -56,6 +59,7 @@ $Locations | ForEach-Object {
                 Port          = $NiceHash_Port
                 User          = "$($PoolConf.Wallet).$($PoolConf.WorkerName.Replace('ID=',''))"
                 Pass          = "x"
+                WorkerName    = $WorkerName
                 Location      = $Location
                 SSL           = $false
             }
@@ -71,6 +75,7 @@ $Locations | ForEach-Object {
                 Port          = $NiceHash_Port
                 User          = "$($PoolConf.Wallet).$($PoolConf.WorkerName.Replace('ID=',''))"
                 Pass          = "x"
+                WorkerName    = $WorkerName
                 Location      = $Location
                 SSL           = $true
             }

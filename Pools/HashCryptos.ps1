@@ -73,6 +73,7 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
             Port          = $PoolPort
             User          = "$($PoolConf.Wallet).$($WorkerName)"
             Pass          = "n=$($WorkerName)"
+            WorkerName    = $WorkerName
             Location      = $Location
             SSL           = $false
         }

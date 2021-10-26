@@ -27,6 +27,8 @@ $Divisor = 1000000000
         $Stat = Set-Stat -Name "$($Name)_$($Algorithm)_Profit" -Value ([decimal]$_.profit / $Divisor * (1 - $Fee))
         $Price = (($Stat.Live * (1 - [Math]::Min($Stat.Day_Fluctuation, 1))) + ($Stat.Day * (0 + [Math]::Min($Stat.Day_Fluctuation, 1))))
 
+        $WorkerName = If ($PoolConf.WorkerName -like "ID=*") {$PoolConf.WorkerName.Replace("ID=", "")} else {$PoolConf.WorkerName}
+
 $Locations | ForEach-Object {
     $Location = $_
     
@@ -40,6 +42,7 @@ $Locations | ForEach-Object {
             Port        = $Current.algo_switch_port
             User        = "$($PoolConf.UserName).$($PoolConf.WorkerName.replace('ID=',''))"
             Pass        = 'x'
+            WorkerName    = $WorkerName
             Location    = $Location
             SSL         = $false
             Coin        = $Coin
@@ -55,6 +58,7 @@ $Locations | ForEach-Object {
             Port        = $Current.algo_switch_port
             User        = "$($PoolConf.UserName).$($PoolConf.WorkerName.replace('ID=',''))"
             Pass        = 'x'
+            WorkerName    = $WorkerName
             Location    = $Location
             SSL         = $true
             coin        = $Coin
