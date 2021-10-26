@@ -39,6 +39,13 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
     $Algo =$_
     $AlgoNorm = Get-Algorithm($_)
 
+    $fee = switch ($_) {
+        "ethash"	{0.65 / 100}
+        "etchash"	{0.65 / 100}
+        "kawpow"    {1 / 100}
+        default     {2/100}
+    }
+
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_
 
@@ -57,7 +64,7 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
             Type      = "NVIDIA"
             Path      = $Path
             Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
-            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Day * .98} # substract 2% devfee
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Day * (1 - $fee)} # substract 2% devfee
             API       = "gminer"
             Port      = $Variables.NVIDIAMinerAPITCPPort
             Wrap      = $false
