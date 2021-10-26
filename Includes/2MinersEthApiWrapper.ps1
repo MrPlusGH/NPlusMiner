@@ -14,13 +14,12 @@ $DivisorMultiplier = 1000000000
     $ConfName = if ($Config.PoolsConfig.$Name -ne $Null){$Name}else{"default"}
     $PoolConf = $Config.PoolsConfig.$ConfName
 
-$Variables = @{}
 Try{
     # $Rates = Invoke-RestMethod "https://api.coinbase.com/v2/exchange-rates?currency=BTC" -TimeoutSec 15 -UseBasicParsing | Select-Object -ExpandProperty data | Select-Object -ExpandProperty rates
     $Rates = Invoke-ProxiedWebRequest "https://api.coinbase.com/v2/exchange-rates?currency=$($Config.Passwordcurrency)" -TimeoutSec 15 -UseBasicParsing | convertfrom-json | Select-Object -ExpandProperty data | Select-Object -ExpandProperty rates
     $Config.Currency.Where( {$Rates.$_} ) | ForEach-Object {$Rates | Add-Member $_ ([Double]$Rates.$_) -Force}
     $Variables.Rates = $Rates
-} catch {$Variables.StatusText = "Minor error - Failed to load BTC rate.."}
+} catch {}
 
 $Pool_Divisor = 1000000000
 
