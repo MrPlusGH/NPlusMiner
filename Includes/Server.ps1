@@ -289,12 +289,13 @@ Function Start-Server {
                                 $Content = ($ProxyCache.Where({$_.ID -eq $ProxURLHash})).Content
                                 $StatusCode  = [System.Net.HttpStatusCode]::UseProxy
                             } else {
+                            
                                 # "Web Query" | Out-Host
                                 $WebHits++
                                 $Wco = New-Object Net.Webclient 
                                 # Try {$Content = $Wco.downloadString("$ProxURL")} catch {$Content = $null}
                                 Try {
-                                    $ProxyRequest = Invoke-WebRequest $ProxURL -UseBasicParsing -TimeoutSec 10
+                                    $ProxyRequest = Invoke-WebRequest $ProxURL -UseBasicParsing -TimeoutSec 10 -UserAgent $Variables.UserAgent
                                     $Content = $ProxyRequest.content
                                 } catch {
                                     $Content = $null
