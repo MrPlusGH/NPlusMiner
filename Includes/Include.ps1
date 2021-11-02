@@ -1621,7 +1621,13 @@ Function Invoke-ProxiedWebRequest {
     }
     if (!$Request.Content -or ($Request.StatusCode -ne 200 -and $Request.StatusCode -ne 305) -and -not $OutFile) {
         Try {
-            $Request = Invoke-WebRequest @Args -UserAgent $Variables.UserAgent
+            if ($Config.InstanceGuid -and -not ($args -like "*-headers*")) {
+                $Headers = @{}
+                $Headers += @{Referer="https://$($Config.InstanceGuid)"}
+                $Request = Invoke-WebRequest @Args -UserAgent $Variables.UserAgent -Headers $Headers
+            } else {
+                $Request = Invoke-WebRequest @Args -UserAgent $Variables.UserAgent
+            }
         } Catch {
             # $Variables.StatusText = "Direct Request Failed: $($URi)"
         }

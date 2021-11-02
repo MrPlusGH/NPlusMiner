@@ -72,7 +72,7 @@ $fees = 1
                     Hashrate        = $hashrate
                     Workers         = $Request.minersTotal
                     estimate_current    = $btcRewardLive
-                    estimate_last24h    = $btcReward24h
+                    estimate_last24h    = $btcReward24h * $Pool_Blocks.Luck."64".Luck
                     actual_last24h      = $btcReward24h
                     mbtc_mh_factor      = 1
                 }
@@ -90,7 +90,7 @@ $fees = 1
                     reward              = $reward24h
                     estimate            = $btcRewardLive
                     estimate_current    = $btcRewardLive
-                    estimate_last24h    = $btcReward24h
+                    estimate_last24h    = $btcReward24h * $Pool_Blocks.Luck."64".Luck
                     actual_last24h      = $btcReward24h
                     mbtc_mh_factor      = 1
                     "24h_blocks"          = $blocks24h.Count

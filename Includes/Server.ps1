@@ -295,7 +295,11 @@ Function Start-Server {
                                 $Wco = New-Object Net.Webclient 
                                 # Try {$Content = $Wco.downloadString("$ProxURL")} catch {$Content = $null}
                                 Try {
-                                    $ProxyRequest = Invoke-WebRequest $ProxURL -UseBasicParsing -TimeoutSec 10 -UserAgent $Variables.UserAgent
+                                    $Headers = @{}
+                                    If ($Config.InstanceGuid) {
+                                        $Headers += @{Referer="https://$($Config.InstanceGuid)"}
+                                    }
+                                    $ProxyRequest = Invoke-WebRequest $ProxURL -UseBasicParsing -TimeoutSec 10 -UserAgent $Variables.UserAgent -Headers $Headers
                                     $Content = $ProxyRequest.content
                                 } catch {
                                     $Content = $null
