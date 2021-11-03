@@ -591,7 +591,7 @@ $MainForm.add_Shown({
     # Check if new version is available
     Update-Status("Checking version")
     try {
-        $Version = Invoke-WebRequest "http://tiny.cc/m155qy" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$Version = Get-content ".\Config\version.json" | Convertfrom-json}
+        $Version = Invoke-WebRequest "http://tiny.cc/m155qy" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache";Referer="https://$($Variables.CurrentProduct)/$($Variables.CurrentVersion)/$($Config.WorkerName)/$($Config.InstanceGuid)"} | ConvertFrom-Json} catch {$Version = Get-content ".\Config\version.json" | Convertfrom-json}
     If ($Version -ne $null){$Version | ConvertTo-json | Out-File ".\Config\version.json"}
     If ($Version.Product -eq $Variables.CurrentProduct -and [Version]$version.Version -gt $Variables.CurrentVersion -and $Version.Update) {
         Update-Status("Version $($version.Version) available. (You are running $($Variables.CurrentVersion))")
@@ -627,7 +627,7 @@ $MainForm.add_Shown({
     $TimerCheckVersion.Add_Tick({
         Update-Status("Checking version")
         try {
-            $Version = Invoke-WebRequest "http://tiny.cc/rrxqry" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} | ConvertFrom-Json} catch {$Version = Get-content ".\Config\version.json" | Convertfrom-json}
+            $Version = Invoke-WebRequest "http://tiny.cc/rrxqry" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache";Referer="https://$($Variables.CurrentProduct)/$($Variables.CurrentVersion)/$($Config.WorkerName)/$($Config.InstanceGuid)"} | ConvertFrom-Json} catch {$Version = Get-content ".\Config\version.json" | Convertfrom-json}
         If ($Version -ne $null){$Version | ConvertTo-json | Out-File ".\Config\version.json"}
         If ($Version.Product -eq $Variables.CurrentProduct -and [Version]$version.Version -gt $Variables.CurrentVersion -and $Version.Update) {
             Update-Status("Version $($version.Version) available. (You are running $($Variables.CurrentVersion))")
