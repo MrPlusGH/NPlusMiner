@@ -349,7 +349,7 @@ Function Start-Server {
                                         Name = $RegisterRigName
                                         IP = If (!$RegisterRigIP) {$ClientAddress} Else {$RegisterRigIP}
                                         Port = $RegisterRigPort
-                                        LastSeen = get-date
+                                        LastSeen = (get-date).DateTime
                                     }
                                     If (Test-Path ".\Config\Peers.json") {
                                         $Peers = Get-Content ".\Config\Peers.json" | convertfrom-json
@@ -359,7 +359,7 @@ Function Start-Server {
                                     If (($Peers | ? {$_.Name -eq $RegisterRigName}) -and !(compare $Peer $Peers -Property name,ip,port,LastSeen -IncludeEqual -ExcludeDifferent) -and !($Peers | ? {$_.Name -eq $RegisterRigName}).PreventUpdates) {
                                         ($Peers | ? {$_.Name -eq $RegisterRigName}).IP = $Peer.IP
                                         ($Peers | ? {$_.Name -eq $RegisterRigName}).Port = $Peer.Port
-                                        ($Peers | ? {$_.Name -eq $RegisterRigName}).LastSeen = get-date
+                                        ($Peers | ? {$_.Name -eq $RegisterRigName}).LastSeen = (get-date).DateTime
                                         $PeerUpdate = $True
                                     } elseif (!($Peers | ? {$_.Name -eq $RegisterRigName})) {
                                         $Peers += $Peer
@@ -374,8 +374,10 @@ Function Start-Server {
                                     }
                                     
                                     If ($PeerUpdate -and $PeerPing) {
-                                        # $Peers | convertto-json | out-file ".\Config\Peers.json"
-                                        $Peers | ? {$_.Name -eq $Config.WorkerName -or $_.LastSeen -ge (get-date).AddDays(-1)} | convertto-json | out-file ".\Config\Peers.json"
+                                        $Peers = $Peers | ? {$_.LastSeen -gt (get-date).AddDays(-1)}
+                                        $Peers | convertto-json | out-file ".\Config\Peers.json"
+                                        # $Peers | ? {$_.Name -eq $Config.WorkerName -or $_.LastSeen -ge (get-date).AddDays(-1)} | convertto-json | out-file ".\Config\Peers.json"
+                                        # $Peers | ? {$_.LastSeen.Value -gt (get-date).AddDays(-1)} | convertto-json | out-file ".\Config\Peers.json"
                                         If ($RegisterRigName -ne $Config.WorkerName -and !$RegisterBackRegistrationNotAllowed){
                                             # Back registration won't work until we switch the listener to ASync
                                             # Try { (Invoke-WebRequest "http://$($Peer.IP):$($Peer.Port)/RegisterRig/?Name=$($Config.WorkerName)&Port=$($Config.Server_Port)&RegisterBackRegistrationNotAllowed=true" -Credential $Variables.ServerClientCreds -TimeoutSec 3).content -eq "Server Alive" } Catch {$False}
