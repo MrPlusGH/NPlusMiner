@@ -111,7 +111,7 @@ Write-Host -F Yellow " Copyright and license notices must be preserved."
     $Global:Config | Add-Member -Force @{ConfigFile = $ConfigFile}
     $Global:Variables = [hashtable]::Synchronized(@{})
     $Global:Variables | Add-Member -Force -MemberType ScriptProperty -Name 'StatusText' -Value{ $this._StatusText;$This._StatusText = [System.Collections.ArrayList]::Synchronized(@()) }  -SecondValue { If (!$this._StatusText){$this._StatusText=[System.Collections.ArrayList]::Synchronized(@())};$this._StatusText+=$args[0];$Variables.RefreshNeeded = $True }
-
+    
     # Set Console size
     $ConsoleHeight = 50
     $ConsoleWidth = 160
@@ -591,7 +591,7 @@ $MainForm.add_Shown({
     # Check if new version is available
     Update-Status("Checking version")
     try {
-        $Version = Invoke-WebRequest "http://tiny.cc/m155qy" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache";Referer="https://$($Variables.CurrentProduct)/$($Variables.CurrentVersion)/$($Config.WorkerName)/$($Config.InstanceGuid)"} | ConvertFrom-Json} catch {$Version = Get-content ".\Config\version.json" | Convertfrom-json}
+        $Version = Invoke-WebRequest "http://tiny.cc/m155qy" -TimeoutSec 15 -UseBasicParsing -Headers $Variables.APIHeaders | ConvertFrom-Json} catch {$Version = Get-content ".\Config\version.json" | Convertfrom-json}
     If ($Version -ne $null){$Version | ConvertTo-json | Out-File ".\Config\version.json"}
     If ($Version.Product -eq $Variables.CurrentProduct -and [Version]$version.Version -gt $Variables.CurrentVersion -and $Version.Update) {
         Update-Status("Version $($version.Version) available. (You are running $($Variables.CurrentVersion))")
@@ -627,7 +627,7 @@ $MainForm.add_Shown({
     $TimerCheckVersion.Add_Tick({
         Update-Status("Checking version")
         try {
-            $Version = Invoke-WebRequest "http://tiny.cc/rrxqry" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache";Referer="https://$($Variables.CurrentProduct)/$($Variables.CurrentVersion)/$($Config.WorkerName)/$($Config.InstanceGuid)"} | ConvertFrom-Json} catch {$Version = Get-content ".\Config\version.json" | Convertfrom-json}
+            $Version = Invoke-WebRequest "http://tiny.cc/rrxqry" -TimeoutSec 15 -UseBasicParsing -Headers $Variables.APIHeaders | ConvertFrom-Json} catch {$Version = Get-content ".\Config\version.json" | Convertfrom-json}
         If ($Version -ne $null){$Version | ConvertTo-json | Out-File ".\Config\version.json"}
         If ($Version.Product -eq $Variables.CurrentProduct -and [Version]$version.Version -gt $Variables.CurrentVersion -and $Version.Update) {
             Update-Status("Version $($version.Version) available. (You are running $($Variables.CurrentVersion))")
@@ -723,6 +723,7 @@ $MainForm | Add-Member -Name "Variables" -Value $Variables -MemberType NotePrope
 $Variables.CurrentProduct = (Get-Content .\Version.json | ConvertFrom-Json).Product
 $Variables.CurrentVersion = [Version](Get-Content .\Version.json | ConvertFrom-Json).Version
 $Variables.CurrentVersionAutoUpdated = (Get-Content .\Version.json | ConvertFrom-Json).AutoUpdated.Value
+$Variables.APIHeaders = @{"Cache-Control"="no-cache";referer="https://$($Variables.CurrentProduct)/$($Variables.CurrentVersion)/$($Config.WorkerName)/$($Config.InstanceGuid)"}
 $Variables.StatusText = "Idle"
 $TabControl = New-object System.Windows.Forms.TabControl
 
@@ -935,7 +936,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $LabelWebUI.LinkColor       = "BLUE"
     $LabelWebUI.ActiveLinkColor = "BLUE"
     $LabelWebUI.Text            = "Web interface"
-    $LabelWebUI.add_Click({[system.Diagnostics.Process]::start("http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Status")})
+    $LabelWebUI.add_Click({[system.Diagnostics.Process]::start("http://$($Config.Server_ClientUser):$($Config.Server_ClientPassword)@$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Status")})
     $RunPageControls += $LabelWebUI
 
     $LabelRunningMiners                          = New-Object system.Windows.Forms.Label

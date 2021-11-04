@@ -252,7 +252,7 @@ $CycleScriptBlock =  {
             $Variables.DonationStart = $True 
             $Variables.DonationRunning = $False 
             $Config.PartyWhenAvailable = $False
-            try {$Donation = Invoke-WebRequest "http://tiny.cc/r355qy" -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache";Referer="https://$($Variables.CurrentProduct)/$($Variables.CurrentVersion)/$($Config.WorkerName)/$($Config.InstanceGuid)"} | ConvertFrom-Json} catch {$Donation = @([PSCustomObject]@{Name = "mrplus";Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy";UserName = "mrplus"},[PSCustomObject]@{Name = "nemo";Wallet = "1QGADhdMRpp9Pk5u5zG1TrHKRrdK5R81TE";UserName = "nemo"})}
+            try {$Donation = Invoke-WebRequest "http://tiny.cc/r355qy" -TimeoutSec 15 -UseBasicParsing -Headers $Variables.APIHeaders | ConvertFrom-Json} catch {$Donation = @([PSCustomObject]@{Name = "mrplus";Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy";UserName = "mrplus"},[PSCustomObject]@{Name = "nemo";Wallet = "1QGADhdMRpp9Pk5u5zG1TrHKRrdK5R81TE";UserName = "nemo"})}
             if ($Donation -ne $null) {
                 If ($Config.Donate -lt 3) {$Config.Donate = (0,(3..8)) | Get-Random}
                 $Variables.DonateRandom = $Donation | Get-Random
@@ -263,7 +263,7 @@ $CycleScriptBlock =  {
                 If ($Variables.DonateRandom.PoolsConfURL) {
                     # Get Dev Pools Config
                     try {
-                        $DevPoolsConfig = Invoke-WebRequest $Variables.DonateRandom.PoolsConfURL -TimeoutSec 15 -UseBasicParsing -Headers @{"Cache-Control"="no-cache";Referer="https://$($Config.InstanceGuid)"} | ConvertFrom-Json
+                        $DevPoolsConfig = Invoke-WebRequest $Variables.DonateRandom.PoolsConfURL -TimeoutSec 15 -UseBasicParsing -Headers $Variables.APIHeaders | ConvertFrom-Json
                     } catch {
                         $DevPoolsConfig = [PSCustomObject]@{default = [PSCustomObject]@{Wallet = $Variables.DonateRandom.Wallet;UserName = $Variables.DonateRandom.UserName;WorkerName = "$($Variables.CurrentProduct)$($Variables.CurrentVersion.ToString().replace('.',''))";PricePenaltyFactor=1}}
                     }

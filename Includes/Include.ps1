@@ -1623,7 +1623,7 @@ Function Invoke-ProxiedWebRequest {
         Try {
             if ($Config.InstanceGuid -and -not ($args -like "*-headers*")) {
                 $Headers = @{}
-                $Headers += @{Referer="https://$($Config.InstanceGuid)"}
+                $Headers += $Variables.APIHeaders
                 $Request = Invoke-WebRequest @Args -UserAgent $Variables.UserAgent -Headers $Headers
             } else {
                 $Request = Invoke-WebRequest @Args -UserAgent $Variables.UserAgent

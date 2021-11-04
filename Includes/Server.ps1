@@ -297,7 +297,7 @@ Function Start-Server {
                                 Try {
                                     $Headers = @{}
                                     If ($Config.InstanceGuid) {
-                                        $Headers += @{Referer="https://$($Config.InstanceGuid)"}
+                                        $Headers += $Variables.APIHeaders
                                     }
                                     $ProxyRequest = Invoke-WebRequest $ProxURL -UseBasicParsing -TimeoutSec 10 -UserAgent $Variables.UserAgent -Headers $Headers
                                     $Content = $ProxyRequest.content
