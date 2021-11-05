@@ -71,6 +71,7 @@ Fee:
 - [ProHashing](https://prohashing.com?r=m1HNHfYS)
 - [unMineable](https://unmineable.com/?ref=2qfx-36p9)
 - [HashCryptos](https://www.hashcryptos.com)
+- [2Miners](https://2miners.com)
 
 
    AI
@@ -142,7 +143,7 @@ Fee:
           - NiceHash as a 4% fee - Set PricePenaltyFactor to 0.96 (1-0.04)
           - You feel like a pool is exaggerating his estimations by 10% - Set PricePenaltyFactor to 0.9
 
-   BrainPlus - ahashpoolplus / zergpoolplus / zpoolplus / blazepoolplus / BlockMastersPlus / PhiPhiPoolPlus / StarPoolPlus / HashRefineryPlus
+   BrainPlus - ahashpoolplus / zergpoolplus / zpoolplus / blazepoolplus / BlockMastersPlus / 2MinersETHPlus
    
       Did we say AI ;)
       Uses calculations based on 24hractual and currentestimate ahashpool prices to get more realistic estimate.
@@ -215,7 +216,9 @@ Fee:
             miningpoolhub (partial)
             Blazepool
             BlockMasters
-            ProHadhing
+            ProHashing
+            Unmineable
+            2Miners
       If mining more that one pools, shows stats for any supported pool
       Press key e in the console window to show/hide earnings
 
