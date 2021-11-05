@@ -349,17 +349,18 @@ Function Start-Server {
                                         Name = $RegisterRigName
                                         IP = If (!$RegisterRigIP) {$ClientAddress} Else {$RegisterRigIP}
                                         Port = $RegisterRigPort
-                                        LastSeen = (get-date).DateTime
+                                        LastSeen = (get-date).ToUniversalTime()
                                     }
                                     If (Test-Path ".\Config\Peers.json") {
                                         $Peers = Get-Content ".\Config\Peers.json" | convertfrom-json
                                         If (@($Peers).count -eq 1) { $Peers = @($Peers) }
                                     }
                                     
-                                    If (($Peers | ? {$_.Name -eq $RegisterRigName}) -and !(compare $Peer $Peers -Property name,ip,port,LastSeen -IncludeEqual -ExcludeDifferent) -and !($Peers | ? {$_.Name -eq $RegisterRigName}).PreventUpdates) {
+                                    # If (($Peers | ? {$_.Name -eq $RegisterRigName}) -and !(compare $Peer $Peers -Property name,ip,port -IncludeEqual -ExcludeDifferent) -and !($Peers | ? {$_.Name -eq $RegisterRigName}).PreventUpdates) {
+                                    If (($Peers | ? {$_.Name -eq $RegisterRigName}) -and !($Peers | ? {$_.Name -eq $RegisterRigName}).PreventUpdates) {
                                         ($Peers | ? {$_.Name -eq $RegisterRigName}).IP = $Peer.IP
                                         ($Peers | ? {$_.Name -eq $RegisterRigName}).Port = $Peer.Port
-                                        ($Peers | ? {$_.Name -eq $RegisterRigName}).LastSeen = (get-date).DateTime
+                                        ($Peers | ? {$_.Name -eq $RegisterRigName}).LastSeen = (get-date).ToUniversalTime()
                                         $PeerUpdate = $True
                                     } elseif (!($Peers | ? {$_.Name -eq $RegisterRigName})) {
                                         $Peers += $Peer
@@ -374,7 +375,7 @@ Function Start-Server {
                                     }
                                     
                                     If ($PeerUpdate -and $PeerPing) {
-                                        $Peers = $Peers | ? {$_.LastSeen -gt (get-date).AddDays(-1)}
+                                        $Peers = $Peers | ? {$_.LastSeen -gt (get-date).ToUniversalTime().AddDays(-1)}
                                         $Peers | convertto-json | out-file ".\Config\Peers.json"
                                         # $Peers | ? {$_.Name -eq $Config.WorkerName -or $_.LastSeen -ge (get-date).AddDays(-1)} | convertto-json | out-file ".\Config\Peers.json"
                                         # $Peers | ? {$_.LastSeen.Value -gt (get-date).AddDays(-1)} | convertto-json | out-file ".\Config\Peers.json"

@@ -77,10 +77,10 @@ while ($true) {
 # Get pools api ref
 	If (Test-Path ".\Config\poolapiref.json") {$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json}
 
-    If (-not $poolapi -or ($LastAPIUpdateTime -le (Get-Date).AddDays(-1))){
+    If (-not $poolapi -or ($LastAPIUpdateTime -le (Get-Date).ToUniversalTime().AddDays(-1))){
         try {
             $poolapi = Invoke-ProxiedWebRequest "http://tiny.cc/l355qy" -UseBasicParsing | ConvertFrom-Json} catch {$poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json}
-            $LastAPIUpdateTime = Get-Date
+            $LastAPIUpdateTime = (Get-Date).ToUniversalTime()
         } else {
             $poolapi = Get-content ".\Config\poolapiref.json" | Convertfrom-json
         }
