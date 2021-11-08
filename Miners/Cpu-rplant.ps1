@@ -29,6 +29,7 @@ $Commands = [PSCustomObject]@{
     "yescryptR8G" = "" #YescryptR8
     "yespowerIOTS" = "" #yespowerIOTS
     "minotaurx" = "" #minotaurx
+    "yespowerARWN" = "" #yespowerARWN
     # "yespowerSUGAR" = "" #yespowerSUGAR
     # "yespowerLITB" = "" #yespowerLITB
     # "yespowerIC" = "" #yespowerIC
