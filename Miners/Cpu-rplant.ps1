@@ -55,7 +55,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
-        If ($Pool.Host -like "*zpool.ca") {
+        If ($Pool.Host -like "*zpool.ca" -and $Algo -eq "Minotaurx") {
             $Arguments = "-f 65536 -q -t $($ThreadCount) -b $($Variables.CPUMinerAPITCPPort) -a $AlgoNorm -o $($Pool.Protocol)://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password)"
         } else {
             $Arguments = "-q -t $($ThreadCount) -b $($Variables.CPUMinerAPITCPPort) -a $AlgoNorm -o $($Pool.Protocol)://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password)"
