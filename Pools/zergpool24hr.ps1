@@ -25,12 +25,19 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
     $PoolAlgorithm = Get-Algorithm $Request.$_.name
 
     $Divisor = $DivisorMultiplier * [Double]$Request.$_.mbtc_mh_factor
-
+    
+	$Request.$_.fees = $Request.$_.fees - 0.2
     if ((Get-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit") -eq $null) {$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))}
     else {$Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Request.$_.$PriceField / $Divisor * (1 - ($Request.$_.fees / 100)))}
 
     $PwdCurr = if ($PoolConf.PwdCurrency) {$PoolConf.PwdCurrency}else {$Config.Passwordcurrency}
     $WorkerName = If ($PoolConf.WorkerName -like "ID=*") {$PoolConf.WorkerName} else {"ID=$($PoolConf.WorkerName)"}
+
+    $PoolPassword = "$($WorkerName),c=$($PwdCurr)"
+	$PoolPassword += Switch ($PoolConf.Wallet) {
+		"134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy"	{",refcode=1dbf33605c9d9a9492fab24d2d86ad42"}
+		default									{",refcode=8df95e06fc6446994168cbcfcb84381d"}
+	}
     
     if ($PoolConf.Wallet) {
         [PSCustomObject]@{
@@ -43,7 +50,7 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
             Host          = $PoolHost
             Port          = $PoolPort
             User          = $PoolConf.Wallet
-            Pass          = "$($WorkerName),c=$($PwdCurr)"
+            Pass          = $PoolPassword
             WorkerName    = $WorkerName
             Location      = $Location
             SSL           = $false

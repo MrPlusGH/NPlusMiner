@@ -30,7 +30,9 @@ $dtAlgos | foreach {
     $PoolAlgorithm = Get-Algorithm $Pool.algo
     
     $Divisor = $DivisorMultiplier * [Double]$Pool.mbtc_mh_factor
-
+	
+	# Adjust fees with referal
+	$Pool.fees = $Pool.fees - 0.2
     $Stat = Set-Stat -Name "$($Name)_$($PoolAlgorithm)_Profit" -Value ([Double]$Pool.$PriceField / $Divisor * (1 - ($Pool.fees / 100)))
 
     $PwdCurr = if ($PoolConf.PwdCurrency) {$PoolConf.PwdCurrency}else {$Config.Passwordcurrency}
@@ -38,6 +40,10 @@ $dtAlgos | foreach {
     
     $PoolPassword = If ( ! $Config.PartyWhenAvailable ) {"$($WorkerName),c=$($PwdCurr)"} else { "$($WorkerName),c=$($PwdCurr),m=party.NPlusMiner" }
     $PoolPassword = If ( $Pool.symbol) { "$($PoolPassword),mc=$($Pool.symbol)" } else { $PoolPassword }
+	$PoolPassword += Switch ($PoolConf.Wallet) {
+		"134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy"	{",refcode=1dbf33605c9d9a9492fab24d2d86ad42"}
+		default									{",refcode=8df95e06fc6446994168cbcfcb84381d"}
+	}
 
     $Locations = "eu", "na", "asia"
     $Locations | ForEach-Object {
