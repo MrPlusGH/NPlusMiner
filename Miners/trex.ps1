@@ -7,7 +7,7 @@ $Path = ".\Bin\NVIDIA-trex\t-rex.exe"
 $Uri = "https://github.com/trexminer/T-Rex/releases/download/0.24.5/t-rex-0.24.5-win.zip"
 
 $Commands = [PSCustomObject]@{
-    # "kawpow"          = "" #kawpow 
+    "kawpow"          = "" #kawpow 
     # "mtp"           = "" #MTP
     "ethash"        = "" #etchash
     "etchash"       = "" #etchash
