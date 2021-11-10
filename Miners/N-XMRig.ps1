@@ -16,7 +16,7 @@ $Commands = [PSCustomObject]@{
     "cryptonight_saber"     = " -a cn-heavy/0" #cryptonightGPU
     "cryptonight_fast"      = " -a cn/half" #cryptonightFast
     "cryptonight_haven"     = " -a cn-heavy/xhv" #cryptonightFast
-    "kawpow"                = " -a kawpow" #kawpow
+    # "kawpow"                = " -a kawpow" #kawpow
     "cryptonight_upx"      = " -a cn/upx2" #cryptonightFast
 }
  
