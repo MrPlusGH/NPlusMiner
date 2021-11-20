@@ -2,7 +2,7 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLo
  
 $Path = ".\Bin\NVIDIA-miniZ\miniZ.exe"
 # $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/miniZ/miniZ_v1.7x3_win-x64.zip"
-$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/miniZ/miniZ_v1.8y3_win-x64.zip"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/miniZ/miniZ_v1.8y4rc2_win-x64.zip"
 
 $Commands = [PSCustomObject]@{
     # "beamv2"       = " --par=beam --pers auto " #Beamv2
@@ -32,7 +32,7 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
 
-        $Arguments = "--templimit 95 --intensity 100 --latency --tempunits C -cd $($Config.SelGPUDSTM) --telemetry $($Variables.NVIDIAMinerAPITCPPort) --url $($Pool.User).$($Config.WorkerName)@$($Pool.Host):$($Pool.Port) --pass $($Password)"
+        $Arguments = "--nohttpheaders --templimit 95 --intensity 100 --latency --tempunits C -cd $($Config.SelGPUDSTM) --telemetry $($Variables.NVIDIAMinerAPITCPPort) --url $($Pool.User).$($Config.WorkerName)@$($Pool.Host):$($Pool.Port) --pass $($Password)"
 
         [PSCustomObject]@{
             Type      = "NVIDIA"
