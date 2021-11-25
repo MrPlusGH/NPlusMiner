@@ -1,8 +1,8 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\AMD-WildRigMulti\wildrig.exe"
-$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.28.3/wildrig-multi-windows-0.28.3.7z"
-$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.30.1/wildrig-multi-windows-0.30.1.7z"
+# $Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.28.3/wildrig-multi-windows-0.28.3.7z"
+$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.30.5/wildrig-multi-windows-0.30.5.7z"
 
 $Commands = [PSCustomObject]@{
     "astralhash"    = " --algo glt-astralhash" #Astralhash
@@ -42,6 +42,7 @@ $Commands = [PSCustomObject]@{
     "x17"           = " --algo x17" #x17
     "x21s"          = " --algo x21s" #x21s
     "x22i"          = " --algo x22i" #x22i
+    "Heavyhash"       = " --algo Heavyhash" #Heavyhash
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
