@@ -34,7 +34,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         #Curve diff doesn't play well on ZPool
         If ($Pool.Host -like "*zpool*" -and $AlgoNorm -eq "curvehash") {Return}
 
-        $Arguments = "--algorithm $($AlgoNorm) --pool stratum+tcp://$($Pool.Host):$($Pool.Port) --cpu-threads $($ThreadCount) --nicehash true --send-stales true --api-enable --api-port $($Variables.CPUMinerAPITCPPort) --disable-cpu --wallet $($Pool.User) --password $($Password)"
+        $Arguments = "--algorithm $($AlgoNorm) --pool stratum+tcp://$($Pool.Host):$($Pool.Port) --cpu-threads $($ThreadCount) --nicehash true --send-stales true --api-enable --api-port $($Variables.AMDMinerAPITCPPort) --disable-cpu --wallet $($Pool.User) --password $($Password)"
 
         [PSCustomObject]@{
             Type = "AMD"
@@ -42,7 +42,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
             Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
             HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week * .9915 } # substract 0.85% devfee
             API = "SRB"
-            Port = $Variables.CPUMinerAPITCPPort
+            Port = $Variables.AMDMinerAPITCPPort
             Wrap = $false
             URI = $Uri
             User = $Pool.User
