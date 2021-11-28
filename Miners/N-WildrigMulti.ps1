@@ -3,8 +3,18 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLo
 $Path = ".\Bin\NVIDIA-WildRigMulti\wildrig.exe"
 # $Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.30.1/wildrig-multi-windows-0.30.1.7z"
 # $Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.30.5/wildrig-multi-windows-0.30.5.7z"
-$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.30.6/wildrig-multi-windows-0.30.6.7z"
+# $Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.30.6/wildrig-multi-windows-0.30.6.7z"
+$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.31.0/wildrig-multi-windows-0.31.0.7z"
 
+#Re-benchmark Heavyhash on update
+If (-not (Test-Path ".\Bin\NVIDIA-WildRigMulti\wildrig.exe")) {
+    Try { 
+        If (Test-Path ".\Stats\N-WildrigMulti_Heavyhash_HashRate.txt") {
+            Remove-Item ".\Stats\N-WildrigMulti_Heavyhash_HashRate.txt" -Force
+        }
+    } Catch {}
+}
+ 
 $Commands = [PSCustomObject]@{
     # "astralhash"    = " --algo glt-astralhash" #Astralhash
     # "bcd"           = " --algo bcd" #BitcoinDiamond
