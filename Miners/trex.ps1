@@ -39,8 +39,8 @@ $Commands.PSObject.Properties.Name | ForEach-Object {
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
         
-        $Pool.WorkerName = If ($Pool.WorkerName -like "ID=*") {$Pool.WorkerName.replace("ID=", "")} else {$Pool.WorkerName}
-        $Arguments = "--no-watchdog --no-nvml --api-bind-http 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -d $($Config.SelGPUCC) -a $($MinerAlgo) -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password) --quiet -r 10 --cpu-priority 4 -w $($Pool.WorkerName)"
+        $WorkerName = If ($Pool.WorkerName -like "ID=*") {$Pool.WorkerName.replace("ID=", "")} else {$Pool.WorkerName}
+        $Arguments = "--no-watchdog --no-nvml --api-bind-http 127.0.0.1:$($Variables.NVIDIAMinerAPITCPPort) -d $($Config.SelGPUCC) -a $($MinerAlgo) -o stratum+tcp://$($Pool.Host):$($Pool.Port) -u $($Pool.User) -p $($Password) --quiet -r 10 --cpu-priority 4 -w $($WorkerName)"
         
         [PSCustomObject]@{
             Type      = "NVIDIA"
