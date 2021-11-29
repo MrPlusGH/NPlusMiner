@@ -1,6 +1,25 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
-$Path = ".\Bin\CPU-JayDDee\cpuminer-aes-sse42.exe"
+Get-CPUFeatures
+
+$MinerFeatureType = if($Variables.CPUFeatures.avx512){
+	'avx512'
+	}elseif($Variables.CPUFeatures.avx2 -and $Variables.CPUFeatures.sha -and $Variables.CPUFeatures.aes){
+		'avx2-sha-vaes'
+		}elseif($Variables.CPUFeatures.avx2 -and $Variables.CPUFeatures.aes){
+			'avx2'
+			}elseif($Variables.CPUFeatures.avx -and $Variables.CPUFeatures.aes){
+				'avx'
+				}elseif($Variables.CPUFeatures.sse42 -and $Variables.CPUFeatures.aes){
+					'aes-sse42'
+					}elseif($Variables.CPUFeatures.sse42){
+						'aes-sse42'
+                        }else{
+                            'sse2'
+                            }
+
+$Path = ".\Bin\CPU-rplant\cpuminer-$($MinerFeatureType).exe"
+
 # $Uri = "https://github.com/JayDDee/cpuminer-opt/releases/download/v3.15.6/cpuminer-opt-3.15.6-windows.zip"
 $Uri = "https://github.com/JayDDee/cpuminer-opt/releases/download/v3.19.1/cpuminer-opt-3.19.1-windows.zip"
 
