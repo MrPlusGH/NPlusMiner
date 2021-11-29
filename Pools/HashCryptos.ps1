@@ -2,7 +2,8 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoa
 
 try {
     $Headers = @{"Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"}
-    $Request = ((Invoke-WebRequest "https://www.hashcryptos.com/api/status/" -UseBasicParsing -Headers $Headers).Content | ConvertFrom-Json) 
+    $Request = (Invoke-WebRequest "https://www.hashcryptos.com/api/status/" -UseBasicParsing -Headers $Headers).Content
+    If ($Request) {$Request = $Request | ConvertFrom-Json }
 }
 catch { return }
 

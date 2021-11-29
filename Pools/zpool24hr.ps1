@@ -1,7 +1,8 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1;RegisterLoaded(".\Includes\include.ps1")}
 
 try {
-    $Request = Invoke-ProxiedWebRequest "http://www.zpool.ca/api/status" -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"} | ConvertFrom-Json 
+    $Request = Invoke-ProxiedWebRequest "http://www.zpool.ca/api/status" -UseBasicParsing -Headers @{"Cache-Control" = "no-cache"}
+    If ($Request) {$Request = $Request | ConvertFrom-Json }
 }
 catch { return }
 
