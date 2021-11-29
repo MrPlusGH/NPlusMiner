@@ -64,6 +64,11 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
     $Algo =$_
     $AlgoNorm = Get-Algorithm($_)
 
+    $fee = switch ($Algo){
+        "Heavyhash"   {0.02}
+        default     {0.01}
+    }
+
     $Pools.($AlgoNorm) | foreach {
         $Pool = $_
         invoke-Expression -command ( $MinerCustomConfigCode )
@@ -75,7 +80,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
             Type = "NVIDIA"
             Path = $Path
             Arguments = Merge-Command -Slave $Arguments -Master $CustomCmdAdds -Type "Command"
-            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week * .99} # substract 1% devfee
+            HashRates = [PSCustomObject]@{($AlgoNorm) = $Stats."$($Name)_$($AlgoNorm)_HashRate".Week * (1-$fee)} # substract 1% devfee
             API = "Xmrig"
             Port = $Variables.NVIDIAMinerAPITCPPort
             Wrap = $false
