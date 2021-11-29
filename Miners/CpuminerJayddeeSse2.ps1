@@ -19,7 +19,6 @@ $MinerFeatureType = if($Variables.CPUFeatures.avx512){
                             }
 
 $Path = ".\Bin\CPU-rplant\cpuminer-$($MinerFeatureType).exe"
-
 # $Uri = "https://github.com/JayDDee/cpuminer-opt/releases/download/v3.15.6/cpuminer-opt-3.15.6-windows.zip"
 $Uri = "https://github.com/JayDDee/cpuminer-opt/releases/download/v3.19.1/cpuminer-opt-3.19.1-windows.zip"
 

