@@ -19,7 +19,7 @@ $MinerFeatureType = if($Variables.CPUFeatures.avx512){
 							}else{
 								'sse2'
 								}
-
+ 
 $Path = ".\Bin\CPU-rplant\cpuminer-$($MinerFeatureType).exe"
 # $Uri = "https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.19/cpuminer-opt-win.zip"
 $Uri = "https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.24/cpuminer-opt-win.zip"
