@@ -15,7 +15,6 @@ $DivisorMultiplier = 1000000000
     $PoolConf = $Config.PoolsConfig.$ConfName
 
 Try{
-    # $Rates = Invoke-RestMethod "https://api.coinbase.com/v2/exchange-rates?currency=BTC" -TimeoutSec 15 -UseBasicParsing | Select-Object -ExpandProperty data | Select-Object -ExpandProperty rates
     $Rates = Invoke-ProxiedWebRequest "https://api.coinbase.com/v2/exchange-rates?currency=$($Config.Passwordcurrency)" -TimeoutSec 15 -UseBasicParsing | convertfrom-json | Select-Object -ExpandProperty data | Select-Object -ExpandProperty rates
     $Config.Currency.Where( {$Rates.$_} ) | ForEach-Object {$Rates | Add-Member $_ ([Double]$Rates.$_) -Force}
     $Variables.Rates = $Rates
@@ -35,7 +34,6 @@ $btcPrice       = if ($Variables.Rates.ETH) {1/[double]$Variables.Rates.ETH} els
 $btcReward24h   = if ($Request.hashrate -gt 0) {$btcPrice * $reward24h * 24*3600 / $avgTime24h / $Request.hashrate} else {0}
 
 If ($Pool_Blocks.candidates) {$Pool_Blocks.candidates | Foreach {
-    # $_.reward = $(if ($blocks24h) {[int]($blocks24h | Where-Object reward | Measure-Object reward -Average).Average} else {0})
     $_.reward = 2000000000000000000
 }}
 
