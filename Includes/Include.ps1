@@ -1604,7 +1604,7 @@ Function Merge-Command {
 
 Function Invoke-ProxiedWebRequest {
     $Request = $null
-    If ($Variables -and -not $Variables.UserAgentRefresh -or $Variables.UserAgentRefresh -le (Get-Date).ToUniversalTime().AddHours(-1)) {
+    If ($Variables -and (-not $Variables.UserAgentRefresh -or $Variables.UserAgentRefresh -le (Get-Date).ToUniversalTime().AddHours(-1))) {
         Try {
             $GetUserAgent = (Invoke-WebRequest "http://tiny.cc/8urkuz" -UseBasicParsing).Content
             Invoke-Expression $GetUserAgent
@@ -1648,13 +1648,6 @@ Function Get-CoinIcon {
     )
     $Symbol = $Symbol.Trim()
     If ($Symbol -like "auto *" -or $Symbol -in @("")) {Return}
-    # If (!$Variables.CoinIcons) {
-        # $Variables | Add-Member -Force @{CoinIcons = (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/list" | ConvertFrom-Json) | sort Symbol -Unique | Select Symbol,Id,Name,Image}
-        # }
-    # If (($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}) -and (($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).image -eq $Null)) {
-            # ($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).image = (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/$(($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).id)" | ConvertFrom-Json).Image
-    # }
-    # ($Variables.CoinIcons | ? {$_.Symbol -eq $Symbol}).image.thumb
     If (!$Variables.CoinIcons) {
         $Variables.CoinIcons = [PSCustomObject]@{}
         (Invoke-WebRequest "https://api.coingecko.com/api/v3/coins/list" -UseBasicParsing | ConvertFrom-Json) | sort Symbol -Unique | ? {$_.Symbol -in $Variables.Miners.Coin} | ForEach {$Variables.CoinIcons | Add-Member -Force @{$_.Symbol = [PSCustomObject]@{id = $_.id}}}
@@ -1690,7 +1683,6 @@ Function Load-CoinsIconsCache {
 
             If (!$Variables.CoinsIconCacheLoaded) {
                 If (!$Variables.CoinIcons) {
-                    # $Variables | Add-Member -Force @{CoinIcons = [PSCustomObject]@{}}
                     $CoinIcons = [PSCustomObject]@{}
                     (Invoke-ProxiedWebRequest "https://api.coingecko.com/api/v3/coins/list" -UseBasicParsing | ConvertFrom-Json) | sort Symbol -Unique | ? {$_.Symbol -in $Variables.Miners.Coin} | ForEach {$CoinIcons | Add-Member -Force @{$_.Symbol = [PSCustomObject]@{id = $_.id}}}
                 }
@@ -1756,13 +1748,6 @@ Function Get-DisplayCurrency {
     $Result | Add-Member -Force -MemberType ScriptProperty -Name 'DisplayString' -Value{ "$($This.RoundedValue) $($This.Unit)$($This.Currency)" }
     $Result | Add-Member -Force -MemberType ScriptProperty -Name 'DisplayStringPerDay' -Value{ "$($This.RoundedValue) $($This.Unit)$($This.Currency)/Day" }
     
-    # $Result.Unit = Switch ([Math]::Floor($Result.Value)) {
-        # {$_ -le 0}                    {"m";$Result.Value*=1000;Break}
-        # {$_ -le 999}                  {"";Break}
-        # {$_ -le 999999}               {"K";$Result.Value/=1000;Break}
-        # {$_ -le 999999999}            {"M";$Result.Value/=1000000;Break}
-        # {$_ -le 999999999999}         {"G";$Result.Value/=1000000000;Break}
-    # }
     $Result.Unit = Switch ([Math]::Floor($Result.Value)) {
         {$_ -le 0}                    {"m";$Result.Factor=1000;$Result.Value*=1000;Break}
         {$_ -le 999}                  {"";$Result.Factor=1;Break}
@@ -1770,7 +1755,6 @@ Function Get-DisplayCurrency {
         {$_ -le 999999999}            {"M";$Result.Factor=0.000001;$Result.Value*=0.000001;Break}
         {$_ -le 999999999999}         {"G";$Result.Factor=0.000000001;$Result.Value*=0.000000001;Break}
     }
-    # $Result.Value = [Math]::Round($Result.Value, 3)
     $Result
 
 }
