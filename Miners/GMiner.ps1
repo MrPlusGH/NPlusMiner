@@ -9,7 +9,7 @@ $Uri = "https://github.com/develsoftware/GMinerRelease/releases/download/2.70/gm
 
 $Commands = [PSCustomObject]@{
     "cuckoocycle"    = " --algo aeternity --pers auto" #Aeternity 
-    "eaglesong"       = " --algo eaglesong" #eaglesong
+    # "eaglesong"       = " --algo eaglesong" #eaglesong
     "ethash"          = " --algo ethash" #Ethash
     # "equihash96"   = " --algo 96_5 --pers auto" #Equihash96 (fastest)
     "grincuckaroo29"  = " --algo cuckaroo29 --pers auto" #Grincuckaroo29 (fastest)
