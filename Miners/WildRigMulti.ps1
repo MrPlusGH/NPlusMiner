@@ -3,7 +3,8 @@ if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLo
 $Path = ".\Bin\AMD-WildRigMulti\wildrig.exe"
 # $Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.28.3/wildrig-multi-windows-0.28.3.7z"
 # $Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.30.5/wildrig-multi-windows-0.30.5.7z"
-$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.31.0/wildrig-multi-windows-0.31.0.7z"
+# $Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.31.0/wildrig-multi-windows-0.31.0.7z"
+$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.31.1/wildrig-multi-windows-0.31.1.7z"
 
 #Re-benchmark Heavyhash on update
 If (-not (Test-Path ".\Bin\AMD-WildRigMulti\wildrig.exe")) {
