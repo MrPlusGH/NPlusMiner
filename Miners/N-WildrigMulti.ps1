@@ -57,6 +57,7 @@ $Commands = [PSCustomObject]@{
     "megabtx"       = " --algo megabtx" #megabtx
     "megamec"       = " --algo megamec" #megamec
     "Heavyhash"       = " --algo Heavyhash" #Heavyhash
+    "sha256csm"       = " --algo sha256csm" #sha256csm
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
