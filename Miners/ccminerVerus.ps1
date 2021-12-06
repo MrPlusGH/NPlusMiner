@@ -1,7 +1,8 @@
 if (!(IsLoaded(".\Includes\include.ps1"))) {. .\Includes\include.ps1; RegisterLoaded(".\Includes\include.ps1")}
 
 $Path = ".\Bin\NVIDIA-ccminerVerus\ccminer.exe"
-$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/ccminerVerus/ccminer2.14.GPU.19.12.19.zip"
+# $Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/ccminerVerus/ccminer2.14.GPU.19.12.19.zip"
+$Uri = "https://github.com/MrPlusGH/NPlusMiner-MinersBinaries/raw/master/MinersBinaries/ccminerVerus/ccminer_GPU_3_8_1.zip"
 
 $Commands = [PSCustomObject]@{
     "verus" = "" #Verushash
