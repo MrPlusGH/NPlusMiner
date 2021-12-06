@@ -48,7 +48,8 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         
         #Curve diff doesn't play well on ZPool
         #Minotaurx diff doesn't play well on ZPool
-        If ($Pool.Host -like "*zpool*" -and $AlgoNorm -in @("curvehash","minotaurx")) {Return}
+        #Zpool fixed it on 20211205
+        # If ($Pool.Host -like "*zpool*" -and $AlgoNorm -in @("curvehash","minotaurx")) {Return}
 
         $Arguments = "--algorithm $($AlgoNorm) --pool stratum+tcp://$($Pool.Host):$($Pool.Port) --cpu-threads $($ThreadCount) --nicehash true --send-stales true --api-enable --api-port $($Variables.CPUMinerAPITCPPort) --disable-gpu --wallet $($Pool.User) --password $($Password)"
 

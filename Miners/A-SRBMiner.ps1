@@ -31,8 +31,9 @@ $Commands | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty 
         invoke-Expression -command ( $MinerCustomConfigCode )
         If ($AbortCurrentPool) {Return}
         
+        #Zpool fixed it on 20211205
         #Curve diff doesn't play well on ZPool
-        If ($Pool.Host -like "*zpool*" -and $AlgoNorm -eq "curvehash") {Return}
+        # If ($Pool.Host -like "*zpool*" -and $AlgoNorm -eq "curvehash") {Return}
 
         $Arguments = "--algorithm $($AlgoNorm) --pool stratum+tcp://$($Pool.Host):$($Pool.Port) --cpu-threads $($ThreadCount) --nicehash true --send-stales true --api-enable --api-port $($Variables.AMDMinerAPITCPPort) --disable-cpu --wallet $($Pool.User) --password $($Password)"
 
