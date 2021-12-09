@@ -485,7 +485,7 @@ $CycleScriptBlock =  {
                 # $Miner.Path = Convert-Path $Miner.Path
 
                 $Miner_Devices = $Miner.Device | Select -Unique
-                if($Miner_Devices -eq $null){$Miner_Devices = (@($Variables["Miners"]).Where({(Compare $Miner.Type $_.Type -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0})).Device | Select -Unique}
+                # if($Miner_Devices -eq $null){$Miner_Devices = (@($Variables["Miners"]).Where({(Compare $Miner.Type $_.Type -IncludeEqual -ExcludeDifferent | Measure).Count -gt 0})).Device | Select -Unique}
                 if($Miner_Devices -eq $null){$Miner_Devices = $Miner.Type}
                 $Miner | Add-Member Device $Miner_Devices -Force
                 $Miner
