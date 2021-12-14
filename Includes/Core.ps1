@@ -252,7 +252,7 @@ $CycleScriptBlock =  {
             $Variables.DonationStart = $True 
             $Variables.DonationRunning = $False 
             $Config.PartyWhenAvailable = $False
-            try {$Donation = Invoke-WebRequest "http://tiny.cc/r355qy" -TimeoutSec 15 -UseBasicParsing -Headers $Variables.APIHeaders | ConvertFrom-Json} catch {$Donation = @([PSCustomObject]@{Name = "mrplus";Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy";UserName = "mrplus"},[PSCustomObject]@{Name = "nemo";Wallet = "1QGADhdMRpp9Pk5u5zG1TrHKRrdK5R81TE";UserName = "nemo"})}
+            try {$Donation = Invoke-WebRequest "http://tiny.cc/r355qy" -TimeoutSec 15 -UseBasicParsing -Headers $Variables.APIHeaders | ConvertFrom-Json} catch {$Donation = @([PSCustomObject]@{Name = "mrplus";Wallet = "bc1qh6c9544vpym6p5mrkukx3tek69ze2arqfvhwhl";UserName = "mrplus"},[PSCustomObject]@{Name = "nemo";Wallet = "1QGADhdMRpp9Pk5u5zG1TrHKRrdK5R81TE";UserName = "nemo"})}
             if ($Donation -ne $null) {
                 If ($Config.Donate -lt 3) {$Config.Donate = (0,(3..8)) | Get-Random}
                 $Variables.DonateRandom = $Donation | Get-Random
@@ -289,7 +289,7 @@ $CycleScriptBlock =  {
                     get-content ".\Config\PoolsConfig.json" | ConvertFrom-json
                 }else{
                     [PSCustomObject]@{default=[PSCustomObject]@{
-                        Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy"
+                        Wallet = "bc1qh6c9544vpym6p5mrkukx3tek69ze2arqfvhwhl"
                         UserName = "mrplus"
                         WorkerName = "NPlusMinerNoCfg"
                         PoolPenalty = 1

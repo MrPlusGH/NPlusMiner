@@ -25,7 +25,7 @@ version date:   20200509
 
 param(
     [Parameter(Mandatory=$false)]
-    [String]$Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy", 
+    [String]$Wallet = "bc1qh6c9544vpym6p5mrkukx3tek69ze2arqfvhwhl", 
     [Parameter(Mandatory=$false)]
     [String]$UserName = "MrPlus", 
     [Parameter(Mandatory=$false)]
@@ -706,7 +706,7 @@ $Config | Add-Member -Force -MemberType ScriptProperty -Name "PoolsConfig" -Valu
         get-content ".\Config\PoolsConfig.json" | ConvertFrom-json
     }else{
         [PSCustomObject]@{default=[PSCustomObject]@{
-            Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy"
+            Wallet = "bc1qh6c9544vpym6p5mrkukx3tek69ze2arqfvhwhl"
             UserName = "mrplus"
             WorkerName = "NPlusMinerNoCfg"
             PricePenaltyFactor = 1
@@ -2064,7 +2064,7 @@ $ButtonPause.Add_Click( {
                         get-content ".\Config\PoolsConfig.json" | ConvertFrom-json
                     }else{
                         [PSCustomObject]@{default=[PSCustomObject]@{
-                            Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy"
+                            Wallet = "bc1qh6c9544vpym6p5mrkukx3tek69ze2arqfvhwhl"
                             UserName = "mrplus"
                             WorkerName = "NPlusMinerNoCfg"
                             PoolPenalty = 1
@@ -2120,7 +2120,7 @@ $ButtonStart.Add_Click( {
                         get-content ".\Config\PoolsConfig.json" | ConvertFrom-json
                     }else{
                         [PSCustomObject]@{default=[PSCustomObject]@{
-                            Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy"
+                            Wallet = "bc1qh6c9544vpym6p5mrkukx3tek69ze2arqfvhwhl"
                             UserName = "mrplus"
                             WorkerName = "NPlusMinerNoCfg"
                             PoolPenalty = 1

@@ -387,7 +387,7 @@ Function Load-Config {
             get-content ".\Config\PoolsConfig.json" | ConvertFrom-json
         }else{
             [PSCustomObject]@{default=[PSCustomObject]@{
-                Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy"
+                Wallet = "bc1qh6c9544vpym6p5mrkukx3tek69ze2arqfvhwhl"
                 UserName = "mrplus"
                 WorkerName = "NPlusMinerNoCfg"
                 PricePenaltyFactor = 1

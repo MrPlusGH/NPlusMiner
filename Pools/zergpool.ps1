@@ -36,7 +36,7 @@ $Request | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty N
 
     $PoolPassword = "$($WorkerName),c=$($PwdCurr)"
 	$PoolPassword += Switch ($PoolConf.Wallet) {
-		"134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy"	{",refcode=1dbf33605c9d9a9492fab24d2d86ad42"}
+		"bc1qh6c9544vpym6p5mrkukx3tek69ze2arqfvhwhl"	{",refcode=1dbf33605c9d9a9492fab24d2d86ad42"}
 		default									{",refcode=e40a19abd56e9b713067f3c996e7ae5e"}
 	}
     
