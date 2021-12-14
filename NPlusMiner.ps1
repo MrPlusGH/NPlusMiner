@@ -25,7 +25,7 @@ version date:   20200509
 
 param(
     [Parameter(Mandatory=$false)]
-    [String]$Wallet = "bc1qh6c9544vpym6p5mrkukx3tek69ze2arqfvhwhl", 
+    [String]$Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy", 
     [Parameter(Mandatory=$false)]
     [String]$UserName = "MrPlus", 
     [Parameter(Mandatory=$false)]
@@ -700,13 +700,23 @@ $MainForm.Add_FormClosing({
 })
 
 $Config = Load-Config -ConfigFile $ConfigFile
+If ($Config -and $Config.Interval -and $Config.PoolName -and (-not $Config.InstanceGuid -or -not $Config.RigID)) {
+	$Config | Add-Member -Force @{InstanceGuid = (New-Guid).Guid}
+}
+$Config | Add-Member -Force @{RigID = (Get-CimInstance -Class Win32_ComputerSystemProduct).UUID}
+If ( ! $Config.ConfigFile ) { $Config | Add-Member -Force @{ConfigFile = ".\Config\Config.json"} }
+If ( $Config.ConfigFile -and (ls Function:\Write-Config) ) {
+    Write-Config -ConfigFile $Config.ConfigFile -Config $Config
+    $ConfigLoad = Get-Content $Config.ConfigFile | ConvertFrom-json
+    $ConfigLoad | % {$_.psobject.properties | sort Name | % {$Config | Add-Member -Force @{$_.Name = $_.Value}}}
+} 	
 
 $Config | Add-Member -Force -MemberType ScriptProperty -Name "PoolsConfig" -Value {
     If (Test-Path ".\Config\PoolsConfig.json"){
         get-content ".\Config\PoolsConfig.json" | ConvertFrom-json
     }else{
         [PSCustomObject]@{default=[PSCustomObject]@{
-            Wallet = "bc1qh6c9544vpym6p5mrkukx3tek69ze2arqfvhwhl"
+            Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy"
             UserName = "mrplus"
             WorkerName = "NPlusMinerNoCfg"
             PricePenaltyFactor = 1
@@ -874,7 +884,7 @@ $TabControl.Controls.AddRange(@($RunPage, $SwitchingPage, $ConfigPage, $Monitori
     $RunPageControls += $LabelStatus
  
     $LabelEarnings                          = New-Object system.Windows.Forms.Label
-    $LabelEarnings.text                     = "Earnings Tracker (Past 7 days earnings / Per pool earnings today)"
+    $LabelEarnings.text                     = "Earnings Tracker (Past 7 days earnings / Per pool earnings two days)"
     $LabelEarnings.AutoSize                 = $false
     $LabelEarnings.width                    = 600
     $LabelEarnings.height                   = 20
@@ -2064,7 +2074,7 @@ $ButtonPause.Add_Click( {
                         get-content ".\Config\PoolsConfig.json" | ConvertFrom-json
                     }else{
                         [PSCustomObject]@{default=[PSCustomObject]@{
-                            Wallet = "bc1qh6c9544vpym6p5mrkukx3tek69ze2arqfvhwhl"
+                            Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy"
                             UserName = "mrplus"
                             WorkerName = "NPlusMinerNoCfg"
                             PoolPenalty = 1
@@ -2120,7 +2130,7 @@ $ButtonStart.Add_Click( {
                         get-content ".\Config\PoolsConfig.json" | ConvertFrom-json
                     }else{
                         [PSCustomObject]@{default=[PSCustomObject]@{
-                            Wallet = "bc1qh6c9544vpym6p5mrkukx3tek69ze2arqfvhwhl"
+                            Wallet = "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy"
                             UserName = "mrplus"
                             WorkerName = "NPlusMinerNoCfg"
                             PoolPenalty = 1
