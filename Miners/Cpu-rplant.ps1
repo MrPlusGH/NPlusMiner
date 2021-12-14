@@ -30,6 +30,7 @@ $Commands = [PSCustomObject]@{
     "yespowerIOTS" = "" #yespowerIOTS
     "minotaurx" = "" #minotaurx
     "yespowerARWN" = "" #yespowerARWN
+    "yespowerURX" = "" #yespowerURX
     # "yespowerSUGAR" = "" #yespowerSUGAR
     # "yespowerLITB" = "" #yespowerLITB
     # "yespowerIC" = "" #yespowerIC
