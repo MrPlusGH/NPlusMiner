@@ -6,9 +6,9 @@ Copyright (c) 2018 Nemo		(https://github.com/Minerx117/NemosMiner)
 <img src="https://github.com/MrPlusGH/NPlusMiner/raw/master/Includes/NPM.gif" width="128" height="128">
 </p>
 
- # NPlusMiner-v8.2.9   - NVIDIA | AMD | CPU
+ # NPlusMiner-v8.3.0   - NVIDIA | AMD | CPU
   
- Readme Updated 2021 December 06
+ Readme Updated 2021 December 14
  
 [![Version tag](https://img.shields.io/github/release/MRPlusGH/NPlusMiner.svg?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAACpklEQVRYw+3XO2/TUBQH8PBB+ALMrEisSBAhEbUdGMsCQlEH1KELEoK1iC7AwsbA6JCGvgRCrSBVByKaVIEqqE2dRGkepGkeJLEPPufa12/7JkWiQpzBN77H/kV/+caxIxBSU5GQ+g+EA2H1ZwClSdXVPtb3WR1ajhlQ9xffL+jHtDgwlKlKI4A9iVWibwI96naN3Z/6IdKBE5DrJiD98AVy/oDcM4EtX2AjAKgoHEj0fACewAuQmxyQCj5ALhCQd3l7U2sk4lol7cBGMLDD25J2xjwutQUbYCbwBraptY6bfU8gx/suoGoCdNRHT2Cd913ASZ0DzQRuOx4AJUhVvYFR2QA6n3D73QOg7/5S8wagw4ED3H7wAChB1Q+AYwMYvMXh1AVQgneqLzAs6QB8xiHvAlgC8AXghAFtOMThvQtgCQIAlS2kMrAMcw5ATxAAAFvKhT6kcbzjAChBBoIA9mMqVNQijjMOgBIciwBya4gZbtkBI4EIIA+23YCRIABYvnYF63o0ejOqjRcRuBSLYsWmp69i700gsBgJrWdnBZbOOZB9gnfB+NIi1kL8Mp5x4yXtvXiMnUev9kDgMnbo7pS1X0ZaRTX6UYcDA5w4SlqBCjZWVUEAWjizZQUy2PgKooBa0WZyVmANG3VhAPqYIYbAHAHfKAGIA9DQpm4jMEtA2pJADFC0e/QsAjMd7K5YEogBeI++i8BU0ZlAEICafI+AHSPB7pjAqMSA1JEjgSgAbQZIWUcCYQDuM2DTkUAceMCAZJESNMYH5hkg0d/NGowP5JdfP334XHvisicQB7QVnedPNI2JAGim9PNXYTJASetAZkIAyjpQmRQAuoTSSjcAABWLPZXSo71iBU4bWG3r1NB8ATgnbyx/F7gQXOHAWd8K/wHgN3+TQF05kYYwAAAAAElFTkSuQmCC)](https://github.com/MrPlusGH/NPlusMiner/releases/latest) [![Version date tag](https://img.shields.io/github/release-date/MRPlusGH/NPlusMiner.svg)](https://github.com/MRPlusGH/NPlusMiner/releases/latest) [![Downloads](https://img.shields.io/github/downloads/MrPlusGH/NPlusMiner/total.svg)](https://img.shields.io/github/downloads/MrPlusGH/NPlusMiner/total.svg) 
 [![GitHub license](https://img.shields.io/github/license/MRPlusGH/NPlusMiner.svg)](https://github.com/MRPlusGH/NPlusMiner/blob/master/LICENSE)
