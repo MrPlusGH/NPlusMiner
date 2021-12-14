@@ -1,14 +1,14 @@
 {
     "default":  {
                     "PricePenaltyFactor":  1,
-                    "Wallet":  "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy",
+                    "Wallet":  "bc1qh6c9544vpym6p5mrkukx3tek69ze2arqfvhwhl",
                     "UserName":  "mrplus",
                     "WorkerName":  "NPlusMinerRocks",
                     "APIKey":  ""
                 },
     "phiphipoolplus":  {
                            "PricePenaltyFactor":  0.97,
-                           "Wallet":  "134bw4oTorEJUUVFhokDQDfNqTs7rBMNYy",
+                           "Wallet":  "bc1qh6c9544vpym6p5mrkukx3tek69ze2arqfvhwhl",
                            "UserName":  "mrplus",
                            "WorkerName":  "NPlusMinerRocks",
                            "APIKey":  "",
