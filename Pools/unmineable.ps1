@@ -44,7 +44,7 @@ catch { return }
 if (-not $Request) {return}
 
 $Referrals = [PSCustomObject]@{
-	BTC = "2qfx-36p9"
+	BTC = "pdl7-fsen"
 }
 
 $Name = (Get-Item $script:MyInvocation.MyCommand.Path).BaseName
