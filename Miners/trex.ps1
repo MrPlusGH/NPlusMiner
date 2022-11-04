@@ -6,7 +6,7 @@ $Path = ".\Bin\NVIDIA-trex\t-rex.exe"
 # $Uri = "https://github.com/trexminer/T-Rex/releases/download/0.22.1/t-rex-0.22.1-win.zip"
 # $Uri = "https://github.com/trexminer/T-Rex/releases/download/0.24.5/t-rex-0.24.5-win.zip"
 # $Uri = "https://github.com/trexminer/T-Rex/releases/download/0.24.7/t-rex-0.24.7-win.zip"
-$Uri = "https://github.com/trexminer/T-Rex/releases/download/0.24.8/t-rex-0.24.8-win.zip"
+$Uri = "https://github.com/trexminer/T-Rex/releases/download/0.26.8/t-rex-0.26.8-win.zip"
 
 $Commands = [PSCustomObject]@{
     "kawpow"          = "" #kawpow 
