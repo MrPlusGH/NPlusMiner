@@ -4,7 +4,7 @@ $Path = ".\Bin\AMD-SRBMiner\SRBMiner-MULTI.exe"
 # $Uri = "https://github.com/doktor83/SRBMiner-Multi/releases/download/0.7.1/SRBMiner-Multi-0-7-1-win64.zip"
 # $Uri = "https://github.com/doktor83/SRBMiner-Multi/releases/download/0.7.3/SRBMiner-Multi-0-7-3-win64.zip"
 # $Uri = "https://github.com/doktor83/SRBMiner-Multi/releases/download/0.7.9/SRBMiner-Multi-0-7-9-win64.zip"
-$Uri = "https://github.com/doktor83/SRBMiner-Multi/releases/download/0.8.5/SRBMiner-Multi-0-8-5-win64.zip"
+$Uri = "https://github.com/doktor83/SRBMiner-Multi/releases/download/1.1.1/SRBMiner-Multi-1-1-1-win64.zip"
 
 $Commands = [PSCustomObject]@{ 
     "phi5" = "" #phi5

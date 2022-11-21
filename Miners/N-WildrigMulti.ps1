@@ -5,7 +5,7 @@ $Path = ".\Bin\NVIDIA-WildRigMulti\wildrig.exe"
 # $Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.30.5/wildrig-multi-windows-0.30.5.7z"
 # $Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.30.6/wildrig-multi-windows-0.30.6.7z"
 # $Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.31.0/wildrig-multi-windows-0.31.0.7z"
-$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.31.1/wildrig-multi-windows-0.31.1.7z"
+$Uri = "https://github.com/andru-kun/wildrig-multi/releases/download/0.33.6/wildrig-multi-windows-0.33.6.7z"
 
 #Re-benchmark Heavyhash on update
 If (-not (Test-Path ".\Bin\NVIDIA-WildRigMulti\wildrig.exe")) {
